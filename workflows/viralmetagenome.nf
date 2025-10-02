@@ -97,9 +97,9 @@ workflow VIRALMETAGENOME {
 
         ch_reference_pools = Channel.empty()
         if (params.reference_pools){
-            ch_reference_pools = Channel.fromSamplesheet(
-                'reference_pools'
-            ).map{ meta, sequence ->
+            ch_reference_pools = Channel.fromList(samplesheetToList(
+                params.reference_pools, "${projectDir}/assets/schemas/reference_pools.json"
+            )).map{ meta, sequence ->
                 [[id:  meta.id, dbname : 'reference', samples: meta.samples], sequence]
             }
         }
@@ -219,10 +219,10 @@ workflow VIRALMETAGENOME {
             FASTA_CONTIG_CLUST (
                 ch_contigs_reads,
                 ch_coverages,
-                ch_blast_refdb,
+                ch_blastdb_refdb,
                 ch_kraken2_db,
-                ch_kaiju_db
-                contig_classifiers,
+                ch_kaiju_db,
+                contig_classifiers
                 )
             ch_versions = ch_versions.mix(FASTA_CONTIG_CLUST.out.versions)
 

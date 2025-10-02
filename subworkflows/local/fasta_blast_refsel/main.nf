@@ -4,12 +4,14 @@ include { BLAST_FILTER          } from '../../../modules/local/blast_filter'
 
 workflow FASTA_BLAST_REFSEL {
     take:
-    ch_fasta          // channel: [ val(meta), path(fasta)]
+    ch_fasta_fastq          // channel: [ val(meta), path(fasta)]
     ch_blast_db       // channel: [ val(meta), path(db) ]
     ch_blast_db_fasta // channel: [ val(meta), path(fasta) ]
 
     main:
     ch_versions = Channel.empty()
+    ch_fasta = ch_fasta_fastq.map{ meta, fasta, fastq -> [meta, fasta] }
+
     // Blast results, to a reference database, to find a complete genome that's already assembled
     BLAST_BLASTN(
         ch_fasta,
@@ -48,9 +50,10 @@ workflow FASTA_BLAST_REFSEL {
     )
     ch_versions = ch_versions.mix(BLAST_FILTER.out.versions.first())
 
-    ch_fasta_sel = BLAST_FILTER.out.sequence.join(ch_fasta, by:[0])
+    ch_fasta_sel = BLAST_FILTER.out.sequence.join(ch_fasta_fastq, by:[0])
 
     emit:
-    fasta_ref_contigs = ch_fasta_sel    // channel: [ val(meta), [ fasta_all ], [contigs], [ fastq ] ]
-    versions          = ch_versions     // channel: [ versions.yml ]
+    fasta_ref_contigs = ch_fasta_sel            // channel: [ val(meta), [ fasta_all ], [contigs], [ fastq ] ]
+    no_blast_hits     = ch_no_blast_hits_mqc    // channel: [ val(meta), [ mqc ] ]
+    versions          = ch_versions             // channel: [ versions.yml ]
 }

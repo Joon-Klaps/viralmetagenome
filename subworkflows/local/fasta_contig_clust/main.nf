@@ -54,7 +54,7 @@ workflow FASTA_CONTIG_CLUST {
     )
     ch_versions       = ch_versions.mix(FASTA_BLAST_REFSEL.out.versions)
     no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits
-    fasta_sel_fastq   = FASTA_BLAST_REFSEL.out.fasta_sel_fastq
+    fasta_sel_fastq   = FASTA_BLAST_REFSEL.out.fasta_ref_contigs
 
     fasta_sel_fastq
         .map{meta, ref_contigs, contigs, reads -> [meta + [ntaxa: 1], ref_contigs, reads]} // ntaxa will use later
