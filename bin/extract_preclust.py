@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
+# Originally written by jenniferlu717/KrakenTools, adjusted by Joon Klaps.
+# See git repository (https://github.com/nf-core/viralmetagenome) for full license text.
+
 import argparse
 import logging
 import sys
-
-from Bio import SeqIO
 from collections import defaultdict
 from pathlib import Path
+
+from Bio import SeqIO
 
 logger = logging.getLogger()
 
@@ -862,8 +865,10 @@ def parse_args(argv=None):
     parser.add_argument(
         "-u",
         "--keep-unclassified",
-        action="store_true",
-        default= False,
+        nargs="?",  # Makes the argument optional
+        const=True,  # Value when flag is present but no value provided
+        default=False,
+        type=lambda x: (str(x).lower() == 'true') if x is not None else True,
         help="Keep unclassified reads in the output.",
     )
 

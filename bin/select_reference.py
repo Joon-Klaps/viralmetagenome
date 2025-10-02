@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 
+# Originally written by Joon Klaps and released under the MIT license.
+# See git repository (https://github.com/nf-core/viralmetagenome) for full license text.
+
 """Provide a command line tool to filter blast results."""
 
 import argparse
 import logging
 import sys
+import os
 from pathlib import Path
 
 import pandas as pd
+from utils.constant_variables import MASH_SCREEN_COLUMNS
 from Bio import SeqIO
 
 logger = logging.getLogger()
@@ -53,43 +58,61 @@ def parse_args(argv=None) -> argparse.Namespace:
     )
     return parser.parse_args(argv)
 
+
 def to_dict_remove_dups(sequences) -> dict:
     return {record.id: record for record in sequences}
 
 
-def write_hits(df, references, prefix) -> None:
+def write_hits(df, references, prefix) -> int:
     """
-    write contigs hits from a DataFrame and writes them to a FASTA file.
+    Write contigs hits from a DataFrame to a FASTA file using memory-efficient processing.
 
     Args:
         df (pandas.DataFrame): DataFrame containing the hits information.
-        contigs (str): Path to the contigs file.
         references (str): Path to the references file in FASTA format.
         prefix (str): Prefix for the output file.
 
     Returns:
         None
     """
-    try:
-        ref_records = SeqIO.to_dict(SeqIO.parse(references, "fasta"))
-    except ValueError as e:
-        logger.warning(
-            "Indexing the reference pool file causes an error: %s \n Make sure all fasta headers are unique and it is in fasta format! \n AUTOFIX: Taking last occurence of duplicates to continue analysis",
-            e,
-        )
-        ref_records = to_dict_remove_dups(SeqIO.parse(references, "fasta"))
+    if df.empty:
+        open(f"{prefix}_reference.fa", "a").close()
+        open(f"{prefix}.json", "a").close()
+        return 0
+
+    needed_hits = set(hit.split(" ")[0] for hit in df["query-ID"].unique())
+    found_hits = set()
+
     with open(f"{prefix}_reference.fa", "w") as f:
         init_position = f.tell()
-        for hit in df["query-ID"].unique():
-            hit_name = hit.split(" ")[0]
-            if hit_name in ref_records:
-                # Sometimes reads can have illegal characters in the header
-                ref_records[hit_name].id = ref_records[hit_name].id.replace("\\","_")
-                ref_records[hit_name].description = ref_records[hit_name].description.replace("\\","_")
-                SeqIO.write(ref_records[hit_name], f, "fasta")
+
+        for record in SeqIO.parse(references, "fasta"):
+            hit_name = record.id
+            if hit_name in needed_hits:
+                # Clean up illegal characters in headers
+                record.id = record.id.replace("\\", "-")
+                record.description = record.description.replace("\\", "-")
+                SeqIO.write(record, f, "fasta")
+                found_hits.add(hit_name)
+
+                # Exit early if we found all needed sequences
+                if found_hits == needed_hits:
+                    break
+
         if f.tell() == init_position:
             logger.error("No reference sequences found in the hits. Exiting...")
 
+        # Warn about missing sequences
+        missing_hits = needed_hits - found_hits
+        if missing_hits:
+            logger.warning(f"Could not find the following reference sequences: {', '.join(missing_hits)}")
+
+    # Writing best hit to JSON for metadata purposes
+    df_renamed = df.copy()
+    df_renamed["query-ID"] = df_renamed["query-ID"].str.replace("\\", "-")
+    df_renamed.to_json(f"{prefix}.json", orient="records", lines=True)
+
+    return 0
 
 def read_mash_screen(file) -> pd.DataFrame:
     """
@@ -103,20 +126,45 @@ def read_mash_screen(file) -> pd.DataFrame:
     """
 
     logger.info("Reading in the mash screen file...")
-    try :
-        df = pd.read_csv(file, sep="\t", header=None)
+
+    if not os.stat(file).st_size > 0:
+        return pd.DataFrame()
+
+    try:
+        df = pd.read_csv(file, sep="\t", header=None, names=MASH_SCREEN_COLUMNS)
     except pd.errors.EmptyDataError as e:
         logger.warning(f"Empty file: {file}, skipping analysis")
         return pd.DataFrame()
 
-    df.columns = ["identity", "shared-hashes", "median-multiplicity", "p-value", "query-ID", "query-comment"]
-
     logger.info("Removing duplicates and sorting by identity and shared-hashes...")
-    df['shared-hashes_num'] = df['shared-hashes'].str.split('/').str[0].astype(float)
+    df["shared-hashes_num"] = df["shared-hashes"].str.split("/").str[0].astype(float)
     df = df.sort_values(by=["identity", "shared-hashes_num"], ascending=False)
-    df = df.drop(columns=['shared-hashes_num'])
+    df = df.drop(columns=["shared-hashes_num"])
 
     return df.iloc[[0]]
+
+
+def fallback_df(references_file) -> pd.DataFrame:
+    """
+    Get the ID and description of the first sequence in the references file.
+
+    Args:
+        references_file (Path): Path to the references FASTA file
+
+    Returns:
+        tuple: (sequence_id, sequence_description) or (None, None) if no sequences found
+    """
+    record = next(SeqIO.parse(references_file, "fasta"), None)
+    if record:
+        return pd.DataFrame({
+            "identity": [0.0],
+            "shared-hashes": ["0/0"],
+            "median-multiplicity": [0],
+            "p-value": [1.0],
+            "query-ID": [record.id],
+            "query-comment": [record.description if record.description else ""]
+        })
+    return pd.DataFrame()
 
 
 def main(argv=None):
@@ -133,18 +181,14 @@ def main(argv=None):
     # reading in the mash results
     df = read_mash_screen(args.mash)
     if df.empty:
-        # Create empty files so nextflow doesn't crash
-        open(f"{args.prefix}_reference.fa", "a").close()
-        open(f"{args.prefix}.json", "a").close()
-        return 0
+        logger.info("No mash screen hits found. Using first reference sequence as fallback.")
+
+        # Get first reference sequence info
+        df = fallback_df(args.references)
 
     # Selecting the best hit and write the hit to a fasta file
-    write_hits(df, args.references, args.prefix)
+    return write_hits(df, args.references, args.prefix)
 
-    # Writing the best hit to a json file for metadata purposes
-    df.to_json(f"{args.prefix}.json",orient="records", lines=True)
-
-    return 0
 
 if __name__ == "__main__":
     sys.exit(main())

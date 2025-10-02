@@ -6,4 +6,6 @@ results/
 testing/
 testing*
 *.pyc
-.vscode/
+null/
+.nf-test/
+.nf-test*

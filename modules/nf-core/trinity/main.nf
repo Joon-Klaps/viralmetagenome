@@ -5,12 +5,11 @@ process TRINITY {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/trinity:2.15.1--pl5321h146fbdb_3':
-        'biocontainers/trinity:2.15.1--pl5321h146fbdb_3' }"
+        'https://depot.galaxyproject.org/singularity/trinity:2.15.2--pl5321hdcf5f25_1':
+        'biocontainers/trinity:2.15.2--pl5321hdcf5f25_1' }"
 
     input:
-    // arity not support in nextflow 23.04.0 
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads, stageAs: "input*/*", arity: '1..*')
 
     output:
     tuple val(meta), path("*.fa.gz")    , emit: transcript_fasta
@@ -54,7 +53,7 @@ process TRINITY {
         --output ${prefix}_trinity \\
         --CPU $task.cpus \\
         $args \\
-        > >(tee ${prefix}.log)
+        | tee ${prefix}.log
 
     gzip \\
         -cf \\
