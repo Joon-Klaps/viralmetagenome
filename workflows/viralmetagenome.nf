@@ -95,6 +95,15 @@ workflow VIRALMETAGENOME {
     ch_db = Channel.empty()
     if ((!params.skip_assembly && !params.skip_polishing) || !params.skip_consensus_qc || !params.skip_read_classification || (!params.skip_preprocessing && !params.skip_hostremoval)){
 
+        ch_reference_pools = Channel.empty()
+        if (params.reference_pools){
+            ch_reference_pools = Channel.fromSamplesheet(
+                'reference_pools'
+            ).map{ meta, sequence ->
+                [[id:  meta.id, dbname : 'reference', samples: meta.samples], sequence]
+            }
+        }
+
         ch_db_raw = ch_db.mix(ch_ref_pool,ch_kraken2_db, ch_kaiju_db, ch_checkv_db, ch_bracken_db, ch_k2_host, ch_annotation_db, ch_prokka_db)
         UNPACK_DB (ch_db_raw)
 
@@ -121,7 +130,7 @@ workflow VIRALMETAGENOME {
 
         // transfer to value channels so processes are not just done once
         // '.collect()' is necessary to transform to list so cartesian products are made downstream
-        ch_ref_pool         = ch_db.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
+        ch_ref_pool         = ch_db.reference
         ch_annotation_db    = ch_db.annotation.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'annotation'], it]}
         ch_kraken2_db       = ch_db.kraken2.collect().ifEmpty([])
         ch_kaiju_db         = ch_db.kaiju.collect().ifEmpty([])
@@ -139,14 +148,14 @@ workflow VIRALMETAGENOME {
         ch_blastdb_in = ch_blastdb_in.mix(ch_ref_pool)
 
         BLAST_MAKEBLASTDB ( ch_blastdb_in )
-        ch_blastdb_out = BLAST_MAKEBLASTDB.out.db
-            .branch { meta, db ->
-                reference: meta.id == 'reference'
-                    return [ meta, db ]
-            }
+        // ch_blastdb_out = BLAST_MAKEBLASTDB.out.db
+        //     .branch { meta, db ->
+        //         reference: meta.id == 'reference'
+        //             return [ meta, db ]
+        //     }
 
-        ch_blast_refdb  = ch_blastdb_out.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
-        ch_versions     = ch_versions.mix(BLAST_MAKEBLASTDB.out.versions)
+        ch_blastdb_refdb = BLAST_MAKEBLASTDB.out.db.join(ch_ref_pool)
+        ch_versions      = ch_versions.mix(BLAST_MAKEBLASTDB.out.versions)
     }
 
     // If we don't preprocess reads, remove samples with 0 reads
@@ -211,10 +220,9 @@ workflow VIRALMETAGENOME {
                 ch_contigs_reads,
                 ch_coverages,
                 ch_blast_refdb,
-                ch_ref_pool,
                 ch_kraken2_db,
-                ch_kaiju_db,
-                contig_classifiers
+                ch_kaiju_db
+                contig_classifiers,
                 )
             ch_versions = ch_versions.mix(FASTA_CONTIG_CLUST.out.versions)
 
