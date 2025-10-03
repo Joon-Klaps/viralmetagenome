@@ -359,7 +359,7 @@ def getLengthAndAmbigous(fastaFile) {
 }
 
 def getMapFromJson(json_file) {
-    def Map json = (Map) new JsonSlurperClassic().parse(json_file)
+    def Map json = (Map) new JsonSlurperClassic().parseText(json_file)
     return json
 }
 
