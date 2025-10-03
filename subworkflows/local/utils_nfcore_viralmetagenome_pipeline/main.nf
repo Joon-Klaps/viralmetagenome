@@ -2,7 +2,7 @@
 // Subworkflow with functionality specific to the nf-core/viralmetagenome pipeline
 //
 
-import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
