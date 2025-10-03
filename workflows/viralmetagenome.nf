@@ -101,17 +101,17 @@ workflow VIRALMETAGENOME {
                 params.reference_pools, "${projectDir}/assets/schemas/reference_pools.json"
             )).map{ meta, sequence ->
                 [[id:  meta.id, dbname : 'reference', samples: meta.samples], sequence]
-            }
+            }.mix(ch_ref_pool.map{ meta, db -> [[id: meta.id, dbname : 'reference', samples: null], db]})
         }
 
-        ch_db_raw = ch_db.mix(ch_ref_pool,ch_kraken2_db, ch_kaiju_db, ch_checkv_db, ch_bracken_db, ch_k2_host, ch_annotation_db, ch_prokka_db)
+        ch_db_raw = ch_db.mix(ch_reference_pools,ch_kraken2_db, ch_kaiju_db, ch_checkv_db, ch_bracken_db, ch_k2_host, ch_annotation_db, ch_prokka_db)
         UNPACK_DB (ch_db_raw)
 
         ch_db = UNPACK_DB.out.db
             .branch { meta, unpacked ->
                 k2_host: meta.id == 'k2_host'
                     return [ unpacked ]
-                reference: meta.id == 'reference'
+                reference: meta.dbname == 'reference'
                     return [ meta, unpacked ]
                 checkv: meta.id == 'checkv'
                     return [ unpacked ]
