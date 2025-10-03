@@ -125,13 +125,13 @@ workflow FASTA_CONTIG_CLUST {
             def lazy_json = getMapFromJson(json_file)                                  // convert cluster metadata to Map
             def map_json = [
                 id : "${meta.sample}_${lazy_json.cluster_id}",                         // rename meta.id to include cluster number
-                centroid: lazy_json.centroid,
                 cluster_id: lazy_json.cluster_id,
-                cluster_size: lazy_json.cluster_size,
-                cumulative_read_depth: lazy_json.cumulative_read_depth,
-                external_reference: lazy_json.external_reference,
-                members: lazy_json.members,
-                taxid: lazy_json.taxid
+                // centroid: lazy_json.centroid,
+                // cluster_size: lazy_json.cluster_size,
+                // cumulative_read_depth: lazy_json.cumulative_read_depth,
+                // external_reference: lazy_json.external_reference,
+                // members: lazy_json.members,
+                // taxid: lazy_json.taxid
             ]
             return [meta + map_json, seq_centroids, seq_members]
         }
