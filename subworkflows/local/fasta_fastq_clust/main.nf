@@ -1,12 +1,13 @@
-include { CDHIT_CDHITEST   } from '../../../modules/nf-core/cdhit/cdhitest/main'
-include { VSEARCH_CLUSTER  } from '../../../modules/nf-core/vsearch/cluster/main'
-include { MMSEQS_CREATEDB  } from '../../../modules/nf-core/mmseqs/createdb/main'
-include { MMSEQS_LINCLUST  } from '../../../modules/nf-core/mmseqs/linclust/main'
-include { MMSEQS_CLUSTER   } from '../../../modules/nf-core/mmseqs/cluster/main'
-include { MMSEQS_CREATETSV } from '../../../modules/nf-core/mmseqs/createtsv/main'
-include { VRHYME_VRHYME    } from '../../../modules/nf-core/vrhyme/vrhyme/main'
-include { MASH_DIST        } from '../../../modules/nf-core/mash/dist/main'
-include { NETWORK_CLUSTER  } from '../../../modules/local/network_cluster/main'
+include { CDHIT_CDHITEST                      } from '../../../modules/nf-core/cdhit/cdhitest/main'
+include { VSEARCH_CLUSTER                     } from '../../../modules/nf-core/vsearch/cluster/main'
+include { MMSEQS_CREATEDB                     } from '../../../modules/nf-core/mmseqs/createdb/main'
+include { MMSEQS_LINCLUST                     } from '../../../modules/nf-core/mmseqs/linclust/main'
+include { MMSEQS_CLUSTER                      } from '../../../modules/nf-core/mmseqs/cluster/main'
+include { MMSEQS_CREATETSV                    } from '../../../modules/nf-core/mmseqs/createtsv/main'
+include { VRHYME_VRHYME                       } from '../../../modules/nf-core/vrhyme/vrhyme/main'
+include { MASH_DIST                           } from '../../../modules/nf-core/mash/dist/main'
+include { NETWORK_CLUSTER                     } from '../../../modules/local/network_cluster/main'
+include { FASTA_VCLUST_PREFILTER_ALIGN_CLUSTER } from '../../nf-core/fasta_vclust_prefilter_align_cluster/main'
 
 workflow FASTA_FASTQ_CLUST {
     take:
@@ -78,6 +79,13 @@ workflow FASTA_FASTQ_CLUST {
         ch_dist = MASH_DIST.out.dist
     }
 
+    if (cluster_method == "vclust") {
+        // Calculate clusters using leidenalg
+        FASTA_VCLUST_PREFILTER_ALIGN_CLUSTER(ch_fasta, false, params.vclust_metric, params.vclust_tani, params.vclust_gani, params.vclust_ani)
+        ch_clusters = FASTA_VCLUST_PREFILTER_ALIGN_CLUSTER.out.clusters
+        ch_versions = ch_versions.mix(FASTA_VCLUST_PREFILTER_ALIGN_CLUSTER.out.versions)
+    }
+
     // Calculate clusters for distance based methods (mash)
     if (cluster_method in ["mash"]) {
         // Calculate clusters using leidenalg
@@ -85,6 +93,7 @@ workflow FASTA_FASTQ_CLUST {
         ch_clusters = NETWORK_CLUSTER.out.clusters
         ch_versions = ch_versions.mix(NETWORK_CLUSTER.out.versions.first())
     }
+
 
     emit:
     clusters = ch_clusters // channel: [ [ meta ], [ clusters ] ]

@@ -6,6 +6,7 @@
 """Provide a command line tool to extract sequence names from cdhit's cluster files."""
 
 import argparse
+import csv
 import gzip
 import json
 import logging
@@ -13,7 +14,8 @@ import re
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from functools import lru_cache
+from typing import Dict, List, Optional, Pattern, Tuple
 
 import numpy as np
 from Bio import SeqIO
@@ -21,7 +23,44 @@ from Bio import SeqIO
 logger = logging.getLogger()
 
 # Global variables
-PATTERN = "^(TRINITY)|(NODE)|(k\d+)|(scaffold\d+)"
+PATTERN = r"^(TRINITY)|(NODE)|(k\d+)|(scaffold\d+)"
+NON_AMBIGUOUS_BASES = {"A", "C", "G", "T", "U"}
+
+
+def _count_non_ambiguous_bases(sequence: str) -> int:
+    """Return the number of non-ambiguous (ACGTU) bases in a sequence."""
+
+    return sum(1 for base in sequence.upper() if base in NON_AMBIGUOUS_BASES)
+
+
+@lru_cache(maxsize=None)
+def _load_sequence_lengths(sequences_path: str) -> Dict[str, int]:
+    """Load and cache sequence lengths (non-ambiguous bases only) from FASTA file."""
+
+    path = Path(sequences_path)
+    if not path.exists():
+        logger.warning("Sequence file %s not found when computing lengths.", sequences_path)
+        return {}
+
+    opener = gzip.open if path.suffix == ".gz" else open
+    mode = "rt" if path.suffix == ".gz" else "r"
+
+    lengths: Dict[str, int] = {}
+    with opener(path, mode) as handle:
+        for record in SeqIO.parse(handle, "fasta"):
+            lengths[record.id] = _count_non_ambiguous_bases(str(record.seq))
+
+    return lengths
+
+
+def _get_record_length(record_identifier: str, sequences: Optional[Path]) -> int:
+    """Get the cached non-ambiguous length for a sequence identifier."""
+
+    if sequences is None:
+        return 0
+
+    lengths = _load_sequence_lengths(str(Path(sequences).resolve()))
+    return lengths.get(record_identifier, 0)
 
 class Cluster:
     """
@@ -79,7 +118,7 @@ class Cluster:
                 for member in self.members:
                     file.write(f"{member}\n")
             else:
-                file.write(f"")
+                file.write("")
 
     def save_cluster_centroid(self, prefix):
         """
@@ -142,7 +181,7 @@ class Cluster:
             ]
         )
 
-    def determine_cumulative_read_depth(self, coverages: Dict) -> Dict:
+    def determine_cumulative_read_depth(self, coverages: List[Dict[str, float]]) -> None:
         """
         Determine the cumulative read depth for each member of the cluster.
         """
@@ -247,12 +286,18 @@ def parse_clusters_vsearch(file_in: Path, **kwargs) -> List["Cluster"]:
     # Convert the dictionary values to a list of clusters and return
     return list(clusters.values())
 
-def parse_clusters_vrhyme(file_in: Path, skip_header: bool = True, **kwargs) -> List["Cluster"]:
+def parse_clusters_vrhyme(file_in: Path, sequences: Optional[Path] = None, skip_header: bool = True, **kwargs) -> List["Cluster"]:
     """Extract sequence names from vrhyme gzipped cluster files using regex."""
     clusters = {}  # Dictionary to store clusters {cluster_id: Cluster}
     grouped = defaultdict(list)
     pattern_regex = re.compile(kwargs.get("pattern", PATTERN))
     taxid = get_taxid(file_in)
+
+    if sequences is None:
+        sequences = kwargs.get("sequences")
+
+    if sequences is None:
+        raise ValueError("Parsing vrhyme clusters requires access to the sequences FASTA file to determine centroids.")
 
     with open(file_in, "r") as file:
         if skip_header:
@@ -262,12 +307,54 @@ def parse_clusters_vrhyme(file_in: Path, skip_header: bool = True, **kwargs) -> 
             grouped[key].append(value.split()[0])
 
         for key, values in grouped.items():
-            centroid = get_first_not_match(pattern_regex, values)
+            centroid = get_first_not_match(pattern_regex, values, sequences)
             members = [value for value in values if value != centroid]
             cluster_id = f"cl{key}"
             clusters[cluster_id] = Cluster(cluster_id, centroid, members, taxid=taxid)
 
     return list(clusters.values())
+
+
+def parse_clusters_vclust(file_in: Path, sequences: Optional[Path] = None, has_header: bool = True, **kwargs) -> List["Cluster"]:
+    """Extract sequence names from vclust cluster files."""
+
+    if sequences is None:
+        sequences = kwargs.get("sequences")
+
+    if sequences is None:
+        raise ValueError("Parsing vclust clusters requires access to the sequences FASTA file to determine centroids.")
+
+    delimiter = kwargs.get("delimiter", "\t")
+    pattern_regex = kwargs.get("pattern", PATTERN)
+    grouped = defaultdict(list)
+    taxid = get_taxid(file_in)
+
+    with open(file_in, "r") as handle:
+        reader = csv.reader(handle, delimiter=delimiter)
+        if has_header:
+            next(reader, None)
+
+        for row_number, row in enumerate(reader, start=2 if has_header else 1):
+            if len(row) < 2:
+                logger.debug("Skipping malformed vclust row %s in %s: %s", row_number, file_in, row)
+                continue
+
+            contig = row[0].strip()
+            cluster_label = row[1].strip()
+            if not contig or not cluster_label:
+                logger.debug("Skipping incomplete vclust row %s in %s: %s", row_number, file_in, row)
+                continue
+
+            grouped[cluster_label].append(contig.split()[0])
+
+    clusters: List[Cluster] = []
+    for cluster_label, members_list in grouped.items():
+        centroid = get_first_not_match(pattern_regex, members_list, sequences)
+        members = [member for member in members_list if member != centroid]
+        cluster_id = f"cl{cluster_label}"
+        clusters.append(Cluster(cluster_id, centroid, members, taxid=taxid))
+
+    return clusters
 
 
 def get_taxid(file_in: Path) -> Optional[str]:
@@ -281,13 +368,35 @@ def get_taxid(file_in: Path) -> Optional[str]:
         logger.debug("No taxon id found for %s", file_in)
         return None
 
-def get_first_not_match(regex_pattern: str, data_list: List[str]) -> str:
-    """Return the first element that matches the regex_pattern else return the first element."""
-    for item in data_list:
-        match = re.search(regex_pattern, item)
-        if not match:
-            return item
-    return data_list[0]
+def get_first_not_match(regex_pattern, data_list: List[str], sequences: Optional[Path] = None) -> str:
+    """Return the longest element that does not match the regex pattern (fallback to the longest overall)."""
+
+    if not data_list:
+        raise ValueError("Data list must contain at least one member to determine centroid.")
+
+    compiled_pattern: Optional[Pattern[str]]
+    if regex_pattern is None:
+        compiled_pattern = None
+    elif isinstance(regex_pattern, re.Pattern):
+        compiled_pattern = regex_pattern
+    else:
+        compiled_pattern = re.compile(regex_pattern)
+
+    candidates = [item for item in data_list if not (compiled_pattern and compiled_pattern.search(item))]
+    if not candidates:
+        candidates = list(data_list)
+
+    best = candidates[0]
+    best_length = -1
+
+    for item in candidates:
+        record_id = item.split()[0]
+        length = _get_record_length(record_id, sequences)
+        if length > best_length:
+            best = item
+            best_length = length
+
+    return best
 
 def write_clusters(clusters: List['Cluster'], sequences: Path, prefix: str, length_clusters: int) -> None:
     """
@@ -314,7 +423,7 @@ def write_clusters_to_tsv(clusters, prefix):
             file.write(cluster._to_line(prefix))
             file.write("\n")
 
-def read_coverages(coverages):
+def read_coverages(coverages) -> List[Dict[str, float]]:
     """
     Read the coverages from each idxstats file and compute the percentage of each coverage.
     Return a list of dictionaries, one for each file.
@@ -352,7 +461,7 @@ def update_cluster_ids(clusters: List["Cluster"]) -> List["Cluster"]:
         updated_clusters.append(cluster)
     return updated_clusters
 
-def sum_dict_values_by_assembler(centroid: str, members: List, coverages: List) -> Dict:
+def sum_dict_values_by_assembler(centroid: str, members: List[str], coverages: List[Dict[str, float]]) -> Dict[str, float]:
     """
     Sum the values of the dictionaries in the list for the given key.
 
@@ -368,24 +477,24 @@ def sum_dict_values_by_assembler(centroid: str, members: List, coverages: List) 
     patterns = {"spades": r"^(spades)|(NODE)", "megahit": r"^(megahit)|(k\d+)", "trinity": r"^(trinity)|(TRINITY)"}
 
     # Function to get the assembler type for a key
-    def get_assembler(key):
+    def get_assembler(key: str) -> str:
         for assembler, pattern in patterns.items():
             if re.match(pattern, key):
                 return assembler
         return "unknown"  # In case no pattern matches
 
     # Initialize result dictionary
-    result = {assembler: 0 for assembler in patterns.keys()}
+    result: Dict[str, float] = {assembler: 0.0 for assembler in patterns.keys()}
 
     # Sum coverages
     for key in [centroid] + members:
         assembler = get_assembler(key)
         if assembler != "unknown":
-            result[assembler] += sum(d.get(key, 0) for d in coverages)
+            result[assembler] += sum(float(d.get(key, 0)) for d in coverages)
 
     return result
 
-def write_clusters_summary(clusters: List["Cluster"], prefix:str, length_clusters:int =None)-> None:
+def write_clusters_summary(clusters: List["Cluster"], prefix: str, length_clusters: Optional[int] = None) -> None:
     """
     Write the clusters to a json file.
     """
@@ -394,7 +503,7 @@ def write_clusters_summary(clusters: List["Cluster"], prefix:str, length_cluster
     n_singletons = len([cluster for cluster in clusters if cluster.cluster_size == 0])
 
     with open(f"{prefix}.summary_mqc.tsv", "w") as file:
-        if length_clusters:
+        if length_clusters is not None:
             file.write("\t".join(["Sample name", "# Clusters", "# Removed clusters", "Average cluster size", "Number of singletons"]))
             file.write("\n")
             file.write("\t".join([str(prefix), str(n_clusters), str(length_clusters - n_clusters), str(avg_size), str(n_singletons)]))
@@ -435,7 +544,7 @@ def filter_members(clusters:List["Cluster"], pattern:str = PATTERN) -> List["Clu
     return filtered_clusters
 
 def filter_clusters_by_coverage(
-    clusters: List["Cluster"], coverages: Dict, threshold: float, keep_n_clusters: int
+    clusters: List["Cluster"], coverages: List[Dict[str, float]], threshold: float, keep_n_clusters: int
 ) -> Tuple[List["Cluster"], List["Cluster"]]:
     """
     Filter clusters on coverage, only keep clusters with a coverage above the threshold. If no clusters are kept, return top 5.
@@ -467,7 +576,7 @@ def parse_args(argv=None):
         "--method",
         metavar="CLUSTER METHOD",
         type=str,
-        choices=("cdhitest", "vsearch", "mmseqs-linclust", "mmseqs-cluster", "mash", "vrhyme"),
+        choices=("cdhitest", "vsearch", "mmseqs-linclust", "mmseqs-cluster", "mash", "vrhyme", "vclust"),
         help="Cluster algorithm used to generate cluster files.",
     )
     parser.add_argument(
@@ -491,10 +600,10 @@ def parse_args(argv=None):
         "--seq",
         metavar="SEQ_IN",
         type=Path,
-        help="cluster file from chdit, vsearch, mmseqs_createtsv containing cluster information.",
+        help="Sequences on which cluster has been applied, names should match.",
     )
     parser.add_argument(
-        "-p" "--prefix",
+        "-p", "--prefix",
         dest="prefix",
         metavar="PREFIX",
         type=str,
@@ -545,7 +654,8 @@ def main(argv=None):
         "vsearch":         {"func": parse_clusters_vsearch },
         "cdhitest":        {"func": parse_clusters_chdit },
         "mmseqs-cluster":  {"func": parse_clusters_mmseqs },
-        "mmseqs-linclust": {"func": parse_clusters_mmseqs }
+        "mmseqs-linclust": {"func": parse_clusters_mmseqs },
+        "vclust":          {"func": parse_clusters_vclust }
     }
 
     """Coordinate argument parsing and program execution."""
@@ -568,8 +678,9 @@ def main(argv=None):
         if not cluster_file.is_file():
             logger.error("The given input file %s was not found!", cluster_file)
             sys.exit(2)
+        parser_kwargs = {k: v for k, v in parser.items() if k != "func"}
         # Call parser function with consistent interface
-        cluster_list += parser["func"](cluster_file, pattern=args.pattern, **parser)
+        cluster_list += parser["func"](cluster_file, pattern=args.pattern, sequences=args.seq, **parser_kwargs)
 
     logger.info("Found %s clusters.", len(cluster_list))
 
