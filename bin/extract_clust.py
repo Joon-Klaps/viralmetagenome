@@ -33,7 +33,7 @@ class Cluster:
         self.cluster_id = cluster_id
         self.centroid = centroid
         self.members = members
-        self.external_reference = None
+        self.has_external_centroid = None
         self.taxid = taxid
         if members is not None:
             self.cluster_size = len(members)
@@ -53,12 +53,37 @@ class Cluster:
         """
         self.cluster_id = id
 
-    def set_external_reference(self, pattern):
+    def set_has_external_centroid(self, pattern):
         """
         Set the external reference for the cluster.
         """
         regex = re.compile(pattern)
-        self.external_reference = not bool(regex.search(self.centroid))
+        self.has_external_centroid = not bool(regex.search(self.centroid))
+
+    def promote_external_centroid(self, pattern):
+        """
+        Promote the first member that does not match the pattern to centroid.
+
+        Returns True if a promotion took place, otherwise False.
+        """
+        if not self.members:
+            return False
+
+        regex = re.compile(pattern)
+
+        # If centroid already points to an external reference we are done
+        if not regex.search(self.centroid):
+            return False
+
+        for idx, member in enumerate(self.members):
+            if not regex.search(member):
+                original_centroid = self.centroid
+                self.centroid = member
+                self.members[idx] = original_centroid
+                self.cluster_size = len(self.members)
+                return True
+
+        return False
 
     def __iter__(self):
         yield "cluster_id", self.cluster_id
@@ -68,7 +93,7 @@ class Cluster:
         yield "taxid", self.taxid
 
     def __str__(self):
-        return f"Cluster {self.cluster_id}, taxid {self.taxid} with centroid {self.centroid}, external {self.external_reference} and {self.cluster_size} members {self.members}"
+        return f"Cluster {self.cluster_id}, taxid {self.taxid} with centroid {self.centroid}, external {self.has_external_centroid} and {self.cluster_size} members {self.members}"
 
     def save_cluster_members(self, prefix):
         """
@@ -418,7 +443,7 @@ def write_clusters_mqc(clusters: List["Cluster"], prefix:str)-> None:
             indent=4,
         )
 
-def filter_members(clusters:List["Cluster"], pattern:str = PATTERN) -> List["Cluster"]:
+def filter_members(clusters:List["Cluster"], pattern:str = PATTERN, force_centroid:bool = False) -> List["Cluster"]:
     """
     Filter clusters on members given regex pattern, members cannot contain the pattern.
     """
@@ -427,6 +452,10 @@ def filter_members(clusters:List["Cluster"], pattern:str = PATTERN) -> List["Clu
 
     for cluster in clusters:
         if cluster.members:
+            if force_centroid and not regex.search(cluster.centroid):
+                new_centroid = get_first_not_match(pattern, cluster.members)
+                members = [member for member in cluster.members if regex.search(member)] + [cluster.centroid]
+
             matching_members = [member for member in cluster.members if regex.search(member)]
             if matching_members or regex.search(cluster.centroid):
                 filtered_clusters.append(Cluster(cluster.cluster_id, cluster.centroid, matching_members, taxid=cluster.taxid))
@@ -529,6 +558,12 @@ def parse_args(argv=None):
     )
 
     parser.add_argument(
+        "--force-external-centroid",
+        action="store_true",
+        help="Promote an external reference (not matching PATTERN) to cluster centroid when available.",
+    )
+
+    parser.add_argument(
         "-l",
         "--log-level",
         help="The desired log level (default WARNING).",
@@ -582,10 +617,13 @@ def main(argv=None):
     logger.info("Filtered clusters by members, %s were removed.",
         len(clusters_renamed) - len(filtered_clusters))
 
-    # Set external reference, used to know if it needs to collapse or called consensus normally
-    logger.info("Setting external reference for clusters.")
-    for cluster in filtered_clusters:
-        cluster.set_external_reference(args.pattern)
+    if args.force_external_centroid:
+        logger.info("Promoting external references to centroids when available.")
+        promoted = 0
+        for cluster in filtered_clusters:
+            if cluster.promote_external_centroid(args.pattern):
+                promoted += 1
+        logger.info("Promoted %s clusters to use an external centroid.", promoted)
 
     clusters = filtered_clusters.copy()
     # Filter clusters by coverage
@@ -594,6 +632,16 @@ def main(argv=None):
         clusters, filtered_clusters = filter_clusters_by_coverage(filtered_clusters, coverages, args.perc_reads_contig, args.keep_clusters)
         logger.info("Filtered clusters by coverage, %s were removed.",
             len(clusters_renamed) - len(filtered_clusters))
+
+    logger.info("Setting external reference for clusters.")
+    seen_clusters = set()
+    for collection in (clusters, filtered_clusters):
+        for cluster in collection:
+            cluster_id = id(cluster)
+            if cluster_id in seen_clusters:
+                continue
+            cluster.set_has_external_centroid(args.pattern)
+            seen_clusters.add(cluster_id)
 
     assert len(filtered_clusters) != 0, "No clusters left after filtering."
 
