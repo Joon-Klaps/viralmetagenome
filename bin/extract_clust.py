@@ -612,18 +612,18 @@ def main(argv=None):
     clusters_renamed = update_cluster_ids(cluster_list)
     logger.info("Renamed cluster ids.")
 
+    if args.force_external_centroid:
+        logger.info("Promoting external references to centroids when available.")
+        promoted = 0
+        for cluster in clusters_renamed:
+            if cluster.promote_external_centroid(args.pattern):
+                promoted += 1
+        logger.info("Promoted %s clusters to use an external centroid.", promoted)
+
     # Remove clusters with no members and external reference
     filtered_clusters = filter_members(clusters_renamed, args.pattern)
     logger.info("Filtered clusters by members, %s were removed.",
         len(clusters_renamed) - len(filtered_clusters))
-
-    if args.force_external_centroid:
-        logger.info("Promoting external references to centroids when available.")
-        promoted = 0
-        for cluster in filtered_clusters:
-            if cluster.promote_external_centroid(args.pattern):
-                promoted += 1
-        logger.info("Promoted %s clusters to use an external centroid.", promoted)
 
     clusters = filtered_clusters.copy()
     # Filter clusters by coverage
