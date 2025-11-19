@@ -4,8 +4,8 @@ process UMITOOLS_DEDUP {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/umi_tools:1.1.5--py39hf95cd2a_0' :
-        'biocontainers/umi_tools:1.1.5--py39hf95cd2a_0' }"
+        'https://depot.galaxyproject.org/singularity/umi_tools:1.1.6--py311haab0aaa_0' :
+        'biocontainers/umi_tools:1.1.6--py311haab0aaa_0' }"
 
     input:
     tuple val(meta), path(bam), path(bai)
@@ -31,8 +31,10 @@ process UMITOOLS_DEDUP {
 
     if (!(args ==~ /.*--random-seed.*/)) {args += " --random-seed=100"}
     """
-    export TMPDIR=\$( mktemp -d --tmpdir=\$PWD )
-    PYTHONHASHSEED=0 umi_tools \\
+    #Prevent matplotlib from using /tmp
+    mkdir .tmp && chmod 777 .tmp
+
+    MPLCONFIGDIR=.tmp TMPDIR=.tmp PYTHONHASHSEED=0 umi_tools \\
         dedup \\
         -I $bam \\
         -S ${prefix}.bam \\
@@ -40,8 +42,6 @@ process UMITOOLS_DEDUP {
         $stats \\
         $paired \\
         $args
-
-    rm -rf \$TMPDIR
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
