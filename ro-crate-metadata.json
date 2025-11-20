@@ -105,7 +105,7 @@
             },
             "mentions": [
                 {
-                    "@id": "#cc4015ce-04cc-40c5-b8e1-40013b44bf00"
+                    "@id": "#bdd0171d-199b-4fe2-b2d8-1abad8201081"
                 }
             ],
             "name": "nf-core/viralmetagenome"
@@ -133,7 +133,7 @@
                 "ComputationalWorkflow"
             ],
             "dateCreated": "",
-            "dateModified": "2025-11-04T15:21:51Z",
+            "dateModified": "2025-11-20T09:32:33Z",
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
             "keywords": [
                 "nf-core",
@@ -157,13 +157,8 @@
             "sdPublisher": {
                 "@id": "https://nf-co.re/"
             },
-            "url": [
-                "https://github.com/nf-core/viralmetagenome",
-                "https://nf-co.re/viralmetagenome/dev/"
-            ],
-            "version": [
-                "1.1.0dev"
-            ]
+            "url": ["https://github.com/nf-core/viralmetagenome", "https://nf-co.re/viralmetagenome/dev/"],
+            "version": ["1.1.0dev"]
         },
         {
             "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow",
@@ -178,11 +173,11 @@
             "version": "!>=25.04.0"
         },
         {
-            "@id": "#cc4015ce-04cc-40c5-b8e1-40013b44bf00",
+            "@id": "#bdd0171d-199b-4fe2-b2d8-1abad8201081",
             "@type": "TestSuite",
             "instance": [
                 {
-                    "@id": "#6162e5d3-968f-40d4-ac18-83e1ab58ad3a"
+                    "@id": "#1c890885-7943-4772-b77d-5e34fe0bb902"
                 }
             ],
             "mainEntity": {
@@ -191,7 +186,7 @@
             "name": "Test suite for nf-core/viralmetagenome"
         },
         {
-            "@id": "#6162e5d3-968f-40d4-ac18-83e1ab58ad3a",
+            "@id": "#1c890885-7943-4772-b77d-5e34fe0bb902",
             "@type": "TestInstance",
             "name": "GitHub Actions workflow for testing nf-core/viralmetagenome",
             "resource": "repos/nf-core/viralmetagenome/actions/workflows/nf-test.yml",
