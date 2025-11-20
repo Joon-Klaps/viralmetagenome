@@ -6,6 +6,7 @@ lint:
     - conf/igenomes_ignored.config
   files_unchanged:
     - .gitattributes
+    - .prettierignore
   multiqc_config: false
 nf_core_version: 3.5.1
 repository_type: pipeline
