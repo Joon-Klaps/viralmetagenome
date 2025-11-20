@@ -60,7 +60,7 @@ workflow VIRALMETAGENOME {
 
     ch_versions = channel.empty()
     ch_multiqc_files = channel.empty()
-    
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         PARAMETER INITIALIZATION
