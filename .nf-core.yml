@@ -5,7 +5,6 @@ lint:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
   files_unchanged:
-    - .prettierignore
     - .gitattributes
   multiqc_config: false
 nf_core_version: 3.5.1
