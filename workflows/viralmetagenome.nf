@@ -132,10 +132,10 @@ workflow VIRALMETAGENOME {
     }
 
     // Prepare blast DB
-    ch_blast_refdb  = Channel.empty()
+    ch_blast_refdb  = channel.empty()
 
     if ( (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)){
-        ch_blastdb_in = Channel.empty()
+        ch_blastdb_in = channel.empty()
         ch_blastdb_in = ch_blastdb_in.mix(ch_ref_pool)
 
         BLAST_MAKEBLASTDB ( ch_blastdb_in )
