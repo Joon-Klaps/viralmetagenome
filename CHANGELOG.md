@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-- Template merge from nf-core/tools v3.5.1 ([#236](https://github.com/nf-core/viralmetagenome/pull/236))
+- Template merge from nf-core/tools v3.5.1 ([#236](https://github.com/nf-core/viralmetagenome/pull/236)) (by @Joon-Klaps)
+- Fix bug with numeric sample ids in custom_multiqc.py module ([#243](https://github.com/nf-core/viralmetagenome/pull/243)) (by @Joon-Klaps)
 
 ### `Dependencies`
 
