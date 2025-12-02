@@ -4,16 +4,16 @@
             481,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -22,10 +22,10 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -33,14 +33,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -58,10 +58,10 @@
                     "checkv": "1.0.3"
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
                     "pysam": "0.22.1",
@@ -77,7 +77,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -108,11 +108,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
@@ -136,19 +136,19 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.10"
+                    "mosdepth": "0.3.11"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.3.0"
+                    "picard": "3.4.0"
                 },
                 "PICARD_MARKDUPLICATES": {
-                    "picard": "3.3.0"
+                    "picard": "3.4.0"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -172,19 +172,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
                     "python": "3.9.21",
@@ -212,6 +212,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-09-22T16:32:23.921534943"
+        "timestamp": "2025-11-24T18:04:22.779231858"
     }
 }

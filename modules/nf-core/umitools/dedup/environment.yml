@@ -5,4 +5,4 @@ channels:
   - bioconda
 dependencies:
   # renovate: datasource=conda depName=bioconda/umi_tools
-  - bioconda::umi_tools=1.1.6
+  - bioconda::umi_tools=1.1.5
