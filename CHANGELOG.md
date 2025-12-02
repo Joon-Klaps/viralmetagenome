@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Update modules ([#237](https://github.com/nf-core/viralmetagenome/pull/237)) (by @Joon-Klaps)
+
 ### `Fixed`
 
 - Template merge from nf-core/tools v3.5.1 ([#236](https://github.com/nf-core/viralmetagenome/pull/236)) (by @Joon-Klaps)
@@ -31,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | `snpeff`           | 5.1         | 5.3.0a      |
 | `umitools extract` | 1.1.5       | 1.1.6       |
 
-### `Deprecated`"
+### `Deprecated`
 
 ## v1.0.0 - 2025-10-04
 
