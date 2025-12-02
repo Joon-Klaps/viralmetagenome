@@ -7,8 +7,8 @@ workflow UNPACK_DB {
     ch_db_compressed // channel [ val(meta), [ db ] ]
 
     main:
-    ch_versions = Channel.empty()
-    ch_db_unpacked = Channel.empty()
+    ch_versions = channel.empty()
+    ch_db_unpacked = channel.empty()
 
     ch_db_branched = ch_db_compressed.branch { _meta, dbs ->
         tar: dbs.name.endsWith('.tar.gz') || dbs.name.endsWith('.tgz') || dbs.name.endsWith('.tar')

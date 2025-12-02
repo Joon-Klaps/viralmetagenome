@@ -51,7 +51,6 @@ workflow FASTQ_ASSEMBLY {
     // TRINITY
     if ('trinity' in assemblers) {
         TRINITY(ch_reads)
-        ch_versions          = ch_versions.mix(TRINITY.out.versions.first())
 
         EXTEND_TRINITY( ch_reads, TRINITY.out.transcript_fasta, "trinity")
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_TRINITY.out.scaffolds)

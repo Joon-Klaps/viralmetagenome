@@ -29,7 +29,7 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
         )
         ch_fastqc_raw_html = FASTQC_RAW.out.html
         ch_fastqc_raw_zip = FASTQC_RAW.out.zip
-        ch_versions = ch_versions.mix(FASTQC_RAW.out.versions.first())
+        // ch_versions = ch_versions.mix(FASTQC_RAW.out.versions_fastqc.first())
     }
 
     ch_umi_reads = ch_reads
@@ -86,7 +86,7 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
             )
             ch_fastqc_trim_html = FASTQC_TRIM.out.html
             ch_fastqc_trim_zip = FASTQC_TRIM.out.zip
-            ch_versions = ch_versions.mix(FASTQC_TRIM.out.versions.first())
+            // ch_versions = ch_versions.mix(FASTQC_TRIM.out.versions_fastqc.first())
         }
     }
 

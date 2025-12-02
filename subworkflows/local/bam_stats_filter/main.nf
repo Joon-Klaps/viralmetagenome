@@ -29,7 +29,6 @@ workflow BAM_STATS_FILTER {
         }
 
     SAMTOOLS_STATS ( ch_stats_in.bam_bai, ch_stats_in.ref )
-    ch_versions = ch_versions.mix(SAMTOOLS_STATS.out.versions.first())
 
     ch_bam_filtered = SAMTOOLS_STATS
         .out

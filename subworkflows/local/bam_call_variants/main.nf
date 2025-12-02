@@ -54,8 +54,7 @@ workflow BAM_CALL_VARIANTS {
             [[:], []],
             ch_tabix_in.fasta,
         )
-        ch_tbi = VCF_TABIX_STATS.out.tbi
-        ch_csi = VCF_TABIX_STATS.out.csi
+        ch_tbi = VCF_TABIX_STATS.out.index
         ch_stats = VCF_TABIX_STATS.out.stats
         ch_multiqc = ch_multiqc.mix(ch_stats)
 
@@ -66,7 +65,6 @@ workflow BAM_CALL_VARIANTS {
     vcf        = ch_vcf        // channel: [ val(meta), [ vcf ] ]
     vcf_filter = ch_vcf_filter // channel: [ val(meta), [ vcf ] ]
     tbi        = ch_tbi        // channel: [ val(meta), [ tbi ] ]
-    csi        = ch_csi        // channel: [ val(meta), [ csi ] ]
     stats      = ch_stats      // channel: [ val(meta), [ stats ] ]
     mqc        = ch_multiqc    // channel: [ val(meta), [ mqc ] ]
     versions   = ch_versions   // channel: [ versions.yml ]

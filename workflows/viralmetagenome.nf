@@ -70,12 +70,12 @@ workflow VIRALMETAGENOME {
     def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
     def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
     // Optional parameters
-    ch_adapter_fasta  = createFileChannel(params.adapter_fasta)
     ch_blacklist      = createFileChannel(params.blacklist)
     ch_metadata       = createFileChannel(params.metadata)
     ch_contaminants   = createFileChannel(params.contaminants)
     ch_spades_yml     = createFileChannel(params.spades_yml)
     ch_spades_hmm     = createFileChannel(params.spades_hmm)
+    ch_adapter_fasta   = createFileChannel(params.adapter_fasta)
     ch_constraint_meta = createFileChannel(params.mapping_constraints)
 
     // Databases, we really don't want to stage unnecessary databases
@@ -157,7 +157,7 @@ workflow VIRALMETAGENOME {
         PREPROCESSING_ILLUMINA (
             ch_reads,
             ch_k2_host,
-            ch_adapter_fasta,
+            params.adapter_fasta ? file(params.adapter_fasta, checkIfExists:true) : [],
             ch_contaminants
             )
         ch_host_trim_reads      = PREPROCESSING_ILLUMINA.out.reads

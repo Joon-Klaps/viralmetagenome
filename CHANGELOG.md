@@ -7,12 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Update modules ([#237](https://github.com/nf-core/viralmetagenome/pull/237)) (by @Joon-Klaps)
+
 ### `Fixed`
 
 - Template merge from nf-core/tools v3.5.1 ([#236](https://github.com/nf-core/viralmetagenome/pull/236)) (by @Joon-Klaps)
 - Fix bug with numeric sample ids in custom_multiqc.py module ([#243](https://github.com/nf-core/viralmetagenome/pull/243)) (by @Joon-Klaps)
 
 ### `Dependencies`
+
+| Dependency         | Old version | New version |
+| ------------------ | ----------- | ----------- |
+| `bcftools`         | 1.21        | 1.22        |
+| `blast`            | 2.16.0      | 2.17.0      |
+| `bwa-mem2`         | 2.2.1       | 2.3         |
+| `coreutils`        | 9.4         | 9.5         |
+| `fastp`            | 0.24.0      | 1.0.1       |
+| `htslib`           | 1.21        | 1.22.1      |
+| `kraken2`          | 2.1.5       | 2.1.6       |
+| `krakentools`      | 1.2         | 1.2.1       |
+| `mmseqs2`          | 17.b804f    | 18.8cc5c    |
+| `mosdepth`         | 0.3.10      | 0.3.11      |
+| `picard`           | 3.3.0       | 3.4.0       |
+| `samtools`         | 1.21        | 1.22.1      |
+| `snpeff`           | 5.1         | 5.3.0a      |
+| `umitools extract` | 1.1.5       | 1.1.6       |
 
 ### `Deprecated`
 

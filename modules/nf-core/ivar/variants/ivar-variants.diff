@@ -8,6 +8,7 @@ Changes in 'ivar/variants/environment.yml':
    - bioconda::ivar=1.4.4
 +  - bioconda::samtools=1.21
 
+'modules/nf-core/ivar/variants/meta.yml' is unchanged
 Changes in 'ivar/variants/main.nf':
 --- modules/nf-core/ivar/variants/main.nf
 +++ modules/nf-core/ivar/variants/main.nf
@@ -71,7 +72,6 @@ Changes in 'ivar/variants/main.nf':
      """
  
 
-'modules/nf-core/ivar/variants/meta.yml' is unchanged
-'modules/nf-core/ivar/variants/tests/main.nf.test' is unchanged
 'modules/nf-core/ivar/variants/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/ivar/variants/tests/main.nf.test' is unchanged
 ************************************************************
