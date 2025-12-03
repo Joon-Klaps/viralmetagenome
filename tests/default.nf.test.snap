@@ -207,7 +207,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -341,7 +341,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -469,7 +469,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -687,7 +687,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             },
             [
@@ -2100,7 +2100,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -2234,7 +2234,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -2362,7 +2362,7 @@
                     "vsearch": "2.21.1"
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -2887,7 +2887,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
