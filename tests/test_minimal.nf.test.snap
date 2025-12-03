@@ -4,7 +4,7 @@
             1,
             {
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.0dev"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
