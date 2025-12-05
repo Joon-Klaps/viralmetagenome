@@ -4,7 +4,7 @@ process NETWORK_CLUSTER {
 
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'oras://community.wave.seqera.io/library/leidenalg_matplotlib_pandas_pycairo_python:f80c78b09e0efb1f'
+        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/be/be190bfef788e514c6046612924dcbbe58fbd2df2087be010253a4c2be9a4587/data'
         : 'community.wave.seqera.io/library/leidenalg_matplotlib_pandas_pycairo_python:127c227a53ece845'}"
 
     input:
