@@ -136,7 +136,7 @@
                     "umitools": "1.1.6"
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.1"
+                    "nf-core/viralmetagenome": "v1.1.0dev"
                 }
             }
         ],
