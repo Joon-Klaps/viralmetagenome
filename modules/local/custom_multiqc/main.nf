@@ -3,7 +3,7 @@ process CUSTOM_MULTIQC {
 
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'oras://community.wave.seqera.io/library/pip_multiqc_pandas:2c12fd808e751af1'
+        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/d3/d36a0ca3cdc365286311ddd11caa877a0e9f6c39862fb700cb09da26d89da406/data'
         : 'community.wave.seqera.io/library/pip_multiqc_pandas:bffcc4521f62d9ac'}"
 
     input:
