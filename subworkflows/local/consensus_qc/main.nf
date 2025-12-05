@@ -54,7 +54,7 @@ workflow CONSENSUS_QC {
 
     // Identify closest reference from the reference pool database using blast
     if (!params.skip_blast_qc) {
-        BLASTN_QC(ch_genomes_all, ch_refpool_db)
+        BLASTN_QC(ch_genomes_all, ch_refpool_db, [], [], [])
         ch_blast = BLASTN_QC.out.txt
         ch_versions = ch_versions.mix(BLASTN_QC.out.versions.first())
     }

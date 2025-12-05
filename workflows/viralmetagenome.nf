@@ -58,6 +58,9 @@ workflow VIRALMETAGENOME {
 
     main:
 
+    ch_versions = channel.empty()
+    ch_multiqc_files = channel.empty()
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         PARAMETER INITIALIZATION
@@ -67,12 +70,12 @@ workflow VIRALMETAGENOME {
     def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
     def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
     // Optional parameters
-    ch_adapter_fasta  = createFileChannel(params.adapter_fasta)
     ch_blacklist      = createFileChannel(params.blacklist)
     ch_metadata       = createFileChannel(params.metadata)
     ch_contaminants   = createFileChannel(params.contaminants)
     ch_spades_yml     = createFileChannel(params.spades_yml)
     ch_spades_hmm     = createFileChannel(params.spades_hmm)
+    ch_adapter_fasta   = createFileChannel(params.adapter_fasta)
     ch_constraint_meta = createFileChannel(params.mapping_constraints)
 
     // Databases, we really don't want to stage unnecessary databases
@@ -82,12 +85,8 @@ workflow VIRALMETAGENOME {
     ch_checkv_db     = !params.skip_consensus_qc                                                                                           ? createChannel( params.checkv_db, "checkv", !params.skip_checkv )                                                  : Channel.empty()
     ch_bracken_db    = !params.skip_read_classification                                                                                    ? createChannel( params.bracken_db, "bracken", ('bracken' in read_classifiers) )                                    : Channel.empty()
     ch_k2_host       = !params.skip_preprocessing                                                                                          ? createChannel( params.host_k2_db, "k2_host", !params.skip_hostremoval )                                           : Channel.empty()
-    ch_annotation_db = !params.skip_consensus_qc                                                                                           ? createChannel( params.annotation_db, "annotation", !params.skip_consensus_annotation )                                      : Channel.empty()
+    ch_annotation_db = !params.skip_consensus_qc                                                                                           ? createChannel( params.annotation_db, "annotation", !params.skip_consensus_annotation )                            : Channel.empty()
     ch_prokka_db     = !params.skip_consensus_qc                                                                                           ? createChannel( params.prokka_db, "prokka", !params.skip_prokka )                                                  : Channel.empty()
-
-
-    ch_versions = Channel.empty()
-    ch_multiqc_files = Channel.empty()
 
     // Importing samplesheet
     ch_reads = ch_samplesheet
@@ -133,10 +132,10 @@ workflow VIRALMETAGENOME {
     }
 
     // Prepare blast DB
-    ch_blast_refdb  = Channel.empty()
+    ch_blast_refdb  = channel.empty()
 
     if ( (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)){
-        ch_blastdb_in = Channel.empty()
+        ch_blastdb_in = channel.empty()
         ch_blastdb_in = ch_blastdb_in.mix(ch_ref_pool)
 
         BLAST_MAKEBLASTDB ( ch_blastdb_in )
@@ -158,7 +157,7 @@ workflow VIRALMETAGENOME {
         PREPROCESSING_ILLUMINA (
             ch_reads,
             ch_k2_host,
-            ch_adapter_fasta,
+            params.adapter_fasta ? file(params.adapter_fasta, checkIfExists:true) : [],
             ch_contaminants
             )
         ch_host_trim_reads      = PREPROCESSING_ILLUMINA.out.reads
@@ -431,7 +430,25 @@ workflow VIRALMETAGENOME {
     //
     // Collate and save software versions
     //
-    softwareVersionsToYAML(ch_versions)
+    def topic_versions = Channel.topic("versions")
+        .distinct()
+        .branch { entry ->
+            versions_file: entry instanceof Path
+            versions_tuple: true
+        }
+
+    def topic_versions_string = topic_versions.versions_tuple
+        .map { process, tool, version ->
+            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version}" ]
+        }
+        .groupTuple(by:0)
+        .map { process, tool_versions ->
+            tool_versions.unique().sort()
+            "${process}:\n${tool_versions.join('\n')}"
+        }
+
+    softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+        .mix(topic_versions_string)
         .collectFile(
             storeDir: "${params.outdir}/pipeline_info",
             name: 'nf_core_'  +  'viralmetagenome_software_'  + 'mqc_'  + 'versions.yml',

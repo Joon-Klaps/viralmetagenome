@@ -59,7 +59,7 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
     // Call consensus sequence with BCFTools
     //
     ch_bcftools_in = ch_vcf
-        .join(TABIX_TABIX.out.tbi, by: [0])
+        .join(TABIX_TABIX.out.index, by: [0])
         .join(BEDTOOLS_MASKFASTA.out.fasta, by: [0])
         .map { meta, v, t, f ->
             [meta, v, t, f, []]

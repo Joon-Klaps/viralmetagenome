@@ -39,7 +39,6 @@ workflow FASTQ_KRAKEN_HOST_REMOVE {
         )
         ch_multiqc_files = ch_multiqc_files.mix(FASTQC_HOST.out.html)
         ch_multiqc_files = ch_multiqc_files.mix(FASTQC_HOST.out.zip)
-        ch_versions      = ch_versions.mix(FASTQC_HOST.out.versions.first())
     }
 
     emit:

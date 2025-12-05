@@ -45,14 +45,14 @@ workflow PREPROCESSING_ILLUMINA {
         ch_reads_trim = FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC.out.reads
     }
     else if (params.trim_tool == 'fastp') {
+        fastp_reads = ch_reads.map{meta, reads -> [meta, reads, ch_adapter_fasta] }
         FASTQ_FASTQC_UMITOOLS_FASTP (
-            ch_reads,
+            fastp_reads,
             params.skip_fastqc,
             params.with_umi,
             params.skip_umi_extract,
             params.umi_discard_read,
             params.skip_trimming,
-            ch_adapter_fasta,
             params.save_trimmed_fail,
             params.save_merged,
             params.min_trimmed_reads

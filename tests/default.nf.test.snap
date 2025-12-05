@@ -4,22 +4,22 @@
             239,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_MPILEUP": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_NORM": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -28,10 +28,10 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -39,14 +39,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -64,10 +64,10 @@
                     "cdhit": "4.8.1"
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
                     "pysam": "0.22.1",
@@ -83,7 +83,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -111,11 +111,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
@@ -139,16 +139,16 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.10"
+                    "mosdepth": "0.3.11"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.3.0"
+                    "picard": "3.4.0"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -169,19 +169,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
                     "python": "3.9.21",
@@ -192,7 +192,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.1d"
+                    "snpeff": "5.3a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -207,25 +207,25 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-09-22T16:19:06.859801385"
+        "timestamp": "2025-12-02T12:18:16.258673037"
     },
     "-profile test - cluster_method mash": {
         "content": [
             81,
             {
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -233,14 +233,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -252,10 +252,10 @@
                     "cat": 9.5
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "EXTRACT_CLUSTER": {
                     "python": "3.12.0",
@@ -266,7 +266,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -287,11 +287,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MASH_DIST": {
@@ -308,10 +308,10 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "NETWORK_CLUSTER": {
                     "leidenalg": "0.10.1",
@@ -341,7 +341,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -349,17 +349,17 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-09-22T16:27:21.140073486"
+        "timestamp": "2025-11-24T17:59:46.323241893"
     },
     "-profile test - cluster_method cdhitest": {
         "content": [
             79,
             {
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -367,14 +367,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -389,10 +389,10 @@
                     "cdhit": "4.8.1"
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "EXTRACT_CLUSTER": {
                     "python": "3.12.0",
@@ -403,7 +403,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -424,11 +424,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MEGAHIT": {
@@ -442,10 +442,10 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -469,7 +469,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -477,23 +477,23 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-09-22T13:01:51.297117091"
+        "timestamp": "2025-11-24T18:00:53.53241802"
     },
     "-profile test": {
         "content": [
             279,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -502,10 +502,10 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -513,14 +513,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -538,10 +538,10 @@
                     "cdhit": "4.8.1"
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
                     "pysam": "0.22.1",
@@ -557,7 +557,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -588,11 +588,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
@@ -616,16 +616,16 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.10"
+                    "mosdepth": "0.3.11"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.3.0"
+                    "picard": "3.4.0"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -649,19 +649,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
                     "python": "3.9.21",
@@ -672,7 +672,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.1d"
+                    "snpeff": "5.3a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -687,7 +687,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             },
             [
@@ -1449,15 +1449,15 @@
                 "SRR11140748_megahit.tsv:md5,f68bf91fe05eb8ad19e7f92a47f559d3",
                 "SRR11140744_spades.tsv:md5,3ac34dcd6c41a4374fced0dd0d3f0290",
                 "SRR11140748_spades.tsv:md5,8c012ae46d27f31709494e3d2d15b99d",
-                "SRR11140744_spades.assembly.gfa.gz:md5,86be24c00870a1b397ed11df8a7fa424",
-                "SRR11140744_spades.contigs.fa.gz:md5,66161b06208b6db1cf88fee7fd19c57b",
-                "SRR11140744_spades.scaffolds.fa.gz:md5,66161b06208b6db1cf88fee7fd19c57b",
+                "SRR11140744_spades.assembly.gfa.gz:md5,1ce2b6724b827f3d9c68157a6fc03910",
+                "SRR11140744_spades.contigs.fa.gz:md5,6af7488989162bc31ad55cc8d4244643",
+                "SRR11140744_spades.scaffolds.fa.gz:md5,6af7488989162bc31ad55cc8d4244643",
                 "SRR11140748_spades.assembly.gfa.gz:md5,5275ca89b311a3bed7da7f474262b941",
                 "SRR11140748_spades.contigs.fa.gz:md5,3e17e5c0992a67d9a6d2be6602af9fbc",
                 "SRR11140748_spades.scaffolds.fa.gz:md5,3e17e5c0992a67d9a6d2be6602af9fbc",
                 "SRR11140744_bad_out.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_bad_out.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "SRR11140744_taxid2697049_cdhit.fa.clstr:md5,447efb86201b6d864075697da7c4dcbf",
+                "SRR11140744_taxid2697049_cdhit.fa.clstr:md5,71e1fbd2d33cbd9033c921ba01099b3d",
                 "SRR11140744_taxid2697049_cdhit.fa:md5,46d5b9b4e205870e1f22901146314a02",
                 "SRR11140748_taxid2697049_cdhit.fa.clstr:md5,7877d6103a9ec52779377c2a71b1d241",
                 "SRR11140748_taxid2697049_cdhit.fa:md5,3e17e5c0992a67d9a6d2be6602af9fbc",
@@ -1465,9 +1465,9 @@
                 "SRR11140748.summary_mqc.tsv:md5,ee5907c36e8b7e55d094dcd737b520b7",
                 "SRR11140744_kraken2.kraken2.report.txt:md5,40ffa5c30f5b74d60e5351ef1b6f9efc",
                 "SRR11140748_kraken2.kraken2.report.txt:md5,8f929a293c40ae160fc64d1ad4029d30",
-                "SRR11140744.resolved.txt:md5,0a7b0aa71a53c381b0e3059a85de07df",
+                "SRR11140744.resolved.txt:md5,b0fe066c1123115e04c762f617299f43",
                 "SRR11140748.resolved.txt:md5,6c27fc7cfdaa6fd24136591e41d2ba10",
-                "SRR11140744_taxid2697049.fa:md5,81838806be91c384ad64de4b008f3c68",
+                "SRR11140744_taxid2697049.fa:md5,859f4a41e827893413080ce4f4e2876c",
                 "SRR11140748_taxid2697049.fa:md5,7cbc0ebfd76b148b215974cde8989c3f",
                 "SRR11140744_cl0_consensus.0123:md5,a41634e56037b998b6b9cca8edd20f1c",
                 "SRR11140744_cl0_consensus.amb:md5,4a3cad1fc4e57cd216b6da54f54dbc58",
@@ -1569,7 +1569,7 @@
                 "bcftools_stats_vqc_Count_Transitions.txt:md5,80264147fac6ac3c97775b9a5c61749e",
                 "bcftools_stats_vqc_Count_Transversions.txt:md5,a9a09ced0666b1c073d1affcb77e1ffc",
                 "fastp-insert-size-plot.txt:md5,eca7a05e9de1aa4b6664a93bbd685866",
-                "fastp-seq-content-gc-plot_Read_1_After_filtering.txt:md5,e802ffdd622be9835caf0df5c48cdcb4",
+                "fastp-seq-content-gc-plot_Read_1_After_filtering.txt:md5,77fb928de301ef52db00166b15dfdd93",
                 "fastp-seq-content-gc-plot_Read_1_Before_filtering.txt:md5,fc8340a43942ce0029c43815b51e7206",
                 "fastp-seq-content-gc-plot_Read_2_After_filtering.txt:md5,8592fa1e8514cb99b3ea4cb1bb0ede05",
                 "fastp-seq-content-gc-plot_Read_2_Before_filtering.txt:md5,1a6b2ac236e5b581c387764d26bdc325",
@@ -1577,7 +1577,7 @@
                 "fastp-seq-content-n-plot_Read_1_Before_filtering.txt:md5,d133da22d186ca691f2eb9bac58c5b1f",
                 "fastp-seq-content-n-plot_Read_2_After_filtering.txt:md5,d133da22d186ca691f2eb9bac58c5b1f",
                 "fastp-seq-content-n-plot_Read_2_Before_filtering.txt:md5,d133da22d186ca691f2eb9bac58c5b1f",
-                "fastp-seq-quality-plot_Read_1_After_filtering.txt:md5,f29c983b76751b8e405468cce1a4d825",
+                "fastp-seq-quality-plot_Read_1_After_filtering.txt:md5,ba922a7204682b17fa90aad56a18f16b",
                 "fastp-seq-quality-plot_Read_1_Before_filtering.txt:md5,9fe897ada31c8a843c2cb11bd3c083bc",
                 "fastp-seq-quality-plot_Read_2_After_filtering.txt:md5,42b2e9a5c7cb5d4e9d3aad889457871c",
                 "fastp-seq-quality-plot_Read_2_Before_filtering.txt:md5,f77606ac7f9da3ed988fb03fd48eabf4",
@@ -1591,7 +1591,7 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,d3e6fae9b860d7b777b2110a2f7642dd",
                 "multiqc_bcftools_stats.yaml:md5,034f7ed5f1666dba101b54d8e34497ee",
                 "multiqc_citations.txt:md5,ca5ee81b05f0cec3ad44e1557f2cddce",
-                "multiqc_fastp.yaml:md5,0d876ec6d5ddd1a85b441ddbbb84ba72",
+                "multiqc_fastp.yaml:md5,bbd12e92b647130d704d2a001c8bb1aa",
                 "multiqc_ivar_variants.yaml:md5,221ffc531ec03a14f9c30d3db0557f74",
                 "multiqc_kraken.yaml:md5,d5b81d208510e7de8e3b8ceb01ecb9a2",
                 "multiqc_quast_quast_megahit.yaml:md5,82a185f52a0ca6befb9910eb98b4aff6",
@@ -1600,48 +1600,48 @@
                 "quast_num_contigs.txt:md5,38140ae00dcde51a1a80b5eed7b71c89",
                 "quast_table.txt:md5,0fa42e965c5c8591bebfbd952f2fcf4c",
                 "summary_clusters_info.txt:md5,aed14f7c38c8e1f504f40bfab7597f9e",
-                "SRR11140744.fastp.json:md5,2fdf5a6992451ffb6401eaf99a69454f",
-                "SRR11140748.fastp.json:md5,9ac79b890cfbe3701faf3bfdd6221e66",
-                "empty-SRR.fastp.json:md5,5711530fff84bca80d1dd1e565196d2e",
+                "SRR11140744.fastp.json:md5,d29d1ad676326d504caa833509a998cd",
+                "SRR11140748.fastp.json:md5,6aa0c398f32d344389b8612a29013531",
+                "empty-SRR.fastp.json:md5,31599b6ab826e8098a539d283f001b32",
                 "SRR11140744_kraken2_host.kraken2.report.txt:md5,8af6d6b36473056da22d0a01e65a468a",
                 "SRR11140748_kraken2_host.kraken2.report.txt:md5,dcb606266fa1e1b47b4ef5d275159490",
-                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,f245c7aca010784e5e8fcd3a0eb9f4fe",
+                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,a1bc7f891fc7269da4f32729d549bd46",
                 "SRR11140744_BA2-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,549fe82d39382c5376ad7a4eb06b1dc6",
+                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,6d5c1f6ba8e456deb31cbc6078b3077b",
                 "SRR11140744_MN908947-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,298fd9cf9900ecb2b730761a1a5a9174",
+                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,3629692e6b8cb7c15ddf6d09ed6eca4b",
                 "SRR11140748_MN908947-CONSTRAINT.snpsift.txt:md5,c6660f19b6896ded223d1b0f263606da",
-                "SRR11140744_BA2-CONSTRAINT_constraint.bcftools_stats.txt:md5,327c035ac84b8de61f8ff634d99c9ee3",
+                "SRR11140744_BA2-CONSTRAINT_constraint.bcftools_stats.txt:md5,0d5d1630ea819361de065484eb206c9b",
                 "SRR11140744_BA2-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,67543543be553c0b24868f03f221d50e",
                 "SRR11140744_BA2-CONSTRAINT_constraint.tsv:md5,4f32aa4087a571293d77b0a8d2f10c35",
                 "SRR11140744_BA2-CONSTRAINT_constraint.vcf:md5,8c5f14098c33be1ff28bb103e4b9ceea",
                 "SRR11140744_BA2-CONSTRAINT_constraint_all_hap.vcf:md5,8c5f14098c33be1ff28bb103e4b9ceea",
-                "SRR11140744_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,b6e2c58421863e0271c8fffa137beb58",
+                "SRR11140744_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,a3796442625be4b575b8c862dabfd300",
                 "SRR11140744_BA24-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,6931249b54d302ef2346e08ce3dda0a1",
                 "SRR11140744_BA24-CONSTRAINT_constraint.tsv:md5,088819b4b628ecb2d53512fbf9d44ac0",
                 "SRR11140744_BA24-CONSTRAINT_constraint.vcf:md5,b3fc2a70e9ec846bf59083cedead3057",
                 "SRR11140744_BA24-CONSTRAINT_constraint_all_hap.vcf:md5,b3fc2a70e9ec846bf59083cedead3057",
-                "SRR11140744_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,5d3a81a94277ed42626430d9fc978731",
+                "SRR11140744_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,7fc8cc8e29bd511aa8b2d7078736dbd6",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,67543543be553c0b24868f03f221d50e",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.tsv:md5,4f32aa4087a571293d77b0a8d2f10c35",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.vcf:md5,18e37a3c5cdb71518a4eefc5f2bd2574",
                 "SRR11140744_MN908947-CONSTRAINT_constraint_all_hap.vcf:md5,18e37a3c5cdb71518a4eefc5f2bd2574",
-                "SRR11140744_cl0_it1.bcftools_stats.txt:md5,61077dfdd1ae885b4acc1a4f57714541",
+                "SRR11140744_cl0_it1.bcftools_stats.txt:md5,192ece9f688849a4b2283742ec454075",
                 "SRR11140744_cl0_it1.sort.vcf.gz.tbi:md5,7266500cfff13abafc549e5db5638bd3",
                 "SRR11140744_cl0_it1.tsv:md5,b07a0068453e936e2790d7b586448d10",
                 "SRR11140744_cl0_it1.vcf:md5,48943419f70c9b950e01fff4042cb54f",
                 "SRR11140744_cl0_it1_all_hap.vcf:md5,48943419f70c9b950e01fff4042cb54f",
-                "SRR11140748_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,939fc3d3b52f2ccd11994ddbb676c5d6",
+                "SRR11140748_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,fc77c17f4d5caba7393c64609af1d5ac",
                 "SRR11140748_BA24-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,1b2bf4f3a5226eef8bfca040461c7aaa",
                 "SRR11140748_BA24-CONSTRAINT_constraint.tsv:md5,9d1545a807384f20ce21ef09e4c757eb",
                 "SRR11140748_BA24-CONSTRAINT_constraint.vcf:md5,28a2a78c82da03972e5b31295c745a55",
                 "SRR11140748_BA24-CONSTRAINT_constraint_all_hap.vcf:md5,28a2a78c82da03972e5b31295c745a55",
-                "SRR11140748_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,199c78492b95870765186f8c107ab5f4",
+                "SRR11140748_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,6dcba43d150a298988318d3ae2489242",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,6db273099b34b389edb22e6ad60ecfb1",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.tsv:md5,44352abcc8968d569f477f8982a17a82",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.vcf:md5,ca9ccb79c008311de8ecd22403ebbf64",
                 "SRR11140748_MN908947-CONSTRAINT_constraint_all_hap.vcf:md5,ca9ccb79c008311de8ecd22403ebbf64",
-                "SRR11140748_cl0_it1.bcftools_stats.txt:md5,8e24fc347a8af38a1b93463b012a1856",
+                "SRR11140748_cl0_it1.bcftools_stats.txt:md5,566de249b30c5a128cdeed6b248206e6",
                 "SRR11140748_cl0_it1.sort.vcf.gz.tbi:md5,ac22d946c0072c4ee4dd6f4ff44dd694",
                 "SRR11140748_cl0_it1.tsv:md5,0a8ee1788f69585553bed36ac06bdf40",
                 "SRR11140748_cl0_it1.vcf:md5,8ee1b19c8b0110487adc7e89653f7f97",
@@ -1681,10 +1681,10 @@
                 "SRR11140748_cl0_it1.ann:md5,17f1d08bf447cd4cebe2aac0f48a337f",
                 "SRR11140748_cl0_it1.bwt.2bit.64:md5,399144cb853aefd6fe6b8ad67db20584",
                 "SRR11140748_cl0_it1.pac:md5,361b3e82dffe9ac1e8552bd7fbdf7705",
-                "SRR11140744_BA2-CONSTRAINT_constraint.vcf.tsv:md5,fe328dccc95c1185e006c379d7570a29",
-                "SRR11140744_BA24-CONSTRAINT_constraint.vcf.tsv:md5,5b498aa052b0abc806c2aa1a25f2c595",
-                "SRR11140744_MN908947-CONSTRAINT_constraint.vcf.tsv:md5,fe328dccc95c1185e006c379d7570a29",
-                "SRR11140744_cl0_it1.vcf.tsv:md5,566cc78dfa8ebff71c6c4efcc98e93c3",
+                "SRR11140744_BA2-CONSTRAINT_constraint.vcf.tsv:md5,5ca417acbaae9ffa3d703848f6f77128",
+                "SRR11140744_BA24-CONSTRAINT_constraint.vcf.tsv:md5,13cb3fb8939c4125a06714815663e643",
+                "SRR11140744_MN908947-CONSTRAINT_constraint.vcf.tsv:md5,5ca417acbaae9ffa3d703848f6f77128",
+                "SRR11140744_cl0_it1.vcf.tsv:md5,a05cfb9c0d162b92265453df3fda86f7",
                 "SRR11140748_BA24-CONSTRAINT_constraint.vcf.tsv:md5,c67bedf6e74f61dbc456f05dba6a8519",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.vcf.tsv:md5,edea930a45ded78f36d86e523a4a16d7",
                 "SRR11140748_cl0_it1.vcf.tsv:md5,4b444b97e85e343b55873b4071893e16",
@@ -1888,25 +1888,25 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-09-22T16:17:21.936979349"
+        "timestamp": "2025-12-02T12:15:47.54386639"
     },
     "-profile test - variant_caller ivar - consensus_caller ivar": {
         "content": [
             279,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -1915,10 +1915,10 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -1926,14 +1926,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -1951,10 +1951,10 @@
                     "cdhit": "4.8.1"
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
                     "pysam": "0.22.1",
@@ -1970,7 +1970,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -2001,11 +2001,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
@@ -2029,16 +2029,16 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.10"
+                    "mosdepth": "0.3.11"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.3.0"
+                    "picard": "3.4.0"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -2062,19 +2062,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
                     "python": "3.9.21",
@@ -2085,7 +2085,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.1d"
+                    "snpeff": "5.3a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -2100,7 +2100,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -2108,17 +2108,17 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-09-22T16:22:38.484033918"
+        "timestamp": "2025-11-24T17:55:38.691268102"
     },
     "-profile test - cluster_method mmseqs-cluster": {
         "content": [
             83,
             {
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -2126,14 +2126,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -2145,10 +2145,10 @@
                     "cat": 9.5
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "EXTRACT_CLUSTER": {
                     "python": "3.12.0",
@@ -2159,7 +2159,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -2180,11 +2180,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MEGAHIT": {
@@ -2198,19 +2198,19 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CLUSTER": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_CREATEDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_CREATETSV": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -2234,7 +2234,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -2242,17 +2242,17 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-09-22T12:59:09.531469158"
+        "timestamp": "2025-11-24T17:58:34.463088958"
     },
     "-profile test - cluster_method vsearch": {
         "content": [
             79,
             {
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -2260,14 +2260,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -2279,10 +2279,10 @@
                     "cat": 9.5
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "EXTRACT_CLUSTER": {
                     "python": "3.12.0",
@@ -2293,7 +2293,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -2314,11 +2314,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MEGAHIT": {
@@ -2332,10 +2332,10 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -2362,7 +2362,7 @@
                     "vsearch": "2.21.1"
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
@@ -2370,7 +2370,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-09-22T12:57:45.862656132"
+        "timestamp": "2025-11-24T17:57:21.607039483"
     },
     "output samplesheets": {
         "content": [
@@ -2687,16 +2687,16 @@
             307,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.21
+                    "bcftools": 1.22
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -2705,10 +2705,10 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -2716,14 +2716,14 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.16.0+"
+                    "blast": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": "2.3.4"
@@ -2741,10 +2741,10 @@
                     "cdhit": "4.8.1"
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CONTIG_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
                     "pysam": "0.22.1",
@@ -2760,7 +2760,7 @@
                     "biopython": 1.78
                 },
                 "FASTP": {
-                    "fastp": "0.24.0"
+                    "fastp": "1.0.1"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -2788,11 +2788,11 @@
                     "kaiju": "1.10.0"
                 },
                 "KRAKEN2_CONTIG": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "KRAKEN2_HOST_REMOVE": {
-                    "kraken2": "2.1.5",
+                    "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
@@ -2816,16 +2816,16 @@
                     "minimap2": "2.29-r1283"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "17.b804f"
+                    "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.10"
+                    "mosdepth": "0.3.11"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.3.0"
+                    "picard": "3.4.0"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -2849,19 +2849,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
                     "python": "3.9.21",
@@ -2872,7 +2872,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.1d"
+                    "snpeff": "5.3a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -2887,14 +2887,14 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.0"
+                    "nf-core/viralmetagenome": "v1.0.1"
                 }
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-09-22T16:20:54.819698605"
+        "timestamp": "2025-12-02T12:21:08.970132716"
     }
 }

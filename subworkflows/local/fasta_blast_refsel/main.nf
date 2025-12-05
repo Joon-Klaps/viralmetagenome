@@ -15,6 +15,9 @@ workflow FASTA_BLAST_REFSEL {
     BLAST_BLASTN(
         ch_fasta,
         ch_blast_db,
+        [], // taxidlist
+        [], // taxids
+        []  // negative_tax
     )
     ch_versions = ch_versions.mix(BLAST_BLASTN.out.versions.first())
 
