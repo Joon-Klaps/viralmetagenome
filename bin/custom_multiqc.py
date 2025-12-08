@@ -211,6 +211,7 @@ def load_custom_data(args) -> List[pd.DataFrame]:
     clusters_summary_df = filelist_to_df(args.clusters_summary)
     if not clusters_summary_df.empty:
         clusters_summary_df.set_index("Sample name", inplace=True)
+        clusters_summary_df.index = clusters_summary_df.index.astype(str)
         # Adding to general stats
         module = mqc.BaseMultiqcModule(name="Cluster Summary", anchor=Anchor("cluster-summary"))
         module.general_stats_addcols(clusters_summary_df.to_dict(orient="index"))
@@ -227,6 +228,7 @@ def load_custom_data(args) -> List[pd.DataFrame]:
     if not metadata_df.empty:
         sample_col = [col for col in metadata_df.columns if "sample" in col.lower()][0]
         metadata_df.set_index(sample_col, inplace=True)
+        metadata_df.index = metadata_df.index.astype(str)
         module = mqc.BaseMultiqcModule(name="Sample metadata", anchor=Anchor("custom_data"))
         content = metadata_df.to_dict(orient="index")
         module.general_stats_addcols(content)
@@ -469,6 +471,7 @@ def add_n_consensus_clusters_to_mqc(dataframe: pd.DataFrame)-> pd.DataFrame:
         return None
 
     # Add the number of consensus clusters to the general stats data
+    last_iteration_count.index = last_iteration_count.index.astype(str)
     module = mqc.BaseMultiqcModule(name="Consensus Count", anchor=Anchor("custom_data"))
     content = last_iteration_count.to_dict(orient="index")
     module.general_stats_addcols(content)

@@ -5,12 +5,13 @@
   </picture>
 </h1>
 
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Open_In_GitHub_Codespaces-black?labelColor=grey&logo=github)](https://github.com/codespaces/new/nf-core/viralmetagenome)
 [![GitHub Actions CI Status](https://github.com/nf-core/viralmetagenome/actions/workflows/nf-test.yml/badge.svg)](https://github.com/nf-core/viralmetagenome/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/viralmetagenome/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/viralmetagenome/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/viralmetagenome/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions Linting Status](https://github.com/nf-core/viralmetagenome/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/viralmetagenome/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/viralmetagenome/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.17524074-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.17524074)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A524.10.5-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.3.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.3.2)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.5.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.5.1)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -26,7 +27,7 @@
 
 > [!NOTE]
 >
-> - `|` indicate the need to choose a tool
+> - `|` indicates the need to choose a tool
 > - `&` indicate that output of tools can be combined and run in parallel.
 
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
@@ -38,14 +39,14 @@
 3. Metagenomic diversity mapping ([`Kraken2`](https://ccb.jhu.edu/software/kraken2/),[`Bracken`](https://ccb.jhu.edu/software/bracken/)[`Kaiju`](https://bioinformatics-centre.github.io/kaiju/))
 4. Denovo assembly ([`SPAdes`](https://ablab.github.io/spades/), [`TRINITY`](https://github.com/trinityrnaseq/trinityrnaseq), [`megahit`](https://github.com/voutcn/megahit)), combine contigs.
 5. [Optional] Extend the contigs with [sspace_basic](https://github.com/nsoranzo/sspace_basic) and filter with [`prinseq++`](https://github.com/Adrian-Cantu/PRINSEQ-plus-plus)
-6. [Optional] Map reads to contigs for coverage estimation ([`Bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/),[`BWA-MEM2`](https://github.com/bwa-mem2/bwa-mem2) and [`BWA`](https://github.com/lh3/bwa))
+6. [Optional] Map reads to contigs for coverage estimation ([`Bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/),[`BWA-MEM2`](https://github.com/bwa-mem2/bwa-mem2))
 7. Contig reference identification ([`blastn`](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch)), the top 5 hits for every contig are considered for scaffolding
 8. [Optional] Precluster contigs on taxonomy classification with [`Kraken2`](https://ccb.jhu.edu/software/kraken2/) and/or [`Kaiju`](https://bioinformatics-centre.github.io/kaiju/)
 9. Cluster contigs (or every taxonomic bin) with any of the following tools: [`CD-HIT-EST`](https://sites.google.com/view/cd-hit), [`vsearch`](https://github.com/torognes/vsearch/wiki/Clustering), [`mmseqs-linclust`](https://github.com/soedinglab/MMseqs2/wiki#linear-time-clustering-using-mmseqs-linclust), [`mmseqs-cluster`](https://github.com/soedinglab/MMseqs2/wiki#cascaded-clustering), [`vRhyme`](https://github.com/AnantharamanLab/vRhyme) or [`Mash`](https://github.com/marbl/Mash)
 10. [Optional] Remove clusters with low read coverage. `bin/extract_clusters.py`
 11. Scaffolding of contigs to centroid ([`Minimap2`](https://github.com/lh3/minimap2), [`iVar-consensus`](https://andersen-lab.github.io/ivar/html/manualpage.html))
 12. [Optional] Select best reference from `--mapping_constraints`: ([`Mash sketch`](https://github.com/marbl/Mash), [`Mash screen`](https://github.com/marbl/Mash))
-13. Mapping filtered reads to supercontig and mapping constraints ([`Bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/),[`BWA-MEM2`](https://github.com/bwa-mem2/bwa-mem2) and [`BWA`](https://github.com/lh3/bwa))
+13. Mapping filtered reads to supercontig and mapping constraints ([`Bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/),[`BWA-MEM2`](https://github.com/bwa-mem2/bwa-mem2))
 14. [Optional] Deduplicate reads ([`Picard`](https://broadinstitute.github.io/picard/) or if UMI's are used [`UMI-tools`](https://umi-tools.readthedocs.io/en/latest/QUICK_START.html))
 15. [Optional] Determine various mapping statistics ([`Picard`](https://broadinstitute.github.io/picard/), [`mosdepth`](https://github.com/brentp/mosdepth), and [`samtools`](https://www.htslib.org/doc/samtools.html))
 16. Variant calling and filtering ([`BCFtools`](http://samtools.github.io/bcftools/bcftools.html),[`iVar`](https://andersen-lab.github.io/ivar/html/manualpage.html))

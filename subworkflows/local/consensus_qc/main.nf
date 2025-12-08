@@ -54,7 +54,7 @@ workflow CONSENSUS_QC {
 
     // Identify closest reference from the reference pool database using blast
     if (!params.skip_blast_qc) {
-        BLASTN_QC(ch_genomes_all, ch_refpool_db)
+        BLASTN_QC(ch_genomes_all, ch_refpool_db, [], [], [])
         ch_blast = BLASTN_QC.out.txt
         ch_versions = ch_versions.mix(BLASTN_QC.out.versions.first())
     }
@@ -105,14 +105,14 @@ workflow CONSENSUS_QC {
         MAFFT_ITERATIONS(ch_genome_grouped_branch.pass, [[:], []], [[:], []], [[:], []], [[:], []], [[:], []], false)
 
         ch_versions = ch_versions.mix(MAFFT_ITERATIONS.out.versions.first())
-        contigs_mod = ch_aligned_raw_contigs.map { meta, genome -> [meta.id, meta, genome] }
+        ch_contigs_mod = ch_aligned_raw_contigs.map { meta, genome -> [meta.id, meta, genome] }
 
         // Make a channel that contains the alignment of the iterations with
         // the original contigs from the assemblers
         ch_mafftQC_in = ch_genome_grouped_branch.fail
             .mix(MAFFT_ITERATIONS.out.fas)
             .map { meta, genome -> [meta.id, meta, genome] }
-            .join(contigs_mod, by: 0)
+            .join( ch_contigs_mod, by: 0)
             .filter { _id, _meta_genome, scaffolds, _meta_contigs, contigs ->
                 // Make sure we have at least 2 sequences
                 scaffolds.countFasta() + contigs.countFasta() > 1

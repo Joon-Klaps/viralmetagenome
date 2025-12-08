@@ -45,14 +45,14 @@ workflow PREPROCESSING_ILLUMINA {
         ch_reads_trim = FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC.out.reads
     }
     else if (params.trim_tool == 'fastp') {
+        fastp_reads = ch_reads.map{meta, reads -> [meta, reads, ch_adapter_fasta] }
         FASTQ_FASTQC_UMITOOLS_FASTP (
-            ch_reads,
+            fastp_reads,
             params.skip_fastqc,
             params.with_umi,
             params.skip_umi_extract,
             params.umi_discard_read,
             params.skip_trimming,
-            ch_adapter_fasta,
             params.save_trimmed_fail,
             params.save_merged,
             params.min_trimmed_reads
@@ -112,9 +112,9 @@ workflow PREPROCESSING_ILLUMINA {
             ch_multiqc_files        = ch_multiqc_files.mix(BBMAP_BBDUK.out.log)
             ch_versions             = ch_versions.mix(BBMAP_BBDUK.out.versions)
         } else if (params.decomplexifier == 'prinseq') {
-            prinseq_in = ch_reads_dedup_joined.map { meta, reads -> [meta, reads, []] }
+            ch_prinseq_in = ch_reads_dedup_joined.map { meta, reads -> [meta, reads, []] }
             PRINSEQ_READS (
-                prinseq_in
+                ch_prinseq_in
             )
             ch_reads_decomplexified = PRINSEQ_READS.out.good_reads
             ch_multiqc_files        = ch_multiqc_files.mix(PRINSEQ_READS.out.log)

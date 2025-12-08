@@ -3,7 +3,42 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.0.0 - [date]
+## v1.0.1 - 2025-12-03
+
+### `Added`
+
+- Update modules ([#237](https://github.com/nf-core/viralmetagenome/pull/237)) (by @Joon-Klaps)
+
+### `Fixed`
+
+- Template merge from nf-core/tools v3.5.1 ([#236](https://github.com/nf-core/viralmetagenome/pull/236)) (by @Joon-Klaps)
+- Fix bug with numeric sample ids in custom_multiqc.py module ([#243](https://github.com/nf-core/viralmetagenome/pull/243)) (by @Joon-Klaps)
+- Fix runtime environment migration of `network_cluster` from custom docker repo to seqera containers ([#247](https://github.com/nf-core/viralmetagenome/pull/247)) (by @Joon-Klaps)
+
+### `Dependencies`
+
+| Dependency         | Old version | New version |
+| ------------------ | ----------- | ----------- |
+| `bcftools`         | 1.21        | 1.22        |
+| `blast`            | 2.16.0      | 2.17.0      |
+| `bwa-mem2`         | 2.2.1       | 2.3         |
+| `coreutils`        | 9.4         | 9.5         |
+| `fastp`            | 0.24.0      | 1.0.1       |
+| `htslib`           | 1.21        | 1.22.1      |
+| `kraken2`          | 2.1.5       | 2.1.6       |
+| `krakentools`      | 1.2         | 1.2.1       |
+| `mmseqs2`          | 17.b804f    | 18.8cc5c    |
+| `mosdepth`         | 0.3.10      | 0.3.11      |
+| `picard`           | 3.3.0       | 3.4.0       |
+| `samtools`         | 1.21        | 1.22.1      |
+| `snpeff`           | 5.1         | 5.3.0a      |
+| `umitools extract` | 1.1.5       | 1.1.6       |
+
+### `Deprecated`
+
+## v1.0.0 - 2025-10-04
+
+Initial release of nf-core/viralmetagenome, created with the [nf-core](https://nf-co.re/) template.
 
 ### `Added`
 
@@ -17,6 +52,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `nf-tests` for `test` profile ([#189](https://github.com/nf-core/viralmetagenome/pull/189)) (by @Joon-Klaps)
 - Update docs ([#200](https://github.com/nf-core/viralmetagenome/pull/200)) (by @Joon-Klaps)
 - Template update for nf-core/tools v3.3.2 ([#202](https://github.com/nf-core/viralmetagenome/pull/202)) (by @Joon-Klaps)
+- Add option for local desktop configuration profile ([#227](https://github.com/nf-core/viralmetagenome/pull/227)) (by @Joon-Klaps)
+- Added option to blacklist certain NCBI accessions (`--blacklist`) from reference pool (`--reference_pool`) ([#228](https://github.com/nf-core/viralmetagenome/pull/228)) (by @Joon-Klaps)
+- Add support for both string and integer inputs in samplesheets through `validation.lentientMode = true` ([#230](https://github.com/nf-core/viralmetagenome/pull/230)) (by @Joon-Klaps)
 
 ### `Fixed`
 
@@ -25,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix inconsistent dependency versions across modules ([#208](https://github.com/nf-core/viralmetagenome/pull/208)) (by @Joon-Klaps)
 - Fix conda issue unrecognized arguments: --mkdir ([#210](https://github.com/nf-core/viralmetagenome/pull/210)) (by @Joon-Klaps)
 - Fix writing no sequence for select_reference.py to the first reference of the multifasta ([#214](https://github.com/nf-core/viralmetagenome/pull/214)) (by @Joon-Klaps)
+- Fix main language detection to ignore generated files ([#224](https://github.com/nf-core/viralmetagenome/pull/224)) (by @Joon-Klaps)
 
 ### `Dependencies`
 
@@ -32,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Refactor `params.skip_annotation` to `params.skip_consensus_annotation`([#181](https://github.com/nf-core/viralmetagenome/pull/181)) (by @Joon-Klaps)
 - Deprecate `params.skip_nocov_to_reference` ([#212](https://github.com/nf-core/viralmetagenome/pull/212)) (by @Joon-Klaps)
+- Deprecate `BWAMEM` as mapping tool ([#212](https://github.com/nf-core/viralmetagenome/pull/212)) (by @Joon-Klaps)
 
 ## v0.1.2 - 2025-02-28
 

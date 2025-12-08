@@ -1,8 +1,3 @@
-//
-// Subworkflow with functionality specific to the nf-core/viralmetagenome pipeline
-//
-
-import groovy.json.JsonSlurper
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -13,6 +8,7 @@ import groovy.json.JsonSlurper
 include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
 include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { samplesheetToList         } from 'plugin/nf-schema'
+include { paramsHelp                } from 'plugin/nf-schema'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
 include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
@@ -34,10 +30,13 @@ workflow PIPELINE_INITIALISATION {
     nextflow_cli_args //   array: List of positional nextflow CLI args
     outdir            //  string: The output directory where the results will be saved
     input             //  string: Path to input samplesheet
+    help              // boolean: Display help message and exit
+    help_full         // boolean: Show the full help message
+    show_hidden       // boolean: Show hidden parameters in the help message
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
@@ -52,10 +51,35 @@ workflow PIPELINE_INITIALISATION {
     //
     // Validate parameters and generate parameter summary to stdout
     //
+    before_text = """
+-\033[2m----------------------------------------------------\033[0m-
+                                        \033[0;32m,--.\033[0;30m/\033[0;32m,-.\033[0m
+\033[0;34m        ___     __   __   __   ___     \033[0;32m/,-._.--~\'\033[0m
+\033[0;34m  |\\ | |__  __ /  ` /  \\ |__) |__         \033[0;33m}  {\033[0m
+\033[0;34m  | \\| |       \\__, \\__/ |  \\ |___     \033[0;32m\\`-._,-`-,\033[0m
+                                        \033[0;32m`._,._,\'\033[0m
+\033[0;35m  nf-core/viralmetagenome ${workflow.manifest.version}\033[0m
+-\033[2m----------------------------------------------------\033[0m-
+"""
+    after_text = """${workflow.manifest.doi ? "\n* The pipeline\n" : ""}${workflow.manifest.doi.tokenize(",").collect { doi -> "    https://doi.org/${doi.trim().replace('https://doi.org/','')}"}.join("\n")}${workflow.manifest.doi ? "\n" : ""}
+* The nf-core framework
+    https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+    https://github.com/nf-core/viralmetagenome/blob/master/CITATIONS.md
+"""
+    command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
+
     UTILS_NFSCHEMA_PLUGIN (
         workflow,
         validate_params,
-        null
+        null,
+        help,
+        help_full,
+        show_hidden,
+        before_text,
+        after_text,
+        command
     )
 
     //
@@ -103,9 +127,11 @@ workflow PIPELINE_COMPLETION {
     outdir          //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
     hook_url        //  string: hook URL for notifications
+    multiqc_report  //  string: Path to MultiQC report
 
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
+    def multiqc_reports = multiqc_report.toList()
 
     //
     // Completion email and summary
@@ -119,7 +145,7 @@ workflow PIPELINE_COMPLETION {
                 plaintext_email,
                 outdir,
                 monochrome_logs,
-                []
+                multiqc_reports.getVal(),
             )
         }
 
@@ -171,7 +197,6 @@ def toolCitationText() {
             "BCFtools (Danecek et al. 2021)",
             "BLAST+ (Camacho et al. 2009)",
             "Bowtie2 (Langmead and Salzberg 2012)",
-            "BWA-MEM (Li 2013)",
             "BWA-MEM2 (Vasimuddin et al. 2019)",
             "CD-HIT (Fu et al. 2012)",
             "CheckV (Nayfach et al. 2021)",
@@ -221,7 +246,6 @@ def toolBibliographyText() {
             "<li> Camacho, Christiam et al. “BLAST+: architecture and applications.” BMC bioinformatics vol. 10 421. 15 Dec. 2009, doi:10.1186/1471-2105-10-421</li>",
             "<li> Langmead, Ben, and Steven L Salzberg. “Fast gapped-read alignment with Bowtie 2.” Nature methods vol. 9,4 357-9. 4 Mar. 2012, doi:10.1038/nmeth.1923</li>",
             "<li> Lu J, Breitwieser FP, Thielen P, Salzberg SL. Bracken: estimating species abundance in metagenomics data. PeerJ Comput Sci. 2017;3:e104. doi: 10.7717/peerj-cs.104. Epub 2017 Jan 2. PMID: 40271438; PMCID: PMC12016282.</li>",
-            "<li> Li H. (2013) Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv:1303.3997v2.</li>",
             "<li> M. Vasimuddin, S. Misra, H. Li and S. Aluru, 'Efficient Architecture-Aware Acceleration of BWA-MEM for Multicore Systems,' 2019 IEEE International Parallel and Distributed Processing Symposium (IPDPS), Rio de Janeiro, Brazil, 2019, pp. 314-324, doi: 10.1109/IPDPS.2019.00041.</li>",
             "<li> Fu, Limin et al. “CD-HIT: accelerated for clustering the next-generation sequencing data.” Bioinformatics (Oxford, England) vol. 28,23 (2012): 3150-2. doi:10.1093/bioinformatics/bts565</li>",
             "<li> Nayfach, Stephen et al. “CheckV assesses the quality and completeness of metagenome-assembled viral genomes.” Nature biotechnology vol. 39,5 (2021): 578-585. doi:10.1038/s41587-020-00774-7</li>",
@@ -359,7 +383,7 @@ def getLengthAndAmbigous(fastaFile) {
 }
 
 def getMapFromJson(json_file) {
-    def Map json = (Map) new JsonSlurper().parse(json_file)
+    def Map json = new groovy.json.JsonSlurper().parseText(json_file.text)
     return json
 }
 

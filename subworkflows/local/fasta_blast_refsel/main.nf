@@ -5,6 +5,7 @@ include { BLAST_FILTER          } from '../../../modules/local/blast_filter'
 workflow FASTA_BLAST_REFSEL {
     take:
     ch_fasta          // channel: [ val(meta), path(fasta)]
+    ch_blacklist      // channel: [ val(meta), path(blacklist) ]
     ch_blast_db       // channel: [ val(meta), path(db) ]
     ch_blast_db_fasta // channel: [ val(meta), path(fasta) ]
 
@@ -14,6 +15,9 @@ workflow FASTA_BLAST_REFSEL {
     BLAST_BLASTN(
         ch_fasta,
         ch_blast_db,
+        [], // taxidlist
+        [], // taxids
+        []  // negative_tax
     )
     ch_versions = ch_versions.mix(BLAST_BLASTN.out.versions.first())
 
@@ -29,17 +33,17 @@ workflow FASTA_BLAST_REFSEL {
     ch_no_blast_hits_mqc = noBlastHitsToMultiQC(ch_no_blast_hits,params.assemblers).collectFile(name:'samples_no_blast_hits_mqc.tsv')
 
     // Filter out false positve hits that based on query length, alignment length, identity, e-score & bit-score
-    ch_blast_txt.hits
+    ch_input_blast_filter = ch_blast_txt.hits
         .join(ch_fasta, by: [0], remainder: true)
         .multiMap { meta, txt, fasta ->
             hits: [meta, txt ? txt : []]
             contigs: [meta, fasta]
         }
-        .set { input_blast_filter }
 
     BLAST_FILTER(
-        input_blast_filter.hits,
-        input_blast_filter.contigs,
+        ch_input_blast_filter.hits,
+        ch_input_blast_filter.contigs,
+        ch_blacklist,
         ch_blast_db_fasta,
     )
     ch_versions = ch_versions.mix(BLAST_FILTER.out.versions.first())

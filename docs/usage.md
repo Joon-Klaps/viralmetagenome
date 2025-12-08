@@ -6,7 +6,7 @@
 nextflow run nf-core/viralmetagenome -profile test,docker
 ```
 
-> [!INFO]
+> [!NOTE]
 > Make sure you have [Nextflow](https://nf-co.re/docs/usage/installation) and a container manager (for example, [Docker](https://docs.docker.com/get-docker/)) installed. See the [installation instructions](installation.md) for more info.
 
 :::tip
@@ -47,7 +47,7 @@ nf-core/viralmetagenome can in addition to constructing de novo consensus genome
 
 An example mapping constraint samplesheet file consisting of 5 references, may look something like the one below.
 
-> [!INFO]
+> [!NOTE]
 > This is for 5 references, 2 of them being a multi-fasta file, only one of the multi-fasta needs to undergo [reference selection](./workflow/variant_and_refinement.md#1a-selection-of-reference).
 
 ```tsv title="constraints-samplesheet.tsv"
@@ -94,10 +94,11 @@ The typical command for running the pipeline is as follows:
 
 ```bash
 nextflow run nf-core/viralmetagenome --input ./samplesheet.csv --outdir ./results  -profile docker
+# Or when running on a local desktop, with max. 30GB RAM and 8 CPUs
+nextflow run nf-core/viralmetagenome --input ./samplesheet.csv --outdir ./results  -profile local,docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
-
 Note that the pipeline will create the following files in your working directory:
 
 ```bash
@@ -144,16 +145,16 @@ It is a good idea to specify the pipeline version when running the pipeline on y
 
 First, go to the [nf-core/viralmetagenome releases page](https://github.com/nf-core/viralmetagenome/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
-This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
+This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
 
 To further assist in reproducibility, you can use share and reuse [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 
-> [!INFO] > [!TIP]
+> [!TIP]
 > If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
 
 ## Core Nextflow arguments
 
-> [!INFO] > [!NOTE]
+> [!NOTE]
 > These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen)
 
 ### The `-profile` parameter
@@ -162,7 +163,7 @@ Use this parameter to choose a configuration profile. Profiles can give configur
 
 Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Apptainer, Conda) - see below.
 
-> [!INFO] > [!IMPORTANT]
+> [!IMPORTANT]
 > We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
 
 The pipeline also dynamically loads configurations from [https://github.com/nf-core/configs](https://github.com/nf-core/configs) when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to check if your system is supported, please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
@@ -184,7 +185,7 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `shifter`
   - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
 - `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
+  - A generic configuration profile to be used with [Charliecloud](https://charliecloud.io/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
 - `wave`

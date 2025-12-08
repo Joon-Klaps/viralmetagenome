@@ -4,8 +4,8 @@ process NETWORK_CLUSTER {
 
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'oras://docker.io/jklaps/viralgenie:igraph_leidenalg_matplotlib_pycairo_pandas--c1a94e30d4ecf531'
-        : 'docker.io/jklaps/viralgenie:igraph_leidenalg_matplotlib_pycairo_pandas--413697ff28400e7c'}"
+        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/9c/9cdc22db007cbec6ee11a7c3b8b917803db16fae187a130dd34c6b6c5a63fe85/data'
+        : 'community.wave.seqera.io/library/leidenalg_matplotlib_pandas_pycairo_python:127c227a53ece845'}"
 
     input:
     tuple val(meta), path(dist)
