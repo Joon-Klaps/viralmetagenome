@@ -449,7 +449,7 @@
                     "description": "Specify the deviation of the mean distance that is allowed.",
                     "minimum": 0.01,
                     "maximum": 1,
-                    "help_text": "Example: mean 200, sd 0.75 allows 150–250 inserts."
+                    "help_text": "Example: mean 200, sd 0.75 allows 150\u2013250 inserts."
                 },
                 "read_orientation": {
                     "type": "string",
@@ -558,11 +558,11 @@
                 },
                 "network_clustering": {
                     "type": "string",
-                    "default": "connected_components",
+                    "default": "single",
                     "fa_icon": "fas fa-bezier-curve",
                     "description": "(only with mash) Algorithm to partition the network.",
-                    "enum": ["connected_components", "leiden"],
-                    "help_text": "Mash creates a distance matrix that gets translated into a network of connectected nodes where the edges represent the similarity. This network is then split up using the specified method.\n\n - [leiden](https://leidenalg.readthedocs.io/en/stable/intro.html) algorithm: a hierarchical clustering algorithm, that recursively merges communities into single nodes by greedily optimizing the modularity\n - [connected_components] algorithm: a clustering algorithm that defines the largest possible communities where each node within a subset is reachable from every other node in the same subset via any edge .\n"
+                    "enum": ["single", "complete", "uclust", "set-cover", "cd-hit", "leiden"],
+                    "help_text": "Mash creates a distance matrix that gets translated into a network of connectected nodes where the edges represent the similarity. This network is then split up using the specified method, please refer to clusty documentation for more information."
                 },
                 "identity_threshold": {
                     "type": "number",
@@ -692,8 +692,8 @@
                 },
                 "arguments_network_cluster": {
                     "type": "string",
-                    "default": "--score 0.85",
-                    "description": "Arguments for network clustering",
+                    "default": "--max distance 0.15 --out-representatives --algo single",
+                    "description": "Arguments for network clustering, done with clusty",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
                 },
