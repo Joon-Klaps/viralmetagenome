@@ -449,7 +449,7 @@
                     "description": "Specify the deviation of the mean distance that is allowed.",
                     "minimum": 0.01,
                     "maximum": 1,
-                    "help_text": "Example: mean 200, sd 0.75 allows 150\u2013250 inserts."
+                    "help_text": "Example: mean 200, sd 0.75 allows 150-250 inserts."
                 },
                 "read_orientation": {
                     "type": "string",
