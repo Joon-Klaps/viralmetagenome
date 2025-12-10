@@ -11,15 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix memory issues for `network_cluster` [#105](https://github.com/nf-core/viralmetagenome/issues/105) by switching to Clusty [#251](https://github.com/nf-core/viralmetagenome/pull/251) (by @Joon-Klaps)
 
-
 ### `Dependencies`
 
-| Dependency         | Old version | New version |
-| ------------------ | ----------- | ----------- |
-| `clusty`           | N/A         | 1.2.2       |
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `clusty`   | N/A         | 1.2.2       |
 
 ### `Deprecated`
-
 
 ## v1.0.1 - 2025-12-03
 
