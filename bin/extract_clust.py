@@ -262,8 +262,8 @@ def parse_clusters_clusty(file_in: Path, skip_header: bool = True, **kwargs) -> 
         if skip_header:
             next(file)
         for line in file:
-            member,representative = line.strip().split("\t")
-            grouped[representative].append(member)
+             value, key = line.strip().split("\t")
+            grouped[key].append(value.split()[0])
 
     for idx, (key, values) in enumerate(grouped.items()):
         centroid = key # Default centroid is the cluster representative
