@@ -52,14 +52,15 @@ def write_sequences(groups, sequences, prefix):
         prefix (str): The prefix of the output file.
     """
     # check if groups has anything:
-    sequence_dict = SeqIO.to_dict(SeqIO.parse(sequences, "fasta"))
+    sequence_index = SeqIO.index(sequences, "fasta")
     for taxid, ranked_taxon_list in groups.items():
         with open(f"{prefix}_taxid{taxid}.fa", "w", encoding='utf-8') as f_out:
             for ranked_taxon in ranked_taxon_list:
-                if ranked_taxon.name in sequence_dict:
-                    SeqIO.write(sequence_dict[ranked_taxon.name], f_out, "fasta")
+                if ranked_taxon.name in sequence_index:
+                    SeqIO.write(sequence_index[ranked_taxon.name], f_out, "fasta")
                 else:
                     logger.warning("The sequence %s was not found in the input sequence file %s!", ranked_taxon.name, sequences)
+    sequence_index.close()
 
 def write_report(groups, prefix):
     """

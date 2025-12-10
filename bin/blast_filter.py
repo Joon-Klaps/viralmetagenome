@@ -161,7 +161,6 @@ def write_contigs_and_blast_sequence(
 ) -> None:
     """
     Extracts contigs hits from a DataFrame and writes them to a FASTA file.
-    Processes reference sequences in chunks to avoid memory issues.
 
     Args:
         df (pandas.DataFrame): DataFrame containing the hits information.
@@ -175,25 +174,26 @@ def write_contigs_and_blast_sequence(
     # Get unique hit IDs we need to find
     needed_hits = {hit.split(" ")[0] for hit in df["subject"].unique()}
 
+    logger.info("Building sequence index for reference file...")
+    ref_index = SeqIO.index(str(references), "fasta")
+
     # Copy contigs to output file first
     with open(contigs, "r", encoding="utf-8") as contigs_file, open(
         f"{prefix}_withref.fa", "w", encoding="utf-8"
     ) as out_file:
         out_file.write(contigs_file.read())
 
-        # Process reference sequences in chunks
+        # Lookup our sequence
         found_hits: set[str] = set()
-        for record in SeqIO.parse(references, "fasta"):
-            hit_name = record.id
-            if hit_name in needed_hits:
-                # Reasign the id
+        for hit_name in needed_hits:
+            if hit_name in ref_index:
+                record = ref_index[hit_name]
+                # Reassign the id
                 record.id = hit_name.replace("|", "-").replace("\\", "-").replace("/", "-")
                 SeqIO.write(record, out_file, "fasta")
                 found_hits.add(hit_name)
-
-                # Exit early if we found all needed sequences
-                if found_hits == needed_hits:
-                    break
+            else:
+                logger.debug("Reference sequence %s not found in index", hit_name)
 
         # Warn if some sequences weren't found
         missing_hits = needed_hits - found_hits
@@ -202,6 +202,8 @@ def write_contigs_and_blast_sequence(
                 "Could not find the following reference sequences: %s",
                 ", ".join(sorted(missing_hits)),
             )
+
+    ref_index.close()
 
 
 def write_filtered_blast_df(df: pd.DataFrame, prefix: str) -> None:
