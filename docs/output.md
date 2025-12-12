@@ -369,7 +369,7 @@ Whenever there is a 'cl#' in the file name, it refers to the cluster number of t
 
 #### Mash & Clusty
 
-[Mash](https://github.com/marbl/Mash) calculates the distance between two sequences based on the jaccard distance. The Mash distance can be quickly computed from the size-reduced sketches alone, yet produces a result that strongly correlates with alignment-based measures such as the Average Nucleotide Identity (ANI). Next, Clusty uses the Mash distances to cluster the sequences based on a specified ANI threshold with the given `--network_clustering` option (default `single`).
+[Mash](https://github.com/marbl/Mash) calculates the distance between two sequences based on the jaccard distance. The Mash distance can be quickly computed from the size-reduced sketches alone, yet produces a result that strongly correlates with alignment-based measures such as the Average Nucleotide Identity (ANI). Next, [Clusty](https://github.com/refresh-bio/clusty) uses the Mash distances to cluster the sequences based on a specified ANI threshold with the given `--network_clustering` option (default `single`).
 
 :::note{title="Output files" collapse}
 
