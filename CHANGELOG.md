@@ -10,12 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Fixed`
 
 - Fix memory issues for `network_cluster` [#105](https://github.com/nf-core/viralmetagenome/issues/105) by switching to Clusty [#251](https://github.com/nf-core/viralmetagenome/pull/251) (by @Joon-Klaps)
-- Fix slow nested loops by refactoring sequence objects with `SeqIO.index` in various scripts [#252](https://github.com/nf-core/viralmetagenome/pull/252) (by @Joon-Klaps)
-  - `file_tools.py`
-  - `select_reference.py`
-  - `blast_filter.py`
-  - `extract_clust.py`
-  - `extract_precluster.py`
+- Improve memory efficiency and speed of FASTA sequence extraction [#252](https://github.com/nf-core/viralmetagenome/pull/252) (by @Joon-Klaps)
 
 ### `Dependencies`
 
