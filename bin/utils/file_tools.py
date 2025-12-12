@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import pandas as pd
-import yaml
 
 from utils.constant_variables import FILES_OF_INTEREST
 
@@ -183,6 +182,7 @@ def df_from_csv(file: str, **kwargs) -> pd.DataFrame:
 
 
 def df_from_yaml(file: str, **kwargs) -> pd.DataFrame:
+    import yaml
     """
     Read a dataframe from a YAML file.
 
@@ -248,6 +248,7 @@ def filelist_to_df(table_files: List[str], header_name: Optional[List[str]] = No
 
 
 def get_module_selection(table_headers: Path = None) -> Dict:
+    import yaml
     """
     Get the files of interest and the columns of interest from the table headers file
 
