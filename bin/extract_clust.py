@@ -247,8 +247,12 @@ def parse_clusters_vsearch(file_in: Path, **kwargs) -> List["Cluster"]:
     # Convert the dictionary values to a list of clusters and return
     return list(clusters.values())
 
-def parse_clusters_vrhyme(file_in: Path, skip_header: bool = True, **kwargs) -> List["Cluster"]:
-    """Extract sequence names from vrhyme gzipped cluster files using regex."""
+def parse_clusters_clusty(file_in: Path, skip_header: bool = True, **kwargs) -> List["Cluster"]:
+    """
+    Extract sequence names from clustly cluster files.
+    Format:
+    sequence_name\tcluster_representative
+    """
     clusters = {}  # Dictionary to store clusters {cluster_id: Cluster}
     grouped = defaultdict(list)
     pattern_regex = re.compile(kwargs.get("pattern", PATTERN))
@@ -261,11 +265,13 @@ def parse_clusters_vrhyme(file_in: Path, skip_header: bool = True, **kwargs) -> 
             value, key = line.strip().split("\t")
             grouped[key].append(value.split()[0])
 
-        for key, values in grouped.items():
+    for idx, (key, values) in enumerate(grouped.items()):
+        centroid = key # Default centroid is the cluster representative
+        if key not in values:
             centroid = get_first_not_match(pattern_regex, values)
-            members = [value for value in values if value != centroid]
-            cluster_id = f"cl{key}"
-            clusters[cluster_id] = Cluster(cluster_id, centroid, members, taxid=taxid)
+        members = [value for value in values if value != centroid]
+        cluster_id = f"cl{idx}"
+        clusters[cluster_id] = Cluster(cluster_id, centroid, members, taxid=taxid)
 
     return list(clusters.values())
 
@@ -540,12 +546,12 @@ def parse_args(argv=None):
 
 def main(argv=None):
     CLUSTER_PARSERS = {
-        "mash":            {"func": parse_clusters_vrhyme, "skip_header": False},
-        "vrhyme":          {"func": parse_clusters_vrhyme },
-        "vsearch":         {"func": parse_clusters_vsearch },
-        "cdhitest":        {"func": parse_clusters_chdit },
-        "mmseqs-cluster":  {"func": parse_clusters_mmseqs },
-        "mmseqs-linclust": {"func": parse_clusters_mmseqs }
+        "mash":            { "func": parse_clusters_clusty  },
+        "vrhyme":          { "func": parse_clusters_clusty  },
+        "vsearch":         { "func": parse_clusters_vsearch },
+        "cdhitest":        { "func": parse_clusters_chdit   },
+        "mmseqs-cluster":  { "func": parse_clusters_mmseqs  },
+        "mmseqs-linclust": { "func": parse_clusters_mmseqs  }
     }
 
     """Coordinate argument parsing and program execution."""
