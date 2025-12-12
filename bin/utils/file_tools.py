@@ -16,7 +16,50 @@ from typing import Dict, List, Optional
 
 from utils.constant_variables import FILES_OF_INTEREST
 
+# Optional dependencies - set to None if not available
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
+
+try:
+    from Bio import SeqIO
+except ImportError:
+    SeqIO = None
+
 logger = logging.getLogger()
+
+
+def _check_pandas_available():
+    """Check if pandas is available, raise ImportError if not."""
+    if pd is None:
+        raise ImportError(
+            "pandas is required for this function but is not installed. "
+            "Please install it with: pip install pandas"
+        )
+
+
+def _check_yaml_available():
+    """Check if PyYAML is available, raise ImportError if not."""
+    if yaml is None:
+        raise ImportError(
+            "PyYAML is required for this function but is not installed. "
+            "Please install it with: pip install pyyaml"
+        )
+
+
+def _check_biopython_available():
+    """Check if Biopython is available, raise ImportError if not."""
+    if SeqIO is None:
+        raise ImportError(
+            "Biopython is required for this function but is not installed. "
+            "Please install it with: pip install biopython"
+        )
 
 
 def check_file_exists(file: str, throw_error=True) -> bool:
@@ -56,7 +99,7 @@ def concat_table_files(table_files: List[str], **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The concatenated dataframe.
     """
-    import pandas as pd
+    _check_pandas_available()
     try:
         valid_dfs = [read_file_to_df(file, **kwargs) for file in table_files if check_file_exists(file)]
 
@@ -82,7 +125,7 @@ def read_in_quast(table_files: List[str]) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A dataframe containing the concatenated data from all the cluster summary files.
     """
-    import pandas as pd
+    _check_pandas_available()
     df = pd.DataFrame()
     if table_files:
         for file in table_files:
@@ -105,7 +148,7 @@ def write_df(df: pd.DataFrame, file: str, comment: Optional[List[str]] = None) -
     Returns:
         None
     """
-    import pandas as pd
+    _check_pandas_available()
 
     if df.empty:
         logger.warning("The DataFrame %s is empty, nothing will be written to the file!", file)
@@ -128,7 +171,7 @@ def read_file_to_df(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
-    import pandas as pd
+    _check_pandas_available()
 
     file_path = Path(file)
     if os.path.getsize(file_path) == 0:
@@ -165,7 +208,7 @@ def df_from_tsv(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
-    import pandas as pd
+    _check_pandas_available()
 
     with open(file, "r") as table:
         df = pd.read_csv(table, sep="\t", **kwargs)
@@ -182,7 +225,7 @@ def df_from_csv(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
-    import pandas as pd
+    _check_pandas_available()
 
     with open(file, "r") as table:
         df = pd.read_csv(table, **kwargs)
@@ -200,7 +243,8 @@ def df_from_yaml(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
-    import pandas as pd
+    _check_yaml_available()
+    _check_pandas_available()
 
     with open(file, "r") as yaml_file:
         data = yaml.safe_load(yaml_file, **kwargs)
@@ -218,7 +262,7 @@ def df_from_json(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
-    import pandas as pd
+    _check_pandas_available()
 
     with open(file, "r") as json_file:
         try:
@@ -251,7 +295,7 @@ def filelist_to_df(table_files: List[str], header_name: Optional[List[str]] = No
         pd.DataFrame: Concatenated table data.
 
     """
-    import pandas as pd
+    _check_pandas_available()
 
     result_df = pd.DataFrame()
     if table_files:
@@ -262,7 +306,6 @@ def filelist_to_df(table_files: List[str], header_name: Optional[List[str]] = No
 
 
 def get_module_selection(table_headers: Path = None) -> Dict:
-    import yaml
     """
     Get the files of interest and the columns of interest from the table headers file
 
@@ -275,6 +318,7 @@ def get_module_selection(table_headers: Path = None) -> Dict:
     if not table_headers:
         return FILES_OF_INTEREST
 
+    _check_yaml_available()
     check_file_exists(table_headers)
     yaml_data = yaml.safe_load(table_headers.read_text())
 
@@ -298,7 +342,7 @@ def index_fasta(fasta_path, format="fasta"):
     Raises:
         ValueError: If duplicates found AND file is too large to fit in memory
     """
-    from Bio import SeqIO
+    _check_biopython_available()
 
     try:
         return SeqIO.index(str(fasta_path), format)
