@@ -54,7 +54,7 @@ include { VCF_ANNOTATE                    } from '../subworkflows/local/vcf_anno
 workflow VIRALMETAGENOME {
 
     take:
-    ch_samplesheet // Channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
 
     main:
 
