@@ -17,6 +17,7 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from Bio import SeqIO
+from utils.file_tools import index_fasta
 
 logger = logging.getLogger()
 
@@ -98,35 +99,40 @@ class Cluster:
                 indent=4,
             )
 
-    def save_centroid_fasta(self, sequences, prefix):
+    def save_centroid_fasta(self, seq_index, prefix):
         """
         Extract the centroid sequence using memory-efficient processing.
+
+        Args:
+            seq_index: Pre-built SeqIO index
+            prefix: Output file prefix
         """
         centroid_id = self.centroid.split(" ")[0]
         with open(f"{prefix}_{self.cluster_id}_centroid.fa", "w") as file:
-            for record in SeqIO.parse(sequences, "fasta"):
-                if record.id == centroid_id:
-                    SeqIO.write(record, file, "fasta")
-                    break
+            if centroid_id in seq_index:
+                SeqIO.write(seq_index[centroid_id], file, "fasta")
+            else:
+                logger.warning("Centroid %s not found in sequence index", centroid_id)
 
-    def save_members_fasta(self, sequences, prefix):
+    def save_members_fasta(self, seq_index, prefix):
         """
-        Extract member sequences using memory-efficient processing.
+        Extract member sequences using pre-built index.
+
+        Args:
+            seq_index: Pre-built SeqIO index
+            prefix: Output file prefix
         """
-        needed_members = set(member.split(" ")[0] for member in self.members) if self.members else set()
-
-        if not needed_members:
-            with open(f"{prefix}_{self.cluster_id}_members.fa", "w") as file:
-                file.write("\n")
-            return
-
         with open(f"{prefix}_{self.cluster_id}_members.fa", "w") as file:
-            for record in SeqIO.parse(sequences, "fasta"):
-                if record.id in needed_members:
-                    SeqIO.write(record, file, "fasta")
-                    needed_members.remove(record.id)
-                    if not needed_members:  # Exit early if we found all sequences
-                        break
+            if not self.members:
+                file.write("\n")
+                return
+
+            for member in self.members:
+                member_id = member.split(" ")[0]
+                if member_id in seq_index:
+                    SeqIO.write(seq_index[member_id], file, "fasta")
+                else:
+                    logger.warning("Member %s not found in sequence index", member_id)
 
     def _to_line(self, prefix):
         rounded_depth = np.round(list(self.cumulative_read_depth.values()), 2).tolist()
@@ -299,13 +305,20 @@ def write_clusters(clusters: List['Cluster'], sequences: Path, prefix: str, leng
     """
     Write the clusters to a fasta, json, tsv file.
     """
+    logger.info("Building sequence index from %s (this may take a moment for large files)...", sequences)
+    seq_index = index_fasta(sequences)
+    logger.info("Sequence index built with %d sequences.", len(seq_index))
+
     for cluster in clusters:
         cluster.save_cluster_members(prefix)
         cluster.save_cluster_centroid(prefix)
-        cluster.save_centroid_fasta(sequences, prefix)
-        cluster.save_members_fasta(sequences, prefix)
+        cluster.save_centroid_fasta(seq_index, prefix)
+        cluster.save_members_fasta(seq_index, prefix)
         cluster.save_cluster_json(prefix)
 
+    if hasattr(seq_index, 'close'):
+        seq_index.close()
+    logger.info("Finished writing %d clusters.", len(clusters))
     write_clusters_summary(clusters, prefix, length_clusters)
 
 def write_clusters_to_tsv(clusters, prefix):
