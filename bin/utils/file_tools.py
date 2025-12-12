@@ -14,8 +14,6 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
-import pandas as pd
-
 from utils.constant_variables import FILES_OF_INTEREST
 
 logger = logging.getLogger()
@@ -58,6 +56,7 @@ def concat_table_files(table_files: List[str], **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The concatenated dataframe.
     """
+    import pandas as pd
     try:
         valid_dfs = [read_file_to_df(file, **kwargs) for file in table_files if check_file_exists(file)]
 
@@ -83,6 +82,7 @@ def read_in_quast(table_files: List[str]) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A dataframe containing the concatenated data from all the cluster summary files.
     """
+    import pandas as pd
     df = pd.DataFrame()
     if table_files:
         for file in table_files:
@@ -105,6 +105,8 @@ def write_df(df: pd.DataFrame, file: str, comment: Optional[List[str]] = None) -
     Returns:
         None
     """
+    import pandas as pd
+
     if df.empty:
         logger.warning("The DataFrame %s is empty, nothing will be written to the file!", file)
         return
@@ -126,6 +128,8 @@ def read_file_to_df(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    import pandas as pd
+
     file_path = Path(file)
     if os.path.getsize(file_path) == 0:
         logger.debug("File is empty %s", file_path)
@@ -161,6 +165,8 @@ def df_from_tsv(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    import pandas as pd
+
     with open(file, "r") as table:
         df = pd.read_csv(table, sep="\t", **kwargs)
     return df
@@ -176,6 +182,8 @@ def df_from_csv(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    import pandas as pd
+
     with open(file, "r") as table:
         df = pd.read_csv(table, **kwargs)
     return df
@@ -192,6 +200,8 @@ def df_from_yaml(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    import pandas as pd
+
     with open(file, "r") as yaml_file:
         data = yaml.safe_load(yaml_file, **kwargs)
         df = pd.DataFrame(data)
@@ -208,6 +218,8 @@ def df_from_json(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    import pandas as pd
+
     with open(file, "r") as json_file:
         try:
             data = json.load(json_file, **kwargs)
@@ -239,6 +251,8 @@ def filelist_to_df(table_files: List[str], header_name: Optional[List[str]] = No
         pd.DataFrame: Concatenated table data.
 
     """
+    import pandas as pd
+
     result_df = pd.DataFrame()
     if table_files:
         result_df = concat_table_files(table_files, **kwargs)
