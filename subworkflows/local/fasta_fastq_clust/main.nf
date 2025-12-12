@@ -6,7 +6,7 @@ include { MMSEQS_CLUSTER   } from '../../../modules/nf-core/mmseqs/cluster/main'
 include { MMSEQS_CREATETSV } from '../../../modules/nf-core/mmseqs/createtsv/main'
 include { VRHYME_VRHYME    } from '../../../modules/nf-core/vrhyme/vrhyme/main'
 include { MASH_DIST        } from '../../../modules/nf-core/mash/dist/main'
-include { NETWORK_CLUSTER  } from '../../../modules/local/network_cluster/main'
+include { CLUSTY           } from '../../../modules/nf-core/clusty/main'
 
 workflow FASTA_FASTQ_CLUST {
     take:
@@ -14,9 +14,8 @@ workflow FASTA_FASTQ_CLUST {
     cluster_method // string
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     ch_fasta = ch_fasta_fastq.map { meta, fasta, _fastq -> [meta, fasta] }
-    ch_dist = Channel.empty()
 
     // cluster our reference hits and contigs should make this a subworkflow
     if (cluster_method == "vsearch") {
@@ -75,15 +74,10 @@ workflow FASTA_FASTQ_CLUST {
         // Calculate distances
         MASH_DIST(ch_fasta)
         ch_versions = ch_versions.mix(MASH_DIST.out.versions.first())
-        ch_dist = MASH_DIST.out.dist
-    }
 
-    // Calculate clusters for distance based methods (mash)
-    if (cluster_method in ["mash"]) {
-        // Calculate clusters using leidenalg
-        NETWORK_CLUSTER(ch_dist, cluster_method, params.network_clustering)
-        ch_clusters = NETWORK_CLUSTER.out.clusters
-        ch_versions = ch_versions.mix(NETWORK_CLUSTER.out.versions.first())
+        // Determine clusters from distances
+        CLUSTY(MASH_DIST.out.dist, [[:], []])
+        ch_clusters = CLUSTY.out.assignments
     }
 
     emit:
