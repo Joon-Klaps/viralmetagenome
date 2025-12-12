@@ -13,6 +13,7 @@ from pathlib import Path
 
 import pandas as pd
 from utils.constant_variables import MASH_SCREEN_COLUMNS
+from utils.file_tools import index_fasta
 from Bio import SeqIO
 
 logger = logging.getLogger()
@@ -59,10 +60,6 @@ def parse_args(argv=None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def to_dict_remove_dups(sequences) -> dict:
-    return {record.id: record for record in sequences}
-
-
 def write_hits(df, references, prefix) -> int:
     """
     Write contigs hits from a DataFrame to a FASTA file using indexed lookups.
@@ -84,7 +81,7 @@ def write_hits(df, references, prefix) -> int:
     found_hits = set()
 
     logger.info("Building sequence index for reference file...")
-    ref_index = SeqIO.index(str(references), "fasta")
+    ref_index = index_fasta(references)
 
     with open(f"{prefix}_reference.fa", "w") as f:
         init_position = f.tell()
@@ -106,7 +103,8 @@ def write_hits(df, references, prefix) -> int:
         if missing_hits:
             logger.warning(f"Could not find the following reference sequences: {', '.join(missing_hits)}")
 
-    ref_index.close()
+    if hasattr(ref_index, 'close'):
+        ref_index.close()
 
     # Writing best hit to JSON for metadata purposes
     df_renamed = df.copy()

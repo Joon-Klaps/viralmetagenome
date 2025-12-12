@@ -17,6 +17,7 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from Bio import SeqIO
+from utils.file_tools import index_fasta
 
 logger = logging.getLogger()
 
@@ -299,7 +300,7 @@ def write_clusters(clusters: List['Cluster'], sequences: Path, prefix: str, leng
     Write the clusters to a fasta, json, tsv file.
     """
     logger.info("Building sequence index from %s (this may take a moment for large files)...", sequences)
-    seq_index = SeqIO.index(str(sequences), "fasta")
+    seq_index = index_fasta(sequences)
     logger.info("Sequence index built with %d sequences.", len(seq_index))
 
     for cluster in clusters:
@@ -309,7 +310,8 @@ def write_clusters(clusters: List['Cluster'], sequences: Path, prefix: str, leng
         cluster.save_members_fasta(seq_index, prefix)
         cluster.save_cluster_json(prefix)
 
-    seq_index.close()
+    if hasattr(seq_index, 'close'):
+        seq_index.close()
     logger.info("Finished writing %d clusters.", len(clusters))
     write_clusters_summary(clusters, prefix, length_clusters)
 

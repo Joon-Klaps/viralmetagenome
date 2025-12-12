@@ -15,6 +15,7 @@ from typing import Dict, Iterable, Optional, Sequence, cast
 import pandas as pd
 from Bio import SeqIO
 from utils.constant_variables import BLAST_COLUMNS
+from utils.file_tools import index_fasta
 
 logger = logging.getLogger()
 
@@ -175,7 +176,7 @@ def write_contigs_and_blast_sequence(
     needed_hits = {hit.split(" ")[0] for hit in df["subject"].unique()}
 
     logger.info("Building sequence index for reference file...")
-    ref_index = SeqIO.index(str(references), "fasta")
+    ref_index = index_fasta(references)
 
     # Copy contigs to output file first
     with open(contigs, "r", encoding="utf-8") as contigs_file, open(
@@ -203,7 +204,8 @@ def write_contigs_and_blast_sequence(
                 ", ".join(sorted(missing_hits)),
             )
 
-    ref_index.close()
+    if hasattr(ref_index, 'close'):
+        ref_index.close()
 
 
 def write_filtered_blast_df(df: pd.DataFrame, prefix: str) -> None:

@@ -264,3 +264,75 @@ def get_module_selection(table_headers: Path = None) -> Dict:
     yaml_data = yaml.safe_load(table_headers.read_text())
 
     return yaml_data
+
+
+def index_fasta(fasta_path, format="fasta"):
+    """
+    Create an indexed dictionary of sequences from a FASTA file.
+
+    Tries SeqIO.index() first (memory-efficient), falls back to SeqIO.to_dict()
+    with duplicate removal if duplicate keys are found.
+
+    Args:
+        fasta_path: Path to the FASTA file
+        format: Sequence format (default: "fasta")
+
+    Returns:
+        Dict-like object mapping sequence IDs to SeqRecord objects
+
+    Raises:
+        ValueError: If duplicates found AND file is too large to fit in memory
+    """
+    from Bio import SeqIO
+
+    try:
+        return SeqIO.index(str(fasta_path), format)
+    except ValueError as e:
+        if "Duplicate key" not in str(e):
+            raise
+
+        logger.warning(
+            "Duplicate sequence IDs found in %s: %s. "
+            "Falling back to in-memory indexing (keeping first occurrence).",
+            fasta_path,
+            e,
+        )
+
+        try:
+            return _to_dict_first_occurrence(SeqIO.parse(str(fasta_path), format))
+        except MemoryError:
+            raise ValueError(
+                f"Duplicate sequence IDs found in {fasta_path} and file is too large "
+                f"to load into memory. Please deduplicate the FASTA file first "
+                f"(e.g., using 'seqkit rmdup -n'). Original error: {e}"
+            ) from e
+
+
+def _to_dict_first_occurrence(sequences) -> dict:
+    """
+    Convert sequences to dict, keeping only FIRST occurrence of duplicate IDs.
+
+    Args:
+        sequences: Iterable of SeqRecord objects
+
+    Returns:
+        Dict mapping sequence IDs to SeqRecord objects
+    """
+    result = {}
+    duplicates = []
+    for record in sequences:
+        if record.id not in result:
+            result[record.id] = record
+        else:
+            duplicates.append(record.id)
+
+    if duplicates:
+        unique_dups = list(dict.fromkeys(duplicates))  # Preserve order, remove dups
+        logger.warning(
+            "Skipped %d duplicate sequence(s), keeping first occurrence: %s%s",
+            len(duplicates),
+            ", ".join(unique_dups[:5]),
+            "..." if len(unique_dups) > 5 else "",
+        )
+
+    return result

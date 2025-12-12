@@ -10,6 +10,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from Bio import SeqIO
+from utils.file_tools import index_fasta
 
 logger = logging.getLogger()
 
@@ -51,8 +52,7 @@ def write_sequences(groups, sequences, prefix):
         sequences (str): The path to the input sequence file.
         prefix (str): The prefix of the output file.
     """
-    # check if groups has anything:
-    sequence_index = SeqIO.index(sequences, "fasta")
+    sequence_index = index_fasta(sequences)
     for taxid, ranked_taxon_list in groups.items():
         with open(f"{prefix}_taxid{taxid}.fa", "w", encoding='utf-8') as f_out:
             for ranked_taxon in ranked_taxon_list:
@@ -60,7 +60,8 @@ def write_sequences(groups, sequences, prefix):
                     SeqIO.write(sequence_index[ranked_taxon.name], f_out, "fasta")
                 else:
                     logger.warning("The sequence %s was not found in the input sequence file %s!", ranked_taxon.name, sequences)
-    sequence_index.close()
+    if hasattr(sequence_index, 'close'):
+        sequence_index.close()
 
 def write_report(groups, prefix):
     """
