@@ -6,6 +6,8 @@
 
 """Provide a command line tool to create several custom mqc report files."""
 
+from __future__ import annotations
+
 import csv
 import json
 import logging
