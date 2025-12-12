@@ -22,12 +22,13 @@ process MASH_DIST {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def reference = query
     """
+    echo "name1\tname2\tdistance\tp-value\tmatching-hashes" > ${prefix}.txt
     mash \\
         dist \\
         -p $task.cpus \\
         $args \\
         $reference \\
-        $query > ${prefix}.txt
+        $query >> ${prefix}.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
