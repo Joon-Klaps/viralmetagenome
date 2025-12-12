@@ -16,8 +16,8 @@ include { paramsSummaryMap                } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML          } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText          } from '../subworkflows/local/utils_nfcore_viralmetagenome_pipeline'
-include { createFilechannel               } from '../subworkflows/local/utils_nfcore_viralmetagenome_pipeline'
-include { createchannel                   } from '../subworkflows/local/utils_nfcore_viralmetagenome_pipeline'
+include { createFileChannel               } from '../subworkflows/local/utils_nfcore_viralmetagenome_pipeline'
+include { createChannel                   } from '../subworkflows/local/utils_nfcore_viralmetagenome_pipeline'
 include { noContigSamplesToMultiQC        } from '../subworkflows/local/utils_nfcore_viralmetagenome_pipeline'
 include { getLengthAndAmbigous            } from '../subworkflows/local/utils_nfcore_viralmetagenome_pipeline'
 
@@ -54,7 +54,7 @@ include { VCF_ANNOTATE                    } from '../subworkflows/local/vcf_anno
 workflow VIRALMETAGENOME {
 
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    ch_samplesheet // Channel: samplesheet read in from --input
 
     main:
 
@@ -70,23 +70,23 @@ workflow VIRALMETAGENOME {
     def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
     def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
     // Optional parameters
-    ch_blacklist      = createFilechannel(params.blacklist)
-    ch_metadata       = createFilechannel(params.metadata)
-    ch_contaminants   = createFilechannel(params.contaminants)
-    ch_spades_yml     = createFilechannel(params.spades_yml)
-    ch_spades_hmm     = createFilechannel(params.spades_hmm)
-    ch_adapter_fasta   = createFilechannel(params.adapter_fasta)
-    ch_constraint_meta = createFilechannel(params.mapping_constraints)
+    ch_blacklist      = createFileChannel(params.blacklist)
+    ch_metadata       = createFileChannel(params.metadata)
+    ch_contaminants   = createFileChannel(params.contaminants)
+    ch_spades_yml     = createFileChannel(params.spades_yml)
+    ch_spades_hmm     = createFileChannel(params.spades_hmm)
+    ch_adapter_fasta   = createFileChannel(params.adapter_fasta)
+    ch_constraint_meta = createFileChannel(params.mapping_constraints)
 
     // Databases, we really don't want to stage unnecessary databases
-    ch_ref_pool      = (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)           ? createchannel( params.reference_pool, "reference", true )                                                         : channel.empty()
-    ch_kraken2_db    = (!params.skip_assembly && !params.skip_polishing && !params.skip_precluster) || !params.skip_read_classification    ? createchannel( params.kraken2_db, "kraken2", ('kraken2' in read_classifiers || 'kraken2' in contig_classifiers) ) : channel.empty()
-    ch_kaiju_db      = (!params.skip_assembly && !params.skip_polishing && !params.skip_precluster) || !params.skip_read_classification    ? createchannel( params.kaiju_db, "kaiju", ('kaiju' in read_classifiers || 'kaiju' in contig_classifiers) )         : channel.empty()
-    ch_checkv_db     = !params.skip_consensus_qc                                                                                           ? createchannel( params.checkv_db, "checkv", !params.skip_checkv )                                                  : channel.empty()
-    ch_bracken_db    = !params.skip_read_classification                                                                                    ? createchannel( params.bracken_db, "bracken", ('bracken' in read_classifiers) )                                    : channel.empty()
-    ch_k2_host       = !params.skip_preprocessing                                                                                          ? createchannel( params.host_k2_db, "k2_host", !params.skip_hostremoval )                                           : channel.empty()
-    ch_annotation_db = !params.skip_consensus_qc                                                                                           ? createchannel( params.annotation_db, "annotation", !params.skip_consensus_annotation )                            : channel.empty()
-    ch_prokka_db     = !params.skip_consensus_qc                                                                                           ? createchannel( params.prokka_db, "prokka", !params.skip_prokka )                                                  : channel.empty()
+    ch_ref_pool      = (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)           ? createChannel( params.reference_pool, "reference", true )                                                         : channel.empty()
+    ch_kraken2_db    = (!params.skip_assembly && !params.skip_polishing && !params.skip_precluster) || !params.skip_read_classification    ? createChannel( params.kraken2_db, "kraken2", ('kraken2' in read_classifiers || 'kraken2' in contig_classifiers) ) : channel.empty()
+    ch_kaiju_db      = (!params.skip_assembly && !params.skip_polishing && !params.skip_precluster) || !params.skip_read_classification    ? createChannel( params.kaiju_db, "kaiju", ('kaiju' in read_classifiers || 'kaiju' in contig_classifiers) )         : channel.empty()
+    ch_checkv_db     = !params.skip_consensus_qc                                                                                           ? createChannel( params.checkv_db, "checkv", !params.skip_checkv )                                                  : channel.empty()
+    ch_bracken_db    = !params.skip_read_classification                                                                                    ? createChannel( params.bracken_db, "bracken", ('bracken' in read_classifiers) )                                    : channel.empty()
+    ch_k2_host       = !params.skip_preprocessing                                                                                          ? createChannel( params.host_k2_db, "k2_host", !params.skip_hostremoval )                                           : channel.empty()
+    ch_annotation_db = !params.skip_consensus_qc                                                                                           ? createChannel( params.annotation_db, "annotation", !params.skip_consensus_annotation )                            : channel.empty()
+    ch_prokka_db     = !params.skip_consensus_qc                                                                                           ? createChannel( params.prokka_db, "prokka", !params.skip_prokka )                                                  : channel.empty()
 
     // Importing samplesheet
     ch_reads = ch_samplesheet
@@ -185,13 +185,13 @@ workflow VIRALMETAGENOME {
     ch_unaligned_contigs         = channel.empty()
     ch_polishing_consensus_reads = channel.empty()
 
-    // channel for consensus sequences that have been generated across different iteration
+    // Channel for consensus sequences that have been generated across different iteration
     ch_consensus                 = channel.empty()
-    // channel for consensus sequences that have been generated at the LAST iteration
+    // Channel for consensus sequences that have been generated at the LAST iteration
     ch_consensus_reads           = channel.empty()
-    // channel for summary table of clusters to include in mqc report
+    // Channel for summary table of clusters to include in mqc report
     ch_clusters_summary          = channel.empty()
-    // channel for summary coverages of each contig
+    // Channel for summary coverages of each contig
     ch_clusters_tsv              = channel.empty()
 
     if (!params.skip_assembly) {
@@ -482,8 +482,8 @@ workflow VIRALMETAGENOME {
     ch_versions = ch_versions.mix(CUSTOM_MULTIQC.out.versions)
 
     emit:
-    multiqc_report = CUSTOM_MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
-    versions       = ch_versions                        // channel: [ path(versions.yml) ]
+    multiqc_report = CUSTOM_MULTIQC.out.report.toList() // Channel: /path/to/multiqc_report.html
+    versions       = ch_versions                        // Channel: [ path(versions.yml) ]
 }
 
 /*
