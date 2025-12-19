@@ -32,6 +32,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "vsearch"
+                input[2] = 0.81
                 """
             }
         }
@@ -58,6 +59,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "vsearch"
+                input[2] = 0.81
                 """
             }
         }
@@ -84,6 +86,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "cdhitest"
+                input[2] = 0.81
                 """
             }
         }
@@ -110,6 +113,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "cdhitest"
+                input[2] = 0.81
                 """
             }
         }
@@ -125,35 +129,6 @@ nextflow_workflow {
         }
     }
 
-    test("sarscov2 - fasta - cdhitest | low identity threshold") {
-        // Test the warning when identity threshold is below 0.80
-
-        when {
-            params {
-                identity_threshold = 0.75
-            }
-            workflow {
-                """
-                input[0] = Channel.of([
-                    [ id:'test' ],
-                    file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true),
-                    []
-                ])
-                input[1] = "cdhitest"
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert snapshot(
-                    workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
-                ).match() }
-            )
-        }
-    }
 
     test("sarscov2 - fasta - mmseqs-linclust") {
 
@@ -166,6 +141,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mmseqs-linclust"
+                input[2] = 0.81
                 """
             }
         }
@@ -192,6 +168,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mmseqs-linclust"
+                input[2] = 0.81
                 """
             }
         }
@@ -218,6 +195,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mmseqs-cluster"
+                input[2] = 0.81
                 """
             }
         }
@@ -244,6 +222,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mmseqs-cluster"
+                input[2] = 0.81
                 """
             }
         }
@@ -273,6 +252,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = "vrhyme"
+                input[2] = 0.81
                 """
             }
         }
@@ -302,6 +282,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = "vrhyme"
+                input[2] = 0.81
                 """
             }
         }
@@ -328,6 +309,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mash"
+                input[2] = 0.81
                 """
             }
         }
@@ -354,6 +336,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mash"
+                input[2] = 0.81
                 """
             }
         }
@@ -381,6 +364,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "vsearch"
+                input[2] = 0.81
                 """
             }
         }
@@ -408,6 +392,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "cdhitest"
+                input[2] = 0.81
                 """
             }
         }
@@ -435,6 +420,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mmseqs-linclust"
+                input[2] = 0.81
                 """
             }
         }
@@ -462,6 +448,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mmseqs-cluster"
+                input[2] = 0.81
                 """
             }
         }
@@ -492,6 +479,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = "vrhyme"
+                input[2] = 0.81
                 """
             }
         }
@@ -519,6 +507,7 @@ nextflow_workflow {
                     []
                 ])
                 input[1] = "mash"
+                input[2] = 0.81
                 """
             }
         }

@@ -215,7 +215,11 @@ workflow VIRALMETAGENOME {
                 ch_ref_pool,
                 ch_kraken2_db,
                 ch_kaiju_db,
-                contig_classifiers
+                contig_classifiers,
+                params.cluster_method,
+                params.identity_threshold,
+                params.skip_precluster,
+                params.perc_reads_contig
                 )
             ch_versions = ch_versions.mix(FASTA_CONTIG_CLUST.out.versions)
 

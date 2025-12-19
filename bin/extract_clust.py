@@ -257,7 +257,7 @@ def parse_clusters_clusty(file_in: Path, skip_header: bool = True, **kwargs) -> 
     """
     Extract sequence names from clustly cluster files.
     Format:
-    sequence_name\tcluster_representative
+    sequence_name\tcluster_representative(\tother_info)*
     """
     clusters = {}  # Dictionary to store clusters {cluster_id: Cluster}
     grouped = defaultdict(list)
@@ -268,7 +268,8 @@ def parse_clusters_clusty(file_in: Path, skip_header: bool = True, **kwargs) -> 
         if skip_header:
             next(file)
         for line in file:
-            value, key = line.strip().split("\t")
+            parts = line.strip().split("\t")
+            value, key = parts[0], parts[1]
             grouped[key].append(value.split()[0])
 
     for idx, (key, values) in enumerate(grouped.items()):

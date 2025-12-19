@@ -9,15 +9,19 @@ workflow FASTA_CONTIG_CLUST {
     take:
     ch_fasta_fastq        // channel: [ val(meta), [ fasta ],  [ fastq ] ]
     ch_coverages          // channel: [ val(meta), [ idxstats* ] ]
-    ch_blacklist          // channel: [ val(meta), path(blacklist) ]
+    ch_blacklist          // channel: [ path(blacklist) ]
     ch_blast_db           // channel: [ val(meta), path(db) ]
     ch_blast_db_fasta     // channel: [ val(meta), path(fasta) ]
     ch_kraken2_db         // channel: [ val(meta), path(db) ]
     ch_kaiju_db           // channel: [ val(meta), path(db) ]
     contig_classifiers    // value ['kraken2','kaiju']
+    cluster_method        // value ['vsearch','cdhitest','mmseqs-linclust','mmseqs-cluster','vrhyme', 'mash']
+    identity_threshold    // value: 0.85
+    skip_precluster       // boolean
+    perc_reads_contig     // value: 5
 
     main:
-    ch_versions        = Channel.empty()
+    ch_versions        = channel.empty()
     ch_fasta           = ch_fasta_fastq.map{ meta, fasta, _fastq -> [meta, fasta] }
 
     // Blast contigs to a reference database, to find a reference genome can be used for scaffolding
@@ -37,7 +41,7 @@ workflow FASTA_CONTIG_CLUST {
         .map{meta, contigs_joined, _contigs, reads -> [meta + [ntaxa: 1], contigs_joined, reads]} // ntaxa will use later
 
     // precluster our reference hits and contigs using kraken & Kaiju to delineate contigs at a species level
-    if (!params.skip_precluster) {
+    if (!skip_precluster) {
         FASTA_CONTIG_PRECLUST (
             ch_contigs_reads,
             contig_classifiers,
@@ -51,12 +55,13 @@ workflow FASTA_CONTIG_CLUST {
     // cluster our reference hits and contigs should make this a subworkflow
     FASTA_FASTQ_CLUST (
         ch_contigs_reads,
-        params.cluster_method,
+        cluster_method,
+        identity_threshold
     )
     ch_versions = ch_versions.mix(FASTA_FASTQ_CLUST.out.versions)
 
     // if we have no coverage files, make the empty array else join with coverages
-    if (params.perc_reads_contig == 0){
+    if (perc_reads_contig == 0){
         sample_fasta_ref_contigs = fasta_ref_contigs
             .map{ meta, fasta -> [meta.sample, meta, fasta,[]] }               // add sample for join
     } else {
@@ -87,7 +92,7 @@ workflow FASTA_CONTIG_CLUST {
 
     EXTRACT_CLUSTER (
         ch_clusters_contigs_coverages,
-        params.cluster_method
+        cluster_method
     )
     ch_versions = ch_versions.mix(EXTRACT_CLUSTER.out.versions.first())
 
