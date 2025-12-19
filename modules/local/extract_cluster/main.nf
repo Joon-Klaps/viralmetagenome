@@ -46,10 +46,9 @@ process EXTRACT_CLUSTER {
     """
     touch ${prefix}_cl0_members.fa
     touch ${prefix}_cl0_centroid.fa
-    touch ${prefix}_cl0_members.txt
-    touch ${prefix}_cl0_centroid.txt
-    touch ${prefix}_summary_mqc.tsv
-    touch ${prefix}_clusters.tsv
+    touch ${prefix}_cl0.json
+    touch ${prefix}.summary_mqc.tsv
+    touch ${prefix}.clusters.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
