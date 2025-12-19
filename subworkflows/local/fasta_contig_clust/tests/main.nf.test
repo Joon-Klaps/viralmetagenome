@@ -29,7 +29,7 @@ nextflow_workflow {
 
     setup {
         run("BLAST_MAKEBLASTDB") {
-            script "../../../modules/nf-core/blast/makeblastdb/main.nf"
+            script "../../../../modules/nf-core/blast/makeblastdb/main.nf"
             process {
                 """
                 input[0] = [
@@ -73,11 +73,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -122,11 +122,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -165,11 +165,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -208,11 +208,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -251,11 +251,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -294,11 +294,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -340,11 +340,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -383,11 +383,11 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters
-                    worfklow.out.centroids_members
-                    worfklow.out.clusters_tsv
-                    worfklow.out.clusters_summary
-                    worfklow.out.no_blast_hits_mqc,
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
