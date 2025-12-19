@@ -40,11 +40,11 @@ nextflow_workflow {
             }
         }
 
-        run("UNTAR", alias: "KAJU_DB_UNTAR") {
+        run("UNTAR", alias: "KAIJU_DB_UNTAR") {
             script "../../../../modules/nf-core/untar/main.nf"
             process {
                 """
-                input = Channel.of([file(params.pipelines_testdata_base_path + '/db/kaiju.tar.gz', checkIfExists: true)])
+                input[0] = Channel.of([[id:"kaiju"],file(params.pipelines_testdata_base_path + '/db/kaiju.tar.gz', checkIfExists: true)])
                 """
             }
         }
@@ -53,7 +53,7 @@ nextflow_workflow {
             script "../../../../modules/nf-core/untar/main.nf"
             process {
                 """
-                input = Channel.of([file("https://genome-idx.s3.amazonaws.com/kraken/k2_viral_20230314.tar.gz", checkIfExists: true)])
+                input[0] = Channel.of([[id:"kraken2"],file("https://genome-idx.s3.amazonaws.com/kraken/k2_viral_20230314.tar.gz", checkIfExists: true)])
                 """
             }
         }
@@ -120,8 +120,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = KRAKEN2_DB_UNTAR.out.untar
-                input[6] = KAIJU_DB_UNTAR.out.untar
+                input[5] = KRAKEN2_DB_UNTAR.out.untar.map{ meta, db -> db }
+                input[6] = KAIJU_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[7] = ['kraken2','kaiju']
                 input[8] = "cdhitest"
                 input[9] = 0.85
@@ -462,8 +462,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = KRAKEN2_DB_UNTAR.out.untar
-                input[6] = KAIJU_DB_UNTAR.out.untar
+                input[5] = KRAKEN2_DB_UNTAR.out.untar.map{ meta, db -> db }
+                input[6] = KAIJU_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[7] = ['kraken2','kaiju']
                 input[8] = "cdhitest"
                 input[9] = 0.85
