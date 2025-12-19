@@ -10,8 +10,9 @@ include { CLUSTY           } from '../../../modules/nf-core/clusty/main'
 
 workflow FASTA_FASTQ_CLUST {
     take:
-    ch_fasta_fastq // channel: [ val(meta), [ fasta ], [ fastq ] ]
-    cluster_method // string
+    ch_fasta_fastq     // channel: [ val(meta), [ fasta ], [ fastq ] ]
+    cluster_method     // string
+    identity_threshold // value: 0.85
 
     main:
     ch_versions = channel.empty()
@@ -25,8 +26,8 @@ workflow FASTA_FASTQ_CLUST {
         ch_versions = ch_versions.mix(VSEARCH_CLUSTER.out.versions.first())
     }
     else if (cluster_method == "cdhitest") {
-        if (params.identity_threshold < 0.80) {
-            log.warn("cdhitest identity threshold is set to ${params.identity_threshold}, which is below the minimum threshold of 0.80.\n AUTOFIX: Defaulting to 0.80")
+        if (identity_threshold < 0.80) {
+            log.warn("cdhitest identity threshold is set to ${identity_threshold}, which is below the minimum threshold of 0.80.\n AUTOFIX: Defaulting to 0.80")
         }
         CDHIT_CDHITEST(ch_fasta)
 
@@ -80,7 +81,7 @@ workflow FASTA_FASTQ_CLUST {
             .branch{ _meta, dist ->
                 def line_count = dist.withInputStream { stream -> stream.readLines().take(3).size() }
                 multiple: line_count > 2
-                single: line_count <= 2 // if only one line, then singleton cluster, no need to cluster
+                single: line_count <= 2 // if only two lines, then singleton cluster, no need to cluster
             }
 
         // Determine clusters from distances
