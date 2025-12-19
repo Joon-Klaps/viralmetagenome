@@ -78,9 +78,9 @@ workflow FASTA_FASTQ_CLUST {
         // Fix bug with clusty not accepting singletons
         ch_dist = MASH_DIST.out.dist
             .branch{ _meta, dist ->
-                def line_count = dist.withInputStream { stream -> stream.readLines().take(2).size() }
-                multiple: line_count > 1
-                single: line_count <= 1 // if only one line, then singleton cluster, no need to cluster
+                def line_count = dist.withInputStream { stream -> stream.readLines().take(3).size() }
+                multiple: line_count > 2
+                single: line_count <= 2 // if only one line, then singleton cluster, no need to cluster
             }
 
         // Determine clusters from distances
