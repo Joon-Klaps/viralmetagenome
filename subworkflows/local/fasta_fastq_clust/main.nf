@@ -6,7 +6,7 @@ include { MMSEQS_CLUSTER   } from '../../../modules/nf-core/mmseqs/cluster/main'
 include { MMSEQS_CREATETSV } from '../../../modules/nf-core/mmseqs/createtsv/main'
 include { VRHYME_VRHYME    } from '../../../modules/nf-core/vrhyme/vrhyme/main'
 include { MASH_DIST        } from '../../../modules/nf-core/mash/dist/main'
-include { NETWORK_CLUSTER  } from '../../../modules/local/network_cluster/main'
+include { CLUSTY           } from '../../../modules/nf-core/clusty/main'
 
 workflow FASTA_FASTQ_CLUST {
     take:
@@ -75,15 +75,18 @@ workflow FASTA_FASTQ_CLUST {
         // Calculate distances
         MASH_DIST(ch_fasta)
         ch_versions = ch_versions.mix(MASH_DIST.out.versions.first())
-        ch_dist = MASH_DIST.out.dist
-    }
 
-    // Calculate clusters for distance based methods (mash)
-    if (cluster_method in ["mash"]) {
-        // Calculate clusters using leidenalg
-        NETWORK_CLUSTER(ch_dist, cluster_method, params.network_clustering)
-        ch_clusters = NETWORK_CLUSTER.out.clusters
-        ch_versions = ch_versions.mix(NETWORK_CLUSTER.out.versions.first())
+        // Fix bug with clusty not accepting singletons
+        ch_dist = MASH_DIST.out.dist
+            .branch{ _meta, dist ->
+                def line_count = dist.withInputStream { stream -> stream.readLines().take(2).size() }
+                multiple: line_count > 1
+                single: line_count <= 1 // if only one line, then singleton cluster, no need to cluster
+            }
+
+        // Determine clusters from distances
+        CLUSTY(ch_dist.multiple, [[:], []])
+        ch_clusters = ch_dist.single.mix(CLUSTY.out.assignments)
     }
 
     emit:
