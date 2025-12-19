@@ -39,6 +39,25 @@ nextflow_workflow {
                 """
             }
         }
+
+        run("UNTAR", alias: "KAJU_DB_UNTAR") {
+            script "../../../../modules/nf-core/untar/main.nf"
+            process {
+                """
+                input = Channel.of([file(params.pipelines_testdata_base_path + '/db/kaiju.tar.gz', checkIfExists: true)])
+                """
+            }
+        }
+
+        run("UNTAR", alias: "KRAKEN2_DB_UNTAR") {
+            script "../../../../modules/nf-core/untar/main.nf"
+            process {
+                """
+                input = Channel.of([file("https://genome-idx.s3.amazonaws.com/kraken/k2_viral_20230314.tar.gz", checkIfExists: true)])
+                """
+            }
+        }
+
     }
 
     test("sarscov2 - contigs - cdhitest - default") {
@@ -58,8 +77,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "cdhitest"
                 input[9] = 0.85
@@ -101,8 +120,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([file("https://genome-idx.s3.amazonaws.com/kraken/k2_viral_20230314.tar.gz", checkIfExists: true)])
-                input[6] = Channel.of([file(params.pipelines_testdata_base_path + '/db/kaiju.tar.gz', checkIfExists: true)])
+                input[5] = KRAKEN2_DB_UNTAR.out.untar
+                input[6] = KAIJU_DB_UNTAR.out.untar
                 input[7] = ['kraken2','kaiju']
                 input[8] = "cdhitest"
                 input[9] = 0.85
@@ -144,8 +163,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "cdhitest"
                 input[9] = 0.85
@@ -187,8 +206,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "cdhitest"
                 input[9] = 0.85
@@ -230,8 +249,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "mmseqs-linclust"
                 input[9] = 0.85
@@ -273,8 +292,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "mmseqs-cluster"
                 input[9] = 0.85
@@ -319,8 +338,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "vrhyme"
                 input[9] = 0.85
@@ -362,8 +381,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "mash"
                 input[9] = 0.85
@@ -406,8 +425,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([[id:'kraken2'], []])
-                input[6] = Channel.of([[id:'kaiju'], []])
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
                 input[7] = []
                 input[8] = "cdhitest"
                 input[9] = 0.85
@@ -443,8 +462,8 @@ nextflow_workflow {
                     [id:'sarscov2_db'],
                     file(params.pipelines_testdata_base_path + '/db/sarscov2.fasta', checkIfExists: true)
                 ])
-                input[5] = Channel.of([file("https://genome-idx.s3.amazonaws.com/kraken/k2_viral_20230314.tar.gz", checkIfExists: true)])
-                input[6] = Channel.of([file(params.pipelines_testdata_base_path + '/db/kaiju.tar.gz', checkIfExists: true)])
+                input[5] = KRAKEN2_DB_UNTAR.out.untar
+                input[6] = KAIJU_DB_UNTAR.out.untar
                 input[7] = ['kraken2','kaiju']
                 input[8] = "cdhitest"
                 input[9] = 0.85
