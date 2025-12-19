@@ -14,9 +14,8 @@ workflow FASTA_FASTQ_CLUST {
     cluster_method // string
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     ch_fasta = ch_fasta_fastq.map { meta, fasta, _fastq -> [meta, fasta] }
-    ch_dist = Channel.empty()
 
     // cluster our reference hits and contigs should make this a subworkflow
     if (cluster_method == "vsearch") {

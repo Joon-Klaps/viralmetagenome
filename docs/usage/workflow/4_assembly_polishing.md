@@ -156,7 +156,10 @@ When pre-clustering is performed, it is recommended to set a lower identity_thre
 > The clustering method can be specified with the `--clustering_method` parameter. The default is `cdhitest`.
 
 > [!NOTE]
-> The network clustering method for `mash` can be specified with the `--network_clustering` parameter. The default is `connected_components`, alternative is [`leiden`](https://www.nature.com/articles/s41598-019-41695-z).
+> The network clustering method for `mash` can be specified with the `--network_clustering` parameter. Clustering is done with [Clusty](https://github.com/refresh-bio/clusty), supporting options are: `single (default) | complete | uclust | set-cover | cd-hit | leiden`.
+> The default is `single`.
+> Image taken from Clusty documentation, see [paper](https://doi.org/10.1038/s41592-025-02701-7).
+> ![clustering-strategies](../../images/clustering-strategies.png)
 
 > [!NOTE]
 > The similarity threshold can be specified with the `--similarity_threshold` parameter. The default is `0.85`.

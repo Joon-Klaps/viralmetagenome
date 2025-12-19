@@ -13,6 +13,7 @@ from pathlib import Path
 
 import pandas as pd
 from utils.constant_variables import MASH_SCREEN_COLUMNS
+from utils.file_tools import index_fasta
 from Bio import SeqIO
 
 logger = logging.getLogger()
@@ -59,13 +60,9 @@ def parse_args(argv=None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def to_dict_remove_dups(sequences) -> dict:
-    return {record.id: record for record in sequences}
-
-
 def write_hits(df, references, prefix) -> int:
     """
-    Write contigs hits from a DataFrame to a FASTA file using memory-efficient processing.
+    Write contigs hits from a DataFrame to a FASTA file using indexed lookups.
 
     Args:
         df (pandas.DataFrame): DataFrame containing the hits information.
@@ -83,21 +80,20 @@ def write_hits(df, references, prefix) -> int:
     needed_hits = set(hit.split(" ")[0] for hit in df["query-ID"].unique())
     found_hits = set()
 
+    logger.info("Building sequence index for reference file...")
+    ref_index = index_fasta(references)
+
     with open(f"{prefix}_reference.fa", "w") as f:
         init_position = f.tell()
 
-        for record in SeqIO.parse(references, "fasta"):
-            hit_name = record.id
-            if hit_name in needed_hits:
+        for hit_name in needed_hits:
+            if hit_name in ref_index:
+                record = ref_index[hit_name]
                 # Clean up illegal characters in headers
                 record.id = record.id.replace("\\", "-")
                 record.description = record.description.replace("\\", "-")
                 SeqIO.write(record, f, "fasta")
                 found_hits.add(hit_name)
-
-                # Exit early if we found all needed sequences
-                if found_hits == needed_hits:
-                    break
 
         if f.tell() == init_position:
             logger.error("No reference sequences found in the hits. Exiting...")
@@ -106,6 +102,9 @@ def write_hits(df, references, prefix) -> int:
         missing_hits = needed_hits - found_hits
         if missing_hits:
             logger.warning(f"Could not find the following reference sequences: {', '.join(missing_hits)}")
+
+    if hasattr(ref_index, 'close'):
+        ref_index.close()
 
     # Writing best hit to JSON for metadata purposes
     df_renamed = df.copy()
