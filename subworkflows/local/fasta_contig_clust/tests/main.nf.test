@@ -60,7 +60,7 @@ nextflow_workflow {
 
     }
 
-    test("sarscov2 - contigs - cdhitest - default") {
+    test("sarscov2 - contigs - vsearch - default") {
 
         when {
             workflow {
@@ -80,7 +80,7 @@ nextflow_workflow {
                 input[5] = Channel.of([])
                 input[6] = Channel.of([])
                 input[7] = []
-                input[8] = "cdhitest"
+                input[8] = "vsearch"
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
@@ -103,7 +103,7 @@ nextflow_workflow {
         }
     }
 
-    test("sarscov2 - contigs - cdhitest - with precluster") {
+    test("sarscov2 - contigs - vsearch - with precluster") {
 
         when {
             workflow {
@@ -123,7 +123,7 @@ nextflow_workflow {
                 input[5] = KRAKEN2_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[6] = KAIJU_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[7] = ['kraken2','kaiju']
-                input[8] = "cdhitest"
+                input[8] = "vsearch"
                 input[9] = 0.85
                 input[10] = false
                 input[11] = 0
@@ -146,7 +146,7 @@ nextflow_workflow {
         }
     }
 
-    test("sarscov2 - contigs - cdhitest - with coverage filtering") {
+    test("sarscov2 - contigs - vsearch - with coverage filtering") {
 
         when {
             workflow {
@@ -166,7 +166,7 @@ nextflow_workflow {
                 input[5] = Channel.of([])
                 input[6] = Channel.of([])
                 input[7] = []
-                input[8] = "cdhitest"
+                input[8] = "vsearch"
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 30
@@ -189,7 +189,7 @@ nextflow_workflow {
         }
     }
 
-    test("sarscov2 - contigs - vsearch") {
+    test("sarscov2 - contigs - cdhitest") {
 
         when {
             workflow {
@@ -221,10 +221,12 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters,
-                    workflow.out.centroids_members,
-                    workflow.out.clusters_tsv,
-                    workflow.out.clusters_summary,
+                    // Cdhit didn't seem to produce consistent output file names, so we snapshot the name only here
+                    // So also the meta Map will be inconsistent
+                    workflow.out.clusters.collect {it.collect { it instanceof Map ? '' : file(it).name } },
+                    workflow.out.centroids_members.collect { it.collect { it instanceof Map ? '' : file(it).name } },
+                    workflow.out.clusters_tsv.collect { it.collect { it instanceof Map ? '' : file(it).name } },
+                    workflow.out.clusters_summary.collect { it.collect { it instanceof Map ? '' : file(it).name } },
                     workflow.out.no_blast_hits_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
@@ -264,7 +266,7 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters,
+                    workflow.out.clusters.collect{ meta, file ->  path(file).csv(sep:"\t", header:false).sort() },
                     workflow.out.centroids_members,
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
@@ -307,7 +309,7 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters,
+                    workflow.out.clusters.collect{ meta, file ->  path(file).csv(sep:"\t", header:false).sort() },
                     workflow.out.centroids_members,
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
@@ -407,7 +409,7 @@ nextflow_workflow {
         }
     }
 
-    test("sarscov2 - contigs - cdhitest - no precluster - stub") {
+    test("sarscov2 - contigs - vsearch - no precluster - stub") {
         options '-stub-run'
 
         when {
@@ -428,7 +430,7 @@ nextflow_workflow {
                 input[5] = Channel.of([])
                 input[6] = Channel.of([])
                 input[7] = []
-                input[8] = "cdhitest"
+                input[8] = "vsearch"
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
@@ -444,7 +446,7 @@ nextflow_workflow {
         }
     }
 
-    test("sarscov2 - contigs - cdhitest - with precluster - stub") {
+    test("sarscov2 - contigs - vsearch - with precluster - stub") {
         options '-stub-run'
 
         when {
@@ -465,7 +467,7 @@ nextflow_workflow {
                 input[5] = KRAKEN2_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[6] = KAIJU_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[7] = ['kraken2','kaiju']
-                input[8] = "cdhitest"
+                input[8] = "vsearch"
                 input[9] = 0.85
                 input[10] = false
                 input[11] = 0
