@@ -366,8 +366,10 @@ def read_coverages(coverages):
     return all_coverages
 
 def update_cluster_ids(clusters: List["Cluster"]) -> List["Cluster"]:
+    # Sort clusters by centroid name before assigning IDs
+    sorted_clusters = sorted(clusters, key=lambda c: c.centroid or "")
     updated_clusters = []
-    for idx, cluster in enumerate(clusters):
+    for idx, cluster in enumerate(sorted_clusters):
         cluster.set_cluster_id(f"cl{idx}")
         updated_clusters.append(cluster)
     return updated_clusters
@@ -593,34 +595,34 @@ def main(argv=None):
 
     logger.info("Found %s clusters.", len(cluster_list))
 
-    # redefine cluster ids
-    clusters_renamed = update_cluster_ids(cluster_list)
-    logger.info("Renamed cluster ids.")
-
     # Remove clusters with no members and external reference
-    filtered_clusters = filter_members(clusters_renamed, args.pattern)
+    filtered_clusters = filter_members(cluster_list, args.pattern)
     logger.info("Filtered clusters by members, %s were removed.",
-        len(clusters_renamed) - len(filtered_clusters))
+        len(cluster_list) - len(filtered_clusters))
 
     # Set external reference, used to know if it needs to collapse or called consensus normally
     logger.info("Setting external reference for clusters.")
     for cluster in filtered_clusters:
         cluster.set_external_reference(args.pattern)
 
-    clusters = filtered_clusters.copy()
+    # redefine cluster ids
+    clusters_renamed = update_cluster_ids(filtered_clusters)
+    logger.info("Renamed cluster ids.")
+
+    clusters = clusters_renamed.copy()
     # Filter clusters by coverage
     if args.coverages:
         coverages = read_coverages(args.coverages)
-        clusters, filtered_clusters = filter_clusters_by_coverage(filtered_clusters, coverages, args.perc_reads_contig, args.keep_clusters)
+        clusters, clusters_renamed = filter_clusters_by_coverage(clusters_renamed, coverages, args.perc_reads_contig, args.keep_clusters)
         logger.info("Filtered clusters by coverage, %s were removed.",
-            len(clusters_renamed) - len(filtered_clusters))
+            len(filtered_clusters) - len(clusters_renamed))
 
-    assert len(filtered_clusters) != 0, "No clusters left after filtering."
+    assert len(clusters_renamed) != 0, "No clusters left after filtering."
 
     # Write the clusters to files
     logger.info("Writing results to files.")
     write_clusters_to_tsv(clusters, args.prefix)
-    write_clusters(filtered_clusters, args.seq, args.prefix, len(clusters))
+    write_clusters(clusters_renamed, args.seq, args.prefix, len(clusters))
 
     return 0
 
