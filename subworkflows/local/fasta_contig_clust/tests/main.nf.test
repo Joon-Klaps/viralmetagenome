@@ -266,7 +266,7 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters.collect{ meta, file ->  path(file).csv(sep:"\t", header:false).sort() },
+                    workflow.out.clusters.collect{ meta, file ->  path(file).csv(sep:"\t", header:false).table.structure() },
                     workflow.out.centroids_members,
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
@@ -309,7 +309,7 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.clusters.collect{ meta, file ->  path(file).csv(sep:"\t", header:false).sort() },
+                    workflow.out.clusters.collect{ meta, file ->  path(file).csv(sep:"\t", header:false).table.structure() },
                     workflow.out.centroids_members,
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
