@@ -46,10 +46,19 @@ process EXTRACT_CLUSTER {
     """
     touch ${prefix}_cl0_members.fa
     touch ${prefix}_cl0_centroid.fa
-    touch ${prefix}_cl0_members.txt
-    touch ${prefix}_cl0_centroid.txt
-    touch ${prefix}_summary_mqc.tsv
-    touch ${prefix}_clusters.tsv
+    cat <<-END_JSON > ${prefix}_cl0.json
+    {
+        "cluster_id": "cl0",
+        "centroid": "stub_centroid",
+        "cluster_size": 1,
+        "cumulative_read_depth": 0.0,
+        "external_reference": null,
+        "members": ["stub_member"],
+        "taxid": null
+    }
+    END_JSON
+    touch ${prefix}.summary_mqc.tsv
+    touch ${prefix}.clusters.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

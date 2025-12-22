@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Add subworkflow tests of `fasta_fastq_clust` and `fasta_contig_clust` [#253](https://github.com/nf-core/viralmetagenome/pull/253) (by @Joon-Klaps)
+
 ### `Fixed`
 
 - Fix memory issues for `network_cluster` [#105](https://github.com/nf-core/viralmetagenome/issues/105) by switching to Clusty [#251](https://github.com/nf-core/viralmetagenome/pull/251) (by @Joon-Klaps)
 - Improve memory efficiency and speed of FASTA sequence extraction [#252](https://github.com/nf-core/viralmetagenome/pull/252) (by @Joon-Klaps)
+- Fix bug of `clusty` not handling single genome distance files well [#253](https://github.com/nf-core/viralmetagenome/pull/253) (by @Joon-Klaps)
 
 ### `Dependencies`
 
