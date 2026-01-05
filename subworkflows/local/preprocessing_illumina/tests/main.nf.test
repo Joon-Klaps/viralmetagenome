@@ -3,7 +3,7 @@ nextflow_workflow {
     name "Test Workflow PREPROCESSING_ILLUMINA"
     script "../main.nf"
     workflow "PREPROCESSING_ILLUMINA"
-    config './nextflow.config'
+    config "./nextflow.config"
 
     tag "subworkflows"
     tag "subworkflows_local"
@@ -29,7 +29,7 @@ nextflow_workflow {
                 """
                 input[0] = Channel.of([
                     [id:"kraken2_host"],
-                    file(params.pipelines_testdata_base_path + 'viralmetagenome/db/kraken2_hs22.tar.gz', checkIfExists: true)
+                    file(params.pipelines_testdata_base_path + '/db/kraken2_hs22.tar.gz', checkIfExists: true)
                 ])
                 """
             }
@@ -48,6 +48,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -55,8 +56,11 @@ nextflow_workflow {
                 deduplicate               = false
                 merge_reads               = false
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                fastp_args                = ''
+                skip_host_fastqc          = true
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -77,10 +81,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
+                { assert workflow.out.mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_trimmed.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_decomplexified.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -99,6 +105,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -106,8 +113,11 @@ nextflow_workflow {
                 deduplicate               = false
                 merge_reads               = false
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                trimmomatic_args          = 'ILLUMINACLIP:TruSeq3-PE:2:30:10'
+                skip_host_fastqc          = true
+                arguments_trimmomatic     = 'ILLUMINACLIP:TruSeq3-PE:2:30:10'
+                arguments_fastp           = ''
             }
             workflow {
                 """
@@ -128,10 +138,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
+                { assert workflow.out.mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_trimmed.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_decomplexified.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -158,8 +170,11 @@ nextflow_workflow {
                 deduplicate               = true
                 merge_reads               = false
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                fastp_args                = ''
+                skip_host_fastqc          = true
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -180,9 +195,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
+                { assert workflow.out.mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_trimmed.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -201,6 +219,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -208,8 +227,11 @@ nextflow_workflow {
                 deduplicate               = false
                 merge_reads               = true
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                fastp_args                = ''
+                skip_host_fastqc          = true
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -239,8 +261,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
+                { assert workflow.out.mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -259,6 +285,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -268,7 +295,9 @@ nextflow_workflow {
                 skip_complexity_filtering = false
                 decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                fastp_args                = ''
+                skip_host_fastqc          = true
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -291,9 +320,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
+                { assert workflow.out.mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_decomplexified.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -312,6 +344,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -321,7 +354,9 @@ nextflow_workflow {
                 skip_complexity_filtering = false
                 decomplexifier            = 'prinseq'
                 skip_hostremoval          = true
-                fastp_args                = ''
+                skip_host_fastqc          = true
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -342,9 +377,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
+                { assert workflow.out.mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_decomplexified.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -363,6 +401,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -370,9 +409,11 @@ nextflow_workflow {
                 deduplicate               = false
                 merge_reads               = false
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = false
                 skip_host_fastqc          = true
-                fastp_args                = ''
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -393,8 +434,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
+                { assert workflow.out.mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -413,6 +458,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -423,7 +469,8 @@ nextflow_workflow {
                 decomplexifier            = 'bbduk'
                 skip_hostremoval          = false
                 skip_host_fastqc          = true
-                fastp_args                = ''
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -449,9 +496,9 @@ nextflow_workflow {
                 { assert workflow.out.mqc },
                 { assert workflow.out.low_reads_mqc },
                 { assert snapshot(
-                    workflow.out.reads.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_trimmed.collect { meta, reads -> [meta, reads.collect { it.name }] },
-                    workflow.out.reads_decomplexified.collect { meta, reads -> [meta, reads.collect { it.name }] },
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -470,6 +517,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -477,8 +525,11 @@ nextflow_workflow {
                 deduplicate               = false
                 merge_reads               = false
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                fastp_args                = ''
+                skip_host_fastqc          = true
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -499,8 +550,12 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert workflow.out.low_reads_mqc },
+                { assert workflow.out.mqc },
                 { assert snapshot(
+                    workflow.out.reads,
+                    workflow.out.reads_trimmed,
+                    workflow.out.reads_decomplexified,
+                    workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
@@ -520,6 +575,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -527,8 +583,11 @@ nextflow_workflow {
                 deduplicate               = false
                 merge_reads               = false
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                trimmomatic_args          = 'ILLUMINACLIP:TruSeq3-PE:2:30:10'
+                skip_host_fastqc          = true
+                arguments_trimmomatic     = 'ILLUMINACLIP:TruSeq3-PE:2:30:10'
+                arguments_fastp           = ''
             }
             workflow {
                 """
@@ -567,6 +626,7 @@ nextflow_workflow {
                 with_umi                  = false
                 skip_umi_extract          = false
                 umi_discard_read          = 1
+                umi_deduplicate           = 'read'
                 skip_trimming             = false
                 save_trimmed_fail         = false
                 save_merged               = false
@@ -574,8 +634,11 @@ nextflow_workflow {
                 deduplicate               = false
                 merge_reads               = false
                 skip_complexity_filtering = true
+                decomplexifier            = 'bbduk'
                 skip_hostremoval          = true
-                fastp_args                = ''
+                skip_host_fastqc          = true
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
@@ -625,7 +688,8 @@ nextflow_workflow {
                 decomplexifier            = 'bbduk'
                 skip_hostremoval          = false
                 skip_host_fastqc          = true
-                fastp_args                = ''
+                arguments_fastp           = ''
+                arguments_trimmomatic     = ''
             }
             workflow {
                 """
