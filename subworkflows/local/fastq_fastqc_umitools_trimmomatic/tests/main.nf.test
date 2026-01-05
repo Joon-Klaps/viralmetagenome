@@ -26,7 +26,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args  = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -57,16 +57,67 @@ nextflow_workflow {
                 { assert workflow.out.fastqc_raw_zip },
                 { assert workflow.out.fastqc_trim_html },
                 { assert workflow.out.fastqc_trim_zip },
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
                         workflow.out.trim_reads_fail,
                         workflow.out.trim_reads_merged,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("sarscov2 single-end [fastq]") {
+
+        when {
+            params {
+                skip_fastqc       = false
+                with_umi          = false
+                skip_umi_extract  = false
+                umi_discard_read  = 1
+                skip_trimming     = false
+                save_trimmed_fail = false
+                save_merged       = false
+                min_trimmed_reads = 1
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-SE:2:30:10"
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test', single_end:true ], // meta map
+                    [file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true)],
+                ])
+                input[1] = params.skip_fastqc
+                input[2] = params.with_umi
+                input[3] = params.skip_umi_extract
+                input[4] = params.umi_discard_read
+                input[5] = params.skip_trimming
+                input[6] = params.save_trimmed_fail
+                input[7] = params.save_merged
+                input[8] = params.min_trimmed_reads
+                """
+            }
+        }
+
+        then {
+            assert workflow.success
+            assertAll(
+                { assert workflow.out.fastqc_raw_html },
+                { assert workflow.out.fastqc_raw_zip },
+                { assert workflow.out.trim_summ },
+                { assert workflow.out.trim_log },
+                { assert snapshot(
+                        workflow.out.reads,
+                        workflow.out.trim_read_count,
+                        workflow.out.trim_reads_fail,
+                        workflow.out.trim_reads_merged,
+                        workflow.out.umi_log,
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -85,7 +136,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -123,7 +174,7 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -142,7 +193,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -177,7 +228,7 @@ nextflow_workflow {
                         workflow.out.reads,
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -197,7 +248,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -235,7 +286,7 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -254,7 +305,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -292,7 +343,7 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -311,7 +362,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -350,7 +401,7 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -369,7 +420,7 @@ nextflow_workflow {
                 save_trimmed_fail = true
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = "-e 30"
+                trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -407,7 +458,7 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -426,7 +477,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = true
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -464,7 +515,7 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -484,7 +535,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = true
                 min_trimmed_reads = 26
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -522,7 +573,7 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions
+                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -542,7 +593,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -587,7 +638,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -632,7 +683,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -678,7 +729,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -723,7 +774,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -768,7 +819,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = false
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -805,7 +856,7 @@ nextflow_workflow {
                     workflow.out.trim_read_count,
                     workflow.out.trim_unpaired_reads,
                     workflow.out.umi_log,
-                    workflow.out.versions).match() }
+                    workflow.out.versions.collect { path(it).yaml }.unique()).match() }
             )
         }
     }
@@ -868,7 +919,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = true
                 min_trimmed_reads = 1
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
@@ -914,7 +965,7 @@ nextflow_workflow {
                 save_trimmed_fail = false
                 save_merged       = true
                 min_trimmed_reads = 26
-                trimmomatic_args        = ""
+                trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
                 """
