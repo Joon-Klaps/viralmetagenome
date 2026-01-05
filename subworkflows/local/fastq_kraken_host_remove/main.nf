@@ -50,7 +50,9 @@ workflow FASTQ_KRAKEN_HOST_REMOVE {
 
 def getReadsAfterHostRemove(tsv) {
     def n_reads = 0
-    def firstLine = tsv.readLines().first()
+    def lines = tsv.readLines()
+    if (!lines) return 0
+    def firstLine = lines.first()
     if (firstLine =~ /(unclassified)/) {
         def valuePart = firstLine.split('\t')[1]
         // Fetching the value from the second column
