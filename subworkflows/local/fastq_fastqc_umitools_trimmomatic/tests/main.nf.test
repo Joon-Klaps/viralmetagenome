@@ -112,18 +112,16 @@ nextflow_workflow {
         then {
             assert workflow.success
             assertAll(
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert !workflow.out.fastqc_raw_html },
                 { assert !workflow.out.fastqc_raw_zip },
                 { assert !workflow.out.fastqc_trim_html },
                 { assert !workflow.out.fastqc_trim_zip },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
                         workflow.out.versions
                     ).match()
@@ -173,14 +171,12 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.out.fastqc_raw_html },
                 { assert workflow.out.fastqc_raw_zip },
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.versions
                     ).match()
                 }
@@ -232,14 +228,12 @@ nextflow_workflow {
                 { assert workflow.out.fastqc_raw_zip },
                 { assert workflow.out.fastqc_trim_html },
                 { assert workflow.out.fastqc_trim_zip },
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
                         workflow.out.versions
                     ).match()
@@ -291,14 +285,12 @@ nextflow_workflow {
                 { assert workflow.out.fastqc_raw_zip },
                 { assert workflow.out.fastqc_trim_html },
                 { assert workflow.out.fastqc_trim_zip },
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
                         workflow.out.versions
                     ).match()
@@ -350,15 +342,13 @@ nextflow_workflow {
                 { assert workflow.out.fastqc_raw_zip },
                 { assert !workflow.out.fastqc_trim_html },
                 { assert !workflow.out.fastqc_trim_zip },
-                { assert !workflow.out.trim_html },
+                { assert !workflow.out.trim_summ },
                 { assert !workflow.out.trim_log },
                 { assert snapshot(
                         // If we skip trimming then input is output, so not snapshotting
-                        workflow.out.adapter_seq,
                         workflow.out.reads.get(0).get(0), // Reads meta map
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
                         workflow.out.versions
                     ).match()
@@ -410,14 +400,12 @@ nextflow_workflow {
                 { assert workflow.out.fastqc_raw_zip },
                 { assert workflow.out.fastqc_trim_html },
                 { assert workflow.out.fastqc_trim_zip },
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
                         workflow.out.versions
                     ).match()
@@ -469,14 +457,12 @@ nextflow_workflow {
                 { assert workflow.out.fastqc_raw_zip },
                 { assert workflow.out.fastqc_trim_html },
                 { assert workflow.out.fastqc_trim_zip },
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
                         workflow.out.versions
                     ).match()
@@ -529,14 +515,12 @@ nextflow_workflow {
                 { assert workflow.out.fastqc_raw_zip },
                 { assert workflow.out.fastqc_trim_html },
                 { assert workflow.out.fastqc_trim_zip },
-                { assert workflow.out.trim_html },
+                { assert workflow.out.trim_summ },
                 { assert workflow.out.trim_log },
                 { assert snapshot(
-                        workflow.out.adapter_seq,
                         workflow.out.reads,
                         workflow.out.trim_read_count,
-                        workflow.out.trim_reads_fail,
-                        workflow.out.trim_reads_merged,
+                        workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
                         workflow.out.versions
                     ).match()
@@ -812,17 +796,14 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.adapter_seq,
                     workflow.out.fastqc_raw_html,
                     workflow.out.fastqc_raw_zip,
                     workflow.out.fastqc_trim_html,
                     workflow.out.fastqc_trim_zip,
-                    workflow.out.trim_html,
-                    workflow.out.trim_json,
+                    workflow.out.trim_summ,
                     workflow.out.trim_log,
                     workflow.out.trim_read_count,
-                    workflow.out.trim_reads_fail,
-                    workflow.out.trim_reads_merged,
+                    workflow.out.trim_unpaired_reads,
                     workflow.out.umi_log,
                     workflow.out.versions).match() }
             )

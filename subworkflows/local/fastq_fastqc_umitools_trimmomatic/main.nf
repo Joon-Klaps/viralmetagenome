@@ -7,6 +7,24 @@ include { FASTQC as FASTQC_TRIM } from '../../../modules/nf-core/fastqc/main'
 include { UMITOOLS_EXTRACT      } from '../../../modules/nf-core/umitools/extract/main'
 include { TRIMMOMATIC           } from '../../../modules/nf-core/trimmomatic/main'
 
+
+def getTrimmomaticReadsAfterFiltering(log_file) {
+    def total_reads = 0
+    def filtered_reads = 0
+    log_file.eachLine { line ->
+        def total_reads_matcher = line =~ /Input Read Pairs:\s([\d\.]+)/
+        def filtered_reads_matcher = line =~ /Dropped Reads:\s([\d\.]+)/
+        if (total_reads_matcher) {
+            total_reads = total_reads_matcher[0][1].toFloat()
+        }
+        if (filtered_reads_matcher) {
+            filtered_reads = filtered_reads_matcher[0][1].toFloat()
+        }
+    }
+    return total_reads - filtered_reads
+}
+
+
 workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     take:
     ch_reads          // channel: [ val(meta), [ reads ] ]
@@ -89,31 +107,15 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     }
 
     emit:
-    reads                  = ch_trim_reads // channel: [ val(meta), [ reads ] ]
-    ch_fastqc_raw_html     // channel: [ val(meta), [ html ] ]
-    ch_fastqc_raw_zip      // channel: [ val(meta), [ zip ] ]
-    ch_umi_log             // channel: [ val(meta), [ log ] ]
-    ch_trim_summ           // channel: [ val(meta), [ summ ] ]
-    ch_trim_log            // channel: [ val(meta), [ log ] ]
-    ch_trim_unpaired_reads // channel: [ val(meta), [ fastq.gz ] ]
-    ch_trim_read_count     // channel: [ val(meta), val(count) ]
-    ch_fastqc_trim_html    // channel: [ val(meta), [ html ] ]
-    ch_fastqc_trim_zip     // channel: [ val(meta), [ zip ] ]
-    versions               = ch_versions.ifEmpty(null) // channel: [ versions.yml ]
-}
-
-def getTrimmomaticReadsAfterFiltering(log_file) {
-    def total_reads = 0
-    def filtered_reads = 0
-    log_file.eachLine { line ->
-        def total_reads_matcher = line =~ /Input Read Pairs:\s([\d\.]+)/
-        def filtered_reads_matcher = line =~ /Dropped Reads:\s([\d\.]+)/
-        if (total_reads_matcher) {
-            total_reads = total_reads_matcher[0][1].toFloat()
-        }
-        if (filtered_reads_matcher) {
-            filtered_reads = filtered_reads_matcher[0][1].toFloat()
-        }
-    }
-    return total_reads - filtered_reads
+    reads               = ch_trim_reads          // channel: [ val(meta), [ reads ] ]
+    fastqc_raw_html     = ch_fastqc_raw_html     // channel: [ val(meta), [ html ] ]
+    fastqc_raw_zip      = ch_fastqc_raw_zip      // channel: [ val(meta), [ zip ] ]
+    umi_log             = ch_umi_log             // channel: [ val(meta), [ log ] ]
+    trim_summ           = ch_trim_summ           // channel: [ val(meta), [ summ ] ]
+    trim_log            = ch_trim_log            // channel: [ val(meta), [ log ] ]
+    trim_unpaired_reads = ch_trim_unpaired_reads // channel: [ val(meta), [ fastq.gz ] ]
+    trim_read_count     = ch_trim_read_count     // channel: [ val(meta), val(count) ]
+    fastqc_trim_html    = ch_fastqc_trim_html    // channel: [ val(meta), [ html ] ]
+    fastqc_trim_zip     = ch_fastqc_trim_zip     // channel: [ val(meta), [ zip ] ]
+    versions            = ch_versions.ifEmpty(null) // channel: [ versions.yml ]
 }
