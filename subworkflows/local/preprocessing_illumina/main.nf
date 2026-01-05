@@ -6,7 +6,7 @@ include { HUMID                              } from '../../../modules/nf-core/hu
 include { BBMAP_BBDUK                        } from '../../../modules/nf-core/bbmap/bbduk/main'
 include { CAT_FASTQ                          } from '../../../modules/nf-core/cat/fastq/main'
 include { FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC  } from '../fastq_fastqc_umitools_trimmomatic'
-include { FASTQ_FASTQC_UMITOOLS_FASTP        } from '../../nf-core/fastq_fastqc_umitools_fastp'
+include { FASTQ_FASTQC_UMITOOLS_FASTP        } from '../../nf-core/fastq_fastqc_umitools_fastp/main'
 include { FASTQ_KRAKEN_HOST_REMOVE           } from '../fastq_kraken_host_remove'
 
 workflow PREPROCESSING_ILLUMINA {
@@ -46,9 +46,6 @@ workflow PREPROCESSING_ILLUMINA {
     }
     else if (params.trim_tool == 'fastp') {
         fastp_reads = ch_reads.combine(ch_adapter_fasta)
-            .map { meta, reads, adapter ->
-                [meta, reads, adapter ?: []]
-            }
 
         FASTQ_FASTQC_UMITOOLS_FASTP (
             fastp_reads,
