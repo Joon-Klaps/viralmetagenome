@@ -97,16 +97,16 @@ The pre-clustering step can be used to simplify the taxonomy of the contigs, let
 
 - Make sure your contamination database is up to date and removes the relevant taxa.
 - Exclude unclassified contigs with `--arguments_extract_precluster "--keep-unclassified false"` parameter.
-- Simplify the taxonomy of the contigs to a higher rank using `--arguments_extract_precluster "--precluster-simplify-taxa <value>"` parameter (1).
-- Specify the taxa to include or exclude with `--arguments_extract_precluster "--precluster-include-children <taxa>"`, `--arguments_extract_precluster "--precluster-include-parents <taxa>"`, `--arguments_extract_precluster "--precluster-exclude-children <taxa>"`, `--arguments_extract_precluster "--precluster-exclude-parents <taxa>"`, `--arguments_extract_precluster "--precluster-exclude-taxa <taxa>"` parameters.
+- Simplify the taxonomy of the contigs to a higher rank using `--arguments_extract_precluster "--simplification-level <value>"` parameter (1).
+- Specify the taxa to include or exclude with `--arguments_extract_precluster "--include-children <taxa>"`, `--arguments_extract_precluster "--include-parents <taxa>"`, `--arguments_extract_precluster "--exclude-children <taxa>"`, `--arguments_extract_precluster "--exclude-parents <taxa>"`, `--arguments_extract_precluster "--exclude-taxa <taxa>"` parameters.
 
 :::warning
-Providing lists to the extract precluster script is done by encapsulating values with `"` and separating them with a space. For example: `--arguments_extract_precluster "--precluster-exclude-taxa taxon1 taxon2 taxon3"`.
+Providing lists to the extract precluster script is done by encapsulating values with `"` and separating them with a space. For example: `--arguments_extract_precluster "--exclude-taxa taxon1 taxon2 taxon3"`.
 :::
 
 1. Options here are 'species', 'genus', 'family', 'order', 'class', 'phylum', 'kingdom' or 'superkingdom'.
 
-2. `--precluster_include_children` **"genus1"** :
+2. `--include-children` **"genus1"** :
 
    ```mermaid
    graph TD;
@@ -119,7 +119,7 @@ Providing lists to the extract precluster script is done by encapsulating values
 
    Dotted lines represent exclusion of taxa.
 
-3. `--precluster_include_parents` **"species3"** :
+3. `--include-parents` **"species3"** :
 
    ```mermaid
    graph TD;
@@ -133,7 +133,7 @@ Providing lists to the extract precluster script is done by encapsulating values
    Dotted lines represent exclusion of taxa.
 
 > [!NOTE]
-> The pre-clustering step will be run by default but can be skipped with the argument `--skip_preclustering`. Specify which classifier to use with `--precluster_classifiers` parameter. The default is `kaiju,kraken2`. Contig taxon filtering is still enabled despite not having to solve for inconsistencies if only Kaiju or Kraken2 is run.
+> The pre-clustering step will be run by default but can be skipped with the argument `--skip_precluster`. Specify which classifier to use with `--precluster_classifiers` parameter. The default is `kaiju,kraken2`. Contig taxon filtering is still enabled despite not having to solve for inconsistencies if only Kaiju or Kraken2 is run.
 
 ### 5.2 Actual clustering on nucleotide similarity
 
@@ -153,7 +153,7 @@ When pre-clustering is performed, it is recommended to set a lower identity_thre
 :::
 
 > [!NOTE]
-> The clustering method can be specified with the `--clustering_method` parameter. The default is `cdhitest`.
+> The clustering method can be specified with the `--cluster_method` parameter. The default is `cdhitest`.
 
 > [!NOTE]
 > The network clustering method for `mash` can be specified with the `--network_clustering` parameter. Clustering is done with [Clusty](https://github.com/refresh-bio/clusty), supporting options are: `single (default) | complete | uclust | set-cover | cd-hit | leiden`.
@@ -162,7 +162,7 @@ When pre-clustering is performed, it is recommended to set a lower identity_thre
 > ![clustering-strategies](../../images/clustering-strategies.png)
 
 > [!NOTE]
-> The similarity threshold can be specified with the `--similarity_threshold` parameter. The default is `0.85`.
+> The identity threshold can be specified with the `--identity_threshold` parameter. The default is `0.85`.
 
 ## 6. Coverage filtering
 
