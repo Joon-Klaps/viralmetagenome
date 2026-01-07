@@ -72,7 +72,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -129,7 +129,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -186,7 +186,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -252,7 +252,7 @@ nextflow_workflow {
                     ]
                 )
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -309,7 +309,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
@@ -368,7 +368,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -376,12 +376,12 @@ nextflow_workflow {
 
         then {
             assertAll(
-                { assert workflow.success },
-                { assert workflow.out.mqc },
+                { assert workflow.success                  },
+                { assert workflow.out.mqc                  },
+                { assert workflow.out.reads                }, // prinseq not determinstic output could use nft-fastq later
+                { assert workflow.out.reads_decomplexified }, // prinseq not determinstic output could use nft-fastq later
                 { assert snapshot(
-                    workflow.out.reads,
                     workflow.out.reads_trimmed,
-                    workflow.out.reads_decomplexified,
                     workflow.out.low_reads_mqc,
                     workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
@@ -425,7 +425,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = KRAKEN2_HOST_DB_UNTAR.out.untar.map{ meta, db -> db }
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -482,7 +482,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = KRAKEN2_HOST_DB_UNTAR.out.untar.map{ meta, db -> db }
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
@@ -541,7 +541,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -599,7 +599,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -650,7 +650,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = Channel.of([])
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([])
                 """
             }
@@ -701,7 +701,7 @@ nextflow_workflow {
                     ]
                 ])
                 input[1] = KRAKEN2_HOST_DB_UNTAR.out.untar.map{ meta, db -> db }
-                input[2] = Channel.of([])
+                input[2] = []
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
