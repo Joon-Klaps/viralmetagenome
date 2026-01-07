@@ -16,9 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve memory efficiency and speed of FASTA sequence extraction [#252](https://github.com/nf-core/viralmetagenome/pull/252) (by @Joon-Klaps)
 - Fix bug of `clusty` not handling single genome distance files well [#253](https://github.com/nf-core/viralmetagenome/pull/253) (by @Joon-Klaps)
 - Fix reported trimmomatic bug [#254](https://github.com/nf-core/viralmetagenome/issues/254) 'no such variable "trim_read_count"'  [#255](https://github.com/nf-core/viralmetagenome/pull/255) (by @Joon-Klaps)
-
-
-
+- Fix descrepancy of documentation and actual arguments [#256](https://github.com/nf-core/viralmetagenome/pull/256) (by @Joon-Klaps)
 
 ### `Dependencies`
 
