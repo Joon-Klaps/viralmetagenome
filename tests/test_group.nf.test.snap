@@ -301,12 +301,12 @@
                 "multiqc/multiqc_report.html"
             ],
             [
-                "bcftools-stats-subtypes.txt:md5,4e33e7505788bbf1bbb2e2f4921fc909",
-                "bcftools_stats_indel-lengths.txt:md5,21780853fb10b4db53c0e1ed71c48ac6",
-                "bcftools_stats_vqc_Count_Indels.txt:md5,28c0f9d2ab2725d65b7aacb4bc2326d1",
-                "bcftools_stats_vqc_Count_SNP.txt:md5,0f2468d6e0eee105b125a913368ba49b",
-                "bcftools_stats_vqc_Count_Transitions.txt:md5,73a94a63a8692ddbf3b0526b2b0305d8",
-                "bcftools_stats_vqc_Count_Transversions.txt:md5,ac016d96b6032caf337774c68cea5caa",
+                "bcftools-stats-subtypes.txt:md5,52128ecfcc0ecff031860c3c13008205",
+                "bcftools_stats_indel-lengths.txt:md5,fdd9977d33fe30837f181d7c50685c2f",
+                "bcftools_stats_vqc_Count_Indels.txt:md5,23aeb5ed2637c22b6d234d5c0720ee0c",
+                "bcftools_stats_vqc_Count_SNP.txt:md5,eb50640a5294afa8236e318cb4bc50fd",
+                "bcftools_stats_vqc_Count_Transitions.txt:md5,a658a6d5597f6bc079ca73168c9a1a9a",
+                "bcftools_stats_vqc_Count_Transversions.txt:md5,858bc39e6959eba78b6465225194f520",
                 "fastp-insert-size-plot.txt:md5,88cbc0b63ec5db59422cd18165982244",
                 "fastp-seq-content-gc-plot_Read_1_After_filtering.txt:md5,c66a40670c5e53105dbdc04e13f8f87c",
                 "fastp-seq-content-gc-plot_Read_1_Before_filtering.txt:md5,b1d2900033deb3dcc8d4008c796f7e0b",
@@ -328,10 +328,10 @@
                 "kraken-top-n-plot_Order.txt:md5,50e2250a76ad5cc7ce570368a1ef511a",
                 "kraken-top-n-plot_Phylum.txt:md5,84eba334501203cab76c9455bffb2b13",
                 "kraken-top-n-plot_Unclassified.txt:md5,199235d6b19832c5c4fb6d628cbfd093",
-                "multiqc_bcftools_stats.yaml:md5,3c53b3b28807bd3eab4b94b57fac5d67",
+                "multiqc_bcftools_stats.yaml:md5,5beaf107b35b606c3767f04a2357f308",
                 "multiqc_citations.txt:md5,ca5ee81b05f0cec3ad44e1557f2cddce",
                 "multiqc_fastp.yaml:md5,026ddce976be37fdd4ec2f5763cbc565",
-                "multiqc_ivar_variants.yaml:md5,93fad84037e696190bc6f67e95d56c4f",
+                "multiqc_ivar_variants.yaml:md5,1c83e28c5b4fee29d04c5204b5968e58",
                 "multiqc_kraken.yaml:md5,e99428ff4e79a9363d39040f3913329f",
                 "multiqc_quast_quast_megahit.yaml:md5,a2c42eb8ca1a589c1113da11866b54d0",
                 "multiqc_quast_quast_spades.yaml:md5,43c2e896899692b9b9702d089ae4cb1b",
@@ -342,8 +342,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-24T18:05:58.471922549"
+        "timestamp": "2026-01-08T10:19:36.514273234"
     }
 }
