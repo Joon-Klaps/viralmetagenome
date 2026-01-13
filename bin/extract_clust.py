@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+import pandas as pd
 from Bio import SeqIO
 from utils.file_tools import index_fasta
 
@@ -23,6 +24,13 @@ logger = logging.getLogger()
 
 # Global variables
 PATTERN = "^(TRINITY)|(NODE)|(k\d+)|(scaffold\d+)"
+
+# Pre-compiled regex patterns for assembler detection (used in sum_dict_values_by_assembler)
+ASSEMBLER_PATTERNS = {
+    "spades": re.compile(r"^(spades)|(NODE)"),
+    "megahit": re.compile(r"^(megahit)|(k\d+)"),
+    "trinity": re.compile(r"^(trinity)|(TRINITY)"),
+}
 
 class Cluster:
     """
@@ -196,91 +204,125 @@ def parse_clusters_chdit(file_in: Path, **kwargs) -> List["Cluster"]:
         cluster = Cluster(current_cluster_id, current_centroid, current_members, taxid=taxid)
         clusters.append(cluster)
 
-    return clusters.copy()
+    return clusters
 
 def parse_clusters_mmseqs(file_in: Path, **kwargs) -> List["Cluster"]:
-    """Extract sequence names from mmseqs createtsv output."""
-    # Dictionary to store clusters {cluster_id: Cluster}
-    clusters = {}
+    """
+    Extract sequence names from mmseqs createtsv output.
+
+    Format:
+    Centroid\tMember1\n
+    Centroid\tMember2\n
+    ...
+
+    """
     taxid = get_taxid(file_in)
 
-    with open(file_in, "rt") as file:
-        for line in file:
-            centroid_name, member_name = line.strip().split("\t")
-            cluster_id = f"cl{len(clusters)}"  # Generate unique cluster ID
+    # Read TSV in one shot with pandas - this is highly optimized C code
+    df = pd.read_csv(file_in, sep="\t", header=None, names=["centroid", "member"], dtype=str)
 
-            # Check if centroid already exists in clusters
-            existing_cluster = next((c for c in clusters.values() if c.centroid == centroid_name), None)
+    # Group by centroid and aggregate members into lists - vectorized operation
+    grouped = df.groupby("centroid", sort=False)["member"].apply(list).reset_index()
 
-            if existing_cluster:
-                existing_cluster.members.append(member_name)
-                existing_cluster.cluster_size = len(existing_cluster.members)
-            else:
-                new_cluster = Cluster(cluster_id, centroid_name, [], taxid=taxid)
-                clusters[cluster_id] = new_cluster
-    return list(clusters.values())
+    # Assign cluster IDs based on order of first occurrence
+    clusters = []
+    for idx, row in enumerate(grouped.itertuples(index=False)):
+        centroid_name = row.centroid
+        members = row.member
+        # Members list includes the centroid itself in mmseqs output, filter it out
+        members_filtered = [m for m in members if m != centroid_name]
+        cluster = Cluster(f"cl{idx}", centroid_name, members_filtered, taxid=taxid)
+        clusters.append(cluster)
+
+    return clusters
 
 def parse_clusters_vsearch(file_in: Path, **kwargs) -> List["Cluster"]:
-    """Extract sequence names from vsearch gzipped cluster files."""
-    # Dictionary to store clusters {cluster_id: Cluster}
-    clusters = {}
+    """
+    Extract sequence names from vsearch gzipped cluster files.
+
+    Format:
+    record_type\tcluster_id\tlength\tidentity\tstrand\tunused\tunused\tcigar\tquery\ttarget\n
+    where record_type is one of S (seed), H (hit), or C (cluster
+    for cluster summary).
+
+    """
     taxid = get_taxid(file_in)
 
-    with gzip.open(file_in, "rt") as file:
-        for line in file:
-            line = line.strip()
+    # Read gzipped file with pandas
+    # UC format: record_type, cluster_id, length, identity, strand, unused, unused, cigar, query, target
+    df = pd.read_csv(
+        file_in,
+        sep="\t",
+        header=None,
+        names=["type", "cluster_id", "length", "identity", "strand", "col5", "col6", "cigar", "query", "target"],
+        dtype={"type": str, "cluster_id": str, "query": str, "target": str},
+        compression="gzip",
+        usecols=["type", "cluster_id", "query"],  # Only read needed columns
+    )
 
-            if line.startswith("C\t"):
-                continue  # Skip the centroid line
+    # Filter out C (cluster) records - we only need S (seed) and H (hit)
+    df = df[df["type"] != "C"].copy()
 
-            parts = line.split("\t")
-            # parts = ['member_type', 'cluster_id', 'length', 'ANI', '...', '...', '...', '...', 'member_name', 'centroid_name']
-            cluster_id = f"cl{parts[1]}"
-            member_name = parts[-2]
+    # Extract centroids (S records) and members (H records)
+    centroids_df = df[df["type"] == "S"][["cluster_id", "query"]].rename(columns={"query": "centroid"})
+    members_df = df[df["type"] == "H"][["cluster_id", "query"]].rename(columns={"query": "member"})
 
-            # Create a new cluster object if the cluster cluster_id is not present in the dictionary
-            if cluster_id not in clusters.keys():
-                clusters[cluster_id] = Cluster(cluster_id, None, [], taxid=taxid)
+    # Group members by cluster_id
+    members_grouped = members_df.groupby("cluster_id", sort=False)["member"].apply(list).reset_index()
 
-            # Set the centroid of the corresponding cluster
-            if line.startswith("S\t"):
-                clusters[cluster_id]._set_centroid(member_name)
+    # Merge centroids with grouped members
+    result = centroids_df.merge(members_grouped, on="cluster_id", how="left")
 
-            # Append the member to the corresponding cluster
-            elif line.startswith("H\t"):
-                clusters[cluster_id].members.append(member_name)
+    # Build Cluster objects
+    clusters = []
+    for row in result.itertuples(index=False):
+        cluster_id = f"cl{row.cluster_id}"
+        members = row.member if isinstance(row.member, list) else []
+        cluster = Cluster(cluster_id, row.centroid, members, taxid=taxid)
+        clusters.append(cluster)
 
-    # Convert the dictionary values to a list of clusters and return
-    return list(clusters.values())
+    return clusters
 
 def parse_clusters_clusty(file_in: Path, skip_header: bool = True, **kwargs) -> List["Cluster"]:
     """
     Extract sequence names from clustly cluster files.
     Format:
     sequence_name\tcluster_representative(\tother_info)*
+
     """
-    clusters = {}  # Dictionary to store clusters {cluster_id: Cluster}
-    grouped = defaultdict(list)
     pattern_regex = re.compile(kwargs.get("pattern", PATTERN))
     taxid = get_taxid(file_in)
 
-    with open(file_in, "r") as file:
-        if skip_header:
-            next(file)
-        for line in file:
-            parts = line.strip().split("\t")
-            value, key = parts[0], parts[1]
-            grouped[key].append(value.split()[0])
+    # Read with pandas - handles header skipping and parsing efficiently
+    df = pd.read_csv(
+        file_in,
+        sep="\t",
+        header=0 if skip_header else None,
+        usecols=[0, 1],  # Only need first two columns
+        dtype=str,
+    )
+    df.columns = ["sequence", "representative"]
 
-    for idx, (key, values) in enumerate(grouped.items()):
-        centroid = key # Default centroid is the cluster representative
-        if key not in values:
-            centroid = get_first_not_match(pattern_regex, values)
-        members = [value for value in values if value != centroid]
-        cluster_id = f"cl{idx}"
-        clusters[cluster_id] = Cluster(cluster_id, centroid, members, taxid=taxid)
+    # Extract first word from sequence names (split by whitespace)
+    df["sequence"] = df["sequence"].str.split().str[0]
 
-    return list(clusters.values())
+    # Group by representative and aggregate sequences into lists
+    grouped = df.groupby("representative", sort=False)["sequence"].apply(list).reset_index()
+
+    # Build clusters
+    clusters = []
+    for idx, row in enumerate(grouped.itertuples(index=False)):
+        key = row.representative
+        values = row.sequence
+
+        # Determine centroid
+        centroid = key if key in values else get_first_not_match(pattern_regex, values)
+        members = [v for v in values if v != centroid]
+
+        cluster = Cluster(f"cl{idx}", centroid, members, taxid=taxid)
+        clusters.append(cluster)
+
+    return clusters
 
 
 def get_taxid(file_in: Path) -> Optional[str]:
@@ -294,11 +336,10 @@ def get_taxid(file_in: Path) -> Optional[str]:
         logger.debug("No taxon id found for %s", file_in)
         return None
 
-def get_first_not_match(regex_pattern: str, data_list: List[str]) -> str:
-    """Return the first element that matches the regex_pattern else return the first element."""
+def get_first_not_match(regex_pattern: re.Pattern, data_list: List[str]) -> str:
+    """Return the first element that does NOT match the regex_pattern, else return the first element."""
     for item in data_list:
-        match = re.search(regex_pattern, item)
-        if not match:
+        if not regex_pattern.search(item):
             return item
     return data_list[0]
 
@@ -338,30 +379,34 @@ def read_coverages(coverages):
     """
     Read the coverages from each idxstats file and compute the percentage of each coverage.
     Return a list of dictionaries, one for each file.
+
+    Format:
+    name\tlength\tmapped
+
     """
     all_coverages = []
 
     for coverage_file in coverages:
-        coverages_dict = {}
-        total_coverage = 0
+        # Read idxstats file with pandas - typically has 4 columns: name, length, mapped, unmapped
+        df = pd.read_csv(
+            coverage_file,
+            sep="\t",
+            header=None,
+            usecols=[0, 2],  # Only need name and coverage columns
+            names=["name", "coverage"],
+            dtype={"name": str, "coverage": np.int64},
+        )
 
-        # First pass to compute the total coverage for this file
-        with open(coverage_file, "r") as file:
-            for line in file:
-                parts = line.strip().split("\t")
-                coverage = int(parts[2])
-                total_coverage += coverage
-                if parts[0] in coverages_dict:
-                    coverages_dict[parts[0]] += coverage
-                else:
-                    coverages_dict[parts[0]] = coverage
+        # Aggregate by name (in case of duplicates) and compute percentages vectorized
+        coverage_sum = df.groupby("name", sort=False)["coverage"].sum()
+        total_coverage = coverage_sum.sum()
 
-        # Compute the percentage for each entry
-        for key in coverages_dict:
-            coverages_dict[key] = (coverages_dict[key] / total_coverage) * 100
+        if total_coverage > 0:
+            coverage_pct = (coverage_sum / total_coverage) * 100
+        else:
+            coverage_pct = coverage_sum
 
-        # Add the coverage dictionary for this file to the list
-        all_coverages.append(coverages_dict)
+        all_coverages.append(coverage_pct.to_dict())
 
     return all_coverages
 
@@ -374,6 +419,19 @@ def update_cluster_ids(clusters: List["Cluster"]) -> List["Cluster"]:
         updated_clusters.append(cluster)
     return updated_clusters
 
+def _get_assembler(key: str) -> Optional[str]:
+    """
+    Get the assembler type for a given key using pre-compiled patterns.
+
+    Returns:
+        Assembler name or None if no pattern matches
+    """
+    for assembler, pattern in ASSEMBLER_PATTERNS.items():
+        if pattern.match(key):
+            return assembler
+    return None
+
+
 def sum_dict_values_by_assembler(centroid: str, members: List, coverages: List) -> Dict:
     """
     Sum the values of the dictionaries in the list for the given key.
@@ -385,25 +443,31 @@ def sum_dict_values_by_assembler(centroid: str, members: List, coverages: List) 
 
     Returns:
     dict: A dictionary with the summed values for each assembler
+
+    Uses numpy for vectorized summation across coverage dictionaries.
     """
-    # Define regex patterns for each assembler
-    patterns = {"spades": r"^(spades)|(NODE)", "megahit": r"^(megahit)|(k\d+)", "trinity": r"^(trinity)|(TRINITY)"}
+    # Initialize result dictionary using pre-compiled patterns
+    result = {assembler: 0.0 for assembler in ASSEMBLER_PATTERNS}
 
-    # Function to get the assembler type for a key
-    def get_assembler(key):
-        for assembler, pattern in patterns.items():
-            if re.match(pattern, key):
-                return assembler
-        return "unknown"  # In case no pattern matches
+    # Combine all keys to process
+    all_keys = [centroid] + members
 
-    # Initialize result dictionary
-    result = {assembler: 0 for assembler in patterns.keys()}
+    # Pre-classify all keys by assembler to avoid repeated regex matching
+    assembler_keys = {assembler: [] for assembler in ASSEMBLER_PATTERNS}
+    for key in all_keys:
+        assembler = _get_assembler(key)
+        if assembler is not None:
+            assembler_keys[assembler].append(key)
 
-    # Sum coverages
-    for key in [centroid] + members:
-        assembler = get_assembler(key)
-        if assembler != "unknown":
-            result[assembler] += sum(d.get(key, 0) for d in coverages)
+    # For each assembler, sum coverages across all its keys using numpy
+    for assembler, keys in assembler_keys.items():
+        if keys:
+            # Build coverage matrix for vectorized sum
+            coverage_values = np.array(
+                [[d.get(key, 0.0) for d in coverages] for key in keys],
+                dtype=np.float64
+            )
+            result[assembler] = np.sum(coverage_values)
 
     return result
 
@@ -440,7 +504,7 @@ def write_clusters_mqc(clusters: List["Cluster"], prefix:str)-> None:
             indent=4,
         )
 
-def filter_members(clusters:List["Cluster"], pattern:str = PATTERN) -> List["Cluster"]:
+def filter_members(clusters: List["Cluster"], pattern: str = PATTERN) -> List["Cluster"]:
     """
     Filter clusters on members given regex pattern, members cannot contain the pattern.
     """
