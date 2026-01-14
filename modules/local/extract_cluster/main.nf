@@ -36,6 +36,7 @@ process EXTRACT_CLUSTER {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
+        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
         biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
     END_VERSIONS
     """
@@ -63,6 +64,7 @@ process EXTRACT_CLUSTER {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
+        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
         biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
     END_VERSIONS
     """
