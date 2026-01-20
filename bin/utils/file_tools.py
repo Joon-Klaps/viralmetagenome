@@ -6,6 +6,8 @@
 
 """Provide a command line tool to create several custom mqc report files."""
 
+from __future__ import annotations
+
 import csv
 import json
 import logging
@@ -14,12 +16,52 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
-import pandas as pd
-import yaml
-
 from utils.constant_variables import FILES_OF_INTEREST
 
+# Optional dependencies - set to None if not available
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
+
+try:
+    from Bio import SeqIO
+except ImportError:
+    SeqIO = None
+
 logger = logging.getLogger()
+
+
+def _check_pandas_available():
+    """Check if pandas is available, raise ImportError if not."""
+    if pd is None:
+        raise ImportError(
+            "pandas is required for this function but is not installed. "
+            "Please install it with: pip install pandas"
+        )
+
+
+def _check_yaml_available():
+    """Check if PyYAML is available, raise ImportError if not."""
+    if yaml is None:
+        raise ImportError(
+            "PyYAML is required for this function but is not installed. "
+            "Please install it with: pip install pyyaml"
+        )
+
+
+def _check_biopython_available():
+    """Check if Biopython is available, raise ImportError if not."""
+    if SeqIO is None:
+        raise ImportError(
+            "Biopython is required for this function but is not installed. "
+            "Please install it with: pip install biopython"
+        )
 
 
 def check_file_exists(file: str, throw_error=True) -> bool:
@@ -59,6 +101,7 @@ def concat_table_files(table_files: List[str], **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The concatenated dataframe.
     """
+    _check_pandas_available()
     try:
         valid_dfs = [read_file_to_df(file, **kwargs) for file in table_files if check_file_exists(file)]
 
@@ -84,6 +127,7 @@ def read_in_quast(table_files: List[str]) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A dataframe containing the concatenated data from all the cluster summary files.
     """
+    _check_pandas_available()
     df = pd.DataFrame()
     if table_files:
         for file in table_files:
@@ -106,6 +150,8 @@ def write_df(df: pd.DataFrame, file: str, comment: Optional[List[str]] = None) -
     Returns:
         None
     """
+    _check_pandas_available()
+
     if df.empty:
         logger.warning("The DataFrame %s is empty, nothing will be written to the file!", file)
         return
@@ -127,6 +173,8 @@ def read_file_to_df(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    _check_pandas_available()
+
     file_path = Path(file)
     if os.path.getsize(file_path) == 0:
         logger.debug("File is empty %s", file_path)
@@ -162,6 +210,8 @@ def df_from_tsv(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    _check_pandas_available()
+
     with open(file, "r") as table:
         df = pd.read_csv(table, sep="\t", **kwargs)
     return df
@@ -177,12 +227,15 @@ def df_from_csv(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    _check_pandas_available()
+
     with open(file, "r") as table:
         df = pd.read_csv(table, **kwargs)
     return df
 
 
 def df_from_yaml(file: str, **kwargs) -> pd.DataFrame:
+    import yaml
     """
     Read a dataframe from a YAML file.
 
@@ -192,6 +245,9 @@ def df_from_yaml(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    _check_yaml_available()
+    _check_pandas_available()
+
     with open(file, "r") as yaml_file:
         data = yaml.safe_load(yaml_file, **kwargs)
         df = pd.DataFrame(data)
@@ -208,6 +264,8 @@ def df_from_json(file: str, **kwargs) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The dataframe read from the file.
     """
+    _check_pandas_available()
+
     with open(file, "r") as json_file:
         try:
             data = json.load(json_file, **kwargs)
@@ -239,6 +297,8 @@ def filelist_to_df(table_files: List[str], header_name: Optional[List[str]] = No
         pd.DataFrame: Concatenated table data.
 
     """
+    _check_pandas_available()
+
     result_df = pd.DataFrame()
     if table_files:
         result_df = concat_table_files(table_files, **kwargs)
@@ -260,7 +320,80 @@ def get_module_selection(table_headers: Path = None) -> Dict:
     if not table_headers:
         return FILES_OF_INTEREST
 
+    _check_yaml_available()
     check_file_exists(table_headers)
     yaml_data = yaml.safe_load(table_headers.read_text())
 
     return yaml_data
+
+
+def index_fasta(fasta_path, format="fasta"):
+    """
+    Create an indexed dictionary of sequences from a FASTA file.
+
+    Tries SeqIO.index() first (memory-efficient), falls back to SeqIO.to_dict()
+    with duplicate removal if duplicate keys are found.
+
+    Args:
+        fasta_path: Path to the FASTA file
+        format: Sequence format (default: "fasta")
+
+    Returns:
+        Dict-like object mapping sequence IDs to SeqRecord objects
+
+    Raises:
+        ValueError: If duplicates found AND file is too large to fit in memory
+    """
+    _check_biopython_available()
+
+    try:
+        return SeqIO.index(str(fasta_path), format)
+    except ValueError as e:
+        if "Duplicate key" not in str(e):
+            raise
+
+        logger.warning(
+            "Duplicate sequence IDs found in %s: %s. "
+            "Falling back to in-memory indexing (keeping first occurrence).",
+            fasta_path,
+            e,
+        )
+
+        try:
+            return _to_dict_first_occurrence(SeqIO.parse(str(fasta_path), format))
+        except MemoryError:
+            raise ValueError(
+                f"Duplicate sequence IDs found in {fasta_path} and file is too large "
+                f"to load into memory. Please deduplicate the FASTA file first "
+                f"(e.g., using 'seqkit rmdup -n'). Original error: {e}"
+            ) from e
+
+
+def _to_dict_first_occurrence(sequences) -> dict:
+    """
+    Convert sequences to dict, keeping only FIRST occurrence of duplicate IDs.
+
+    Args:
+        sequences: Iterable of SeqRecord objects
+
+    Returns:
+        Dict mapping sequence IDs to SeqRecord objects
+    """
+    result = {}
+    duplicates = []
+    for record in sequences:
+        if record.id not in result:
+            result[record.id] = record
+        else:
+            duplicates.append(record.id)
+
+    if duplicates:
+        unique_dups = list(dict.fromkeys(duplicates))  # Preserve order, remove dups
+        logger.warning(
+            "Skipped %d duplicate sequence(s), keeping first occurrence: %s%s",
+            len(duplicates),
+            ", ".join(unique_dups[:5]),
+            "..." if len(unique_dups) > 5 else "",
+        )
+
+    return result

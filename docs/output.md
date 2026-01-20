@@ -367,33 +367,17 @@ Whenever there is a 'cl#' in the file name, it refers to the cluster number of t
 
 :::
 
-#### Mash
+#### Mash & Clusty
 
-[Mash](https://github.com/marbl/Mash) calculates the distance between two sequences based on the jaccard distance. The Mash distance can be quickly computed from the size-reduced sketches alone, yet produces a result that strongly correlates with alignment-based measures such as the Average Nucleotide Identity (ANI).
+[Mash](https://github.com/marbl/Mash) calculates the distance between two sequences based on the jaccard distance. The Mash distance can be quickly computed from the size-reduced sketches alone, yet produces a result that strongly correlates with alignment-based measures such as the Average Nucleotide Identity (ANI). Next, [Clusty](https://github.com/refresh-bio/clusty) uses the Mash distances to cluster the sequences based on a specified ANI threshold with the given `--network_clustering` option (default `single`).
 
 :::note{title="Output files" collapse}
 
 - `polishing/mash`
   - `<sample-id>/dist/*.tsv`: A distance matrix of the genomes with ANI.
   - `<sample-id>/cluster/*.tsv`: A table where the first column represents the contig/genome and the second column it's corresponding cluster.
-  - `<sample-id>/visual/*.png`: A visualization of the network.
 
 :::
-
-The network of a triple segmented Hazara virus looks like this, each node represents a contig colored on cluster. The edge represents that the ANI is higher than the specified `--identity_threshold`.
-
-![mash HAZV example image](images/mash_HAZV_example.png)
-
-:::info{title="What are those names?"}
-Most assemblers tend to give each contig name a specific prefix. For example,
-
-- Trinity: `'TRINITY_...'`
-- SPAdes: `'NODE_...'`
-- Megahit: `'k\d{3}_...'`
-
-:::
-
-Based on these prefixes nf-core/viralmetagenome separates external references from denovo contigs. If any assemblers are added, consider specifying a specific regex for `--assembler_patterns`.
 
 ### Minimap2
 

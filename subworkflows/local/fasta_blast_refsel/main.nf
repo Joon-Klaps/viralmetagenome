@@ -5,12 +5,12 @@ include { BLAST_FILTER          } from '../../../modules/local/blast_filter'
 workflow FASTA_BLAST_REFSEL {
     take:
     ch_fasta          // channel: [ val(meta), path(fasta)]
-    ch_blacklist      // channel: [ val(meta), path(blacklist) ]
+    ch_blacklist      // channel: [ path(blacklist) ]
     ch_blast_db       // channel: [ val(meta), path(db) ]
     ch_blast_db_fasta // channel: [ val(meta), path(fasta) ]
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     // Blast results, to a reference database, to find a complete genome that's already assembled
     BLAST_BLASTN(
         ch_fasta,
@@ -27,7 +27,7 @@ workflow FASTA_BLAST_REFSEL {
     }
 
     // Make a table of samples that did not have any blast hits
-    ch_no_blast_hits = Channel.empty()
+    ch_no_blast_hits = channel.empty()
     ch_no_blast_hits = ch_blast_txt.no_hits.join(ch_fasta)
 
     ch_no_blast_hits_mqc = noBlastHitsToMultiQC(ch_no_blast_hits,params.assemblers).collectFile(name:'samples_no_blast_hits_mqc.tsv')

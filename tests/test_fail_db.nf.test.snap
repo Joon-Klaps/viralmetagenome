@@ -37,8 +37,9 @@
                     "samtools": "1.22.1"
                 },
                 "EXTRACT_CLUSTER": {
-                    "python": "3.12.0",
-                    "biopython": 1.81
+                    "python": "3.9.21",
+                    "pandas": "2.2.3",
+                    "biopython": 1.85
                 },
                 "EXTRACT_PRECLUSTER": {
                     "python": "3.9.1",
@@ -94,7 +95,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.0.1"
+                    "nf-core/viralmetagenome": "v1.1.0"
                 }
             }
         ],

@@ -52,6 +52,10 @@
 
   > Nayfach, Stephen et al. “CheckV assesses the quality and completeness of metagenome-assembled viral genomes.” Nature biotechnology vol. 39,5 (2021): 578-585. doi:10.1038/s41587-020-00774-7
 
+- [Clusty](https://doi.org/10.1038/s41592-025-02701-7)
+
+  > Zielezinski, A., Gudyś, A., Barylski, J. et al. Ultrafast and accurate sequence alignment and clustering of viral genomes. Nat Methods 22, 1191–1194 (2025). https://doi.org/10.1038/s41592-025-02701-7
+
 - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
   > Andrews, S. (2010). FastQC: A Quality Control Tool for High Throughput Sequence Data [Online].

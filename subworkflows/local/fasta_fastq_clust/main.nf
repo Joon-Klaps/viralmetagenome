@@ -6,17 +6,17 @@ include { MMSEQS_CLUSTER   } from '../../../modules/nf-core/mmseqs/cluster/main'
 include { MMSEQS_CREATETSV } from '../../../modules/nf-core/mmseqs/createtsv/main'
 include { VRHYME_VRHYME    } from '../../../modules/nf-core/vrhyme/vrhyme/main'
 include { MASH_DIST        } from '../../../modules/nf-core/mash/dist/main'
-include { NETWORK_CLUSTER  } from '../../../modules/local/network_cluster/main'
+include { CLUSTY           } from '../../../modules/nf-core/clusty/main'
 
 workflow FASTA_FASTQ_CLUST {
     take:
-    ch_fasta_fastq // channel: [ val(meta), [ fasta ], [ fastq ] ]
-    cluster_method // string
+    ch_fasta_fastq     // channel: [ val(meta), [ fasta ], [ fastq ] ]
+    cluster_method     // string
+    identity_threshold // value: 0.85
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     ch_fasta = ch_fasta_fastq.map { meta, fasta, _fastq -> [meta, fasta] }
-    ch_dist = Channel.empty()
 
     // cluster our reference hits and contigs should make this a subworkflow
     if (cluster_method == "vsearch") {
@@ -26,8 +26,8 @@ workflow FASTA_FASTQ_CLUST {
         ch_versions = ch_versions.mix(VSEARCH_CLUSTER.out.versions.first())
     }
     else if (cluster_method == "cdhitest") {
-        if (params.identity_threshold < 0.80) {
-            log.warn("cdhitest identity threshold is set to ${params.identity_threshold}, which is below the minimum threshold of 0.80.\n AUTOFIX: Defaulting to 0.80")
+        if (identity_threshold < 0.80) {
+            log.warn("cdhitest identity threshold is set to ${identity_threshold}, which is below the minimum threshold of 0.80.\n AUTOFIX: Defaulting to 0.80")
         }
         CDHIT_CDHITEST(ch_fasta)
 
@@ -75,15 +75,18 @@ workflow FASTA_FASTQ_CLUST {
         // Calculate distances
         MASH_DIST(ch_fasta)
         ch_versions = ch_versions.mix(MASH_DIST.out.versions.first())
-        ch_dist = MASH_DIST.out.dist
-    }
 
-    // Calculate clusters for distance based methods (mash)
-    if (cluster_method in ["mash"]) {
-        // Calculate clusters using leidenalg
-        NETWORK_CLUSTER(ch_dist, cluster_method, params.network_clustering)
-        ch_clusters = NETWORK_CLUSTER.out.clusters
-        ch_versions = ch_versions.mix(NETWORK_CLUSTER.out.versions.first())
+        // Fix bug with clusty not accepting singletons
+        ch_dist = MASH_DIST.out.dist
+            .branch{ _meta, dist ->
+                def line_count = dist.withInputStream { stream -> stream.readLines().take(3).size() }
+                multiple: line_count > 2
+                single: line_count <= 2 // if only two lines, then singleton cluster, no need to cluster
+            }
+
+        // Determine clusters from distances
+        CLUSTY(ch_dist.multiple, [[:], []])
+        ch_clusters = ch_dist.single.mix(CLUSTY.out.assignments)
     }
 
     emit:
