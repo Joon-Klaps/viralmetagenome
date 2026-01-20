@@ -2,7 +2,7 @@ name: extract_cluster
 channels:
   - conda-forge
   - bioconda
-  - defaults
 dependencies:
-  - conda-forge::python=3.12.0
-  - conda-forge::biopython=1.81
+  - conda-forge::python=3.9.21
+  - conda-forge::pandas=2.2.3
+  - conda-forge::biopython=1.85
