@@ -4,8 +4,8 @@ process EXTRACT_CLUSTER {
 
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'https://depot.galaxyproject.org/singularity/biopython:1.81'
-        : 'biocontainers/biopython:1.81'}"
+        ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/16/16fd0599cbc5e52a5ac51f8668ed2c6988b4f44d461606e37953afcd581cd52d/data'
+        : 'community.wave.seqera.io/library/biopython_pandas_python:671653bb7f9c4d5b'}"
 
     input:
     tuple val(meta), path(clusters), path(seq), path(coverages)
@@ -36,6 +36,7 @@ process EXTRACT_CLUSTER {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
+        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
         biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
     END_VERSIONS
     """
@@ -46,14 +47,24 @@ process EXTRACT_CLUSTER {
     """
     touch ${prefix}_cl0_members.fa
     touch ${prefix}_cl0_centroid.fa
-    touch ${prefix}_cl0_members.txt
-    touch ${prefix}_cl0_centroid.txt
-    touch ${prefix}_summary_mqc.tsv
-    touch ${prefix}_clusters.tsv
+    cat <<-END_JSON > ${prefix}_cl0.json
+    {
+        "cluster_id": "cl0",
+        "centroid": "stub_centroid",
+        "cluster_size": 1,
+        "cumulative_read_depth": 0.0,
+        "external_reference": null,
+        "members": ["stub_member"],
+        "taxid": null
+    }
+    END_JSON
+    touch ${prefix}.summary_mqc.tsv
+    touch ${prefix}.clusters.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
+        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
         biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
     END_VERSIONS
     """

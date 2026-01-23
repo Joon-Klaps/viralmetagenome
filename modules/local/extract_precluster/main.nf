@@ -14,7 +14,7 @@ process EXTRACT_PRECLUSTER {
     path(kaiju_db)
 
     output:
-    tuple val(meta), path("*.fa"), path("*.json") , emit: sequences, optional: true
+    tuple val(meta), path("*.{fa,fasta}"), path("*.json") , emit: sequences, optional: true
     tuple val(meta), path("*.resolved.txt")       , emit: resolved
     path "versions.yml"                           , emit: versions
     when:
@@ -49,8 +49,13 @@ process EXTRACT_PRECLUSTER {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    touch ${prefix}_taxid29070.fa
-    touch ${prefix}.json
+    touch ${prefix}_taxid0000.fasta
+    touch ${prefix}.resolved.txt
+    cat <<-END_JSON > ${prefix}.json
+    {
+        "ntaxa": 1
+    }
+    END_JSON
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

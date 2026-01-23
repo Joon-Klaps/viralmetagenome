@@ -3,6 +3,30 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.1.0 - 2026-01-23
+
+### `Added`
+
+- Add subworkflow tests of `fasta_fastq_clust` and `fasta_contig_clust` [#253](https://github.com/nf-core/viralmetagenome/pull/253) (by @Joon-Klaps)
+- Add subworkflow tests for `preprocessing_illumina` and `fastq_fastqc_umitools_trimmomatic` [#255](https://github.com/nf-core/viralmetagenome/pull/255) (by @Joon-Klaps)
+
+### `Fixed`
+
+- Fix memory issues for `network_cluster` [#105](https://github.com/nf-core/viralmetagenome/issues/105) by switching to Clusty [#251](https://github.com/nf-core/viralmetagenome/pull/251) (by @Joon-Klaps)
+- Improve memory efficiency and speed of FASTA sequence extraction [#252](https://github.com/nf-core/viralmetagenome/pull/252) (by @Joon-Klaps)
+- Fix bug of `clusty` not handling single genome distance files well [#253](https://github.com/nf-core/viralmetagenome/pull/253) (by @Joon-Klaps)
+- Fix reported trimmomatic bug [#254](https://github.com/nf-core/viralmetagenome/issues/254) 'no such variable "trim_read_count"' [#255](https://github.com/nf-core/viralmetagenome/pull/255) (by @Joon-Klaps)
+- Fix descrepancy of documentation and actual arguments [#256](https://github.com/nf-core/viralmetagenome/pull/256) (by @Joon-Klaps)
+- Fix performance issues with `extract_cluster.py` for large datasets [#259](https://github.com/nf-core/viralmetagenome/pull/259) (by @Joon-Klaps)
+
+### `Dependencies`
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `clusty`   | N/A         | 1.2.2       |
+
+### `Deprecated`
+
 ## v1.0.1 - 2025-12-03
 
 ### `Added`
