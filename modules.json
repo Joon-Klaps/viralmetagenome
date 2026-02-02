@@ -331,7 +331,7 @@
                     },
                     "trinity": {
                         "branch": "master",
-                        "git_sha": "0b2435805036a16dcdcf21533632d956b8273ac4",
+                        "git_sha": "17d5af757cf6faffce62c2544fa2e379e0a8b0d4",
                         "installed_by": ["modules"]
                     },
                     "umitools/dedup": {
