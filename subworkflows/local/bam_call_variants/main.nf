@@ -10,7 +10,6 @@ workflow BAM_CALL_VARIANTS {
 
     main:
     ch_tbi = channel.empty()
-    ch_csi = channel.empty()
     ch_stats = channel.empty()
     ch_versions = channel.empty()
     ch_multiqc = channel.empty()

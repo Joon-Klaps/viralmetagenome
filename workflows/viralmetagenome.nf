@@ -67,8 +67,8 @@ workflow VIRALMETAGENOME {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
-    def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
-    def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{ it.trim().toLowerCase() } : []
+    def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{it -> it.trim().toLowerCase() } : []
+    def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{it -> it.trim().toLowerCase() } : []
     // Optional parameters
     ch_blacklist      = createFileChannel(params.blacklist)
     ch_metadata       = createFileChannel(params.metadata)

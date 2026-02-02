@@ -28,7 +28,7 @@ workflow BAM_CALL_CONSENSUS {
     else if (consensus_caller == "ivar") {
         IVAR_CONSENSUS(
             ch_bam,
-            ch_fasta.map { it[1] },
+            ch_fasta.map {it -> it[1] },
             mapping_stats,
         )
         ch_consensus = IVAR_CONSENSUS.out.fasta
