@@ -35,14 +35,14 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     ch_bam       = MAP_READS.out.bam
     ch_reference = MAP_READS.out.ref
     ch_versions  = ch_versions.mix(MAP_READS.out.versions)
-    ch_multiqc   = ch_multiqc.mix(MAP_READS.out.mqc.collect{it[1]}.ifEmpty([]))
+    ch_multiqc   = ch_multiqc.mix(MAP_READS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
 
     SAMTOOLS_FAIDX ( ch_reference, [[],[]], false)
     ch_versions  = ch_versions.mix(SAMTOOLS_FAIDX.out.versions.first())
 
     // remove references-read combinations with low mapping rates
     BAM_STATS_FILTER ( ch_bam, ch_reference, min_mapped_reads )
-    ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{it[1]}.ifEmpty([]))
+    ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{it -> it[1]}.ifEmpty([]))
     ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.bam_fail_mqc.ifEmpty([]))
     ch_versions  = ch_versions.mix(BAM_STATS_FILTER.out.versions)
 
@@ -55,7 +55,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
         BAM_DEDUPLICATE ( ch_bam_fa_fai, umi, mapping_stats)
 
         ch_dedup_bam = BAM_DEDUPLICATE.out.bam
-        ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{it[1]}.ifEmpty([]))
+        ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_versions  = ch_versions.mix(BAM_DEDUPLICATE.out.versions)
 
     } else {
@@ -68,7 +68,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     // report summary statistics of alignment
     if (mapping_stats) {
         BAM_STATS_METRICS ( ch_dedup_bam_ref )
-        ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{it[1]}.ifEmpty([]))
+        ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_versions  = ch_versions.mix(BAM_STATS_METRICS.out.versions)
     }
 
@@ -84,7 +84,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
             mapping_stats
         )
         ch_versions   = ch_versions.mix(BAM_CALL_VARIANTS.out.versions)
-        ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{it[1]}.ifEmpty([]))
+        ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_vcf_filter = BAM_CALL_VARIANTS.out.vcf_filter
         ch_vcf        = BAM_CALL_VARIANTS.out.vcf
         ch_tbi        = BAM_CALL_VARIANTS.out.tbi

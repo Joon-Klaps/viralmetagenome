@@ -121,8 +121,8 @@ workflow VIRALMETAGENOME {
 
         // transfer to value channels so processes are not just done once
         // '.collect()' is necessary to transform to list so cartesian products are made downstream
-        ch_ref_pool         = ch_db.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
-        ch_annotation_db    = ch_db.annotation.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'annotation'], it]}
+        ch_ref_pool         = ch_db.reference.collect{it -> it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
+        ch_annotation_db    = ch_db.annotation.collect{it -> it[1]}.ifEmpty([]).map{it -> [[id: 'annotation'], it]}
         ch_kraken2_db       = ch_db.kraken2.collect().ifEmpty([])
         ch_kaiju_db         = ch_db.kaiju.collect().ifEmpty([])
         ch_checkv_db        = ch_db.checkv.collect().ifEmpty([])
@@ -145,7 +145,7 @@ workflow VIRALMETAGENOME {
                     return [ meta, db ]
             }
 
-        ch_blast_refdb  = ch_blastdb_out.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
+        ch_blast_refdb  = ch_blastdb_out.reference.collect{it -> it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
         ch_versions     = ch_versions.mix(BLAST_MAKEBLASTDB.out.versions)
     }
 
@@ -162,7 +162,7 @@ workflow VIRALMETAGENOME {
             )
         ch_host_trim_reads      = PREPROCESSING_ILLUMINA.out.reads
         ch_decomplex_trim_reads = PREPROCESSING_ILLUMINA.out.reads_decomplexified
-        ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.mqc.collect{it[1]}.ifEmpty([]))
+        ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.low_reads_mqc.ifEmpty([]))
         ch_versions             = ch_versions.mix(PREPROCESSING_ILLUMINA.out.versions)
     }
@@ -176,7 +176,7 @@ workflow VIRALMETAGENOME {
             ch_bracken_db,
             ch_kaiju_db
             )
-        ch_multiqc_files = ch_multiqc_files.mix(FASTQ_KRAKEN_KAIJU.out.mqc.collect{it[1]}.ifEmpty([]))
+        ch_multiqc_files = ch_multiqc_files.mix(FASTQ_KRAKEN_KAIJU.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_versions      = ch_versions.mix(FASTQ_KRAKEN_KAIJU.out.versions)
     }
 
@@ -235,8 +235,8 @@ workflow VIRALMETAGENOME {
                         return [ meta + [step:"consensus"], centroids, members ]
                 }
 
-            ch_clusters_summary    = FASTA_CONTIG_CLUST.out.clusters_summary.collect{it[1]}.ifEmpty([])
-            ch_clusters_tsv        = FASTA_CONTIG_CLUST.out.clusters_tsv.collect{it[1]}.ifEmpty([])
+            ch_clusters_summary    = FASTA_CONTIG_CLUST.out.clusters_summary.collect{it -> it[1]}.ifEmpty([])
+            ch_clusters_tsv        = FASTA_CONTIG_CLUST.out.clusters_tsv.collect{it -> it[1]}.ifEmpty([])
             ch_multiqc_files       =  ch_multiqc_files.mix(FASTA_CONTIG_CLUST.out.no_blast_hits_mqc.ifEmpty([]))
 
             // map clustered contigs & create a single consensus per cluster
@@ -348,7 +348,7 @@ workflow VIRALMETAGENOME {
         FASTQ_FASTA_MASH_SCREEN (
             ch_constraint_consensus_reads.multiFastaSelection
         )
-        ch_mash_screen = FASTQ_FASTA_MASH_SCREEN.out.json.collect{it[1]}
+        ch_mash_screen = FASTQ_FASTA_MASH_SCREEN.out.json.collect{it -> it[1]}
         ch_versions    = ch_versions.mix(FASTQ_FASTA_MASH_SCREEN.out.versions)
 
         // For QC we keep original sequence to compare to
@@ -410,11 +410,11 @@ workflow VIRALMETAGENOME {
             ch_prokka_db
             )
         ch_versions           = ch_versions.mix(CONSENSUS_QC.out.versions)
-        ch_multiqc_files      = ch_multiqc_files.mix(CONSENSUS_QC.out.mqc.collect{it[1]}.ifEmpty([]))
-        ch_checkv_summary     = CONSENSUS_QC.out.checkv.collect{it[1]}.ifEmpty([])
-        ch_quast_summary      = CONSENSUS_QC.out.quast.collect{it[1]}.ifEmpty([])
-        ch_blast_summary      = CONSENSUS_QC.out.blast.collect{it[1]}.ifEmpty([])
-        ch_annotation_summary = CONSENSUS_QC.out.annotation.collect{it[1]}.ifEmpty([])
+        ch_multiqc_files      = ch_multiqc_files.mix(CONSENSUS_QC.out.mqc.collect{it -> it[1]}.ifEmpty([]))
+        ch_checkv_summary     = CONSENSUS_QC.out.checkv.collect{it -> it[1]}.ifEmpty([])
+        ch_quast_summary      = CONSENSUS_QC.out.quast.collect{it -> it[1]}.ifEmpty([])
+        ch_blast_summary      = CONSENSUS_QC.out.blast.collect{it -> it[1]}.ifEmpty([])
+        ch_annotation_summary = CONSENSUS_QC.out.annotation.collect{it -> it[1]}.ifEmpty([])
     }
 
     //
