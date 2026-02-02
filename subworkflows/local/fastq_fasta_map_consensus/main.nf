@@ -24,9 +24,9 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
     main:
 
-    ch_versions     = Channel.empty()
-    ch_multiqc      = Channel.empty()
-    ch_dedup_bam    = Channel.empty()
+    ch_versions     = channel.empty()
+    ch_multiqc      = channel.empty()
+    ch_dedup_bam    = channel.empty()
     ch_reads_in     = ch_reference_reads.map{meta, ref, reads -> [meta,reads] }
 
     // mapping of reads using bowtie2 or BWA-MEM2
@@ -73,9 +73,9 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     }
 
     // call variants
-    ch_vcf        = Channel.empty()
-    ch_vcf_filter = Channel.empty()
-    ch_tbi        = Channel.empty()
+    ch_vcf        = channel.empty()
+    ch_vcf_filter = channel.empty()
+    ch_tbi        = channel.empty()
 
     if (consensus_caller == "bcftools" || call_variants ) {
         BAM_CALL_VARIANTS (

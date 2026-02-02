@@ -11,7 +11,7 @@ workflow BAM_CALL_CONSENSUS {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     ch_bam = ch_bam_ref.map { meta, bam, fasta -> [meta, bam] }
     ch_fasta = ch_bam_ref.map { meta, bam, fasta -> [meta, fasta] }
 

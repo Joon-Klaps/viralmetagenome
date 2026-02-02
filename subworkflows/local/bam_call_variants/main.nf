@@ -9,11 +9,11 @@ workflow BAM_CALL_VARIANTS {
     save_stats     // value: [ true | false ]
 
     main:
-    ch_tbi = Channel.empty()
-    ch_csi = Channel.empty()
-    ch_stats = Channel.empty()
-    ch_versions = Channel.empty()
-    ch_multiqc = Channel.empty()
+    ch_tbi = channel.empty()
+    ch_csi = channel.empty()
+    ch_stats = channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc = channel.empty()
 
     ch_meta_fasta = ch_bam_ref.map { meta, _bam, fasta -> [meta, fasta] }
 

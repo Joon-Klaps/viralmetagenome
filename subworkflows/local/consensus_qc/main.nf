@@ -18,13 +18,13 @@ workflow CONSENSUS_QC {
 
     main:
 
-    ch_versions        = Channel.empty()
-    ch_multiqc_files   = Channel.empty()
-    ch_blast           = Channel.empty()
-    ch_checkv          = Channel.empty()
-    ch_quast           = Channel.empty()
-    ch_annotation      = Channel.empty()
-    ch_genome_grouped  = Channel.empty()
+    ch_versions        = channel.empty()
+    ch_multiqc_files   = channel.empty()
+    ch_blast           = channel.empty()
+    ch_checkv          = channel.empty()
+    ch_quast           = channel.empty()
+    ch_annotation      = channel.empty()
+    ch_genome_grouped  = channel.empty()
 
     // Combine all genomes into a single file
     ch_genomes_all = ch_genome

@@ -18,9 +18,9 @@ workflow PREPROCESSING_ILLUMINA {
     ch_contaminants            // channel: [ path(contaminants_fasta) ]
 
     main:
-    ch_versions         = Channel.empty()
-    ch_multiqc_files    = Channel.empty()
-    ch_trim_read_count  = Channel.empty()
+    ch_versions         = channel.empty()
+    ch_multiqc_files    = channel.empty()
+    ch_trim_read_count  = channel.empty()
 
     // QC & UMI & Trimming with fastp or trimmomatic
     if (params.trim_tool == 'trimmomatic') {

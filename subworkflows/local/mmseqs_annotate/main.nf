@@ -7,7 +7,7 @@ workflow MMSEQS_ANNOTATE {
     ch_db      // channel: [ val(meta), [ fasta ] ]
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     // create mmseqs annotation db
     MMSEQS_CREATEANNOTATIONDB(ch_db)

@@ -14,8 +14,8 @@ workflow BAM_STATS_FILTER {
 
     main:
 
-    ch_versions             = Channel.empty()
-    ch_fail_mapping_multiqc = Channel.empty()
+    ch_versions             = channel.empty()
+    ch_fail_mapping_multiqc = channel.empty()
 
     SAMTOOLS_INDEX ( ch_bam )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())

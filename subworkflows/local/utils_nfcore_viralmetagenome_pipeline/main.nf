@@ -92,7 +92,7 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-    Channel
+    channel
         .fromList(samplesheetToList(params.input, "${projectDir}/assets/schemas/input.json"))
         .map{
             meta, read1, read2 ->
@@ -323,11 +323,11 @@ def methodsDescriptionText(mqc_methods_yaml) {
 }
 
 def createFileChannel(param) {
-    return param ? Channel.fromPath(param, checkIfExists: true).collect() : []
+    return param ? channel.fromPath(param, checkIfExists: true).collect() : []
 }
 
 def createChannel(dbPath, dbName, skipFlag) {
-    return dbPath && skipFlag ? Channel.fromPath(dbPath, checkIfExists: true).map { db -> [[id: dbName], db] } : Channel.empty()
+    return dbPath && skipFlag ? channel.fromPath(dbPath, checkIfExists: true).map { db -> [[id: dbName], db] } : channel.empty()
 }
 
 def filterContigs(contig, min_len, n_100) {

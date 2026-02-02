@@ -9,7 +9,7 @@ workflow ALIGN_COLLAPSE_CONTIGS {
     ch_references_members
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     ch_sequences = ch_references_members.map { meta, references, members -> [meta, [references, members]] }
 

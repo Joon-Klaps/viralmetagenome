@@ -19,10 +19,10 @@ workflow FASTQ_KRAKEN_KAIJU {
     ch_kaiju_db      // channel: [ path(kaiju_db) ]
 
     main:
-    ch_versions            = Channel.empty()
-    ch_multiqc_files       = Channel.empty()
-    ch_krona_text          = Channel.empty()
-    ch_raw_classifications = Channel.empty()
+    ch_versions            = channel.empty()
+    ch_multiqc_files       = channel.empty()
+    ch_krona_text          = channel.empty()
+    ch_raw_classifications = channel.empty()
 
 
     // Kraken

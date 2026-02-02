@@ -185,13 +185,13 @@ workflow VIRALMETAGENOME {
     ch_unaligned_contigs         = channel.empty()
     ch_polishing_consensus_reads = channel.empty()
 
-    // Channel for consensus sequences that have been generated across different iteration
+    // channel for consensus sequences that have been generated across different iteration
     ch_consensus                 = channel.empty()
-    // Channel for consensus sequences that have been generated at the LAST iteration
+    // channel for consensus sequences that have been generated at the LAST iteration
     ch_consensus_reads           = channel.empty()
-    // Channel for summary table of clusters to include in mqc report
+    // channel for summary table of clusters to include in mqc report
     ch_clusters_summary          = channel.empty()
-    // Channel for summary coverages of each contig
+    // channel for summary coverages of each contig
     ch_clusters_tsv              = channel.empty()
 
     if (!params.skip_assembly) {
@@ -486,8 +486,8 @@ workflow VIRALMETAGENOME {
     ch_versions = ch_versions.mix(CUSTOM_MULTIQC.out.versions)
 
     emit:
-    multiqc_report = CUSTOM_MULTIQC.out.report.toList() // Channel: /path/to/multiqc_report.html
-    versions       = ch_versions                        // Channel: [ path(versions.yml) ]
+    multiqc_report = CUSTOM_MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
+    versions       = ch_versions                        // channel: [ path(versions.yml) ]
 }
 
 /*

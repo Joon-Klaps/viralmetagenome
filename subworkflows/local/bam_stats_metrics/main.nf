@@ -10,8 +10,8 @@ workflow BAM_STATS_METRICS {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc = channel.empty()
 
     ch_sort_bam = ch_sort_bam_ref.map { meta, bam, _ref -> [meta, bam] }
 

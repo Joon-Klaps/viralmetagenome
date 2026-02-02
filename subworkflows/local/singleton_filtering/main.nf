@@ -9,7 +9,7 @@ workflow SINGLETON_FILTERING {
     max_n_perc        // int
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     if ( !params.skip_singleton_filtering) {
         ch_filtered = filterContigs ( ch_fasta, min_contig_size, max_n_perc)

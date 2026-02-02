@@ -10,7 +10,7 @@ workflow BAM_VARIANTS_BCFTOOLS {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     ch_bam = ch_bam_fasta.map { meta, bam, _fasta -> [meta, bam] }
     ch_fasta = ch_bam_fasta.map { meta, _bam, fasta -> [meta, fasta] }

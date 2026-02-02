@@ -21,11 +21,11 @@ workflow FASTQ_ASSEMBLY {
     ch_spades_hmm   // channel: ['path/to/hmm']
 
     main:
-    ch_versions    = Channel.empty()
-    ch_scaffolds   = Channel.empty()
-    ch_coverages   = Channel.empty()
-    ch_multiqc     = Channel.empty()
-    bad_assemblies = Channel.empty()
+    ch_versions    = channel.empty()
+    ch_scaffolds   = channel.empty()
+    ch_coverages   = channel.empty()
+    ch_multiqc     = channel.empty()
+    bad_assemblies = channel.empty()
     assemblers     = params.assemblers ? params.assemblers.split(',').collect{ it.trim().toLowerCase() } : []
 
     // SPADES

@@ -14,9 +14,9 @@ workflow SCAFFOLDS_EXTEND_STATS {
     name             // value 'spades','trinity','megahit'
 
     main:
-    ch_versions = Channel.empty()
-    ch_scaffolds = Channel.empty()
-    ch_multiqc = Channel.empty()
+    ch_versions = channel.empty()
+    ch_scaffolds = channel.empty()
+    ch_multiqc = channel.empty()
 
     ch_scaffolds = ch_scaffolds_raw
         .filter { _meta, contigs -> contigs != null }
@@ -49,7 +49,7 @@ workflow SCAFFOLDS_EXTEND_STATS {
         ch_scaffolds = SSPACE_BASIC.out.scaffolds
     }
 
-    ch_coverages = Channel.empty()
+    ch_coverages = channel.empty()
     if (params.perc_reads_contig != 0) {
         ch_map_reads_input = ch_scaffolds.join(ch_reads)
 

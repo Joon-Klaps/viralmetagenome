@@ -9,8 +9,8 @@ workflow MAP_READS {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc = channel.empty()
 
     ch_reads = ch_reference_reads.map { meta, fasta, fastq -> [meta, fastq] }
     ch_reference = ch_reference_reads.map { meta, fasta, fastq -> [meta, fasta] }

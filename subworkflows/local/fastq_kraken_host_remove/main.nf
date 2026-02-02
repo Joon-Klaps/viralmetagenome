@@ -9,8 +9,8 @@ workflow FASTQ_KRAKEN_HOST_REMOVE {
     min_reads
 
     main:
-    ch_versions      = Channel.empty()
-    ch_multiqc_files = Channel.empty()
+    ch_versions      = channel.empty()
+    ch_multiqc_files = channel.empty()
 
     // remove host reads & keep unclassified reads [true, true]
     KRAKEN2_HOST_REMOVE(
