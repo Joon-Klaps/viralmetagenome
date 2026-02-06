@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
+- Follow the rules of strict syntax health [#265](https://github.com/nf-core/viralmetagenome/pull/265) (by @Joon-Klaps)
+
 ### `Dependencies`
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `snpeff`   | 5.3.0a      | 5.4.0a      |
 
 ### `Deprecated`
 

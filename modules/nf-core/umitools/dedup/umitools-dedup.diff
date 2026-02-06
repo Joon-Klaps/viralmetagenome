@@ -1,16 +1,5 @@
 Changes in component 'nf-core/umitools/dedup'
-Changes in 'umitools/dedup/environment.yml':
---- modules/nf-core/umitools/dedup/environment.yml
-+++ modules/nf-core/umitools/dedup/environment.yml
-@@ -4,5 +4,6 @@
-   - conda-forge
-   - bioconda
- dependencies:
-+  - conda-forge::pandas=2.2.3
-   # renovate: datasource=conda depName=bioconda/umi_tools
--  - bioconda::umi_tools=1.1.6
-+  - bioconda::umi_tools=1.1.5
-
+'modules/nf-core/umitools/dedup/environment.yml' is unchanged
 'modules/nf-core/umitools/dedup/meta.yml' is unchanged
 Changes in 'umitools/dedup/main.nf':
 --- modules/nf-core/umitools/dedup/main.nf
@@ -21,8 +10,8 @@ Changes in 'umitools/dedup/main.nf':
      container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
 -        'https://depot.galaxyproject.org/singularity/umi_tools:1.1.6--py311haab0aaa_0' :
 -        'biocontainers/umi_tools:1.1.6--py311haab0aaa_0' }"
-+        'https://depot.galaxyproject.org/singularity/umi_tools:1.1.5--py39hf95cd2a_0' :
-+        'biocontainers/umi_tools:1.1.5--py39hf95cd2a_0' }"
++        'https://depot.galaxyproject.org/singularity/umi_tools:1.1.5--py311haab0aaa_0' :
++        'biocontainers/umi_tools:1.1.5--py311haab0aaa_0' }"
  
      input:
      tuple val(meta), path(bam), path(bai)

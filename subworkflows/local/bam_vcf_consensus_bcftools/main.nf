@@ -45,13 +45,17 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
     )
     ch_versions = ch_versions.mix(BEDTOOLS_MERGE.out.versions.first())
 
-    ch_bed_fasta = BEDTOOLS_MERGE.out.bed.join(ch_fasta, by: [0])
+    ch_bed_fasta = BEDTOOLS_MERGE.out.bed.join(ch_fasta, by: [0]).branch{
+        meta, bed, fasta ->
+            bed : [meta, bed]
+            fasta : [fasta]
+    }
 
     //
     // Mask regions in consensus with BEDTools
     //
     BEDTOOLS_MASKFASTA(
-        ch_bed_fasta
+        ch_bed_fasta.bed, ch_bed_fasta.fasta
     )
     ch_versions = ch_versions.mix(BEDTOOLS_MASKFASTA.out.versions.first())
 
