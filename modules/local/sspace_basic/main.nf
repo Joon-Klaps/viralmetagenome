@@ -20,7 +20,7 @@ process SSPACE_BASIC {
     tuple val(meta), path("*.logfile.txt")                , emit: log
     tuple val(meta), path("*.summaryfile.txt")            , emit: summary
     tuple val(meta), path("dot/*.dot")                    , emit: dot, optional: true
-    path "versions.yml"                                   , emit: versions
+    tuple val("${task.process}"), val('sspace_base'), val("2.1.1"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -48,11 +48,6 @@ process SSPACE_BASIC {
         -b ${prefix}
 
     sed 's/>/>${name_command}_/g' ${prefix}.final.scaffolds.fasta > ${prefix}.final.renamed.scaffolds.fa
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        sspace_base: ${version}
-    END_VERSIONS
     """
 
     stub:
@@ -68,10 +63,5 @@ process SSPACE_BASIC {
     touch ${prefix}.library.txt
     touch ${prefix}.logfile.txt
     touch ${prefix}.summaryfile.txt
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        sspace_base: ${version}
-    END_VERSIONS
     """
 }

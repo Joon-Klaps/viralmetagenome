@@ -10,8 +10,6 @@ workflow BAM_VARIANTS_BCFTOOLS {
 
     main:
 
-    ch_versions = channel.empty()
-
     ch_bam = ch_bam_fasta.map { meta, bam, _fasta -> [meta, bam] }
     ch_fasta = ch_bam_fasta.map { meta, _bam, fasta -> [meta, fasta] }
 
@@ -23,7 +21,6 @@ workflow BAM_VARIANTS_BCFTOOLS {
         ch_fasta,
         save_stats,
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_MPILEUP.out.versions.first())
 
     // Filter out samples with 0 variants, don't think I wan this?
     ch_bcfnorm_in = BCFTOOLS_MPILEUP.out.vcf
@@ -42,7 +39,6 @@ workflow BAM_VARIANTS_BCFTOOLS {
         ch_bcfnorm_in.vcf_tbi,
         ch_bcfnorm_in.fasta,
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_NORM.out.versions.first())
 
     //
     // Filter out low quality variants
@@ -50,10 +46,8 @@ workflow BAM_VARIANTS_BCFTOOLS {
     BCFTOOLS_FILTER(
         BCFTOOLS_NORM.out.vcf.join(BCFTOOLS_NORM.out.tbi, by: [0])
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_FILTER.out.versions.first())
 
     emit:
     vcf        = BCFTOOLS_NORM.out.vcf   // channel: [ val(meta), [ vcf ] ]
     vcf_filter = BCFTOOLS_FILTER.out.vcf // channel: [ val(meta), [ vcf ] ]
-    versions   = ch_versions             // channel: [ versions.yml ]
 }

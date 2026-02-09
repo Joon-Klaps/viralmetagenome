@@ -94,7 +94,6 @@ workflow FASTA_CONTIG_CLUST {
         ch_clusters_contigs_coverages,
         cluster_method
     )
-    ch_versions = ch_versions.mix(EXTRACT_CLUSTER.out.versions.first())
 
     ch_seq_centroids_members = EXTRACT_CLUSTER
         .out

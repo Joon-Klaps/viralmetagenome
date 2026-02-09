@@ -24,7 +24,6 @@ workflow SCAFFOLDS_EXTEND_STATS {
 
     // QUAST
     QUAST(ch_scaffolds, [[:], []], [[:], []])
-    ch_versions = ch_versions.mix(QUAST.out.versions.first())
     ch_multiqc = ch_multiqc.mix(QUAST.out.tsv.collect{it -> it[1] }.ifEmpty([]))
 
     // SSPACE_BASIC
@@ -44,7 +43,6 @@ workflow SCAFFOLDS_EXTEND_STATS {
             ch_sspace_input.settings,
             ch_sspace_input.name,
         )
-        ch_versions = ch_versions.mix(SSPACE_BASIC.out.versions.first())
 
         ch_scaffolds = SSPACE_BASIC.out.scaffolds
     }
@@ -59,11 +57,9 @@ workflow SCAFFOLDS_EXTEND_STATS {
 
         CONTIG_INDEX(ch_bam)
         ch_bam_bai = ch_bam.join(CONTIG_INDEX.out.bai)
-        ch_versions = ch_versions.mix(CONTIG_INDEX.out.versions.first())
 
         CONTIG_IDXSTATS(ch_bam_bai)
         ch_coverages = CONTIG_IDXSTATS.out.idxstats
-        ch_versions = ch_versions.mix(CONTIG_IDXSTATS.out.versions.first())
     }
 
     emit:

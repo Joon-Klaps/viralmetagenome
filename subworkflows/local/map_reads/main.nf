@@ -35,7 +35,6 @@ workflow MAP_READS {
     }
     else if (mapper == 'bowtie2') {
         BOWTIE2_BUILD(ch_reference)
-        ch_versions = ch_versions.mix(BOWTIE2_BUILD.out.versions.first())
 
         ch_bowtie2_input = ch_reference_reads
             .join(BOWTIE2_BUILD.out.index, by: [0])
@@ -46,7 +45,6 @@ workflow MAP_READS {
             }
 
         BOWTIE2_ALIGN(ch_bowtie2_input.reads, ch_bowtie2_input.index, ch_bowtie2_input.fasta, false, true)
-        ch_versions = ch_versions.mix(BOWTIE2_ALIGN.out.versions.first())
 
         ch_bam = BOWTIE2_ALIGN.out.bam
         ch_multiqc = ch_multiqc.mix(BOWTIE2_ALIGN.out.log)

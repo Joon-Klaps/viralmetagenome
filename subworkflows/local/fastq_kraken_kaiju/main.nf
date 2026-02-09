@@ -30,12 +30,10 @@ workflow FASTQ_KRAKEN_KAIJU {
         KRAKEN2_KRAKEN2(ch_reads, ch_kraken2_db, params.kraken2_save_reads, params.kraken2_save_readclassification)
         ch_raw_classifications = ch_raw_classifications.mix(KRAKEN2_KRAKEN2.out.classified_reads_assignment)
         kraken2_report = KRAKEN2_KRAKEN2.out.report.map { meta, report -> [meta + [tool: 'kraken2'], report] }
-        ch_versions    = ch_versions.mix(KRAKEN2_KRAKEN2.out.versions.first())
 
         // Bracken: get more accurate estimates of abundance, can only run after kraken2
         if ('bracken' in read_classifiers) {
             BRACKEN_BRACKEN(kraken2_report, ch_bracken_db)
-            ch_versions    = ch_versions.mix(BRACKEN_BRACKEN.out.versions.first())
             kraken2_report = BRACKEN_BRACKEN.out.reports.map { meta, report -> [meta + [tool: 'bracken'], report] }
         }
 
@@ -65,7 +63,6 @@ workflow FASTQ_KRAKEN_KAIJU {
     */
     KRONA_CLEANUP(ch_krona_text)
     ch_cleaned_krona_text = KRONA_CLEANUP.out.txt
-    ch_versions           = ch_versions.mix(KRONA_CLEANUP.out.versions.first())
 
     /*
         Convert Krona text files into html Krona visualizations

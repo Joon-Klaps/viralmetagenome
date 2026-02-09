@@ -19,7 +19,6 @@ workflow FASTQ_FASTA_MASH_SCREEN {
     //
     ch_input_cat = ch_fasta_reads.map { meta, _fasta, reads -> [meta, reads] }
     CAT_CAT_READS(ch_input_cat)
-    ch_versions = ch_versions.mix(CAT_CAT_READS.out.versions.first())
 
 
     //
@@ -47,7 +46,6 @@ workflow FASTQ_FASTA_MASH_SCREEN {
     //
     ch_input_select_reference = MASH_SCREEN.out.screen.join(ch_fasta_reads)
     SELECT_REFERENCE(ch_input_select_reference)
-    ch_versions = ch_versions.mix(SELECT_REFERENCE.out.versions.first())
 
     ch_reference_fastq = SELECT_REFERENCE.out.fasta_reads
         .filter { _meta, _json, fasta, _reads ->

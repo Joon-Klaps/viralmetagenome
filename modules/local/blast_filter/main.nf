@@ -17,7 +17,9 @@ process BLAST_FILTER {
     tuple val(meta), path("*.hits.txt"), emit: hits, optional: true
     tuple val(meta), path("*.fa"), emit: sequence
     tuple val(meta), path("*.filter.tsv"), emit: filter, optional: true
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
+    tuple val("${task.process}"), val('pandas'), eval("pip show pandas | grep Version | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | grep Version | sed 's/Version: //g'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -35,13 +37,6 @@ process BLAST_FILTER {
         -c ${contigs} \\
         -r ${db} \\
         -p ${prefix}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
     """
 
     stub:
@@ -51,12 +46,5 @@ process BLAST_FILTER {
     touch ${prefix}.filter.tsv
     touch ${prefix}.filter.hits.txt
     touch ${prefix}_withref.fa
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
     """
 }

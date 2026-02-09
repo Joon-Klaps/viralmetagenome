@@ -9,7 +9,6 @@ workflow SINGLETON_FILTERING {
     max_n_perc        // int
 
     main:
-    ch_versions = channel.empty()
 
     if ( !params.skip_singleton_filtering) {
         ch_filtered = filterContigs ( ch_fasta, min_contig_size, max_n_perc)
@@ -20,10 +19,8 @@ workflow SINGLETON_FILTERING {
         ch_contig,
         []
         )
-    ch_versions = ch_versions.mix(RENAME_FASTA_HEADER_SINGLETON.out.versions.first())
 
 
     emit:
     filtered     = RENAME_FASTA_HEADER_SINGLETON.out.fasta  // channel: [ val(meta), [ fasta ] ]
-    versions     = ch_versions                              // channel: [ versions.yml ]
 }

@@ -38,13 +38,11 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     ch_multiqc   = ch_multiqc.mix(MAP_READS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
 
     SAMTOOLS_FAIDX ( ch_reference, [[],[]], false)
-    ch_versions  = ch_versions.mix(SAMTOOLS_FAIDX.out.versions.first())
 
     // remove references-read combinations with low mapping rates
     BAM_STATS_FILTER ( ch_bam, ch_reference, min_mapped_reads )
     ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{it -> it[1]}.ifEmpty([]))
     ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.bam_fail_mqc.ifEmpty([]))
-    ch_versions  = ch_versions.mix(BAM_STATS_FILTER.out.versions)
 
      ch_bam_fa_fai = BAM_STATS_FILTER.out.bam_pass
         .join(ch_reference, by: [0])
@@ -56,7 +54,6 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
         ch_dedup_bam = BAM_DEDUPLICATE.out.bam
         ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{it -> it[1]}.ifEmpty([]))
-        ch_versions  = ch_versions.mix(BAM_DEDUPLICATE.out.versions)
 
     } else {
         ch_dedup_bam = ch_bam
@@ -69,7 +66,6 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     if (mapping_stats) {
         BAM_STATS_METRICS ( ch_dedup_bam_ref )
         ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
-        ch_versions  = ch_versions.mix(BAM_STATS_METRICS.out.versions)
     }
 
     // call variants

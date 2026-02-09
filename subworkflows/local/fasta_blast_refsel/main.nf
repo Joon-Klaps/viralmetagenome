@@ -46,7 +46,6 @@ workflow FASTA_BLAST_REFSEL {
         ch_blacklist,
         ch_blast_db_fasta,
     )
-    ch_versions = ch_versions.mix(BLAST_FILTER.out.versions.first())
 
     emit:
     fasta_ref_contigs = BLAST_FILTER.out.sequence // channel: [ val(meta), [ fasta ] ]

@@ -59,7 +59,6 @@ workflow PREPROCESSING_ILLUMINA {
             )
 
         ch_trim_read_count = ch_trim_read_count.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.trim_read_count)
-        ch_versions        = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
         ch_multiqc_files   = ch_multiqc_files.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.fastqc_raw_zip)
         ch_multiqc_files   = ch_multiqc_files.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.fastqc_trim_zip)
         ch_multiqc_files   = ch_multiqc_files.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.trim_json)
@@ -95,7 +94,6 @@ workflow PREPROCESSING_ILLUMINA {
 
         CAT_FASTQ ( ch_reads_grouped.map { meta, reads -> [meta, reads.flatten()] } )
         ch_reads_dedup_joined = CAT_FASTQ.out.reads
-        ch_versions           = ch_versions.mix(CAT_FASTQ.out.versions)
     } else {
         ch_reads_dedup_joined = ch_reads_dedup
     }
@@ -136,7 +134,6 @@ workflow PREPROCESSING_ILLUMINA {
         ch_reads_hostremoved   = FASTQ_KRAKEN_HOST_REMOVE.out.reads_hostremoved
         ch_failed_reads        = ch_failed_reads.mix(FASTQ_KRAKEN_HOST_REMOVE.out.reads_hostremoved_fail)
         ch_multiqc_files       = ch_multiqc_files.mix( FASTQ_KRAKEN_HOST_REMOVE.out.mqc )
-        ch_versions            = ch_versions.mix( FASTQ_KRAKEN_HOST_REMOVE.out.versions )
 
     } else {
         ch_reads_hostremoved = ch_reads_decomplexified

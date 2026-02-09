@@ -57,7 +57,6 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
         )
         ch_umi_reads = UMITOOLS_EXTRACT.out.reads
         ch_umi_log = UMITOOLS_EXTRACT.out.log
-        ch_versions = ch_versions.mix(UMITOOLS_EXTRACT.out.versions.first())
 
         // Discard R1 / R2 if required
         if (umi_discard_read in [1, 2]) {

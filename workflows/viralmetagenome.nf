@@ -250,7 +250,6 @@ workflow VIRALMETAGENOME {
                 params.min_contig_size,
                 params.max_n_perc
                 )
-            ch_versions = ch_versions.mix(SINGLETON_FILTERING.out.versions)
 
             ch_consensus = ALIGN_COLLAPSE_CONTIGS.out.consensus.mix( SINGLETON_FILTERING.out.filtered )
 
@@ -389,7 +388,6 @@ workflow VIRALMETAGENOME {
         VCF_ANNOTATE (
             FASTQ_FASTA_MAP_CONSENSUS.out.vcf_ref
         )
-        ch_versions = ch_versions.mix(VCF_ANNOTATE.out.versions)
     }
 
     ch_checkv_summary     = channel.empty()
@@ -483,7 +481,6 @@ workflow VIRALMETAGENOME {
         ch_mash_screen.ifEmpty([]),
         ch_multiqc_custom_table_headers.ifEmpty([])
         )
-    ch_versions = ch_versions.mix(CUSTOM_MULTIQC.out.versions)
 
     emit:
     multiqc_report = CUSTOM_MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html

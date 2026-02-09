@@ -9,7 +9,6 @@ workflow VCF_ANNOTATE {
     ch_vcf_ref // channel: [ val(meta), [ vcf], [ref]]
 
     main:
-    ch_versions = channel.empty()
 
     // A gff must be supplied & the genome shouldn't have undergone selection
     ch_vcf_ref = ch_vcf_ref.filter { meta, _vcf, _ref -> meta.gff != null && meta.gff != [] && !meta.selection }
@@ -21,7 +20,6 @@ workflow VCF_ANNOTATE {
     SNPEFF_BUILD(
         ch_gff
     )
-    ch_versions = ch_versions.mix(SNPEFF_BUILD.out.versions.first())
 
     ch_snpeff_in = ch_vcf_ref
         .map { meta, vcf, ref -> [[id: meta.cluster_id], meta, ref, vcf] }
@@ -38,15 +36,12 @@ workflow VCF_ANNOTATE {
         ch_snpeff_in.cache,
     )
     ch_vcf_ann = SNPEFF_SNPEFF.out.vcf
-    ch_versions = ch_versions.mix(SNPEFF_SNPEFF.out.versions.first())
 
     SNPSIFT_EXTRACTFIELDS(
         ch_vcf_ann
     )
-    ch_versions = ch_versions.mix(SNPSIFT_EXTRACTFIELDS.out.versions.first())
 
     emit:
     vcf      = ch_vcf_ann                    // channel: [ val(meta), [ tsv ] ]
     txt      = SNPSIFT_EXTRACTFIELDS.out.txt // channel: [ val(meta), [ txt ] ]
-    versions = ch_versions                   // channel: [ versions.yml ]
 }

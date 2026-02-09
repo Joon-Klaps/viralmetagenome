@@ -31,7 +31,6 @@ workflow FASTA_CONTIG_PRECLUST {
         KRAKEN2_CONTIG ( ch_contigs, ch_kraken2_db, false, true )
         ch_kraken        = KRAKEN2_CONTIG.out.classified_reads_assignment
         ch_kraken_report = KRAKEN2_CONTIG.out.report
-        ch_versions      = ch_versions.mix( KRAKEN2_CONTIG.out.versions.first() )
     }
 
     ch_classifications = channel.empty()
@@ -68,7 +67,6 @@ workflow FASTA_CONTIG_PRECLUST {
     }
 
     EXTRACT_PRECLUSTER ( ch_classifications.kaiju, ch_classifications.kraken, ch_classifications.contig, ch_kaiju_db )
-    ch_versions = ch_versions.mix( EXTRACT_PRECLUSTER.out.versions.first() )
 
     ch_reads = ch_contigs_reads.map{ meta, fasta, reads -> [meta.sample, meta, reads] }
 

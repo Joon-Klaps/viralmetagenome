@@ -88,7 +88,6 @@ workflow FASTQ_ASSEMBLY {
 
     CAT_ASSEMBLERS(ch_scaffolds_combined)
     ch_scaffolds = CAT_ASSEMBLERS.out.file_out
-    ch_versions  =  ch_versions.mix(CAT_ASSEMBLERS.out.versions.first())
 
     // Filter out empty scaffolds, might cause certain processes to crash
     ch_scaffolds_branched = ch_scaffolds

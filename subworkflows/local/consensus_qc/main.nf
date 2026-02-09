@@ -49,7 +49,6 @@ workflow CONSENSUS_QC {
     if (!params.skip_quast) {
         QUAST_QC(ch_genome, [[:], []], [[:], []])
         ch_quast = QUAST_QC.out.tsv
-        ch_versions = ch_versions.mix(QUAST_QC.out.versions.first())
     }
 
     // Identify closest reference from the reference pool database using blast
@@ -104,7 +103,6 @@ workflow CONSENSUS_QC {
 
         MAFFT_ITERATIONS(ch_genome_grouped_branch.pass, [[:], []], [[:], []], [[:], []], [[:], []], [[:], []], false)
 
-        ch_versions = ch_versions.mix(MAFFT_ITERATIONS.out.versions.first())
         ch_contigs_mod = ch_aligned_raw_contigs.map { meta, genome -> [meta.id, meta, genome] }
 
         // Make a channel that contains the alignment of the iterations with
@@ -123,8 +121,6 @@ workflow CONSENSUS_QC {
             }
 
         MAFFT_QC(ch_mafftQC_in.scaffolds, ch_mafftQC_in.contigs, [[:], []], [[:], []], [[:], []], [[:], []], false)
-
-        ch_versions = ch_versions.mix(MAFFT_QC.out.versions.first())
     }
 
     emit:
