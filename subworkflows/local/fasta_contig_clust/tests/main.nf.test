@@ -97,7 +97,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -140,7 +139,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -183,7 +181,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -228,7 +225,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv.collect { it.collect { it instanceof Map ? '' : file(it).name } },
                     workflow.out.clusters_summary.collect { it.collect { it instanceof Map ? '' : file(it).name } },
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -271,7 +267,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -314,7 +309,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -360,7 +354,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -403,7 +396,6 @@ nextflow_workflow {
                     workflow.out.clusters_tsv,
                     workflow.out.clusters_summary,
                     workflow.out.no_blast_hits_mqc,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }

@@ -65,7 +65,6 @@ nextflow_workflow {
                         workflow.out.trim_reads_fail,
                         workflow.out.trim_reads_merged,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -117,7 +116,6 @@ nextflow_workflow {
                         workflow.out.trim_reads_fail,
                         workflow.out.trim_reads_merged,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -174,7 +172,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -228,7 +225,6 @@ nextflow_workflow {
                         workflow.out.reads,
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -286,7 +282,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -343,7 +338,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -401,7 +395,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -458,7 +451,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -515,7 +507,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -573,7 +564,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
