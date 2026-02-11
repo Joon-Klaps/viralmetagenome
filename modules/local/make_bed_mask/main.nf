@@ -15,7 +15,7 @@ process MAKE_BED_MASK {
     output:
     tuple val(meta), path("*.bed")    , emit: bed
     tuple val(meta), path("*.mpileup"), optional: true, emit: mpileup
-    tuple val("${task.process}"), val('samtools'), eval("echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//'"), topic: versions
+    tuple val("${task.process}"), val('samtools'), eval("samtools version | sed '1!d;s/.* //'"), topic: versions
     tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
 
     when:

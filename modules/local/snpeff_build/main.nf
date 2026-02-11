@@ -12,7 +12,7 @@ process SNPEFF_BUILD {
 
     output:
     tuple val(meta), path('snpeff_db'), path("*.config"), emit: db
-    tuple val("${task.process}"), val('snpeff'), eval("echo \$(snpEff -version 2>&1) | cut -f 2 -d ' '"), topic: versions
+    tuple val("${task.process}"), val('snpeff'), eval("snpEff -version 2>&1 | cut -f 2 -d '\t'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when

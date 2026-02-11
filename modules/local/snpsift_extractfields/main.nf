@@ -12,7 +12,7 @@ process SNPSIFT_EXTRACTFIELDS {
 
     output:
     tuple val(meta), path("*.snpsift.txt"), emit: txt
-    tuple val("${task.process}"), val('snpsift'), eval("echo \$(SnpSift split -h 2>&1) | sed 's/^.*version //' | sed 's/(.*//g'"), topic: versions
+    tuple val("${task.process}"), val('snpsift'), eval("SnpSift -version 2>&1 | grep -oE '[0-9]+\\.[0-9]+[a-z]?'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when

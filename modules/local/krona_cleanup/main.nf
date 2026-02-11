@@ -12,7 +12,7 @@ process KRONA_CLEANUP {
 
     output:
     tuple val(meta), path("*.txt"), emit: txt
-    tuple val("${task.process}"), val('sed'), eval("echo \$(sed --version 2>&1) | sed 's/^.*GNU sed) //; s/ .*\$//'"), topic: versions
+    tuple val("${task.process}"), val('sed'), eval("sed --version | sed '1!d;s/.* //'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
