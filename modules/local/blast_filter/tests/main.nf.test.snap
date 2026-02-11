@@ -27,7 +27,25 @@
                     ]
                 ],
                 "3": [
-                    "versions.yml:md5,5b95953f3a620cccd8578dd3705a5ec0"
+                    [
+                        "BLAST_FILTER",
+                        "python",
+                        "3.9.21"
+                    ]
+                ],
+                "4": [
+                    [
+                        "BLAST_FILTER",
+                        "pandas",
+                        "2.2.3"
+                    ]
+                ],
+                "5": [
+                    [
+                        "BLAST_FILTER",
+                        "biopython",
+                        "1.85"
+                    ]
                 ],
                 "filter": [
                     [
@@ -52,17 +70,14 @@
                         },
                         "test_withref.fa:md5,c0f5ca92e8799fbd57358eab0806456a"
                     ]
-                ],
-                "versions": [
-                    "versions.yml:md5,5b95953f3a620cccd8578dd3705a5ec0"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2025-10-21T11:03:04.014103"
+        "timestamp": "2026-02-11T11:55:53.787039"
     },
     "HIV contigs - fasta - stub": {
         "content": [
@@ -92,7 +107,25 @@
                     ]
                 ],
                 "3": [
-                    "versions.yml:md5,5b95953f3a620cccd8578dd3705a5ec0"
+                    [
+                        "BLAST_FILTER",
+                        "python",
+                        "3.9.21"
+                    ]
+                ],
+                "4": [
+                    [
+                        "BLAST_FILTER",
+                        "pandas",
+                        "2.2.3"
+                    ]
+                ],
+                "5": [
+                    [
+                        "BLAST_FILTER",
+                        "biopython",
+                        "1.85"
+                    ]
                 ],
                 "filter": [
                     [
@@ -117,17 +150,14 @@
                         },
                         "test_withref.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
-                ],
-                "versions": [
-                    "versions.yml:md5,5b95953f3a620cccd8578dd3705a5ec0"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2025-10-21T10:41:00.081604"
+        "timestamp": "2026-02-11T11:56:00.74514"
     },
     "HIV contigs - fasta  ": {
         "content": [
@@ -157,7 +187,25 @@
                     ]
                 ],
                 "3": [
-                    "versions.yml:md5,5b95953f3a620cccd8578dd3705a5ec0"
+                    [
+                        "BLAST_FILTER",
+                        "python",
+                        "3.9.21"
+                    ]
+                ],
+                "4": [
+                    [
+                        "BLAST_FILTER",
+                        "pandas",
+                        "2.2.3"
+                    ]
+                ],
+                "5": [
+                    [
+                        "BLAST_FILTER",
+                        "biopython",
+                        "1.85"
+                    ]
                 ],
                 "filter": [
                     [
@@ -182,16 +230,13 @@
                         },
                         "test_withref.fa:md5,c0f5ca92e8799fbd57358eab0806456a"
                     ]
-                ],
-                "versions": [
-                    "versions.yml:md5,5b95953f3a620cccd8578dd3705a5ec0"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2025-10-21T10:42:39.530743"
+        "timestamp": "2026-02-11T11:55:46.062281"
     }
 }
