@@ -8,30 +8,13 @@
                     },
                     "test_mmseqs.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_LINCLUST": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:20:51.910395571"
+        "timestamp": "2026-02-10T17:24:32.026559046"
     },
     "sarscov2 - fasta - cdhitest | multiple genomes": {
         "content": [
@@ -42,35 +25,25 @@
                     },
                     "test_cdhit.fa.clstr:md5,40f4bb56cee5ce18cb555667c616011d"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:CDHIT_CDHITEST": {
-                        "cdhit": "4.8.1"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:19:05.359587299"
+        "timestamp": "2026-02-10T17:22:34.349663042"
     },
     "sarscov2 - fasta + fastq - vrhyme | multiple genomes": {
         "content": [
             [
-
-            ],
-            [
-
+                
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:20:10.993392919"
+        "timestamp": "2026-02-10T17:23:42.296396233"
     },
     "sarscov2 - fasta - cdhitest - stub": {
         "content": [
@@ -81,20 +54,13 @@
                     },
                     "test.fa.clstr:md5,d41d8cd98f00b204e9800998ecf8427e"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:CDHIT_CDHITEST": {
-                        "cdhit": "4.8.1"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:20:43.344792496"
+        "timestamp": "2026-02-10T17:24:20.280484997"
     },
     "sarscov2 - fasta - mmseqs-linclust": {
         "content": [
@@ -105,30 +71,13 @@
                     },
                     "test_mmseqs.tsv:md5,4cda402c32299be14b085d4b2ea26bbd"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_LINCLUST": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:19:21.937697297"
+        "timestamp": "2026-02-10T17:22:43.482937586"
     },
     "sarscov2 - fasta - vsearch": {
         "content": [
@@ -139,20 +88,13 @@
                     },
                     "test_vsearch.uc.tsv.gz:md5,5ad85bf376a3d2f9789a081c73619b55"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:VSEARCH_CLUSTER": {
-                        "vsearch": "2.21.1"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:18:39.326238468"
+        "timestamp": "2026-02-10T17:22:06.243338922"
     },
     "sarscov2 - fasta - mmseqs-linclust | multiple genomes": {
         "content": [
@@ -163,30 +105,13 @@
                     },
                     "test_mmseqs.tsv:md5,dd6368e5da8011f8aedb0ea51e0e35b6"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_LINCLUST": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:19:30.721702189"
+        "timestamp": "2026-02-10T17:22:54.176540998"
     },
     "sarscov2 - fasta - vsearch | multiple genomes": {
         "content": [
@@ -197,20 +122,13 @@
                     },
                     "test_vsearch.uc.tsv.gz:md5,f706febe79ad57980e1f2502dbffa556"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:VSEARCH_CLUSTER": {
-                        "vsearch": "2.21.1"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:18:50.526597029"
+        "timestamp": "2026-02-10T17:22:17.91037769"
     },
     "sarscov2 - fasta - mmseqs-cluster - stub": {
         "content": [
@@ -221,30 +139,13 @@
                     },
                     "test_mmseqs.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CLUSTER": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:21:00.255975238"
+        "timestamp": "2026-02-10T17:24:42.248756718"
     },
     "sarscov2 - fasta - vsearch - stub": {
         "content": [
@@ -255,35 +156,25 @@
                     },
                     "test_vsearch.uc.tsv.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:VSEARCH_CLUSTER": {
-                        "vsearch": "2.21.1"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:20:36.113044526"
+        "timestamp": "2026-02-10T17:24:11.643477703"
     },
     "sarscov2 - fasta + fastq - vrhyme - stub": {
         "content": [
             [
-
-            ],
-            [
-
+                
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:21:06.491089082"
+        "timestamp": "2026-02-10T17:24:49.380510859"
     },
     "sarscov2 - fasta - mash | multiple genomes": {
         "content": [
@@ -294,20 +185,13 @@
                     },
                     "test_mash.tsv:md5,d58ff80b888113c80befcc51baa636b4"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MASH_DIST": {
-                        "mash": 2.3
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:20:28.763533841"
+        "timestamp": "2026-02-10T17:24:02.941477636"
     },
     "sarscov2 - fasta - mmseqs-cluster": {
         "content": [
@@ -318,30 +202,13 @@
                     },
                     "test_mmseqs.tsv:md5,4cda402c32299be14b085d4b2ea26bbd"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CLUSTER": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:19:44.268433311"
+        "timestamp": "2026-02-10T17:23:09.773965697"
     },
     "sarscov2 - fasta - mash": {
         "content": [
@@ -352,20 +219,13 @@
                     },
                     "test.txt:md5,043da2de546182748941ff9949b50855"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MASH_DIST": {
-                        "mash": 2.3
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:38:49.014915405"
+        "timestamp": "2026-02-10T17:23:51.843145094"
     },
     "sarscov2 - fasta - mmseqs-cluster | multiple genomes": {
         "content": [
@@ -376,30 +236,13 @@
                     },
                     "test_mmseqs.tsv:md5,3bd3c4b9b4a562184ef81d748f90c7f4"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CLUSTER": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:19:58.065155262"
+        "timestamp": "2026-02-10T17:23:27.80339029"
     },
     "sarscov2 - fasta - cdhitest": {
         "content": [
@@ -410,35 +253,25 @@
                     },
                     "test_cdhit.fa.clstr:md5,ac009dbdd5e13744729c5e968a19bd92"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:CDHIT_CDHITEST": {
-                        "cdhit": "4.8.1"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:18:58.005570736"
+        "timestamp": "2026-02-10T17:22:26.054538421"
     },
     "sarscov2 - fasta + fastq - vrhyme": {
         "content": [
             [
-
-            ],
-            [
-
+                
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:20:04.754542004"
+        "timestamp": "2026-02-10T17:23:34.988531924"
     },
     "sarscov2 - fasta - cdhitest | low identity threshold": {
         "content": [
@@ -473,19 +306,12 @@
                     },
                     "test.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                 ]
-            ],
-            [
-                {
-                    "FASTA_FASTQ_CLUST:MASH_DIST": {
-                        "mash": 2.3
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-19T15:21:13.846686069"
+        "timestamp": "2026-02-10T17:24:58.600752239"
     }
 }
