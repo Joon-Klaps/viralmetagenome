@@ -24,9 +24,7 @@ workflow UNPACK_DB {
     ch_db_unpacked = ch_db_unpacked.mix(GUNZIP_DB(ch_db_branched.gzip).gunzip)
 
     ch_db_unpacked = ch_db_unpacked.mix(XZ_DB(ch_db_branched.xz).file)
-    ch_versions = ch_versions.mix(XZ_DB.out.versions.first())
 
     emit:
     db       = ch_db_unpacked // channel: [ db ]
-    versions = ch_versions    // channel: [ versions.yml ]
 }

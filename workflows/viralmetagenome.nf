@@ -117,7 +117,6 @@ workflow VIRALMETAGENOME {
                 prokka: meta.id == 'prokka'
                     return [ unpacked ]
             }
-        ch_versions = ch_versions.mix(UNPACK_DB.out.versions)
 
         // transfer to value channels so processes are not just done once
         // '.collect()' is necessary to transform to list so cartesian products are made downstream
