@@ -102,49 +102,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:EXTRACT_CLUSTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:MMSEQS_CLUSTER": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T12:00:31.339203777"
+        "timestamp": "2026-02-10T17:17:34.14455583"
     },
     "sarscov2 - contigs - cdhitest": {
         "content": [
@@ -190,39 +154,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:CDHIT_CDHITEST": {
-                        "cdhit": "4.8.1"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:EXTRACT_CLUSTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T11:59:30.487591387"
+        "timestamp": "2026-02-10T17:09:05.145778026"
     },
     "sarscov2 - contigs - vsearch - default": {
         "content": [
@@ -317,39 +255,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:VSEARCH_CLUSTER": {
-                        "vsearch": "2.21.1"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:EXTRACT_CLUSTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T11:56:31.899080754"
+        "timestamp": "2026-02-10T16:53:51.880877577"
     },
     "sarscov2 - contigs - vsearch - with precluster - stub": {
         "content": [
@@ -410,11 +322,7 @@
                 "5": [
                     "versions.yml:md5,0678b10bb566d26c62c1d5e9aa2248b5",
                     "versions.yml:md5,9038c9e34fd5bbbd92949ae2e1d48431",
-                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b",
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034",
-                    "versions.yml:md5,e51cbd9a2e8bbe92c3a07bf3efb8df2f",
-                    "versions.yml:md5,e599271253ebdf988f58bdaf63dbfc8f"
+                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b"
                 ],
                 "centroids_members": [
                     [
@@ -472,11 +380,7 @@
                 "versions": [
                     "versions.yml:md5,0678b10bb566d26c62c1d5e9aa2248b5",
                     "versions.yml:md5,9038c9e34fd5bbbd92949ae2e1d48431",
-                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b",
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034",
-                    "versions.yml:md5,e51cbd9a2e8bbe92c3a07bf3efb8df2f",
-                    "versions.yml:md5,e599271253ebdf988f58bdaf63dbfc8f"
+                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b"
                 ]
             }
         ],
@@ -484,7 +388,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T12:02:37.153127235"
+        "timestamp": "2026-02-10T17:21:56.971553668"
     },
     "sarscov2 - contigs - vsearch - with coverage filtering": {
         "content": [
@@ -530,9 +434,7 @@
                         "cluster_id": "cl1",
                         "cluster_size": 0,
                         "cumulative_read_depth": {
-                            "megahit": 0.0,
-                            "spades": 20.0,
-                            "trinity": 0.0
+                            "megahit": 0.0
                         },
                         "external_reference": false,
                         "members": [
@@ -585,39 +487,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:VSEARCH_CLUSTER": {
-                        "vsearch": "2.21.1"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:EXTRACT_CLUSTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T11:59:00.50983863"
+        "timestamp": "2026-02-10T17:06:02.497505418"
     },
     "sarscov2 - contigs - vsearch - no precluster - stub": {
         "content": [
@@ -674,9 +550,7 @@
                 ],
                 "5": [
                     "versions.yml:md5,0678b10bb566d26c62c1d5e9aa2248b5",
-                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b",
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034"
+                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b"
                 ],
                 "centroids_members": [
                     [
@@ -730,9 +604,7 @@
                 ],
                 "versions": [
                     "versions.yml:md5,0678b10bb566d26c62c1d5e9aa2248b5",
-                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b",
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034"
+                    "versions.yml:md5,917dda2361e80179c192eb262220cb9b"
                 ]
             }
         ],
@@ -740,7 +612,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T12:02:01.70119788"
+        "timestamp": "2026-02-10T17:20:46.063526784"
     },
     "sarscov2 - contigs - vsearch - with precluster": {
         "content": [
@@ -860,56 +732,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_CONTIG_PRECLUST:KAIJU_CONTIG": {
-                        "kaiju": "1.10.0"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:VSEARCH_CLUSTER": {
-                        "vsearch": "2.21.1"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:EXTRACT_CLUSTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_CONTIG_PRECLUST:KRAKEN2_CONTIG": {
-                        "kraken2": "2.1.6",
-                        "pigz": 2.8
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_CONTIG_PRECLUST:EXTRACT_PRECLUSTER": {
-                        "python": "3.9.1",
-                        "biopython": 1.78
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T11:57:57.721688471"
+        "timestamp": "2026-02-10T17:01:39.092597018"
     },
     "sarscov2 - contigs - mmseqs-linclust": {
         "content": [
@@ -1033,49 +862,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:MMSEQS_LINCLUST": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:MMSEQS_CREATEDB": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:MMSEQS_CREATETSV": {
-                        "mmseqs": "18.8cc5c"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:EXTRACT_CLUSTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T12:00:01.125182286"
+        "timestamp": "2026-02-10T17:16:43.018386467"
     },
     "sarscov2 - contigs + fastq - vrhyme": {
         "content": [
@@ -1093,27 +886,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-22T11:07:00.737315237"
+        "timestamp": "2026-02-10T17:18:57.405178542"
     },
     "sarscov2 - contigs - mash": {
         "content": [
@@ -1170,38 +949,12 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_BLASTN": {
-                        "blast": "2.17.0+"
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_FASTQ_CLUST:MASH_DIST": {
-                        "mash": 2.3
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:FASTA_BLAST_REFSEL:BLAST_FILTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                },
-                {
-                    "FASTA_CONTIG_CLUST:EXTRACT_CLUSTER": {
-                        "python": "3.9.21",
-                        "pandas": "2.2.3",
-                        "biopython": 1.85
-                    }
-                }
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2026-01-14T12:01:32.46360302"
+        "timestamp": "2026-02-10T17:20:14.020277308"
     }
 }
