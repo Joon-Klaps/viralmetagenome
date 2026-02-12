@@ -29,10 +29,7 @@ process CUSTOM_MULTIQC {
     path "*multiqc_report.html"                , emit: report       , optional: true
     path "*_data"                              , emit: data         , optional: true
     path "*_plots"                             , emit: plots        , optional: true
-    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
-    tuple val("${task.process}"), val('pandas'), eval("pip show pandas | grep Version: | sed 's/Version: //g'"), topic: versions
-    tuple val("${task.process}"), val('yaml'), eval("pip show pyyaml | grep Version: | sed 's/Version: //g'"), topic: versions
-    tuple val("${task.process}"), val('multiqc'), eval("multiqc --version | sed -e 's/multiqc, version //g'"), topic: versions
+    tuple val("${task.process}"), val('multiqc'), eval("multiqc --version | sed -e 's/multiqc, version //g'"), emit: versions
 
     when:
     task.ext.when == null || task.ext.when
