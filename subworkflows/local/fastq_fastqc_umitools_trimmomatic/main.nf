@@ -81,7 +81,6 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
         ch_trim_summ = TRIMMOMATIC.out.summary
         ch_trim_log = TRIMMOMATIC.out.trim_log
         ch_trim_unpaired_reads = TRIMMOMATIC.out.unpaired_reads
-        ch_versions = ch_versions.mix(TRIMMOMATIC.out.versions.first())
 
         //
         // Filter FastQ files based on minimum trimmed read count after adapter trimming
