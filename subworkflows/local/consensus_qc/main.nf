@@ -19,7 +19,6 @@ workflow CONSENSUS_QC {
     main:
 
     ch_versions        = channel.empty()
-    ch_multiqc_files   = channel.empty()
     ch_blast           = channel.empty()
     ch_checkv          = channel.empty()
     ch_quast           = channel.empty()
@@ -126,6 +125,5 @@ workflow CONSENSUS_QC {
     checkv     = ch_checkv        // channel: [ val(meta), [ tsv ] ]
     quast      = ch_quast         // channel: [ val(meta), [ tsv ] ]
     annotation = ch_annotation    // channel: [ val(meta), [ txt ] ]
-    mqc        = ch_multiqc_files // channel: [ tsv ]
     versions   = ch_versions      // channel: [ versions.yml ]
 }

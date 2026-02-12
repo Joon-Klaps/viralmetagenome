@@ -40,11 +40,13 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
         MAKE_BED_MASK.out.bed
     )
 
-    ch_bed_fasta = BEDTOOLS_MERGE.out.bed.join(ch_fasta, by: [0]).branch{
-        meta, bed, fasta ->
-            bed : [meta, bed]
-            fasta : [fasta]
-    }
+    ch_bed_fasta = BEDTOOLS_MERGE.out.bed
+        .join(ch_fasta, by: [0])
+        .multiMap{
+            meta, bed, fasta ->
+                bed : [meta, bed]
+                fasta : [fasta]
+        }
 
     //
     // Mask regions in consensus with BEDTools

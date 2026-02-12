@@ -4,8 +4,8 @@ include { RENAME_FASTA_HEADER as RENAME_FASTA_HEADER_SINGLETON } from '../../../
 workflow SINGLETON_FILTERING {
 
     take:
-    ch_fasta               // channel: [ val(meta), [ fasta ] ]
-    min_contig_size     // int
+    ch_fasta          // channel: [ val(meta), [ fasta ] ]
+    min_contig_size   // int
     max_n_perc        // int
 
     main:

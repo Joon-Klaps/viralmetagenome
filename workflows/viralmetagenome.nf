@@ -304,7 +304,7 @@ workflow VIRALMETAGENOME {
         // Importing samplesheet
         ch_mapping_constraints = channel
             .fromList(samplesheetToList(params.mapping_constraints, "${projectDir}/assets/schemas/mapping_constraints.json"))
-            .map{ meta, sequence ->
+            .map { meta, sequence ->
                 def samples = meta.samples == [] ? null : tuple(meta.samples.split(";"))  // Split up samples if meta.samples is not null
                 [meta, samples, sequence]
             }
@@ -312,31 +312,28 @@ workflow VIRALMETAGENOME {
 
         // Joining all the reads with the mapping constraints, filter for those specified or keep everything if none specified.
         ch_map_seq_anno_combined = ch_decomplex_trim_reads
-            .combine( ch_mapping_constraints )
-            .filter{ meta_reads, _fastq, _meta_mapping, mapping_samples, _sequence ->
+            .combine ( ch_mapping_constraints )
+            .filter { meta_reads, _fastq, _meta_mapping, mapping_samples, _sequence ->
                 mapping_samples == null || mapping_samples == meta_reads.sample
             }
-            .map
-                {
-                    meta, reads, meta_mapping, _samples, sequence_mapping ->
-                    def id = "${meta.sample}_${meta_mapping.id}-CONSTRAINT"
-                    def new_meta = meta + meta_mapping + [
-                        id: id,
-                        cluster_id: "${meta_mapping.id}",
-                        step: "constraint",
-                        isConstraint: true,
-                        reads: reads,
-                        iteration: 'variant-calling',
-                        previous_step: 'constraint'
-                        ]
-                    return [new_meta, sequence_mapping]
-                }
+            .map { meta, reads, meta_mapping, _samples, sequence_mapping ->
+                def id = "${meta.sample}_${meta_mapping.id}-CONSTRAINT"
+                def new_meta = meta + meta_mapping + [
+                    id: id,
+                    cluster_id: "${meta_mapping.id}",
+                    step: "constraint",
+                    isConstraint: true,
+                    reads: reads,
+                    iteration: 'variant-calling',
+                    previous_step: 'constraint'
+                    ]
+                return [new_meta, sequence_mapping]
+            }
 
         // Map with both reads and mapping constraints
         ch_constraint_consensus_reads = ch_map_seq_anno_combined
-            .map{ it -> return [it[0], it[1], it[0].reads] }
-            .branch{
-                meta, _fasta, _fastq ->
+            .map { it -> return [it[0], it[1], it[0].reads] }
+            .branch { meta, _fasta, _fastq ->
                 multiFastaSelection : meta.selection == true
                 singleFastaSelection : meta.selection == false
             }
@@ -350,8 +347,8 @@ workflow VIRALMETAGENOME {
 
         // For QC we keep original sequence to compare to
         ch_unaligned_contigs = ch_unaligned_raw_contigs
-            .mix(ch_constraint_consensus_reads.singleFastaSelection.map{meta, fasta, _reads -> [meta, fasta]})
-            .mix(FASTQ_FASTA_MASH_SCREEN.out.reference_fastq.map{meta, fasta, _reads -> [meta, fasta]})
+            .mix(ch_constraint_consensus_reads.singleFastaSelection.map { meta, fasta, _reads -> [meta, fasta] })
+            .mix(FASTQ_FASTA_MASH_SCREEN.out.reference_fastq.map { meta, fasta, _reads -> [meta, fasta] })
 
         //Add to the consensus channel, which will be used for variant calling
         ch_consensus_reads = ch_consensus_reads
@@ -406,7 +403,6 @@ workflow VIRALMETAGENOME {
             ch_prokka_db
             )
         ch_versions           = ch_versions.mix(CONSENSUS_QC.out.versions)
-        ch_multiqc_files      = ch_multiqc_files.mix(CONSENSUS_QC.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_checkv_summary     = CONSENSUS_QC.out.checkv.collect{it -> it[1]}.ifEmpty([])
         ch_quast_summary      = CONSENSUS_QC.out.quast.collect{it -> it[1]}.ifEmpty([])
         ch_blast_summary      = CONSENSUS_QC.out.blast.collect{it -> it[1]}.ifEmpty([])
@@ -478,7 +474,7 @@ workflow VIRALMETAGENOME {
         ch_clusters_tsv.ifEmpty([]),
         ch_mash_screen.ifEmpty([]),
         ch_multiqc_custom_table_headers.ifEmpty([])
-        )
+    )
 
     emit:
     multiqc_report = CUSTOM_MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
