@@ -70,7 +70,6 @@ process CUSTOM_MULTIQC {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     """
     touch contigs_overview.tsv
     touch contigs_overview-with-iterations.tsv

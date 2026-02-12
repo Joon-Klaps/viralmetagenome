@@ -38,7 +38,6 @@ process EXTRACT_CLUSTER {
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def args = task.ext.args ?: ''
     """
     touch ${prefix}_cl0_members.fa
     touch ${prefix}_cl0_centroid.fa

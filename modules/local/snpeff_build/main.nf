@@ -56,23 +56,7 @@ process SNPEFF_BUILD {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     prefix = meta.id
-    def extension = gff.getExtension().replace("3", "")
-    if (extension == "gtf") {
-        format = "gtf22"
-    }
-    else {
-        format = "gff3"
-    }
-
-    def avail_mem = 4
-    if (!task.memory) {
-        log.info('[snpEff] Available memory not known - defaulting to 4GB. Specify process memory requirements to change this.')
-    }
-    else {
-        avail_mem = task.memory.giga
-    }
     """
     mkdir -p snpeff_db
     touch ${prefix}.config

@@ -37,7 +37,6 @@ process IVAR_VARIANTS_TO_VCF {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.tsv

@@ -55,14 +55,12 @@ workflow CONSENSUS_QC {
     if (!params.skip_blast_qc) {
         BLASTN_QC(ch_genomes_all, ch_refpool_db, [], [], [])
         ch_blast = BLASTN_QC.out.txt
-        ch_versions = ch_versions.mix(BLASTN_QC.out.versions.first())
     }
 
     // use MMSEQS easy search to find best hits against annotation db
     if (!params.skip_consensus_annotation) {
         MMSEQS_ANNOTATE(ch_genomes_all, ch_annotation_db)
         ch_annotation = MMSEQS_ANNOTATE.out.tsv
-        ch_versions = ch_versions.mix(MMSEQS_ANNOTATE.out.versions)
     }
 
     // Annotate proteins with prokka

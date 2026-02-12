@@ -14,7 +14,6 @@ workflow SCAFFOLDS_EXTEND_STATS {
     name             // value 'spades','trinity','megahit'
 
     main:
-    ch_versions = channel.empty()
     ch_scaffolds = channel.empty()
     ch_multiqc = channel.empty()
 
@@ -53,7 +52,6 @@ workflow SCAFFOLDS_EXTEND_STATS {
 
         MAP_READS_CONTIGS(ch_map_reads_input, params.mapper)
         ch_bam = MAP_READS_CONTIGS.out.bam
-        ch_versions = ch_versions.mix(MAP_READS_CONTIGS.out.versions)
 
         CONTIG_INDEX(ch_bam)
         ch_bam_bai = ch_bam.join(CONTIG_INDEX.out.bai)
@@ -66,5 +64,4 @@ workflow SCAFFOLDS_EXTEND_STATS {
     scaffolds = ch_scaffolds // channel: [ val(meta), [ scaffolds] ]
     coverages = ch_coverages // channel: [ val(meta), [ idxstats ] ]
     mqc       = ch_multiqc   // channel: [ val(meta), [ mqc ] ]
-    versions  = ch_versions  // channel: [ versions.yml ]
 }

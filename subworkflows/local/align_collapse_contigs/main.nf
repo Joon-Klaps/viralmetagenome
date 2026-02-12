@@ -24,7 +24,6 @@ workflow ALIGN_COLLAPSE_CONTIGS {
     ch_references = ch_references_members.map { meta, references, members -> [meta, references] }
 
     MINIMAP2_CONTIG_INDEX(ch_references)
-    ch_versions = ch_versions.mix(MINIMAP2_CONTIG_INDEX.out.versions.first())
 
     ch_splitup = MINIMAP2_CONTIG_INDEX.out.index
         .join(ch_references_members, by: [0])

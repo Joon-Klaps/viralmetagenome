@@ -42,10 +42,7 @@ process MAKE_BED_MASK {
     """
 
     stub:
-    def args = task.ext.args ?: ''
-    def args2 = task.ext.args2 ?: 5
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def mpileup = save_mpileup ? "| tee ${prefix}.mpileup" : ""
     """
     touch ${prefix}.bed
     touch ${prefix}.mpileup

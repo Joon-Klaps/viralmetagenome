@@ -27,7 +27,6 @@ process RENAME_FASTA_HEADER {
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    string_val = string ? "_${string}" : ""
     """
     touch ${prefix}.fasta
     """
