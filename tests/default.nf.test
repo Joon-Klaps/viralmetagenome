@@ -3,6 +3,7 @@ nextflow_pipeline {
     name "Test pipeline"
     script "../main.nf"
     tag "pipeline"
+    tag "default"
 
     test("-profile test") {
 
@@ -57,6 +58,7 @@ nextflow_pipeline {
                 outdir = "$outputDir"
                 variant_caller = "bcftools"
                 consensus_caller = "bcftools"
+                skip_assembly = true // Running out of memory on CI
             }
         }
         then {
@@ -74,6 +76,7 @@ nextflow_pipeline {
                 outdir = "$outputDir"
                 variant_caller = "ivar"
                 consensus_caller = "bcftools"
+                skip_assembly = true
             }
         }
         then {
@@ -91,6 +94,7 @@ nextflow_pipeline {
                 outdir = "$outputDir"
                 variant_caller = "ivar"
                 consensus_caller = "ivar"
+                skip_assembly = true
             }
         }
         then {
