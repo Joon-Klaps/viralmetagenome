@@ -116,8 +116,8 @@
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
-                    "samtools": 1.14,
-                    "python": "3.9.5"
+                    "python": "3.9.5",
+                    "samtools": 1.14
                 },
                 "MASH_SCREEN": {
                     "mash": 2.3
@@ -129,8 +129,7 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283",
-                    "samtools": 1.21
+                    "minimap2": "2.29-r1283"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
                     "minimap2": "2.29-r1283"
@@ -208,10 +207,10 @@
                 }
             }
         ],
+        "timestamp": "2026-02-12T22:47:17.771088104",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
-        },
-        "timestamp": "2025-11-24T18:04:22.779231858"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

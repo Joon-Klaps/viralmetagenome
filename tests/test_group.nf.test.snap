@@ -116,8 +116,8 @@
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
-                    "samtools": 1.14,
-                    "python": "3.9.5"
+                    "python": "3.9.5",
+                    "samtools": 1.14
                 },
                 "MASH_SCREEN": {
                     "mash": 2.3
@@ -129,8 +129,7 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283",
-                    "samtools": 1.21
+                    "minimap2": "2.29-r1283"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
                     "minimap2": "2.29-r1283"
@@ -202,11 +201,11 @@
                 }
             }
         ],
+        "timestamp": "2026-02-12T22:49:07.94613973",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
-        },
-        "timestamp": "2025-11-24T18:05:58.445405047"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "multiqc": {
         "content": [
@@ -330,6 +329,7 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,199235d6b19832c5c4fb6d628cbfd093",
                 "multiqc_bcftools_stats.yaml:md5,5beaf107b35b606c3767f04a2357f308",
                 "multiqc_citations.txt:md5,ca5ee81b05f0cec3ad44e1557f2cddce",
+                "multiqc_fastp.yaml:md5,361e30dca166ad433c7db56bf88d223c",
                 "multiqc_ivar_variants.yaml:md5,1c83e28c5b4fee29d04c5204b5968e58",
                 "multiqc_kraken.yaml:md5,e99428ff4e79a9363d39040f3913329f",
                 "multiqc_quast_quast_megahit.yaml:md5,a2c42eb8ca1a589c1113da11866b54d0",
@@ -339,10 +339,10 @@
                 "summary_clusters_info.txt:md5,3b5c4181865afae0d84afa6cd601f0aa"
             ]
         ],
+        "timestamp": "2026-02-12T22:49:07.986775019",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-08T10:19:36.514273234"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

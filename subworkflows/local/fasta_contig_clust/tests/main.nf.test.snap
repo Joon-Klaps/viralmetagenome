@@ -257,7 +257,7 @@
                             "centroid": "stub_centroid",
                             "cluster_id": "cl0",
                             "cluster_size": 1,
-                            "cumulative_read_depth": 0,
+                            "cumulative_read_depth": 0.0,
                             "external_reference": null,
                             "members": [
                                 "stub_member"
@@ -301,7 +301,7 @@
                             "centroid": "stub_centroid",
                             "cluster_id": "cl0",
                             "cluster_size": 1,
-                            "cumulative_read_depth": 0,
+                            "cumulative_read_depth": 0.0,
                             "external_reference": null,
                             "members": [
                                 "stub_member"
@@ -379,9 +379,9 @@
                         "cluster_id": "cl0",
                         "cluster_size": 3,
                         "cumulative_read_depth": {
-                            "megahit": 0,
+                            "megahit": 0.0,
                             "spades": 66.66666666666667,
-                            "trinity": 0
+                            "trinity": 0.0
                         },
                         "external_reference": true,
                         "members": [
@@ -402,9 +402,9 @@
                         "cluster_id": "cl1",
                         "cluster_size": 0,
                         "cumulative_read_depth": {
-                            "megahit": 0,
-                            "spades": 20,
-                            "trinity": 0
+                            "megahit": 0.0,
+                            "spades": 20.0,
+                            "trinity": 0.0
                         },
                         "external_reference": false,
                         "members": [],
@@ -421,9 +421,9 @@
                         "cluster_id": "cl2",
                         "cluster_size": 0,
                         "cumulative_read_depth": {
-                            "megahit": 0,
+                            "megahit": 0.0,
                             "spades": 13.333333333333334,
-                            "trinity": 0
+                            "trinity": 0.0
                         },
                         "external_reference": false,
                         "members": [],
@@ -480,7 +480,7 @@
                             "centroid": "stub_centroid",
                             "cluster_id": "cl0",
                             "cluster_size": 1,
-                            "cumulative_read_depth": 0,
+                            "cumulative_read_depth": 0.0,
                             "external_reference": null,
                             "members": [
                                 "stub_member"
@@ -523,7 +523,7 @@
                             "centroid": "stub_centroid",
                             "cluster_id": "cl0",
                             "cluster_size": 1,
-                            "cumulative_read_depth": 0,
+                            "cumulative_read_depth": 0.0,
                             "external_reference": null,
                             "members": [
                                 "stub_member"

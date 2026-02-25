@@ -30,9 +30,9 @@ workflow ALIGN_COLLAPSE_CONTIGS {
         .join(CAT_CLUSTER.out.file_out, by: [0])
         .branch { meta, index, _references, members, comb ->
             external: meta.external_reference
-            return [meta, index, members]
+                return [meta, index, members]
             internal: true
-            return [meta, index, comb]
+                return [meta, index, comb]
         }
 
     ch_index_contigs = ch_splitup.external.mix(ch_splitup.internal)
