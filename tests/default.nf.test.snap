@@ -1324,10 +1324,7 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,d3e6fae9b860d7b777b2110a2f7642dd",
                 "multiqc_bcftools_stats.yaml:md5,034f7ed5f1666dba101b54d8e34497ee",
                 "multiqc_citations.txt:md5,ca5ee81b05f0cec3ad44e1557f2cddce",
-<<<<<<< Updated upstream
-=======
                 "multiqc_fastp.yaml:md5,7d451b3424c8529b59d7bbcff843ff26",
->>>>>>> Stashed changes
                 "multiqc_ivar_variants.yaml:md5,221ffc531ec03a14f9c30d3db0557f74",
                 "multiqc_kraken.yaml:md5,d5b81d208510e7de8e3b8ceb01ecb9a2",
                 "multiqc_quast_quast_megahit.yaml:md5,82a185f52a0ca6befb9910eb98b4aff6",
