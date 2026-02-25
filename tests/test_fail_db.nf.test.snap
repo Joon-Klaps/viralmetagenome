@@ -4,28 +4,27 @@
             54,
             {
                 "BLASTN_QC": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_FILTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
-                    "bwamem2": "2.2.1",
-                    "samtools": "1.22.1"
+                    "bwamem2": "2.2.1"
                 },
                 "CAT_ASSEMBLERS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CDHIT_CDHITEST": {
                     "cdhit": "4.8.1"
@@ -37,13 +36,13 @@
                     "samtools": "1.22.1"
                 },
                 "EXTRACT_CLUSTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "EXTRACT_PRECLUSTER": {
-                    "python": "3.9.1",
-                    "biopython": 1.78
+                    "biopython": 1.78,
+                    "python": "3.9.1"
                 },
                 "FASTP": {
                     "fastp": "1.0.1"

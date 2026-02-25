@@ -4,7 +4,7 @@ Changes in component 'nf-core/snpeff/snpeff'
 Changes in 'snpeff/snpeff/main.nf':
 --- modules/nf-core/snpeff/snpeff/main.nf
 +++ modules/nf-core/snpeff/snpeff/main.nf
-@@ -10,7 +10,7 @@
+@@ -10,14 +10,14 @@
      input:
      tuple val(meta), path(vcf)
      val db
@@ -13,6 +13,14 @@ Changes in 'snpeff/snpeff/main.nf':
  
      output:
      tuple val(meta), path("*.ann.vcf"), emit: vcf
+     tuple val(meta), val("${task.process}"), val('snpeff'), path("*.csv"), topic: multiqc_files, emit: report
+     tuple val(meta), val("${task.process}"), val('snpeff'), path("*.html"), topic: multiqc_files, emit: summary_html
+     tuple val(meta), val("${task.process}"), val('snpeff'), path("*.genes.txt"), topic: multiqc_files, emit: genes_txt
+-    tuple val("${task.process}"), val('snpeff'), eval("snpEff -version 2>&1 | cut -f 2 -d '\t'"), topic: versions, emit: versions_snpeff
++    tuple val("${task.process}"), val('snpeff'), eval("snpEff -XX:+PerfDisableSharedMem -version 2>&1 | cut -f 2 -d '\t'"), topic: versions, emit: versions_snpeff
+ 
+     when:
+     task.ext.when == null || task.ext.when
 @@ -37,10 +37,12 @@
      snpEff \\
          -Xmx${avail_mem}M \\

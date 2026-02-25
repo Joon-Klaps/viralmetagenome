@@ -22,34 +22,33 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_FILTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
-                    "bwamem2": "2.2.1",
-                    "samtools": "1.22.1"
+                    "bwamem2": "2.2.1"
                 },
                 "CAT_ASSEMBLERS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CAT_READS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CLUSTER": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_FASTQ": {
                     "cat": 9.5
@@ -64,18 +63,18 @@
                     "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
-                    "pysam": "0.22.1",
                     "numpy": "1.26.4",
+                    "pysam": "0.22.1",
                     "pysamstats": "1.1.2"
                 },
                 "EXTRACT_CLUSTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "EXTRACT_PRECLUSTER": {
-                    "python": "3.9.1",
-                    "biopython": 1.78
+                    "biopython": 1.78,
+                    "python": "3.9.1"
                 },
                 "FASTP": {
                     "fastp": "1.0.1"
@@ -185,9 +184,9 @@
                     "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "SPADES": {
                     "spades": "4.1.0"
@@ -331,7 +330,6 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,199235d6b19832c5c4fb6d628cbfd093",
                 "multiqc_bcftools_stats.yaml:md5,5beaf107b35b606c3767f04a2357f308",
                 "multiqc_citations.txt:md5,ca5ee81b05f0cec3ad44e1557f2cddce",
-                "multiqc_fastp.yaml:md5,026ddce976be37fdd4ec2f5763cbc565",
                 "multiqc_ivar_variants.yaml:md5,1c83e28c5b4fee29d04c5204b5968e58",
                 "multiqc_kraken.yaml:md5,e99428ff4e79a9363d39040f3913329f",
                 "multiqc_quast_quast_megahit.yaml:md5,a2c42eb8ca1a589c1113da11866b54d0",
