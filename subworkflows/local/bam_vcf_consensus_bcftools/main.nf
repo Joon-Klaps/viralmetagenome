@@ -42,7 +42,7 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
 
     ch_bed_fasta = BEDTOOLS_MERGE.out.bed
         .join(ch_fasta, by: [0])
-        .multiMap{
+        .multiMap {
             meta, bed, fasta ->
                 bed : [meta, bed]
                 fasta : [fasta]
