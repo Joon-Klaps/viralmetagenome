@@ -19,7 +19,6 @@ workflow FASTA_FASTQ_CLUST {
     if (cluster_method == "vsearch") {
         VSEARCH_CLUSTER(ch_fasta)
         ch_clusters = VSEARCH_CLUSTER.out.uc
-        ch_versions = ch_versions.mix(VSEARCH_CLUSTER.out.versions.first())
     }
     else if (cluster_method == "cdhitest") {
         if (identity_threshold < 0.80) {

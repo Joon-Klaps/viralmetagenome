@@ -12,8 +12,8 @@ workflow BAM_CALL_CONSENSUS {
     main:
 
     ch_versions = channel.empty()
-    ch_bam = ch_bam_ref.map { meta, bam, fasta -> [meta, bam] }
-    ch_fasta = ch_bam_ref.map { meta, bam, fasta -> [meta, fasta] }
+    ch_bam = ch_bam_ref.map { meta, bam, _fasta -> [meta, bam] }
+    ch_fasta = ch_bam_ref.map { meta, _bam, fasta -> [meta, fasta] }
 
     if (consensus_caller == "bcftools") {
         BAM_VCF_CONSENSUS_BCFTOOLS(

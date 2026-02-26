@@ -16,7 +16,7 @@ workflow BAM_DEDUPLICATE {
     ch_reference = ch_bam_ref_fai.map { meta, _bam, fasta, _fai -> [meta, fasta] }
     ch_faidx = ch_bam_ref_fai.map { meta, _bam, _fasta, fai -> [meta, fai] }
 
-    if (params.with_umi && ['mapping', 'both'].contains(params.umi_deduplicate)) {
+    if (umi && ['mapping', 'both'].contains(params.umi_deduplicate)) {
         SAMTOOLS_INDEX(ch_bam)
         ch_bam_bai = ch_bam.join(SAMTOOLS_INDEX.out.bai, by: [0])
 

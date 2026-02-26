@@ -33,8 +33,6 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     skip_umi_extract  // boolean: true/false
     umi_discard_read  // integer: 0, 1 or 2
     skip_trimming     // boolean: true/false
-    save_trimmed_fail // boolean: true/false
-    save_merged       // boolean: true/false
     min_trimmed_reads // integer: > 0
 
     main:

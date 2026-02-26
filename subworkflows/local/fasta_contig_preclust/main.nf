@@ -16,7 +16,7 @@ workflow FASTA_CONTIG_PRECLUST {
     ch_versions = channel.empty()
 
     // modify single_end so kaiju & kraken don't crash
-    ch_contigs = ch_contigs_reads.map{ meta, fasta, reads -> [meta + [single_end:true, og_single_end:meta.single_end], fasta] }
+    ch_contigs = ch_contigs_reads.map{ meta, fasta, _reads -> [meta + [single_end:true, og_single_end:meta.single_end], fasta] }
 
     ch_kaiju = channel.empty()
     if ('kaiju' in contig_classifiers){
@@ -68,7 +68,7 @@ workflow FASTA_CONTIG_PRECLUST {
 
     EXTRACT_PRECLUSTER ( ch_classifications.kaiju, ch_classifications.kraken, ch_classifications.contig, ch_kaiju_db )
 
-    ch_reads = ch_contigs_reads.map{ meta, fasta, reads -> [meta.sample, meta, reads] }
+    ch_reads = ch_contigs_reads.map{ meta, _fasta, reads -> [meta.sample, meta, reads] }
 
     // modify meta.id to include the taxid & join with reads
     ch_sequences_reads = EXTRACT_PRECLUSTER
@@ -83,11 +83,11 @@ workflow FASTA_CONTIG_PRECLUST {
             def taxid = fasta.baseName.split("_taxid")[1]                                               // get taxid from fasta file name
             return [meta.sample, meta + [id: "${meta.id}_taxid${taxid}", taxid: "${taxid}"], fasta ]    // [meta.sample, meta, fasta]
         }
-        .filter { sample, meta, fasta ->
+        .filter { _sample, meta, _fasta ->
             params.keep_unclassified || meta.taxid != "U"                                               // filter out unclassified
         }
         .combine(ch_reads, by:[0])                                                                      // reads -> [meta.sample, meta, reads]
-        .map{ sample, meta_contig, fasta, meta_reads, reads -> [meta_contig, fasta, reads] }            // select only meta of contigs
+        .map{ _sample, meta_contig, fasta, _meta_reads, reads -> [meta_contig, fasta, reads] }            // select only meta of contigs
         .map{ meta, fasta, reads -> [meta + [single_end:meta.og_single_end], fasta, reads]}             // set original single_end back
 
     emit:

@@ -27,7 +27,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     ch_versions     = channel.empty()
     ch_multiqc      = channel.empty()
     ch_dedup_bam    = channel.empty()
-    ch_reads_in     = ch_reference_reads.map{meta, ref, reads -> [meta,reads] }
+    ch_reads_in     = ch_reference_reads.map{meta, _ref, reads -> [meta,reads] }
 
     // mapping of reads using bowtie2 or BWA-MEM2
     MAP_READS ( ch_reference_reads, mapper )
@@ -105,7 +105,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
     // Vcf & bam files
     ch_vcf_ref         = ch_vcf.join(ch_reference, by: [0])
-    ch_bam_out            = ch_dedup_bam_ref.map{meta,bam,ref -> [meta,bam] }
+    ch_bam_out         = ch_dedup_bam_ref.map{meta,bam, _ref -> [meta,bam] }
 
     ch_multiqc         = ch_multiqc.mix(ch_contig_qc_fail_mqc.collectFile(name:'failed_contig_quality_mqc.tsv').ifEmpty([]))
 

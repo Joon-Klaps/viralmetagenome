@@ -31,8 +31,6 @@ workflow PREPROCESSING_ILLUMINA {
             params.skip_umi_extract,
             params.umi_discard_read,
             params.skip_trimming,
-            params.save_trimmed_fail,
-            params.save_merged,
             params.min_trimmed_reads
             )
         ch_versions        = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC.out.versions)

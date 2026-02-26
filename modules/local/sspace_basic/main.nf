@@ -31,8 +31,7 @@ process SSPACE_BASIC {
     def name_command = name ?: 'sspace'
     def unzip_contig = "${contigs.getExtension()}" == "gz" ? "gunzip -c ${contigs}" : "cat ${contigs}"
     // doesn't allow insertion with <() or accepts gunzipped input
-    def version = "2.1.1"
-    // version not available through CLI of tool
+
     """
     gunzip -f ${reads[0]}
     gunzip -f ${reads[1]}
@@ -54,8 +53,6 @@ process SSPACE_BASIC {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def reads_joined = reads.join('\t')
-    def version = "2.1.1"
-    // version not available through CLI of tool
     """
     echo "${args} ${prefix} ${reads_joined} ${distance} ${deviation} ${complement}" > ${prefix}.library.txt
     touch ${prefix}.final.renamed.scaffolds.fa

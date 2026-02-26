@@ -70,12 +70,11 @@ workflow VIRALMETAGENOME {
     def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{it -> it.trim().toLowerCase() } : []
     def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{it -> it.trim().toLowerCase() } : []
     // Optional parameters
-    ch_blacklist      = createFileChannel(params.blacklist)
-    ch_metadata       = createFileChannel(params.metadata)
-    ch_contaminants   = createFileChannel(params.contaminants)
-    ch_spades_yml     = createFileChannel(params.spades_yml)
-    ch_spades_hmm     = createFileChannel(params.spades_hmm)
-    ch_adapter_fasta   = createFileChannel(params.adapter_fasta)
+    ch_blacklist       = createFileChannel(params.blacklist)
+    ch_metadata        = createFileChannel(params.metadata)
+    ch_contaminants    = createFileChannel(params.contaminants)
+    ch_spades_yml      = createFileChannel(params.spades_yml)
+    ch_spades_hmm      = createFileChannel(params.spades_hmm)
     ch_constraint_meta = createFileChannel(params.mapping_constraints)
 
     // Databases, we really don't want to stage unnecessary databases
@@ -413,8 +412,8 @@ workflow VIRALMETAGENOME {
     // MODULE: MultiQC
     //
     ch_multiqc_config                     = channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-    ch_multiqc_custom_config              = params.multiqc_config              ? channel.fromPath(params.multiqc_config, checkIfExists: true) : channel.empty()
-    ch_multiqc_logo                       = params.multiqc_logo                ? channel.fromPath(params.multiqc_logo, checkIfExists: true) : channel.empty()
+    // ch_multiqc_custom_config              = params.multiqc_config              ? channel.fromPath(params.multiqc_config, checkIfExists: true) : channel.empty()
+    // ch_multiqc_logo                       = params.multiqc_logo                ? channel.fromPath(params.multiqc_logo, checkIfExists: true) : channel.empty()
     ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
     ch_multiqc_custom_table_headers       = params.custom_table_headers        ? channel.fromPath(params.custom_table_headers, checkIfExists:true ) : channel.fromPath("$projectDir/assets/custom_table_headers.yml", checkIfExists:true )
     summary_params                        = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")

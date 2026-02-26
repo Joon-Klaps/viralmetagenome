@@ -42,7 +42,7 @@ workflow CONSENSUS_QC {
         }
         .map { file -> [file.simpleName, file] }
         .join(ch_genomes_mapped.metadata.unique())
-        .map { id, genome, meta -> [meta, genome] }
+        .map { _id, genome, meta -> [meta, genome] }
 
     // Contig summary statistics
     if (!params.skip_quast) {

@@ -21,7 +21,7 @@ workflow ALIGN_COLLAPSE_CONTIGS {
     // Call consensus using IVAR_consensus with low treshholds (eg. 1) (needs only 1 coverage)
     // If there are ambigous bases in the consensus due to low coverage we populate it with the reference sequence.
 
-    ch_references = ch_references_members.map { meta, references, members -> [meta, references] }
+    ch_references = ch_references_members.map { meta, references, _members -> [meta, references] }
 
     MINIMAP2_CONTIG_INDEX(ch_references)
 
