@@ -34,7 +34,8 @@
                     "bwamem2": "2.2.1"
                 },
                 "BWAMEM2_MEM": {
-                    "bwamem2": "2.2.1"
+                    "bwamem2": "2.2.1",
+                    "samtools": "1.22.1"
                 },
                 "CAT_CAT_READS": {
                     "pigz": 2.8
@@ -185,8 +186,9 @@
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
-                "BWAMEM2_MEM": {
-                    "bwamem2": "2.2.1"
+                 "BWAMEM2_MEM": {
+                    "bwamem2": "2.2.1",
+                    "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
                     "pigz": 2.8
@@ -1580,8 +1582,9 @@
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
-                "BWAMEM2_MEM": {
-                    "bwamem2": "2.2.1"
+                 "BWAMEM2_MEM": {
+                    "bwamem2": "2.2.1",
+                    "samtools": "1.22.1"
                 },
                 "CAT_CAT_READS": {
                     "pigz": 2.8
@@ -2040,8 +2043,9 @@
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
-                "BWAMEM2_MEM": {
-                    "bwamem2": "2.2.1"
+                 "BWAMEM2_MEM": {
+                    "bwamem2": "2.2.1",
+                    "samtools": "1.22.1"
                 },
                 "CAT_CAT_READS": {
                     "pigz": 2.8
