@@ -9,14 +9,14 @@
         "properties": {
             "sample": {
                 "type": "string",
-                "pattern": "^[A-z0-9\\-\\.]+$",
-                "errorMessage": "Sample name must be provided and cannot contain spaces or special characters",
+                "pattern": "^[A-Za-z0-9\\-\\.]+$",
+                "errorMessage": "Sample name must be provided and cannot contain spaces or special characters or '_'",
                 "meta": ["id", "sample"]
             },
             "group": {
                 "type": "string",
-                "pattern": "^[A-z0-9\\-\\.]+$",
-                "errorMessage": "Group name must be provided and cannot contain spaces or special characters",
+                "pattern": "^[A-Za-z0-9\\-\\.]+$",
+                "errorMessage": "Group name must be provided and cannot contain spaces or special characters or '_'",
                 "meta": ["group"]
             },
             "fastq_1": {
