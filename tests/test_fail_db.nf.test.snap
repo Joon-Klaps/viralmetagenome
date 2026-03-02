@@ -7,7 +7,7 @@
                     "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",

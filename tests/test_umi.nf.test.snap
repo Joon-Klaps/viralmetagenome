@@ -1,7 +1,7 @@
 {
     "-profile test_umi": {
         "content": [
-            166,
+            150,
             {
                 "BCFTOOLS_FILTER": {
                     "bcftools": 1.22
@@ -11,12 +11,6 @@
                 },
                 "BCFTOOLS_STATS": {
                     "bcftools": 1.22
-                },
-                "BLASTN_QC": {
-                    "blastn": "2.17.0+"
-                },
-                "BLAST_MAKEBLASTDB": {
-                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
@@ -51,9 +45,6 @@
                 "FASTQC_TRIM": {
                     "fastqc": "0.12.1"
                 },
-                "GUNZIP_DB": {
-                    "gunzip": 1.13
-                },
                 "HUMID": {
                     "humid": "1.0.4"
                 },
@@ -73,12 +64,6 @@
                 "MASH_SKETCH": {
                     "mash": 2.3
                 },
-                "MMSEQS_CREATEANNOTATIONDB": {
-                    "mmseqs": "18.8cc5c"
-                },
-                "MMSEQS_EASYSEARCH": {
-                    "mmseqs": "18.8cc5c"
-                },
                 "MOSDEPTH": {
                     "mosdepth": "0.3.11"
                 },
@@ -91,13 +76,7 @@
                 "PRINSEQ_READS": {
                     "prinseqplusplus": 1.2
                 },
-                "PROKKA": {
-                    "prokka": "1.14.6"
-                },
                 "QUAST": {
-                    "quast": "5.3.0"
-                },
-                "QUAST_QC": {
                     "quast": "5.3.0"
                 },
                 "RENAME_FASTA_HEADER_CALLED_CONSENSUS": {
@@ -140,7 +119,7 @@
                 }
             }
         ],
-        "timestamp": "2026-03-02T13:30:42.997853008",
+        "timestamp": "2026-03-02T14:08:26.035395118",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
