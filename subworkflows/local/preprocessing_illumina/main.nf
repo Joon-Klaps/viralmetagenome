@@ -18,9 +18,9 @@ workflow PREPROCESSING_ILLUMINA {
     ch_contaminants            // channel: [ path(contaminants_fasta) ]
 
     main:
-    ch_versions         = Channel.empty()
-    ch_multiqc_files    = Channel.empty()
-    ch_trim_read_count  = Channel.empty()
+    ch_versions         = channel.empty()
+    ch_multiqc_files    = channel.empty()
+    ch_trim_read_count  = channel.empty()
 
     // QC & UMI & Trimming with fastp or trimmomatic
     if (params.trim_tool == 'trimmomatic') {
@@ -31,8 +31,6 @@ workflow PREPROCESSING_ILLUMINA {
             params.skip_umi_extract,
             params.umi_discard_read,
             params.skip_trimming,
-            params.save_trimmed_fail,
-            params.save_merged,
             params.min_trimmed_reads
             )
         ch_versions        = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC.out.versions)
@@ -59,7 +57,6 @@ workflow PREPROCESSING_ILLUMINA {
             )
 
         ch_trim_read_count = ch_trim_read_count.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.trim_read_count)
-        ch_versions        = ch_versions.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.versions)
         ch_multiqc_files   = ch_multiqc_files.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.fastqc_raw_zip)
         ch_multiqc_files   = ch_multiqc_files.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.fastqc_trim_zip)
         ch_multiqc_files   = ch_multiqc_files.mix(FASTQ_FASTQC_UMITOOLS_FASTP.out.trim_json)
@@ -95,7 +92,6 @@ workflow PREPROCESSING_ILLUMINA {
 
         CAT_FASTQ ( ch_reads_grouped.map { meta, reads -> [meta, reads.flatten()] } )
         ch_reads_dedup_joined = CAT_FASTQ.out.reads
-        ch_versions           = ch_versions.mix(CAT_FASTQ.out.versions)
     } else {
         ch_reads_dedup_joined = ch_reads_dedup
     }
@@ -136,7 +132,6 @@ workflow PREPROCESSING_ILLUMINA {
         ch_reads_hostremoved   = FASTQ_KRAKEN_HOST_REMOVE.out.reads_hostremoved
         ch_failed_reads        = ch_failed_reads.mix(FASTQ_KRAKEN_HOST_REMOVE.out.reads_hostremoved_fail)
         ch_multiqc_files       = ch_multiqc_files.mix( FASTQ_KRAKEN_HOST_REMOVE.out.mqc )
-        ch_versions            = ch_versions.mix( FASTQ_KRAKEN_HOST_REMOVE.out.versions )
 
     } else {
         ch_reads_hostremoved = ch_reads_decomplexified

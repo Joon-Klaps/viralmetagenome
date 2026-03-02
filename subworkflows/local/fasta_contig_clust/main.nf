@@ -31,7 +31,6 @@ workflow FASTA_CONTIG_CLUST {
         ch_blast_db,
         ch_blast_db_fasta
     )
-    ch_versions       = ch_versions.mix(FASTA_BLAST_REFSEL.out.versions)
     no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits
     fasta_ref_contigs = FASTA_BLAST_REFSEL.out.fasta_ref_contigs
 

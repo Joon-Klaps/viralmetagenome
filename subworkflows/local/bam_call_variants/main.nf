@@ -9,11 +9,10 @@ workflow BAM_CALL_VARIANTS {
     save_stats     // value: [ true | false ]
 
     main:
-    ch_tbi = Channel.empty()
-    ch_csi = Channel.empty()
-    ch_stats = Channel.empty()
-    ch_versions = Channel.empty()
-    ch_multiqc = Channel.empty()
+    ch_tbi = channel.empty()
+    ch_stats = channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc = channel.empty()
 
     ch_meta_fasta = ch_bam_ref.map { meta, _bam, fasta -> [meta, fasta] }
 
@@ -24,7 +23,6 @@ workflow BAM_CALL_VARIANTS {
         )
         ch_vcf = BAM_VARIANTS_BCFTOOLS.out.vcf
         ch_vcf_filter = BAM_VARIANTS_BCFTOOLS.out.vcf_filter
-        ch_versions = ch_versions.mix(BAM_VARIANTS_BCFTOOLS.out.versions)
     }
     else if (variant_caller == "ivar") {
         BAM_VARIANTS_IVAR(
@@ -57,8 +55,6 @@ workflow BAM_CALL_VARIANTS {
         ch_tbi = VCF_TABIX_STATS.out.index
         ch_stats = VCF_TABIX_STATS.out.stats
         ch_multiqc = ch_multiqc.mix(ch_stats)
-
-        ch_versions = ch_versions.mix(VCF_TABIX_STATS.out.versions)
     }
 
     emit:

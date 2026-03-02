@@ -12,14 +12,13 @@ workflow FASTQ_FASTA_MASH_SCREEN {
     ch_fasta_reads // channel of [[meta], [multi-fasta], [read1, read2]]
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     //
     // Join reads
     //
     ch_input_cat = ch_fasta_reads.map { meta, _fasta, reads -> [meta, reads] }
     CAT_CAT_READS(ch_input_cat)
-    ch_versions = ch_versions.mix(CAT_CAT_READS.out.versions.first())
 
 
     //

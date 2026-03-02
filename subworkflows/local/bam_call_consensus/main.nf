@@ -11,9 +11,9 @@ workflow BAM_CALL_CONSENSUS {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_bam = ch_bam_ref.map { meta, bam, fasta -> [meta, bam] }
-    ch_fasta = ch_bam_ref.map { meta, bam, fasta -> [meta, fasta] }
+    ch_versions = channel.empty()
+    ch_bam = ch_bam_ref.map { meta, bam, _fasta -> [meta, bam] }
+    ch_fasta = ch_bam_ref.map { meta, _bam, fasta -> [meta, fasta] }
 
     if (consensus_caller == "bcftools") {
         BAM_VCF_CONSENSUS_BCFTOOLS(
@@ -23,12 +23,11 @@ workflow BAM_CALL_CONSENSUS {
             mapping_stats,
         )
         ch_consensus = BAM_VCF_CONSENSUS_BCFTOOLS.out.consensus
-        ch_versions = ch_versions.mix(BAM_VCF_CONSENSUS_BCFTOOLS.out.versions)
     }
     else if (consensus_caller == "ivar") {
         IVAR_CONSENSUS(
             ch_bam,
-            ch_fasta.map { it[1] },
+            ch_fasta.map {it -> it[1] },
             mapping_stats,
         )
         ch_consensus = IVAR_CONSENSUS.out.fasta

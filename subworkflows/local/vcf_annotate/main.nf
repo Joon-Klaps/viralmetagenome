@@ -38,7 +38,6 @@ workflow VCF_ANNOTATE {
         ch_snpeff_in.cache,
     )
     ch_vcf_ann = SNPEFF_SNPEFF.out.vcf
-    ch_versions = ch_versions.mix(SNPEFF_SNPEFF.out.versions.first())
 
     SNPSIFT_EXTRACTFIELDS(
         ch_vcf_ann

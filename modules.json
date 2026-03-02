@@ -218,17 +218,17 @@
                     "mmseqs/cluster": {
                         "branch": "master",
                         "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
-                        "installed_by": ["modules"]
+                        "installed_by": ["mmseqs_fasta_cluster", "modules"]
                     },
                     "mmseqs/createdb": {
                         "branch": "master",
                         "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
-                        "installed_by": ["modules"]
+                        "installed_by": ["mmseqs_fasta_cluster", "modules"]
                     },
                     "mmseqs/createtsv": {
                         "branch": "master",
                         "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
-                        "installed_by": ["modules"]
+                        "installed_by": ["mmseqs_fasta_cluster", "modules"]
                     },
                     "mmseqs/easysearch": {
                         "branch": "master",
@@ -239,7 +239,7 @@
                     "mmseqs/linclust": {
                         "branch": "master",
                         "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
-                        "installed_by": ["modules"]
+                        "installed_by": ["mmseqs_fasta_cluster", "modules"]
                     },
                     "mosdepth": {
                         "branch": "master",
@@ -373,6 +373,11 @@
                     "fastq_fastqc_umitools_fastp": {
                         "branch": "master",
                         "git_sha": "8f2ec534d0418bf724cfd5f053176a9c500fae78",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "mmseqs_fasta_cluster": {
+                        "branch": "master",
+                        "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nextflow_pipeline": {
