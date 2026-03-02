@@ -105,7 +105,11 @@
             },
             "mentions": [
                 {
+<<<<<<< HEAD
                     "@id": "#b39d3123-3fb0-4ecf-aaa0-b5a8ab3d2ff5"
+=======
+                    "@id": "#fe13c923-8139-454c-82fe-a9e6e0cdd066"
+>>>>>>> TEMPLATE
                 }
             ],
             "name": "nf-core/viralmetagenome"
@@ -133,7 +137,11 @@
                 "ComputationalWorkflow"
             ],
             "dateCreated": "",
+<<<<<<< HEAD
             "dateModified": "2026-01-08T11:11:52Z",
+=======
+            "dateModified": "2026-03-02T11:03:56Z",
+>>>>>>> TEMPLATE
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
             "keywords": [
                 "nf-core",
@@ -178,11 +186,19 @@
             "version": "!>=25.04.0"
         },
         {
+<<<<<<< HEAD
             "@id": "#b39d3123-3fb0-4ecf-aaa0-b5a8ab3d2ff5",
             "@type": "TestSuite",
             "instance": [
                 {
                     "@id": "#bef26f0c-aeb2-4cdd-96a7-6a7e211cbe3d"
+=======
+            "@id": "#fe13c923-8139-454c-82fe-a9e6e0cdd066",
+            "@type": "TestSuite",
+            "instance": [
+                {
+                    "@id": "#504767c6-d80d-4059-bfc9-4a1ef601c211"
+>>>>>>> TEMPLATE
                 }
             ],
             "mainEntity": {
@@ -191,7 +207,11 @@
             "name": "Test suite for nf-core/viralmetagenome"
         },
         {
+<<<<<<< HEAD
             "@id": "#bef26f0c-aeb2-4cdd-96a7-6a7e211cbe3d",
+=======
+            "@id": "#504767c6-d80d-4059-bfc9-4a1ef601c211",
+>>>>>>> TEMPLATE
             "@type": "TestInstance",
             "name": "GitHub Actions workflow for testing nf-core/viralmetagenome",
             "resource": "repos/nf-core/viralmetagenome/actions/workflows/nf-test.yml",
