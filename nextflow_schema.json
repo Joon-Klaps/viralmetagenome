@@ -1255,6 +1255,20 @@
                     "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
                     "hidden": true
                 },
+                "prefix": {
+                    "type": "string",
+                    "description": "Prefix that will be used to generate a global prefix, date and runname will be added for all output files and directories.",
+                    "fa_icon": "fas fa-heading",
+                    "help_text": "A string to prefix all output files and directories with. This can be useful to distinguish outputs from different runs or to add a project/sample name. The prefix will be added before the default output directory structure, e.g. `prefix/results/`.",
+                    "hidden": true
+                },
+                "global_prefix": {
+                    "type": "string",
+                    "description": "Prefix for all output files and directories, including logs and intermediate files.",
+                    "fa_icon": "fas fa-heading",
+                    "help_text": "A string to prefix all output files and directories with, including logs and intermediate files. This can be useful to distinguish outputs from different runs or to add a project/sample name. The prefix will be added before the entire output directory structure, e.g. `global_prefix/nextflow.log` and `global_prefix/results/`.",
+                    "hidden": true
+                },
                 "email_on_fail": {
                     "type": "string",
                     "description": "Email address for completion summary, only when pipeline fails.",
