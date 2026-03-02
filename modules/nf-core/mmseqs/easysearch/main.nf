@@ -13,7 +13,7 @@ process MMSEQS_EASYSEARCH {
 
     output:
     tuple val(meta), path("${prefix}.tsv"), emit: tsv
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('mmseqs'), eval('mmseqs version'), topic: versions, emit: versions_mmseqs
 
     when:
     task.ext.when == null || task.ext.when
@@ -40,10 +40,6 @@ process MMSEQS_EASYSEARCH {
         --threads ${task.cpus}
 
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        mmseqs: \$(mmseqs | grep 'Version' | sed 's/MMseqs2 Version: //')
-    END_VERSIONS
     """
 
     stub:
@@ -55,9 +51,5 @@ process MMSEQS_EASYSEARCH {
     echo ${args2}
     touch ${prefix}.tsv
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        mmseqs: \$(mmseqs | grep 'Version' | sed 's/MMseqs2 Version: /')
-    END_VERSIONS
     """
 }
