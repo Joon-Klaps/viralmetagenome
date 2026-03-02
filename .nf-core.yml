@@ -1,7 +1,5 @@
 lint:
   files_exist:
-    - conf/test.config
-    - conf/test_full.config
     - conf/igenomes.config
     - conf/igenomes_ignored.config
   files_unchanged:
