@@ -248,7 +248,6 @@ workflow VIRALMETAGENOME {
                 params.min_contig_size,
                 params.max_n_perc
                 )
-            ch_versions = ch_versions.mix(SINGLETON_FILTERING.out.versions)
 
             ch_consensus = ALIGN_COLLAPSE_CONTIGS.out.consensus.mix( SINGLETON_FILTERING.out.filtered )
 
