@@ -10,8 +10,9 @@ workflow FASTA_BLAST_REFSEL {
     ch_blast_db_fasta // channel: [ val(meta), path(fasta) ]
 
     main:
+
     ch_versions = channel.empty()
-    // Blast results, to a reference database, to find a complete genome that's already assembled
+    // Find a complete genome that's already assembled
     BLAST_BLASTN(
         ch_fasta,
         ch_blast_db,
@@ -19,7 +20,6 @@ workflow FASTA_BLAST_REFSEL {
         [], // taxids
         []  // negative_tax
     )
-    ch_versions = ch_versions.mix(BLAST_BLASTN.out.versions.first())
 
     ch_blast_txt = BLAST_BLASTN.out.txt.branch { _meta, txt ->
         no_hits: txt.countLines() == 0

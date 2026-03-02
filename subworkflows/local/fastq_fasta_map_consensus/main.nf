@@ -24,27 +24,24 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
     main:
 
-    ch_versions     = Channel.empty()
-    ch_multiqc      = Channel.empty()
-    ch_dedup_bam    = Channel.empty()
-    ch_reads_in     = ch_reference_reads.map{meta, ref, reads -> [meta,reads] }
+    ch_versions     = channel.empty()
+    ch_multiqc      = channel.empty()
+    ch_dedup_bam    = channel.empty()
+    ch_reads_in     = ch_reference_reads.map{meta, _ref, reads -> [meta,reads] }
 
     // mapping of reads using bowtie2 or BWA-MEM2
     MAP_READS ( ch_reference_reads, mapper )
 
     ch_bam       = MAP_READS.out.bam
     ch_reference = MAP_READS.out.ref
-    ch_versions  = ch_versions.mix(MAP_READS.out.versions)
-    ch_multiqc   = ch_multiqc.mix(MAP_READS.out.mqc.collect{it[1]}.ifEmpty([]))
+    ch_multiqc   = ch_multiqc.mix(MAP_READS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
 
-    SAMTOOLS_FAIDX ( ch_reference, [[],[]], false)
-    ch_versions  = ch_versions.mix(SAMTOOLS_FAIDX.out.versions.first())
+    SAMTOOLS_FAIDX ( ch_reference.map{meta, ref -> [meta, ref, []]}, false)
 
     // remove references-read combinations with low mapping rates
     BAM_STATS_FILTER ( ch_bam, ch_reference, min_mapped_reads )
-    ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{it[1]}.ifEmpty([]))
+    ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{it -> it[1]}.ifEmpty([]))
     ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.bam_fail_mqc.ifEmpty([]))
-    ch_versions  = ch_versions.mix(BAM_STATS_FILTER.out.versions)
 
      ch_bam_fa_fai = BAM_STATS_FILTER.out.bam_pass
         .join(ch_reference, by: [0])
@@ -55,8 +52,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
         BAM_DEDUPLICATE ( ch_bam_fa_fai, umi, mapping_stats)
 
         ch_dedup_bam = BAM_DEDUPLICATE.out.bam
-        ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{it[1]}.ifEmpty([]))
-        ch_versions  = ch_versions.mix(BAM_DEDUPLICATE.out.versions)
+        ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{it -> it[1]}.ifEmpty([]))
 
     } else {
         ch_dedup_bam = ch_bam
@@ -68,14 +64,14 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     // report summary statistics of alignment
     if (mapping_stats) {
         BAM_STATS_METRICS ( ch_dedup_bam_ref )
-        ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{it[1]}.ifEmpty([]))
+        ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_versions  = ch_versions.mix(BAM_STATS_METRICS.out.versions)
     }
 
     // call variants
-    ch_vcf        = Channel.empty()
-    ch_vcf_filter = Channel.empty()
-    ch_tbi        = Channel.empty()
+    ch_vcf        = channel.empty()
+    ch_vcf_filter = channel.empty()
+    ch_tbi        = channel.empty()
 
     if (consensus_caller == "bcftools" || call_variants ) {
         BAM_CALL_VARIANTS (
@@ -84,7 +80,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
             mapping_stats
         )
         ch_versions   = ch_versions.mix(BAM_CALL_VARIANTS.out.versions)
-        ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{it[1]}.ifEmpty([]))
+        ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
         ch_vcf_filter = BAM_CALL_VARIANTS.out.vcf_filter
         ch_vcf        = BAM_CALL_VARIANTS.out.vcf
         ch_tbi        = BAM_CALL_VARIANTS.out.tbi
@@ -110,7 +106,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
     // Vcf & bam files
     ch_vcf_ref         = ch_vcf.join(ch_reference, by: [0])
-    ch_bam_out            = ch_dedup_bam_ref.map{meta,bam,ref -> [meta,bam] }
+    ch_bam_out         = ch_dedup_bam_ref.map{meta,bam, _ref -> [meta,bam] }
 
     ch_multiqc         = ch_multiqc.mix(ch_contig_qc_fail_mqc.collectFile(name:'failed_contig_quality_mqc.tsv').ifEmpty([]))
 

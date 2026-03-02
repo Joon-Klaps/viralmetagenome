@@ -49,21 +49,18 @@ workflow CONSENSUS_QC {
     if (!params.skip_quast) {
         QUAST_QC(ch_genome, [[:], []], [[:], []])
         ch_quast = QUAST_QC.out.tsv
-        ch_versions = ch_versions.mix(QUAST_QC.out.versions.first())
     }
 
     // Identify closest reference from the reference pool database using blast
     if (!params.skip_blast_qc) {
         BLASTN_QC(ch_genomes_all, ch_refpool_db, [], [], [])
         ch_blast = BLASTN_QC.out.txt
-        ch_versions = ch_versions.mix(BLASTN_QC.out.versions.first())
     }
 
     // use MMSEQS easy search to find best hits against annotation db
     if (!params.skip_consensus_annotation) {
         MMSEQS_ANNOTATE(ch_genomes_all, ch_annotation_db)
         ch_annotation = MMSEQS_ANNOTATE.out.tsv
-        ch_versions = ch_versions.mix(MMSEQS_ANNOTATE.out.versions)
     }
 
     // Annotate proteins with prokka
@@ -104,7 +101,6 @@ workflow CONSENSUS_QC {
 
         MAFFT_ITERATIONS(ch_genome_grouped_branch.pass, [[:], []], [[:], []], [[:], []], [[:], []], [[:], []], false)
 
-        ch_versions = ch_versions.mix(MAFFT_ITERATIONS.out.versions.first())
         ch_contigs_mod = ch_aligned_raw_contigs.map { meta, genome -> [meta.id, meta, genome] }
 
         // Make a channel that contains the alignment of the iterations with
@@ -123,8 +119,6 @@ workflow CONSENSUS_QC {
             }
 
         MAFFT_QC(ch_mafftQC_in.scaffolds, ch_mafftQC_in.contigs, [[:], []], [[:], []], [[:], []], [[:], []], false)
-
-        ch_versions = ch_versions.mix(MAFFT_QC.out.versions.first())
     }
 
     emit:

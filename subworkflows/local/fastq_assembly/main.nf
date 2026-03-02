@@ -21,12 +21,12 @@ workflow FASTQ_ASSEMBLY {
     ch_spades_hmm   // channel: ['path/to/hmm']
 
     main:
-    ch_versions    = Channel.empty()
-    ch_scaffolds   = Channel.empty()
-    ch_coverages   = Channel.empty()
-    ch_multiqc     = Channel.empty()
-    bad_assemblies = Channel.empty()
-    assemblers     = params.assemblers ? params.assemblers.split(',').collect{ it.trim().toLowerCase() } : []
+    ch_versions       = channel.empty()
+    ch_scaffolds      = channel.empty()
+    ch_coverages      = channel.empty()
+    ch_multiqc        = channel.empty()
+    ch_bad_assemblies = channel.empty()
+    assemblers        = params.assemblers ? params.assemblers.split(',').collect{it -> it.trim().toLowerCase() } : []
 
     // SPADES
     if ('spades' in assemblers) {
@@ -62,10 +62,10 @@ workflow FASTQ_ASSEMBLY {
     // MEGAHIT
     if ('megahit' in assemblers) {
         ch_megahit_in = ch_reads
-            .filter { it[0].single_end }
+            .filter {it -> it[0].single_end }
             .map { meta, reads -> [meta, [reads], []] }
             .mix(
-                ch_reads.filter { !it[0].single_end }.map { meta, reads -> [meta, [reads[0]], [reads[1]]] }
+                ch_reads.filter {it -> !it[0].single_end }.map { meta, reads -> [meta, [reads[0]], [reads[1]]] }
             )
         MEGAHIT(ch_megahit_in)
         ch_versions          = ch_versions.mix(MEGAHIT.out.versions.first())
@@ -88,7 +88,6 @@ workflow FASTQ_ASSEMBLY {
 
     CAT_ASSEMBLERS(ch_scaffolds_combined)
     ch_scaffolds = CAT_ASSEMBLERS.out.file_out
-    ch_versions  =  ch_versions.mix(CAT_ASSEMBLERS.out.versions.first())
 
     // Filter out empty scaffolds, might cause certain processes to crash
     ch_scaffolds_branched = ch_scaffolds

@@ -17,12 +17,10 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
 
     main:
 
-    ch_versions = Channel.empty()
-
+    ch_versions = channel.empty()
     TABIX_TABIX(
         ch_vcf
     )
-    ch_versions = ch_versions.mix(TABIX_TABIX.out.versions.first())
 
     ch_bam_vcf_fasta = ch_bam
         .join(ch_vcf, by: [0])
@@ -43,17 +41,21 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
     BEDTOOLS_MERGE(
         MAKE_BED_MASK.out.bed
     )
-    ch_versions = ch_versions.mix(BEDTOOLS_MERGE.out.versions.first())
 
-    ch_bed_fasta = BEDTOOLS_MERGE.out.bed.join(ch_fasta, by: [0])
+    ch_bed_fasta = BEDTOOLS_MERGE.out.bed
+        .join(ch_fasta, by: [0])
+        .multiMap {
+            meta, bed, fasta ->
+                bed : [meta, bed]
+                fasta : [fasta]
+        }
 
     //
     // Mask regions in consensus with BEDTools
     //
     BEDTOOLS_MASKFASTA(
-        ch_bed_fasta
+        ch_bed_fasta.bed, ch_bed_fasta.fasta
     )
-    ch_versions = ch_versions.mix(BEDTOOLS_MASKFASTA.out.versions.first())
 
     //
     // Call consensus sequence with BCFTools
@@ -67,7 +69,6 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
     BCFTOOLS_CONSENSUS(
         ch_bcftools_in
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_CONSENSUS.out.versions.first())
 
     emit:
     consensus = BCFTOOLS_CONSENSUS.out.fasta // channel: [ val(meta), [ fasta ] ]

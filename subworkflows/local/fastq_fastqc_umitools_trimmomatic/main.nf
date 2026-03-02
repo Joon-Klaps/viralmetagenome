@@ -33,8 +33,6 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     skip_umi_extract  // boolean: true/false
     umi_discard_read  // integer: 0, 1 or 2
     skip_trimming     // boolean: true/false
-    save_trimmed_fail // boolean: true/false
-    save_merged       // boolean: true/false
     min_trimmed_reads // integer: > 0
 
     main:
@@ -57,7 +55,6 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
         )
         ch_umi_reads = UMITOOLS_EXTRACT.out.reads
         ch_umi_log = UMITOOLS_EXTRACT.out.log
-        ch_versions = ch_versions.mix(UMITOOLS_EXTRACT.out.versions.first())
 
         // Discard R1 / R2 if required
         if (umi_discard_read in [1, 2]) {
@@ -82,7 +79,6 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
         ch_trim_summ = TRIMMOMATIC.out.summary
         ch_trim_log = TRIMMOMATIC.out.trim_log
         ch_trim_unpaired_reads = TRIMMOMATIC.out.unpaired_reads
-        ch_versions = ch_versions.mix(TRIMMOMATIC.out.versions.first())
 
         //
         // Filter FastQ files based on minimum trimmed read count after adapter trimming

@@ -17,12 +17,9 @@ workflow VCF_TABIX_STATS {
 
     main:
 
-    ch_versions = Channel.empty()
-
     TABIX_TABIX(
         ch_vcf
     )
-    ch_versions = ch_versions.mix(TABIX_TABIX.out.versions.first())
     ch_stats_in = ch_vcf
         .join(TABIX_TABIX.out.index, by: [0])
         .join(ch_fasta, by: [0])
@@ -39,10 +36,8 @@ workflow VCF_TABIX_STATS {
         ch_exons,
         ch_stats_in.fasta,
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_STATS.out.versions.first())
 
     emit:
     index    = TABIX_TABIX.out.index    // channel: [ val(meta), [ index ] ]
     stats    = BCFTOOLS_STATS.out.stats // channel: [ val(meta), [ txt ] ]
-    versions = ch_versions              // channel: [ versions.yml ]
 }

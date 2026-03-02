@@ -117,7 +117,6 @@ workflow VIRALMETAGENOME {
                 prokka: meta.id == 'prokka'
                     return [ unpacked ]
             }
-        ch_versions = ch_versions.mix(UNPACK_DB.out.versions)
 
         // transfer to value channels so processes are not just done once
         // '.collect()' is necessary to transform to list so cartesian products are made downstream
@@ -146,7 +145,6 @@ workflow VIRALMETAGENOME {
             }
 
         ch_blast_refdb  = ch_blastdb_out.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
-        ch_versions     = ch_versions.mix(BLAST_MAKEBLASTDB.out.versions)
     }
 
     // If we don't preprocess reads, remove samples with 0 reads
@@ -482,8 +480,7 @@ workflow VIRALMETAGENOME {
         ch_clusters_tsv.ifEmpty([]),
         ch_mash_screen.ifEmpty([]),
         ch_multiqc_custom_table_headers.ifEmpty([])
-        )
-    ch_versions = ch_versions.mix(CUSTOM_MULTIQC.out.versions)
+    )
 
     emit:
     multiqc_report = CUSTOM_MULTIQC.out.report.toList() // Channel: /path/to/multiqc_report.html

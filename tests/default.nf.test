@@ -55,6 +55,7 @@ nextflow_pipeline {
                 outdir = "$outputDir"
                 variant_caller = "bcftools"
                 consensus_caller = "bcftools"
+                skip_assembly = true
             }
         }
         then {
@@ -72,6 +73,7 @@ nextflow_pipeline {
                 outdir = "$outputDir"
                 variant_caller = "ivar"
                 consensus_caller = "bcftools"
+                skip_assembly = true
             }
         }
         then {
@@ -89,6 +91,7 @@ nextflow_pipeline {
                 outdir = "$outputDir"
                 variant_caller = "ivar"
                 consensus_caller = "ivar"
+                skip_assembly = true
             }
         }
         then {

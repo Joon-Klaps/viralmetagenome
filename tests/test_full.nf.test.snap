@@ -22,10 +22,10 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_FILTER": {
                     "python": "3.9.21",
@@ -33,7 +33,7 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
@@ -43,13 +43,13 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CAT_READS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CLUSTER": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CDHIT_CDHITEST": {
                     "cdhit": "4.8.1"
@@ -130,8 +130,7 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283",
-                    "samtools": 1.21
+                    "minimap2": "2.29-r1283"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
                     "minimap2": "2.29-r1283"
@@ -209,10 +208,10 @@
                 }
             }
         ],
+        "timestamp": "2026-03-02T14:04:43.050118765",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
-        },
-        "timestamp": "2025-11-24T18:04:22.779231858"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

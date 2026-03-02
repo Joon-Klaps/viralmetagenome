@@ -4,7 +4,7 @@
             24,
             {
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
@@ -45,11 +45,11 @@
                 }
             }
         ],
+        "timestamp": "2026-03-02T12:52:44.415288545",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
-        },
-        "timestamp": "2025-11-24T18:02:25.485668967"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "multiqc": {
         "content": [
@@ -119,14 +119,14 @@
                 "fastp-seq-quality-plot_Read_2_Before_filtering.txt:md5,f77606ac7f9da3ed988fb03fd48eabf4",
                 "fastp_filtered_reads_plot.txt:md5,55090b531a529af29097fb19cd837e52",
                 "multiqc_citations.txt:md5,57db2426be011862828d18f767d25b57",
-                "multiqc_fastp.yaml:md5,bbd12e92b647130d704d2a001c8bb1aa",
+                "multiqc_fastp.yaml:md5,7d451b3424c8529b59d7bbcff843ff26",
                 "multiqc_samples_low_reads.yaml:md5,a6448224a69eb18345f91150747c7621"
             ]
         ],
+        "timestamp": "2026-03-02T12:52:44.441087",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
-        },
-        "timestamp": "2025-11-24T18:02:25.507009016"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }
