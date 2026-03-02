@@ -16,7 +16,8 @@ process EXTRACT_PRECLUSTER {
     output:
     tuple val(meta), path("*.{fa,fasta}"), path("*.json") , emit: sequences, optional: true
     tuple val(meta), path("*.resolved.txt")       , emit: resolved
-    path "versions.yml"                           , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | grep Version | sed 's/Version: //g'"), topic: versions
     when:
     task.ext.when == null || task.ext.when
 
@@ -37,16 +38,9 @@ process EXTRACT_PRECLUSTER {
         ${kaiju_db_argument} \\
         --sequences ${sequence} \\
         --prefix ${prefix}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_taxid0000.fasta
@@ -56,11 +50,5 @@ process EXTRACT_PRECLUSTER {
         "ntaxa": 1
     }
     END_JSON
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
     """
 }

@@ -12,7 +12,9 @@ process SELECT_REFERENCE {
 
     output:
     tuple val(meta), path("*.json"), path("*_reference.fa"), path(reads), emit: fasta_reads
-    path "versions.yml"                                                 , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
+    tuple val("${task.process}"), val('pandas'), eval("pip show pandas | grep Version | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | grep Version | sed 's/Version: //g'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,28 +27,15 @@ process SELECT_REFERENCE {
         ${args} \\
         --mash ${screen} \\
         --reference ${reference} \\
-        --prefix ${prefix} \\
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
+        --prefix ${prefix}
     """
 
     stub:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
+    echo ${args}
     touch ${prefix}_reference.fa
     touch ${prefix}.json
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
     """
 }

@@ -10,7 +10,6 @@ workflow BAM_STATS_METRICS {
 
     main:
 
-    ch_versions = channel.empty()
     ch_multiqc = channel.empty()
 
     ch_sort_bam = ch_sort_bam_ref.map { meta, bam, _ref -> [meta, bam] }
@@ -26,7 +25,6 @@ workflow BAM_STATS_METRICS {
         }
 
     CUSTOM_MPILEUP(ch_sort_bam_ref)
-    ch_versions = ch_versions.mix(CUSTOM_MPILEUP.out.versions.first())
 
     PICARD_COLLECTMULTIPLEMETRICS(ch_input_metrics.bam_bai, ch_input_metrics.ref, [[:], []])
 
@@ -39,5 +37,4 @@ workflow BAM_STATS_METRICS {
     emit:
     bai      = SAMTOOLS_INDEX.out.bai // channel: [ val(meta), [ bai ] ]
     mqc      = ch_multiqc // channel: [ multiqc  ]
-    versions = ch_versions // channel: [ versions.yml ]
 }

@@ -15,7 +15,9 @@ process EXTRACT_CLUSTER {
     tuple val(meta), path('*_members.fa'), path('*_centroid.fa'), path('*.json'), emit: members_centroids
     tuple val(meta), path("*.clusters.tsv")                                     , emit: tsv
     tuple val(meta), path("*.summary_mqc.tsv")                                  , emit: summary
-    path "versions.yml"                                                         , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
+    tuple val("${task.process}"), val('pandas'), eval("pip show pandas | grep Version | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | grep Version | sed 's/Version: //g'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -32,18 +34,10 @@ process EXTRACT_CLUSTER {
         ${coverages_arg} \\
         -s ${seq} \\
         -p ${prefix}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def args = task.ext.args ?: ''
     """
     touch ${prefix}_cl0_members.fa
     touch ${prefix}_cl0_centroid.fa
@@ -60,12 +54,5 @@ process EXTRACT_CLUSTER {
     END_JSON
     touch ${prefix}.summary_mqc.tsv
     touch ${prefix}.clusters.tsv
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
-    END_VERSIONS
     """
 }

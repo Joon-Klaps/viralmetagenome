@@ -44,7 +44,6 @@ workflow FASTQ_ASSEMBLY {
         EXTEND_SPADES( ch_reads, ch_spades_consensus, "spades")
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_SPADES.out.scaffolds)
         ch_coverages         = ch_coverages.mix(EXTEND_SPADES.out.coverages)
-        ch_versions          = ch_versions.mix(EXTEND_SPADES.out.versions)
         ch_multiqc           = ch_multiqc.mix(EXTEND_SPADES.out.mqc)
     }
 
@@ -55,7 +54,6 @@ workflow FASTQ_ASSEMBLY {
         EXTEND_TRINITY( ch_reads, TRINITY.out.transcript_fasta, "trinity")
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_TRINITY.out.scaffolds)
         ch_coverages         = ch_coverages.mix(EXTEND_TRINITY.out.coverages)
-        ch_versions          = ch_versions.mix(EXTEND_TRINITY.out.versions)
         ch_multiqc           = ch_multiqc.mix(EXTEND_TRINITY.out.mqc)
     }
 
@@ -73,7 +71,6 @@ workflow FASTQ_ASSEMBLY {
         EXTEND_MEGAHIT( ch_reads, MEGAHIT.out.contigs, "megahit")
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_MEGAHIT.out.scaffolds)
         ch_coverages         = ch_coverages.mix(EXTEND_MEGAHIT.out.coverages)
-        ch_versions          = ch_versions.mix(EXTEND_MEGAHIT.out.versions)
         ch_multiqc           = ch_multiqc.mix(EXTEND_MEGAHIT.out.mqc)
     }
 

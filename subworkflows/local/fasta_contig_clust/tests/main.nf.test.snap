@@ -320,10 +320,7 @@
                     "samples_no_blast_hits_mqc.tsv:md5,cadcf4b8948d4495276e6c4efd3e429d"
                 ],
                 "5": [
-                    "versions.yml:md5,9038c9e34fd5bbbd92949ae2e1d48431",
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034",
-                    "versions.yml:md5,e599271253ebdf988f58bdaf63dbfc8f"
+                    "versions.yml:md5,9038c9e34fd5bbbd92949ae2e1d48431"
                 ],
                 "centroids_members": [
                     [
@@ -379,14 +376,11 @@
                     "samples_no_blast_hits_mqc.tsv:md5,cadcf4b8948d4495276e6c4efd3e429d"
                 ],
                 "versions": [
-                    "versions.yml:md5,9038c9e34fd5bbbd92949ae2e1d48431",
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034",
-                    "versions.yml:md5,e599271253ebdf988f58bdaf63dbfc8f"
+                    "versions.yml:md5,9038c9e34fd5bbbd92949ae2e1d48431"
                 ]
             }
         ],
-        "timestamp": "2026-03-02T13:53:26.986081086",
+        "timestamp": "2026-02-26T13:17:39.452946723",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -553,8 +547,7 @@
                     "samples_no_blast_hits_mqc.tsv:md5,cadcf4b8948d4495276e6c4efd3e429d"
                 ],
                 "5": [
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034"
+                    
                 ],
                 "centroids_members": [
                     [
@@ -607,12 +600,11 @@
                     "samples_no_blast_hits_mqc.tsv:md5,cadcf4b8948d4495276e6c4efd3e429d"
                 ],
                 "versions": [
-                    "versions.yml:md5,bdefdf750680e2feb24ca66a7b49c6b1",
-                    "versions.yml:md5,db1678b6ebabc258e04767293109a034"
+                    
                 ]
             }
         ],
-        "timestamp": "2026-03-02T13:52:51.086557165",
+        "timestamp": "2026-02-26T13:16:50.904651845",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"

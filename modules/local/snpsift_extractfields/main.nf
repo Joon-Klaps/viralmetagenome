@@ -12,7 +12,7 @@ process SNPSIFT_EXTRACTFIELDS {
 
     output:
     tuple val(meta), path("*.snpsift.txt"), emit: txt
-    path "versions.yml"                   , emit: versions
+    tuple val("${task.process}"), val('snpsift'), eval("SnpSift -version 2>&1 | grep -oE '[0-9]+\\.[0-9]+[a-z]?'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -44,11 +44,6 @@ process SNPSIFT_EXTRACTFIELDS {
         "ANN[*].AA_LEN" "ANN[*].DISTANCE" "EFF[*].EFFECT" \\
         "EFF[*].FUNCLASS" "EFF[*].CODON" "EFF[*].AA" "EFF[*].AA_LEN" \\
         > ${prefix}.snpsift.txt
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        snpsift: \$( echo \$(SnpSift split -h 2>&1) | sed 's/^.*version //' | sed 's/(.*//' | sed 's/t//g' )
-    END_VERSIONS
     """
 
     stub:
@@ -63,11 +58,7 @@ process SNPSIFT_EXTRACTFIELDS {
         avail_mem = task.memory.giga
     }
     """
+    echo "${args}
     touch ${prefix}.snpsift.txt
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        snpsift: \$( echo \$(SnpSift split -h 2>&1) | sed 's/^.*version //' | sed 's/(.*//' | sed 's/t//g' )
-    END_VERSIONS
     """
 }

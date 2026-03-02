@@ -65,7 +65,6 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     if (mapping_stats) {
         BAM_STATS_METRICS ( ch_dedup_bam_ref )
         ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
-        ch_versions  = ch_versions.mix(BAM_STATS_METRICS.out.versions)
     }
 
     // call variants
