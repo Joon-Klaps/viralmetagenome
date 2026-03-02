@@ -1,8 +1,14 @@
 {
     "-profile test - variant_caller bcftools - consensus_caller bcftools": {
         "content": [
-            117,
+            164,
             {
+                "BCFTOOLS_CONSENSUS": {
+                    "bcftools": 1.22
+                },
+                "BCFTOOLS_FILTER": {
+                    "bcftools": 1.22
+                },
                 "BCFTOOLS_MPILEUP": {
                     "bcftools": 1.22
                 },
@@ -11,6 +17,15 @@
                 },
                 "BCFTOOLS_STATS": {
                     "bcftools": 1.22
+                },
+                "BEDTOOLS_MASKFASTA": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MERGE": {
+                    "bedtools": "2.31.1"
+                },
+                "BLASTN_QC": {
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_MAKEBLASTDB": {
                     "makeblastdb": "2.17.0+"
@@ -29,8 +44,8 @@
                     "cat": 9.5
                 },
                 "CUSTOM_MPILEUP": {
-                    "pysam": "0.22.1",
                     "numpy": "1.26.4",
+                    "pysam": "0.22.1",
                     "pysamstats": "1.1.2"
                 },
                 "FASTP": {
@@ -52,6 +67,10 @@
                     "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
+                "MAKE_BED_MASK": {
+                    "python": "3.9.5",
+                    "samtools": 1.14
+                },
                 "MASH_SCREEN": {
                     "mash": 2.3
                 },
@@ -59,6 +78,9 @@
                     "mash": 2.3
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
+                    "mmseqs": "18.8cc5c"
+                },
+                "MMSEQS_EASYSEARCH": {
                     "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
@@ -69,6 +91,15 @@
                 },
                 "PRINSEQ_READS": {
                     "prinseqplusplus": 1.2
+                },
+                "PROKKA": {
+                    "prokka": "1.14.6"
+                },
+                "QUAST_QC": {
+                    "quast": "5.3.0"
+                },
+                "RENAME_FASTA_HEADER_CALLED_CONSENSUS": {
+                    "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
                     "samtools": "1.22.1"
@@ -86,9 +117,9 @@
                     "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "SNPEFF_BUILD": {
                     "snpeff": "5.0e"
@@ -97,7 +128,7 @@
                     "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
-                    "snpsift": 4.3
+                    "snpsift": "4.3t"
                 },
                 "TABIX_TABIX": {
                     "tabix": 1.21
@@ -110,7 +141,7 @@
                 }
             }
         ],
-        "timestamp": "2026-03-02T13:57:14.58299787",
+        "timestamp": "2026-02-25T17:17:52.893734457",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -118,6 +149,7 @@
     },
     "-profile test": {
         "content": [
+            279,
             {
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": 1.22
@@ -144,9 +176,9 @@
                     "blastn": "2.17.0+"
                 },
                 "BLAST_FILTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "BLAST_MAKEBLASTDB": {
                     "makeblastdb": "2.17.0+"
@@ -180,18 +212,18 @@
                     "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
-                    "pysam": "0.22.1",
                     "numpy": "1.26.4",
+                    "pysam": "0.22.1",
                     "pysamstats": "1.1.2"
                 },
                 "EXTRACT_CLUSTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "EXTRACT_PRECLUSTER": {
-                    "python": "3.9.1",
-                    "biopython": 1.78
+                    "biopython": 1.78,
+                    "python": "3.9.1"
                 },
                 "FASTP": {
                     "fastp": "1.0.1"
@@ -233,8 +265,8 @@
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
-                    "samtools": 1.14,
-                    "python": "3.9.5"
+                    "python": "3.9.5",
+                    "samtools": 1.14
                 },
                 "MASH_SCREEN": {
                     "mash": 2.3
@@ -300,9 +332,9 @@
                     "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "SNPEFF_BUILD": {
                     "snpeff": "5.0e"
@@ -311,7 +343,7 @@
                     "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
-                    "snpsift": 4.3
+                    "snpsift": "4.3t"
                 },
                 "SPADES": {
                     "spades": "4.1.0"
@@ -1561,8 +1593,8 @@
                     "cat": 9.5
                 },
                 "CUSTOM_MPILEUP": {
-                    "pysam": "0.22.1",
                     "numpy": "1.26.4",
+                    "pysam": "0.22.1",
                     "pysamstats": "1.1.2"
                 },
                 "FASTP": {
@@ -1640,9 +1672,9 @@
                     "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "SNPEFF_BUILD": {
                     "snpeff": "5.0e"
@@ -1651,7 +1683,7 @@
                     "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
-                    "snpsift": 4.3
+                    "snpsift": "4.3t"
                 },
                 "TABIX_TABIX": {
                     "tabix": 1.21
@@ -1664,7 +1696,7 @@
                 }
             }
         ],
-        "timestamp": "2026-03-02T14:00:10.09581154",
+        "timestamp": "2026-02-25T17:20:41.232520612",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -2022,8 +2054,8 @@
                     "cat": 9.5
                 },
                 "CUSTOM_MPILEUP": {
-                    "pysam": "0.22.1",
                     "numpy": "1.26.4",
+                    "pysam": "0.22.1",
                     "pysamstats": "1.1.2"
                 },
                 "FASTP": {
@@ -2053,8 +2085,8 @@
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
-                    "samtools": 1.14,
-                    "python": "3.9.5"
+                    "python": "3.9.5",
+                    "samtools": 1.14
                 },
                 "MASH_SCREEN": {
                     "mash": 2.3
@@ -2102,9 +2134,9 @@
                     "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "SNPEFF_BUILD": {
                     "snpeff": "5.0e"
@@ -2113,7 +2145,7 @@
                     "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
-                    "snpsift": 4.3
+                    "snpsift": "4.3t"
                 },
                 "TABIX_TABIX": {
                     "tabix": 1.21
