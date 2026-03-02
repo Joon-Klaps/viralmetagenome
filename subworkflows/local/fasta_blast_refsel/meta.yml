@@ -20,12 +20,8 @@ input:
         Structure: [ val(meta), path(fasta) ]
   - ch_blast_db:
       description: |
-        BLAST database for sequence comparison
+        BLAST database for sequence comparison and reference extraction
         Structure: [ val(meta), path(db) ]
-  - ch_blast_db_fasta:
-      description: |
-        FASTA sequences corresponding to the BLAST database
-        Structure: [ val(meta), path(fasta) ]
 output:
   - fasta_ref_contigs:
       description: |

@@ -11,7 +11,6 @@ workflow FASTA_CONTIG_CLUST {
     ch_coverages          // channel: [ val(meta), [ idxstats* ] ]
     ch_blacklist          // channel: [ path(blacklist) ]
     ch_blast_db           // channel: [ val(meta), path(db) ]
-    ch_blast_db_fasta     // channel: [ val(meta), path(fasta) ]
     ch_kraken2_db         // channel: [ val(meta), path(db) ]
     ch_kaiju_db           // channel: [ val(meta), path(db) ]
     contig_classifiers    // value ['kraken2','kaiju']
@@ -29,7 +28,6 @@ workflow FASTA_CONTIG_CLUST {
         ch_fasta,
         ch_blacklist,
         ch_blast_db,
-        ch_blast_db_fasta
     )
     ch_versions       = ch_versions.mix(FASTA_BLAST_REFSEL.out.versions)
     no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits

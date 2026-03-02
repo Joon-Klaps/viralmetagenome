@@ -79,7 +79,13 @@ workflow VIRALMETAGENOME {
     ch_constraint_meta = createFileChannel(params.mapping_constraints)
 
     // Databases, we really don't want to stage unnecessary databases
-    ch_ref_pool      = (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)           ? createChannel( params.reference_pool, "reference", true )                                                         : channel.empty()
+    // When blast_db is provided, skip downloading reference_pool (BLAST DB is used directly)
+    if (params.blast_db && params.reference_pool) {
+        log.warn "Both '--blast_db' and '--reference_pool' are specified. The pre-built BLAST database ('--blast_db') will be used and '--reference_pool' will be ignored."
+    }
+    def needs_ref_pool   = (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)
+    ch_ref_pool      = (needs_ref_pool && !params.blast_db)                                                                                ? createChannel( params.reference_pool, "reference", true )                                                         : channel.empty()
+    ch_blast_db_in   = (needs_ref_pool && params.blast_db)                                                                                 ? createChannel( params.blast_db, "blast_db", true )                                                                : channel.empty()
     ch_kraken2_db    = (!params.skip_assembly && !params.skip_polishing && !params.skip_precluster) || !params.skip_read_classification    ? createChannel( params.kraken2_db, "kraken2", ('kraken2' in read_classifiers || 'kraken2' in contig_classifiers) ) : channel.empty()
     ch_kaiju_db      = (!params.skip_assembly && !params.skip_polishing && !params.skip_precluster) || !params.skip_read_classification    ? createChannel( params.kaiju_db, "kaiju", ('kaiju' in read_classifiers || 'kaiju' in contig_classifiers) )         : channel.empty()
     ch_checkv_db     = !params.skip_consensus_qc                                                                                           ? createChannel( params.checkv_db, "checkv", !params.skip_checkv )                                                  : channel.empty()
@@ -93,9 +99,10 @@ workflow VIRALMETAGENOME {
 
     // Prepare Databases
     ch_db = channel.empty()
+    ch_blast_db_unpacked = channel.empty()
     if ((!params.skip_assembly && !params.skip_polishing) || !params.skip_consensus_qc || !params.skip_read_classification || (!params.skip_preprocessing && !params.skip_hostremoval)){
 
-        ch_db_raw = ch_db.mix(ch_ref_pool,ch_kraken2_db, ch_kaiju_db, ch_checkv_db, ch_bracken_db, ch_k2_host, ch_annotation_db, ch_prokka_db)
+        ch_db_raw = ch_db.mix(ch_ref_pool, ch_blast_db_in, ch_kraken2_db, ch_kaiju_db, ch_checkv_db, ch_bracken_db, ch_k2_host, ch_annotation_db, ch_prokka_db)
         UNPACK_DB (ch_db_raw)
 
         ch_db = UNPACK_DB.out.db
@@ -103,6 +110,8 @@ workflow VIRALMETAGENOME {
                 k2_host: meta.id == 'k2_host'
                     return [ unpacked ]
                 reference: meta.id == 'reference'
+                    return [ meta, unpacked ]
+                blast_db: meta.id == 'blast_db'
                     return [ meta, unpacked ]
                 checkv: meta.id == 'checkv'
                     return [ unpacked ]
@@ -122,6 +131,7 @@ workflow VIRALMETAGENOME {
         // transfer to value channels so processes are not just done once
         // '.collect()' is necessary to transform to list so cartesian products are made downstream
         ch_ref_pool         = ch_db.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
+        ch_blast_db_unpacked = ch_db.blast_db.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
         ch_annotation_db    = ch_db.annotation.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'annotation'], it]}
         ch_kraken2_db       = ch_db.kraken2.collect().ifEmpty([])
         ch_kaiju_db         = ch_db.kaiju.collect().ifEmpty([])
@@ -135,18 +145,24 @@ workflow VIRALMETAGENOME {
     ch_blast_refdb  = channel.empty()
 
     if ( (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)){
-        ch_blastdb_in = channel.empty()
-        ch_blastdb_in = ch_blastdb_in.mix(ch_ref_pool)
+        if (params.blast_db) {
+            // Use pre-built BLAST database directly
+            ch_blast_refdb = ch_blast_db_unpacked
+        } else {
+            // Build BLAST DB from reference_pool FASTA (existing behavior)
+            ch_blastdb_in = channel.empty()
+            ch_blastdb_in = ch_blastdb_in.mix(ch_ref_pool)
 
-        BLAST_MAKEBLASTDB ( ch_blastdb_in )
-        ch_blastdb_out = BLAST_MAKEBLASTDB.out.db
-            .branch { meta, db ->
-                reference: meta.id == 'reference'
-                    return [ meta, db ]
-            }
+            BLAST_MAKEBLASTDB ( ch_blastdb_in )
+            ch_blastdb_out = BLAST_MAKEBLASTDB.out.db
+                .branch { meta, db ->
+                    reference: meta.id == 'reference'
+                        return [ meta, db ]
+                }
 
-        ch_blast_refdb  = ch_blastdb_out.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
-        ch_versions     = ch_versions.mix(BLAST_MAKEBLASTDB.out.versions)
+            ch_blast_refdb  = ch_blastdb_out.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
+            ch_versions     = ch_versions.mix(BLAST_MAKEBLASTDB.out.versions)
+        }
     }
 
     // If we don't preprocess reads, remove samples with 0 reads
@@ -212,7 +228,6 @@ workflow VIRALMETAGENOME {
                 ch_coverages,
                 ch_blacklist,
                 ch_blast_refdb,
-                ch_ref_pool,
                 ch_kraken2_db,
                 ch_kaiju_db,
                 contig_classifiers,

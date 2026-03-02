@@ -21,6 +21,31 @@ An alternative reference pool is the [Virosaurus](https://viralzone.expasy.org/8
 
 Any nucleotide fasta file will do. Specify it with the parameter `--reference_pool`.
 
+### Pre-built BLAST database
+
+Instead of providing a FASTA file via `--reference_pool` (and having the pipeline rebuild a BLAST database every run), you can supply a **pre-built BLAST nucleotide database** with the `--blast_db` parameter. This can save significant time for large reference pools like RVDB.
+
+```bash
+nextflow run nf-core/viralmetagenome --blast_db /path/to/my_blastdb/ ...
+```
+
+The value can be a local directory containing the BLAST database files, or a `.tar.gz` archive that will be automatically unpacked. The database must have been built with `makeblastdb -dbtype nucl`.
+
+When `--blast_db` is provided:
+
+- The `--reference_pool` parameter is ignored (no FASTA download needed).
+- The BLAST database is used directly for all BLAST searches and for extracting individual reference sequences on demand (via `blastdbcmd`), avoiding the need to stage or index a large FASTA file.
+
+To build a BLAST database from a FASTA file outside the pipeline:
+
+```bash
+makeblastdb -in my_references.fasta -dbtype nucl -out my_blastdb/my_references.fasta
+```
+
+:::tip
+Pre-building and caching the BLAST database is recommended for production use. It avoids re-downloading and re-indexing large reference pools on every run.
+:::
+
 ## Kaiju
 
 The Kaiju database will be used to classify the reads and intermediate contigs in taxonomic groups. The default database is the RVDB-prot pre-built database from Kaiju.

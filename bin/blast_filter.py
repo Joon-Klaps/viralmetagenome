@@ -13,9 +13,7 @@ from pathlib import Path
 from typing import Dict, Iterable, Optional, Sequence, cast
 
 import pandas as pd
-from Bio import SeqIO
 from utils.constant_variables import BLAST_COLUMNS
-from utils.file_tools import index_fasta
 
 logger = logging.getLogger()
 
@@ -24,7 +22,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     """Define and immediately parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Provide a command line tool to filter blast results.",
-        epilog="Example: python blast_filter.py -i blast.txt -c contigs.fa -r references.fa -p prefix -b blacklist.txt",
+        epilog="Example: python blast_filter.py -i blast.txt -c contigs.fa -p prefix -b blacklist.txt",
     )
 
     parser.add_argument(
@@ -39,14 +37,6 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         "-c",
         "--contigs",
         metavar="CONTIG FILE",
-        type=Path,
-        help="Contig sequence file that was blasted",
-    )
-
-    parser.add_argument(
-        "-r",
-        "--references",
-        metavar="REFERENCE FILE",
         type=Path,
         help="Contig sequence file that was blasted",
     )
@@ -153,59 +143,20 @@ def load_blacklist(blacklist_path: Path) -> set[str]:
     return entries
 
 
-def write_contigs_and_blast_sequence(
-    df: pd.DataFrame,
-    contigs: Path,
-    references: Path,
+def write_contigs_output(contigs: Path, prefix: str) -> None:
+    """Copy contigs to the output file.
 
-    prefix: str,
-) -> None:
-    """
-    Extracts contigs hits from a DataFrame and writes them to a FASTA file.
+    Reference sequences are appended downstream by the Nextflow subworkflow
+    (BLAST_BLASTDBCMD + collectFile), so this function only copies the contigs.
 
     Args:
-        df (pandas.DataFrame): DataFrame containing the hits information.
-        contigs (str): Path to the contigs file.
-        references (str): Path to the references file in FASTA format.
-        prefix (str): Prefix for the output file.
-
-    Returns:
-        None
+        contigs: Path to the contigs FASTA file.
+        prefix: Output file prefix.
     """
-    # Get unique hit IDs we need to find
-    needed_hits = {hit.split(" ")[0] for hit in df["subject"].unique()}
-
-    logger.info("Building sequence index for reference file...")
-    ref_index = index_fasta(references)
-
-    # Copy contigs to output file first
-    with open(contigs, "r", encoding="utf-8") as contigs_file, open(
+    with open(contigs, "r", encoding="utf-8") as src, open(
         f"{prefix}_withref.fa", "w", encoding="utf-8"
-    ) as out_file:
-        out_file.write(contigs_file.read())
-
-        # Lookup our sequence
-        found_hits: set[str] = set()
-        for hit_name in needed_hits:
-            if hit_name in ref_index:
-                record = ref_index[hit_name]
-                # Reassign the id
-                record.id = hit_name.replace("|", "-").replace("\\", "-").replace("/", "-")
-                SeqIO.write(record, out_file, "fasta")
-                found_hits.add(hit_name)
-            else:
-                logger.debug("Reference sequence %s not found in index", hit_name)
-
-        # Warn if some sequences weren't found
-        missing_hits = needed_hits - found_hits
-        if missing_hits:
-            logger.warning(
-                "Could not find the following reference sequences: %s",
-                ", ".join(sorted(missing_hits)),
-            )
-
-    if hasattr(ref_index, 'close'):
-        ref_index.close()
+    ) as dst:
+        dst.write(src.read())
 
 
 def write_filtered_blast_df(df: pd.DataFrame, prefix: str) -> None:
@@ -234,9 +185,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     if args.blast is None or not args.blast.is_file():
         logger.error("The given input file %s was not found!", args.blast)
         sys.exit(2)
-    if args.references is None or not args.references.is_file():
-        logger.error("The given input file %s was not found!", args.references)
-        sys.exit(2)
     if args.contigs is None or not args.contigs.is_file():
         logger.error("The given input file %s was not found!", args.contigs)
         sys.exit(2)
@@ -258,7 +206,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         blacklist_hits,
     )
 
-    write_contigs_and_blast_sequence(df_filter, args.contigs, args.references, args.prefix)
+    write_contigs_output(args.contigs, args.prefix)
 
     write_filtered_blast_df(df_filter, args.prefix)
 

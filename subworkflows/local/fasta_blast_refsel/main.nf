@@ -1,5 +1,6 @@
 include { noBlastHitsToMultiQC  } from '../utils_nfcore_viralmetagenome_pipeline'
 include { BLAST_BLASTN          } from '../../../modules/nf-core/blast/blastn/main'
+include { BLAST_BLASTDBCMD      } from '../../../modules/nf-core/blast/blastdbcmd/main'
 include { BLAST_FILTER          } from '../../../modules/local/blast_filter'
 
 workflow FASTA_BLAST_REFSEL {
@@ -7,7 +8,6 @@ workflow FASTA_BLAST_REFSEL {
     ch_fasta          // channel: [ val(meta), path(fasta)]
     ch_blacklist      // channel: [ path(blacklist) ]
     ch_blast_db       // channel: [ val(meta), path(db) ]
-    ch_blast_db_fasta // channel: [ val(meta), path(fasta) ]
 
     main:
     ch_versions = channel.empty()
@@ -44,12 +44,40 @@ workflow FASTA_BLAST_REFSEL {
         ch_input_blast_filter.hits,
         ch_input_blast_filter.contigs,
         ch_blacklist,
-        ch_blast_db_fasta,
     )
     ch_versions = ch_versions.mix(BLAST_FILTER.out.versions.first())
 
+    // Extract matching reference sequences from the BLAST DB using filtered hit IDs
+    // NEEDS SOME EXTRA WORK TO MAKE SURE IF NO HITS ARE FOUND, sample channels don't get discarded
+    BLAST_BLASTDBCMD(
+        BLAST_FILTER.out.hits
+            .filter { _meta, hits -> hits.countLines() > 0 }
+            .map { meta, hits -> [meta, '', hits] },
+        ch_blast_db
+    )
+
+    // Concatenate contigs with extracted reference sequences per sample
+    // using mix + collectFile following the nf-core pattern
+    ch_to_concat = BLAST_FILTER.out.sequence     // [ meta, contigs.fa ]         - always present
+        .mix(BLAST_BLASTDBCMD.out.fasta)          // [ meta, refs.fasta ]          - only for samples with hits
+        .multiMap { meta, fasta ->
+            metadata: [meta.id, meta]
+            fastas:   [meta.id, fasta]
+        }
+
+    ch_fasta_ref_contigs = ch_to_concat.fastas
+        .collectFile { id, fasta ->
+            ["${id}_withref.fa", fasta]
+        }
+        .map { file ->
+            def id = file.simpleName.replace('_withref', '')
+            [id, file]
+        }
+        .join(ch_to_concat.metadata.unique())
+        .map { _id, file, meta -> [meta, file] }
+
     emit:
-    fasta_ref_contigs = BLAST_FILTER.out.sequence // channel: [ val(meta), [ fasta ] ]
-    no_blast_hits     = ch_no_blast_hits_mqc      // channel: [ val(meta), [ mqc ] ]
-    versions          = ch_versions               // channel: [ versions.yml ]
+    fasta_ref_contigs = ch_fasta_ref_contigs      // channel: [ val(meta), [ fasta ] ]
+    no_blast_hits     = ch_no_blast_hits_mqc       // channel: [ val(meta), [ mqc ] ]
+    versions          = ch_versions                // channel: [ versions.yml ]
 }

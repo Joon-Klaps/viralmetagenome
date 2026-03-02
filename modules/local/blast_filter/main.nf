@@ -11,7 +11,6 @@ process BLAST_FILTER {
     tuple val(meta), path(blast)
     tuple val(meta2), path(contigs)
     path(blacklist)
-    tuple val(meta3), path(db)
 
     output:
     tuple val(meta), path("*.hits.txt"), emit: hits, optional: true
@@ -33,14 +32,12 @@ process BLAST_FILTER {
         ${blast_command} \\
         ${blacklist_arg} \\
         -c ${contigs} \\
-        -r ${db} \\
         -p ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
         pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
     END_VERSIONS
     """
 
@@ -56,7 +53,6 @@ process BLAST_FILTER {
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
         pandas: \$(pip show pandas | grep Version | sed 's/Version: //g')
-        biopython: \$(pip show biopython | grep Version | sed 's/Version: //g')
     END_VERSIONS
     """
 }

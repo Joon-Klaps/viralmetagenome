@@ -30,12 +30,8 @@ input:
         Structure: [ val(meta), path(idxstats) ]
   - ch_blast_db:
       description: |
-        BLAST database for reference selection
+        BLAST database for reference selection and sequence extraction
         Structure: [ val(meta), path(db) ]
-  - ch_blast_db_fasta:
-      description: |
-        Reference FASTA sequences corresponding to BLAST database
-        Structure: [ val(meta), path(fasta) ]
   - ch_kraken2_db:
       description: |
         Kraken2 database for taxonomic classification

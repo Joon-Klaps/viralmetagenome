@@ -524,6 +524,12 @@
                     "description": "Set of fasta sequences used as potential references for the contigs",
                     "fa_icon": "fas fa-database"
                 },
+                "blast_db": {
+                    "type": "string",
+                    "description": "Path to a pre-built BLAST nucleotide database directory or archive.",
+                    "help_text": "Provide a path to a pre-built BLAST nucleotide database (directory or .tar.gz archive). This avoids rebuilding the database on every pipeline run, which can be time-consuming for large reference pools. When this parameter is set, the --reference_pool FASTA is not needed; individual reference sequences are extracted on demand from the BLAST database using blastdbcmd. The database must have been built with -dbtype nucl.",
+                    "fa_icon": "fas fa-database"
+                },
                 "blacklist": {
                     "type": "string",
                     "description": "File containing identifiers to exclude from the scaffolding reference pool",
