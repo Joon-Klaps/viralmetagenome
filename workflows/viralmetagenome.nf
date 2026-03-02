@@ -386,7 +386,6 @@ workflow VIRALMETAGENOME {
         VCF_ANNOTATE (
             FASTQ_FASTA_MAP_CONSENSUS.out.vcf_ref
         )
-        ch_versions = ch_versions.mix(VCF_ANNOTATE.out.versions)
     }
 
     ch_checkv_summary     = channel.empty()
