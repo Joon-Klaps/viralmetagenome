@@ -28,7 +28,7 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
                     "blast": "2.17.0+"
@@ -39,7 +39,7 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
@@ -49,13 +49,13 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CAT_READS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CLUSTER": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_FASTQ": {
                     "cat": 9.5
@@ -133,8 +133,7 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283",
-                    "samtools": 1.21
+                    "minimap2": "2.29-r1283"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
                     "minimap2": "2.29-r1283"
@@ -193,7 +192,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.3a"
+                    "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -212,15 +211,14 @@
                 }
             }
         ],
+        "timestamp": "2026-03-02T12:46:28.392701493",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2025-12-02T12:18:16.258673037"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "-profile test": {
         "content": [
-            279,
             {
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": 1.22
@@ -241,18 +239,13 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
-                    "blast": "2.17.0+"
-                },
-                "BLAST_FILTER": {
-                    "python": "3.9.21",
-                    "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
@@ -262,13 +255,13 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CAT_READS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CLUSTER": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_FASTQ": {
                     "cat": 9.5
@@ -282,19 +275,10 @@
                 "CONTIG_INDEX": {
                     "samtools": "1.22.1"
                 },
-                "CUSTOM_MPILEUP": {
-                    "pysam": "0.22.1",
-                    "numpy": "1.26.4",
-                    "pysamstats": "1.1.2"
-                },
                 "EXTRACT_CLUSTER": {
                     "python": "3.9.21",
                     "pandas": "2.2.3",
                     "biopython": 1.85
-                },
-                "EXTRACT_PRECLUSTER": {
-                    "python": "3.9.1",
-                    "biopython": 1.78
                 },
                 "FASTP": {
                     "fastp": "1.0.1"
@@ -335,10 +319,6 @@
                     "kraken2": "2.1.6",
                     "pigz": 2.8
                 },
-                "MAKE_BED_MASK": {
-                    "samtools": 1.14,
-                    "python": "3.9.5"
-                },
                 "MASH_SCREEN": {
                     "mash": 2.3
                 },
@@ -349,8 +329,7 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283",
-                    "samtools": 1.21
+                    "minimap2": "2.29-r1283"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
                     "minimap2": "2.29-r1283"
@@ -412,7 +391,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.3a"
+                    "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -1331,7 +1310,7 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,d3e6fae9b860d7b777b2110a2f7642dd",
                 "multiqc_bcftools_stats.yaml:md5,034f7ed5f1666dba101b54d8e34497ee",
                 "multiqc_citations.txt:md5,ca5ee81b05f0cec3ad44e1557f2cddce",
-                "multiqc_fastp.yaml:md5,bbd12e92b647130d704d2a001c8bb1aa",
+                "multiqc_fastp.yaml:md5,7d451b3424c8529b59d7bbcff843ff26",
                 "multiqc_ivar_variants.yaml:md5,221ffc531ec03a14f9c30d3db0557f74",
                 "multiqc_kraken.yaml:md5,d5b81d208510e7de8e3b8ceb01ecb9a2",
                 "multiqc_quast_quast_megahit.yaml:md5,82a185f52a0ca6befb9910eb98b4aff6",
@@ -1340,16 +1319,16 @@
                 "quast_num_contigs.txt:md5,38140ae00dcde51a1a80b5eed7b71c89",
                 "quast_table.txt:md5,0fa42e965c5c8591bebfbd952f2fcf4c",
                 "summary_clusters_info.txt:md5,aed14f7c38c8e1f504f40bfab7597f9e",
-                "SRR11140744.fastp.json:md5,d29d1ad676326d504caa833509a998cd",
-                "SRR11140748.fastp.json:md5,6aa0c398f32d344389b8612a29013531",
-                "empty-SRR.fastp.json:md5,31599b6ab826e8098a539d283f001b32",
+                "SRR11140744.fastp.json:md5,f8eef72194acbdd00321057edfb972d0",
+                "SRR11140748.fastp.json:md5,bbcea546259f1a4f694eec82d756a4cb",
+                "empty-SRR.fastp.json:md5,7291568569db81b5940b8a78bb277ad8",
                 "SRR11140744_kraken2_host.kraken2.report.txt:md5,8af6d6b36473056da22d0a01e65a468a",
                 "SRR11140748_kraken2_host.kraken2.report.txt:md5,dcb606266fa1e1b47b4ef5d275159490",
-                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,a1bc7f891fc7269da4f32729d549bd46",
+                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,18de477c7bd736375a206f726dd5e88e",
                 "SRR11140744_BA2-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,6d5c1f6ba8e456deb31cbc6078b3077b",
+                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,61da0c611df0214fd6b2a08383c269de",
                 "SRR11140744_MN908947-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,3629692e6b8cb7c15ddf6d09ed6eca4b",
+                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,44edd59d5a381aac099a4f3d32c19121",
                 "SRR11140748_MN908947-CONSTRAINT.snpsift.txt:md5,c6660f19b6896ded223d1b0f263606da",
                 "SRR11140744_BA2-CONSTRAINT_constraint.bcftools_stats.txt:md5,0d5d1630ea819361de065484eb206c9b",
                 "SRR11140744_BA2-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,67543543be553c0b24868f03f221d50e",
@@ -1626,11 +1605,11 @@
                 ]
             ]
         ],
+        "timestamp": "2026-03-02T12:43:30.282287755",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2025-12-02T12:15:47.54386639"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "-profile test - variant_caller ivar - consensus_caller ivar": {
         "content": [
@@ -1655,7 +1634,7 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
                     "blast": "2.17.0+"
@@ -1666,7 +1645,7 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
@@ -1676,13 +1655,13 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CAT_READS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CLUSTER": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_FASTQ": {
                     "cat": 9.5
@@ -1763,8 +1742,7 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283",
-                    "samtools": 1.21
+                    "minimap2": "2.29-r1283"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
                     "minimap2": "2.29-r1283"
@@ -1826,7 +1804,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.3a"
+                    "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -1845,11 +1823,11 @@
                 }
             }
         ],
+        "timestamp": "2026-03-02T12:50:40.773122652",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.7"
-        },
-        "timestamp": "2025-11-24T17:55:38.691268102"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "output samplesheets": {
         "content": [
@@ -2155,11 +2133,11 @@
                 "SRR11140748_cl0_itvariant-calling"
             ]
         ],
+        "timestamp": "2025-07-21T13:11:26.082052726",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-07-21T13:11:26.082052726"
+        }
     },
     "-profile test - variant_caller ivar - consensus_caller bcftools": {
         "content": [
@@ -2184,7 +2162,7 @@
                     "bedtools": "2.31.1"
                 },
                 "BLASTN_QC": {
-                    "blast": "2.17.0+"
+                    "blastn": "2.17.0+"
                 },
                 "BLAST_BLASTN": {
                     "blast": "2.17.0+"
@@ -2195,7 +2173,7 @@
                     "biopython": 1.85
                 },
                 "BLAST_MAKEBLASTDB": {
-                    "blast": "2.17.0+"
+                    "makeblastdb": "2.17.0+"
                 },
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
@@ -2205,13 +2183,13 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CAT_READS": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_CLUSTER": {
-                    "pigz": "2.3.4"
+                    "pigz": 2.8
                 },
                 "CAT_FASTQ": {
                     "cat": 9.5
@@ -2289,8 +2267,7 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283",
-                    "samtools": 1.21
+                    "minimap2": "2.29-r1283"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
                     "minimap2": "2.29-r1283"
@@ -2352,7 +2329,7 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.3a"
+                    "snpeff": "5.4a"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": 4.3
@@ -2371,10 +2348,10 @@
                 }
             }
         ],
+        "timestamp": "2026-03-02T12:48:39.541069637",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2025-12-02T12:21:08.970132716"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }
