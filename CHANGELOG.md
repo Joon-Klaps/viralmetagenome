@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Template update for nf-core/tools v3.5.2 ([#270](https://github.com/nf-core/viralmetagenome/pull/270)) (by @Joon-Klaps)
+- Modules update to latest nf-core versions ([#271](https://github.com/nf-core/viralmetagenome/pull/271)) (by @Joon-Klaps)
+- Update local modules to use topics ([#272](https://github.com/nf-core/viralmetagenome/pull/272)) (by @Joon-Klaps)
+
 ### `Fixed`
 
 - Follow the rules of strict syntax health [#265](https://github.com/nf-core/viralmetagenome/pull/265) (by @Joon-Klaps)

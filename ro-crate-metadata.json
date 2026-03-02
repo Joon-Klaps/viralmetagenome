@@ -105,6 +105,7 @@
             },
             "mentions": [
                 {
+                    "@id": "#b39d3123-3fb0-4ecf-aaa0-b5a8ab3d2ff5"
                     "@id": "#7cad9ac6-7933-47ae-8d40-2c598371f1f5"
                 }
             ],
@@ -133,6 +134,7 @@
                 "ComputationalWorkflow"
             ],
             "dateCreated": "",
+            "dateModified": "2026-01-08T11:11:52Z",
             "dateModified": "2026-01-23T17:38:54Z",
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
             "keywords": [
@@ -178,6 +180,11 @@
             "version": "!>=25.04.0"
         },
         {
+            "@id": "#b39d3123-3fb0-4ecf-aaa0-b5a8ab3d2ff5",
+            "@type": "TestSuite",
+            "instance": [
+                {
+                    "@id": "#bef26f0c-aeb2-4cdd-96a7-6a7e211cbe3d"
             "@id": "#7cad9ac6-7933-47ae-8d40-2c598371f1f5",
             "@type": "TestSuite",
             "instance": [
@@ -191,6 +198,7 @@
             "name": "Test suite for nf-core/viralmetagenome"
         },
         {
+            "@id": "#bef26f0c-aeb2-4cdd-96a7-6a7e211cbe3d",
             "@id": "#9d23a9e9-43d2-4735-8827-8505a7ecb7b8",
             "@type": "TestInstance",
             "name": "GitHub Actions workflow for testing nf-core/viralmetagenome",

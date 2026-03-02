@@ -7,6 +7,7 @@ process UMITOOLS_DEDUP {
         'https://depot.galaxyproject.org/singularity/umi_tools:1.1.5--py39hbcbf7aa_4' :
         'biocontainers/umi_tools:1.1.5--py39hbcbf7aa_4' }"
 
+
     input:
     tuple val(meta), path(bam), path(bai)
     val get_output_stats
