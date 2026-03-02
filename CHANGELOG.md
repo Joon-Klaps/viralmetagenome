@@ -7,11 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Template update for nf-core/tools v3.5.2 ([#270](https://github.com/nf-core/viralmetagenome/pull/270)) (by @Joon-Klaps)
+- Modules update to latest nf-core versions ([#271](https://github.com/nf-core/viralmetagenome/pull/271)) (by @Joon-Klaps)
+
 ### `Fixed`
 
 - Fix bug from regex in input schema still allowing underscores in sample and group names ([#269](https://github.com/nf-core/viralmetagenome/pull/269)) - (by @Joon-Klaps)
 
 ### `Dependencies`
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `snpeff`   | 5.3.0a      | 5.4.0a      |
 
 ### `Deprecated`
 
