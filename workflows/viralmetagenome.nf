@@ -145,7 +145,6 @@ workflow VIRALMETAGENOME {
             }
 
         ch_blast_refdb  = ch_blastdb_out.reference.collect{it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
-        ch_versions     = ch_versions.mix(BLAST_MAKEBLASTDB.out.versions)
     }
 
     // If we don't preprocess reads, remove samples with 0 reads
