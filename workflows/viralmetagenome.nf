@@ -439,7 +439,7 @@ workflow VIRALMETAGENOME {
 
     def topic_versions_string = topic_versions.versions_tuple
         .map { process, tool, version ->
-            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version.toString()}" ]
+            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version}" ]
         }
         .groupTuple(by:0)
         .map { process, tool_versions ->
