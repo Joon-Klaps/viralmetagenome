@@ -256,7 +256,7 @@
                         "centroid": "stub_centroid",
                         "cluster_id": "cl0",
                         "cluster_size": 1,
-                        "cumulative_read_depth": 0,
+                        "cumulative_read_depth": 0.0,
                         "external_reference": null,
                         "members": [
                             "stub_member"
@@ -416,7 +416,7 @@
                         "centroid": "stub_centroid",
                         "cluster_id": "cl0",
                         "cluster_size": 1,
-                        "cumulative_read_depth": 0,
+                        "cumulative_read_depth": 0.0,
                         "external_reference": null,
                         "members": [
                             "stub_member"
