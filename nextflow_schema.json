@@ -961,8 +961,8 @@
                 },
                 "arguments_bcftools_norm": {
                     "type": "string",
-                    "default": "--do-not-normalize --output-type z --multiallelics -any",
-                    "description": "Arguments for BCFtools norm",
+                    "default": "--do-not-normalize --output-type z --multiallelics -any --write-index=tbi",
+                    "description": "Arguments for BCFtools norm, `--write-index=tbi` is required for downstream steps",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
                 },

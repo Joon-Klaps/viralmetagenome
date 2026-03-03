@@ -17,7 +17,6 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
 
     main:
 
-    ch_versions = channel.empty()
     TABIX_TABIX(
         ch_vcf
     )
@@ -33,7 +32,6 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
         ch_bam_vcf_fasta,
         mapping_stats,
     )
-    ch_versions = ch_versions.mix(MAKE_BED_MASK.out.versions.first())
 
     //
     // Merge intervals with BEDTools
@@ -72,5 +70,4 @@ workflow BAM_VCF_CONSENSUS_BCFTOOLS {
 
     emit:
     consensus = BCFTOOLS_CONSENSUS.out.fasta // channel: [ val(meta), [ fasta ] ]
-    versions  = ch_versions // channel: [ versions.yml ]
 }

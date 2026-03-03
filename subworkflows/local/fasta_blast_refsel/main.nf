@@ -11,7 +11,6 @@ workflow FASTA_BLAST_REFSEL {
 
     main:
 
-    ch_versions = channel.empty()
     // Find a complete genome that's already assembled
     BLAST_BLASTN(
         ch_fasta,
@@ -46,10 +45,8 @@ workflow FASTA_BLAST_REFSEL {
         ch_blacklist,
         ch_blast_db_fasta,
     )
-    ch_versions = ch_versions.mix(BLAST_FILTER.out.versions.first())
 
     emit:
     fasta_ref_contigs = BLAST_FILTER.out.sequence // channel: [ val(meta), [ fasta ] ]
     no_blast_hits     = ch_no_blast_hits_mqc      // channel: [ val(meta), [ mqc ] ]
-    versions          = ch_versions               // channel: [ versions.yml ]
 }

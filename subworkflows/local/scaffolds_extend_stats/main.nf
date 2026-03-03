@@ -14,7 +14,6 @@ workflow SCAFFOLDS_EXTEND_STATS {
     name             // value 'spades','trinity','megahit'
 
     main:
-    ch_versions = channel.empty()
     ch_scaffolds = channel.empty()
     ch_multiqc = channel.empty()
 
@@ -43,7 +42,6 @@ workflow SCAFFOLDS_EXTEND_STATS {
             ch_sspace_input.settings,
             ch_sspace_input.name,
         )
-        ch_versions = ch_versions.mix(SSPACE_BASIC.out.versions.first())
 
         ch_scaffolds = SSPACE_BASIC.out.scaffolds
     }
@@ -66,5 +64,4 @@ workflow SCAFFOLDS_EXTEND_STATS {
     scaffolds = ch_scaffolds // channel: [ val(meta), [ scaffolds] ]
     coverages = ch_coverages // channel: [ val(meta), [ idxstats ] ]
     mqc       = ch_multiqc   // channel: [ val(meta), [ mqc ] ]
-    versions  = ch_versions  // channel: [ versions.yml ]
 }

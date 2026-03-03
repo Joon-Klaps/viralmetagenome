@@ -3,6 +3,7 @@ nextflow_pipeline {
     name "Test pipeline"
     script "../main.nf"
     tag "pipeline"
+    tag "default"
 
     test("-profile test") {
 
@@ -25,6 +26,8 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success},
                 { assert snapshot(
+                    // Number of successful tasks
+                    workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
                     removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml"),
                     // All stable path name, with a relative path
@@ -55,7 +58,7 @@ nextflow_pipeline {
                 outdir = "$outputDir"
                 variant_caller = "bcftools"
                 consensus_caller = "bcftools"
-                skip_assembly = true
+                skip_assembly = true // Running out of memory on CI
             }
         }
         then {

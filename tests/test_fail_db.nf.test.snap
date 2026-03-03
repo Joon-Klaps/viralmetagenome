@@ -10,9 +10,9 @@
                     "blastn": "2.17.0+"
                 },
                 "BLAST_FILTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "BLAST_MAKEBLASTDB": {
                     "makeblastdb": "2.17.0+"
@@ -37,13 +37,13 @@
                     "samtools": "1.22.1"
                 },
                 "EXTRACT_CLUSTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "EXTRACT_PRECLUSTER": {
-                    "python": "3.9.1",
-                    "biopython": 1.78
+                    "biopython": 1.78,
+                    "python": "3.9.1"
                 },
                 "FASTP": {
                     "fastp": "1.0.1"
@@ -99,7 +99,7 @@
                 }
             }
         ],
-        "timestamp": "2026-03-02T12:51:52.845883852",
+        "timestamp": "2026-02-12T22:44:19.816818606",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -107,12 +107,8 @@
     },
     "multiqc": {
         "content": [
-            [
-
-            ],
-            [
-
-            ]
+            [],
+            []
         ],
         "timestamp": "2025-09-10T11:48:47.367320041",
         "meta": {

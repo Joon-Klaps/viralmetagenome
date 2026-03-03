@@ -23,8 +23,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }

@@ -67,7 +67,6 @@ workflow FASTA_CONTIG_PRECLUST {
     }
 
     EXTRACT_PRECLUSTER ( ch_classifications.kaiju, ch_classifications.kraken, ch_classifications.contig, ch_kaiju_db )
-    ch_versions = ch_versions.mix( EXTRACT_PRECLUSTER.out.versions.first() )
 
     ch_reads = ch_contigs_reads.map{ meta, _fasta, reads -> [meta.sample, meta, reads] }
 

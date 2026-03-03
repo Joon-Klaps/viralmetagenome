@@ -12,7 +12,7 @@ process SNPEFF_BUILD {
 
     output:
     tuple val(meta), path('snpeff_db'), path("*.config"), emit: db
-    path "versions.yml"                                 , emit: versions
+    tuple val("${task.process}"), val('snpeff'), eval("snpEff -version 2>&1 | cut -f 2 -d '\t'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -53,38 +53,12 @@ process SNPEFF_BUILD {
         ${args} \\
         -v \\
         ${prefix}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        snpeff: \$(echo \$(snpEff -version 2>&1) | cut -f 2 -d ' ')
-    END_VERSIONS
     """
 
     stub:
-    def args = task.ext.args ?: ''
     prefix = meta.id
-    def extension = gff.getExtension().replace("3", "")
-    if (extension == "gtf") {
-        format = "gtf22"
-    }
-    else {
-        format = "gff3"
-    }
-
-    def avail_mem = 4
-    if (!task.memory) {
-        log.info('[snpEff] Available memory not known - defaulting to 4GB. Specify process memory requirements to change this.')
-    }
-    else {
-        avail_mem = task.memory.giga
-    }
     """
     mkdir -p snpeff_db
     touch ${prefix}.config
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        snpeff: \$(echo \$(snpEff -version 2>&1) | cut -f 2 -d ' ')
-    END_VERSIONS
     """
 }

@@ -29,7 +29,7 @@ process CUSTOM_MULTIQC {
     path "*multiqc_report.html"                , emit: report       , optional: true
     path "*_data"                              , emit: data         , optional: true
     path "*_plots"                             , emit: plots        , optional: true
-    path "versions.yml"                        , emit: versions
+    tuple val("${task.process}"), val('multiqc'), eval("multiqc --version | sed -e 's/multiqc, version //g'"), emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -63,20 +63,10 @@ process CUSTOM_MULTIQC {
         ${clusters_files} \\
         ${mapping_constraints_command} \\
         ${screen_files_command} \\
-        ${custom_table_headers_command} \\
-
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version: | sed 's/Version: //g')
-        yaml: \$(pip show pyyaml | grep Version: | sed 's/Version: //g')
-        multiqc: \$( multiqc --version | sed -e "s/multiqc, version //g" )
-    END_VERSIONS
+        ${custom_table_headers_command}
     """
 
     stub:
-    def args = task.ext.args ?: ''
     """
     touch contigs_overview.tsv
     touch contigs_overview-with-iterations.tsv
@@ -85,13 +75,5 @@ process CUSTOM_MULTIQC {
     touch multiqc_report.html
     mkdir -p data
     mkdir -p plots
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        pandas: \$(pip show pandas | grep Version: | sed 's/Version: //g')
-        yaml: \$(pip show pyyaml | grep Version: | sed 's/Version: //g')
-        multiqc: \$( multiqc --version | sed -e "s/multiqc, version //g" )
-    END_VERSIONS
     """
 }

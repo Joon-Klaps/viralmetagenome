@@ -16,7 +16,7 @@ process IVAR_VARIANTS_TO_VCF {
     tuple val(meta), path("*.vcf"), emit: vcf
     tuple val(meta), path("*.log"), emit: log
     tuple val(meta), path("*.tsv"), emit: tsv
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -34,24 +34,13 @@ process IVAR_VARIANTS_TO_VCF {
         > ${prefix}.variant_counts.log
 
     cat ${header} ${prefix}.variant_counts.log > ${prefix}.variant_counts_mqc.tsv
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-    END_VERSIONS
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.tsv
     touch ${prefix}.vcf
     touch ${prefix}.log
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-    END_VERSIONS
     """
 }

@@ -28,9 +28,9 @@
                     "blastn": "2.17.0+"
                 },
                 "BLAST_FILTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "BLAST_MAKEBLASTDB": {
                     "makeblastdb": "2.17.0+"
@@ -64,18 +64,18 @@
                     "samtools": "1.22.1"
                 },
                 "CUSTOM_MPILEUP": {
-                    "pysam": "0.22.1",
                     "numpy": "1.26.4",
+                    "pysam": "0.22.1",
                     "pysamstats": "1.1.2"
                 },
                 "EXTRACT_CLUSTER": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "EXTRACT_PRECLUSTER": {
-                    "python": "3.9.1",
-                    "biopython": 1.78
+                    "biopython": 1.78,
+                    "python": "3.9.1"
                 },
                 "FASTP": {
                     "fastp": "1.0.1"
@@ -117,8 +117,8 @@
                     "pigz": 2.8
                 },
                 "MAKE_BED_MASK": {
-                    "samtools": 1.14,
-                    "python": "3.9.5"
+                    "python": "3.9.5",
+                    "samtools": 1.14
                 },
                 "MASH_SCREEN": {
                     "mash": 2.3
@@ -187,9 +187,9 @@
                     "samtools": "1.22.1"
                 },
                 "SELECT_REFERENCE": {
-                    "python": "3.9.21",
+                    "biopython": 1.85,
                     "pandas": "2.2.3",
-                    "biopython": 1.85
+                    "python": "3.9.21"
                 },
                 "SSPACE_BASIC": {
                     "sspace_base": "2.1.1"

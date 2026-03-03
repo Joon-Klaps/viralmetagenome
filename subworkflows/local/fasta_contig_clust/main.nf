@@ -31,7 +31,6 @@ workflow FASTA_CONTIG_CLUST {
         ch_blast_db,
         ch_blast_db_fasta
     )
-    ch_versions       = ch_versions.mix(FASTA_BLAST_REFSEL.out.versions)
     no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits
     fasta_ref_contigs = FASTA_BLAST_REFSEL.out.fasta_ref_contigs
 
@@ -94,7 +93,6 @@ workflow FASTA_CONTIG_CLUST {
         ch_clusters_contigs_coverages,
         cluster_method
     )
-    ch_versions = ch_versions.mix(EXTRACT_CLUSTER.out.versions.first())
 
     ch_seq_centroids_members = EXTRACT_CLUSTER
         .out

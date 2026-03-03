@@ -12,7 +12,9 @@ process CUSTOM_MPILEUP {
 
     output:
     tuple val(meta), path("*.tsv"), emit: tsv
-    path "versions.yml"           , emit: versions
+    tuple val("${task.process}"), val('pysam'), eval("pip show pysam | grep Version: | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('numpy'), eval("pip show numpy | grep Version: | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('pysamstats'), eval("pip show pysamstats | grep Version: | sed 's/Version: //g'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -26,26 +28,11 @@ process CUSTOM_MPILEUP {
         --alignment ${bam} \\
         --reference ${ref} \\
         --prefix ${prefix}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        pysam: \$(pip show pysam | grep Version: | sed 's/Version: //g')
-        numpy: \$(pip show numpy | grep Version: | sed 's/Version: //g')
-        pysamstats: \$(pip show pysamstats | grep Version: | sed 's/Version: //g')
-    END_VERSIONS
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.tsv
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        numpy: \$(pip show numpy | grep Version: | sed 's/Version: //g')
-        pysam: \$(pip show pysam | grep Version: | sed 's/Version: //g')
-        pysamstats: \$(pip show pysamstats | grep Version: | sed 's/Version: //g')
     """
 }
