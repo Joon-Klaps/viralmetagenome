@@ -17,7 +17,7 @@ process EXTRACT_PRECLUSTER {
     tuple val(meta), path("*.{fa,fasta}"), path("*.json") , emit: sequences, optional: true
     tuple val(meta), path("*.resolved.txt")       , emit: resolved
     tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
-    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | grep Version | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | sed '2!d;s/Version: //g'"), topic: versions
     when:
     task.ext.when == null || task.ext.when
 
