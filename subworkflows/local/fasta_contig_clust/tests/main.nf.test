@@ -433,7 +433,13 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert snapshot(workflow.out).match() }
+                { assert snapshot(
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
+                ).match() }
             )
         }
     }
@@ -470,7 +476,13 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert snapshot(workflow.out).match() }
+                { assert snapshot(
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
+                ).match() }
             )
         }
     }

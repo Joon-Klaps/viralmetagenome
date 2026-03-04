@@ -13,8 +13,8 @@ process SELECT_REFERENCE {
     output:
     tuple val(meta), path("*.json"), path("*_reference.fa"), path(reads), emit: fasta_reads
     tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
-    tuple val("${task.process}"), val('pandas'), eval("pip show pandas | grep Version | sed 's/Version: //g'"), topic: versions
-    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | grep Version | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('pandas'), eval("pip show pandas | sed '2!d;s/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | sed '2!d;s/Version: //g'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
