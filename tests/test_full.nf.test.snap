@@ -38,7 +38,7 @@
                 "BWAMEM2_INDEX": {
                     "bwamem2": "2.2.1"
                 },
-                 "BWAMEM2_MEM": {
+                "BWAMEM2_MEM": {
                     "bwamem2": "2.2.1",
                     "samtools": "1.22.1"
                 },

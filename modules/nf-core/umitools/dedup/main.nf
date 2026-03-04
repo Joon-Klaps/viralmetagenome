@@ -4,8 +4,8 @@ process UMITOOLS_DEDUP {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/umi_tools:1.1.5--py39hbcbf7aa_4' :
-        'biocontainers/umi_tools:1.1.5--py39hbcbf7aa_4' }"
+        'https://depot.galaxyproject.org/singularity/umi_tools:1.1.5--py39hf95cd2a_0' :
+        'biocontainers/umi_tools:1.1.5--py39hf95cd2a_0' }"
 
 
     input:
