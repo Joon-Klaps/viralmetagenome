@@ -331,7 +331,7 @@ workflow VIRALMETAGENOME {
 
         // Map with both reads and mapping constraints
         ch_constraint_consensus_reads = ch_map_seq_anno_combined
-            .map { meta, fasta, fastq -> [meta, fasta, fastq] }
+            .map { meta, fasta -> [meta, fasta, meta.fastq] }
             .branch { meta, _fasta, _fastq ->
                 multiFastaSelection : meta.selection == true
                 singleFastaSelection : meta.selection == false
@@ -349,7 +349,7 @@ workflow VIRALMETAGENOME {
             .mix(ch_constraint_consensus_reads.singleFastaSelection.map { meta, fasta, _reads -> [meta, fasta] })
             .mix(FASTQ_FASTA_MASH_SCREEN.out.reference_fastq.map { meta, fasta, _reads -> [meta, fasta] })
 
-        //Add to the consensus channel, which will be used for variant calling
+        // Add to the consensus channel, which will be used for variant calling
         ch_consensus_reads = ch_consensus_reads
             .mix(FASTQ_FASTA_MASH_SCREEN.out.reference_fastq)
             .mix(ch_constraint_consensus_reads.singleFastaSelection)
