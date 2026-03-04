@@ -67,8 +67,8 @@ workflow VIRALMETAGENOME {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
-    def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{it -> it.trim().toLowerCase() } : []
-    def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{it -> it.trim().toLowerCase() } : []
+    def read_classifiers   = params.read_classifiers ? params.read_classifiers.split(',').collect{classifiers -> classifiers.trim().toLowerCase() } : []
+    def contig_classifiers = params.precluster_classifiers ? params.precluster_classifiers.split(',').collect{classifiers -> classifiers.trim().toLowerCase() } : []
     // Optional parameters
     ch_blacklist       = createFileChannel(params.blacklist)
     ch_metadata        = createFileChannel(params.metadata)
@@ -119,8 +119,8 @@ workflow VIRALMETAGENOME {
 
         // transfer to value channels so processes are not just done once
         // '.collect()' is necessary to transform to list so cartesian products are made downstream
-        ch_ref_pool         = ch_db.reference.collect{it -> it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
-        ch_annotation_db    = ch_db.annotation.collect{it -> it[1]}.ifEmpty([]).map{it -> [[id: 'annotation'], it]}
+        ch_ref_pool         = ch_db.reference.collect{_meta, unpacked -> unpacked}.ifEmpty([]).map{unpacked -> [[id: 'reference'], unpacked]}
+        ch_annotation_db    = ch_db.annotation.collect{_meta, unpacked -> unpacked}.ifEmpty([]).map{unpacked -> [[id: 'annotation'], unpacked]}
         ch_kraken2_db       = ch_db.kraken2.collect().ifEmpty([])
         ch_kaiju_db         = ch_db.kaiju.collect().ifEmpty([])
         ch_checkv_db        = ch_db.checkv.collect().ifEmpty([])
@@ -142,7 +142,7 @@ workflow VIRALMETAGENOME {
                 reference: meta.id == 'reference'
                     return [ meta, db ]
             }
-        ch_blast_refdb  = ch_blastdb_out.reference.collect{it -> it[1]}.ifEmpty([]).map{it -> [[id: 'reference'], it]}
+        ch_blast_refdb  = ch_blastdb_out.reference.collect{_meta, db -> db}.ifEmpty([]).map{db -> [[id: 'reference'], db]}
 
     }
 
@@ -159,7 +159,7 @@ workflow VIRALMETAGENOME {
             )
         ch_host_trim_reads      = PREPROCESSING_ILLUMINA.out.reads
         ch_decomplex_trim_reads = PREPROCESSING_ILLUMINA.out.reads_decomplexified
-        ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.mqc.collect{it -> it[1]}.ifEmpty([]))
+        ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.low_reads_mqc.ifEmpty([]))
         ch_versions             = ch_versions.mix(PREPROCESSING_ILLUMINA.out.versions)
     }
@@ -173,7 +173,7 @@ workflow VIRALMETAGENOME {
             ch_bracken_db,
             ch_kaiju_db
             )
-        ch_multiqc_files = ch_multiqc_files.mix(FASTQ_KRAKEN_KAIJU.out.mqc.collect{it -> it[1]}.ifEmpty([]))
+        ch_multiqc_files = ch_multiqc_files.mix(FASTQ_KRAKEN_KAIJU.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_versions      = ch_versions.mix(FASTQ_KRAKEN_KAIJU.out.versions)
     }
 
@@ -232,8 +232,8 @@ workflow VIRALMETAGENOME {
                         return [ meta + [step:"consensus"], centroids, members ]
                 }
 
-            ch_clusters_summary    = FASTA_CONTIG_CLUST.out.clusters_summary.collect{it -> it[1]}.ifEmpty([])
-            ch_clusters_tsv        = FASTA_CONTIG_CLUST.out.clusters_tsv.collect{it -> it[1]}.ifEmpty([])
+            ch_clusters_summary    = FASTA_CONTIG_CLUST.out.clusters_summary.collect{_meta, summary -> summary}.ifEmpty([])
+            ch_clusters_tsv        = FASTA_CONTIG_CLUST.out.clusters_tsv.collect{_meta, tsv -> tsv}.ifEmpty([])
             ch_multiqc_files       =  ch_multiqc_files.mix(FASTA_CONTIG_CLUST.out.no_blast_hits_mqc.ifEmpty([]))
 
             // map clustered contigs & create a single consensus per cluster
@@ -331,7 +331,7 @@ workflow VIRALMETAGENOME {
 
         // Map with both reads and mapping constraints
         ch_constraint_consensus_reads = ch_map_seq_anno_combined
-            .map { it -> return [it[0], it[1], it[0].reads] }
+            .map { meta, fasta, fastq -> [meta, fasta, fastq] }
             .branch { meta, _fasta, _fastq ->
                 multiFastaSelection : meta.selection == true
                 singleFastaSelection : meta.selection == false
@@ -341,7 +341,7 @@ workflow VIRALMETAGENOME {
         FASTQ_FASTA_MASH_SCREEN (
             ch_constraint_consensus_reads.multiFastaSelection
         )
-        ch_mash_screen = FASTQ_FASTA_MASH_SCREEN.out.json.collect{it -> it[1]}
+        ch_mash_screen = FASTQ_FASTA_MASH_SCREEN.out.json.collect{_meta, json -> json}
         ch_versions    = ch_versions.mix(FASTQ_FASTA_MASH_SCREEN.out.versions)
 
         // For QC we keep original sequence to compare to
@@ -402,10 +402,10 @@ workflow VIRALMETAGENOME {
             ch_prokka_db
             )
         ch_versions           = ch_versions.mix(CONSENSUS_QC.out.versions)
-        ch_checkv_summary     = CONSENSUS_QC.out.checkv.collect{it -> it[1]}.ifEmpty([])
-        ch_quast_summary      = CONSENSUS_QC.out.quast.collect{it -> it[1]}.ifEmpty([])
-        ch_blast_summary      = CONSENSUS_QC.out.blast.collect{it -> it[1]}.ifEmpty([])
-        ch_annotation_summary = CONSENSUS_QC.out.annotation.collect{it -> it[1]}.ifEmpty([])
+        ch_checkv_summary     = CONSENSUS_QC.out.checkv.collect{_meta, summary -> summary}.ifEmpty([])
+        ch_quast_summary      = CONSENSUS_QC.out.quast.collect{_meta, summary -> summary}.ifEmpty([])
+        ch_blast_summary      = CONSENSUS_QC.out.blast.collect{_meta, summary -> summary}.ifEmpty([])
+        ch_annotation_summary = CONSENSUS_QC.out.annotation.collect{_meta, summary -> summary}.ifEmpty([])
     }
 
     //

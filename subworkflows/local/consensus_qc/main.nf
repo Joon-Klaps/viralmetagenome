@@ -27,8 +27,8 @@ workflow CONSENSUS_QC {
 
     // Combine all genomes into a single file
     ch_genomes_all = ch_genome
-        .collectFile(name: "all_genomes.fa") {it -> it[1] }
-        .map { it -> [[id: "all_genomes"], it] }
+        .collectFile(name: "all_genomes.fa") {_meta, fasta -> fasta }
+        .map { fasta -> [[id: "all_genomes"], fasta] }
 
     // combine the different iterations of a single consensus
     ch_genomes_mapped = ch_genome.multiMap { meta, fasta ->

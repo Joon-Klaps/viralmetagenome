@@ -23,7 +23,7 @@ workflow SCAFFOLDS_EXTEND_STATS {
 
     // QUAST
     QUAST(ch_scaffolds, [[:], []], [[:], []])
-    ch_multiqc = ch_multiqc.mix(QUAST.out.tsv.collect{it -> it[1] }.ifEmpty([]))
+    ch_multiqc = ch_multiqc.mix(QUAST.out.tsv.collect{_meta, tsv -> tsv}.ifEmpty([]))
 
     // SSPACE_BASIC
     if (!params.skip_sspace_basic) {
