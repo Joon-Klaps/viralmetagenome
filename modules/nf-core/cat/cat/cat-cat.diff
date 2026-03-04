@@ -1,16 +1,16 @@
 Changes in component 'nf-core/cat/cat'
-'modules/nf-core/cat/cat/meta.yml' is unchanged
 'modules/nf-core/cat/cat/environment.yml' is unchanged
+'modules/nf-core/cat/cat/meta.yml' is unchanged
 Changes in 'cat/cat/main.nf':
 --- modules/nf-core/cat/cat/main.nf
 +++ modules/nf-core/cat/cat/main.nf
 @@ -8,7 +8,7 @@
          'biocontainers/pigz:2.8' }"
-
+ 
      input:
 -    tuple val(meta), path(files_in)
 +    tuple val(meta), path(files_in, stageAs: "?/*")
-
+ 
      output:
      tuple val(meta), path("${prefix}"), emit: file_out
 @@ -34,7 +34,7 @@
@@ -30,8 +30,7 @@ Changes in 'cat/cat/main.nf':
 +        ${files_in} \\
          $command2 \\
          > ${prefix}
-
-
+ 
 
 'modules/nf-core/cat/cat/tests/main.nf.test.snap' is unchanged
 'modules/nf-core/cat/cat/tests/nextflow.config' is unchanged
