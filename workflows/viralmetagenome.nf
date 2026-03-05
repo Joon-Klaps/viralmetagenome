@@ -331,7 +331,7 @@ workflow VIRALMETAGENOME {
 
         // Map with both reads and mapping constraints
         ch_constraint_consensus_reads = ch_map_seq_anno_combined
-            .map { meta, fasta -> [meta, fasta, meta.fastq] }
+            .map { meta, fasta -> [meta, fasta, meta.reads] }
             .branch { meta, _fasta, _fastq ->
                 multiFastaSelection : meta.selection == true
                 singleFastaSelection : meta.selection == false
