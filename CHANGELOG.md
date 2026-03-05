@@ -11,9 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Modules update to latest nf-core versions ([#271](https://github.com/nf-core/viralmetagenome/pull/271)) (by @Joon-Klaps)
 - Update local modules to use topics ([#272](https://github.com/nf-core/viralmetagenome/pull/272)) (by @Joon-Klaps)
 
+- Better item descriptors (`it -> [it[0], it[1]` to `meta, fasta , _foo -> [meta,fasta]`) for better readability ([#265](https://github.com/nf-core/viralmetagenome/pull/265)) (by @Joon-Klaps)
+
 ### `Fixed`
 
 - Follow the rules of strict syntax health [#265](https://github.com/nf-core/viralmetagenome/pull/265) (by @Joon-Klaps)
+- Moved the module specifics from base.config to modules.config ([#265](https://github.com/nf-core/viralmetagenome/pull/265))
 - Fix bug from regex in input schema still allowing underscores in sample and group names ([#269](https://github.com/nf-core/viralmetagenome/pull/269)) - (by @Joon-Klaps)
 
 ### `Dependencies`
