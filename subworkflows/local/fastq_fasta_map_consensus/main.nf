@@ -34,13 +34,13 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
     ch_bam       = MAP_READS.out.bam
     ch_reference = MAP_READS.out.ref
-    ch_multiqc   = ch_multiqc.mix(MAP_READS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
+    ch_multiqc   = ch_multiqc.mix(MAP_READS.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
 
     SAMTOOLS_FAIDX ( ch_reference.map{meta, ref -> [meta, ref, []]}, false)
 
     // remove references-read combinations with low mapping rates
     BAM_STATS_FILTER ( ch_bam, ch_reference, min_mapped_reads )
-    ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{it -> it[1]}.ifEmpty([]))
+    ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{_meta, stats -> stats}.ifEmpty([]))
     ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.bam_fail_mqc.ifEmpty([]))
 
      ch_bam_fa_fai = BAM_STATS_FILTER.out.bam_pass
@@ -52,7 +52,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
         BAM_DEDUPLICATE ( ch_bam_fa_fai, umi, mapping_stats)
 
         ch_dedup_bam = BAM_DEDUPLICATE.out.bam
-        ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{it -> it[1]}.ifEmpty([]))
+        ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
 
     } else {
         ch_dedup_bam = ch_bam
@@ -64,7 +64,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     // report summary statistics of alignment
     if (mapping_stats) {
         BAM_STATS_METRICS ( ch_dedup_bam_ref )
-        ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
+        ch_multiqc   = ch_multiqc.mix(BAM_STATS_METRICS.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
     }
 
     // call variants
@@ -79,7 +79,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
             mapping_stats
         )
         ch_versions   = ch_versions.mix(BAM_CALL_VARIANTS.out.versions)
-        ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{it -> it[1]}.ifEmpty([]))
+        ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_vcf_filter = BAM_CALL_VARIANTS.out.vcf_filter
         ch_vcf        = BAM_CALL_VARIANTS.out.vcf
         ch_tbi        = BAM_CALL_VARIANTS.out.tbi

@@ -84,7 +84,8 @@ workflow FASTA_CONTIG_CLUST {
             }
         .groupTuple(remainder: true)                                           // Has to be grouped to link different taxa preclusters to the same sample
         .combine(sample_fasta_ref_contigs)                                     // combine with contigs (regural join doesn't work)
-        .filter{it -> it[0]==it[3]}                                            // filter for matching samples
+        .filter{ sample, _meta_clust, _clusters, sample2, _meta_contig, _contigs, _coverages ->
+            sample==sample2 }                                                  // filter for matching samples
         .map{ _sample, _meta_clust, clusters, _sample2, meta_contig, contigs, coverages ->
             [meta_contig, clusters, contigs, coverages]                        // get rid of meta_clust & sample
         }

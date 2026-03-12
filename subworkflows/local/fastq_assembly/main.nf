@@ -26,7 +26,7 @@ workflow FASTQ_ASSEMBLY {
     ch_coverages      = channel.empty()
     ch_multiqc        = channel.empty()
     ch_bad_assemblies = channel.empty()
-    assemblers        = params.assemblers ? params.assemblers.split(',').collect{it -> it.trim().toLowerCase() } : []
+    assemblers        = params.assemblers ? params.assemblers.split(',').collect{assemblers -> assemblers.trim().toLowerCase() } : []
 
     // SPADES
     if ('spades' in assemblers) {
@@ -60,10 +60,10 @@ workflow FASTQ_ASSEMBLY {
     // MEGAHIT
     if ('megahit' in assemblers) {
         ch_megahit_in = ch_reads
-            .filter {it -> it[0].single_end }
+            .filter {meta, _reads -> meta.single_end }
             .map { meta, reads -> [meta, [reads], []] }
             .mix(
-                ch_reads.filter {it -> !it[0].single_end }.map { meta, reads -> [meta, [reads[0]], [reads[1]]] }
+                ch_reads.filter {meta, _reads -> !meta.single_end }.map { meta, reads -> [meta, [reads[0]], [reads[1]]] }
             )
         MEGAHIT(ch_megahit_in)
         ch_versions          = ch_versions.mix(MEGAHIT.out.versions.first())
