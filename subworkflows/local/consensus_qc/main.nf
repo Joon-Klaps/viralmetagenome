@@ -18,18 +18,17 @@ workflow CONSENSUS_QC {
 
     main:
 
-    ch_versions        = Channel.empty()
-    ch_multiqc_files   = Channel.empty()
-    ch_blast           = Channel.empty()
-    ch_checkv          = Channel.empty()
-    ch_quast           = Channel.empty()
-    ch_annotation      = Channel.empty()
-    ch_genome_grouped  = Channel.empty()
+    ch_versions        = channel.empty()
+    ch_blast           = channel.empty()
+    ch_checkv          = channel.empty()
+    ch_quast           = channel.empty()
+    ch_annotation      = channel.empty()
+    ch_genome_grouped  = channel.empty()
 
     // Combine all genomes into a single file
     ch_genomes_all = ch_genome
-        .collectFile(name: "all_genomes.fa") { it[1] }
-        .map { it -> [[id: "all_genomes"], it] }
+        .collectFile(name: "all_genomes.fa") {_meta, fasta -> fasta }
+        .map { fasta -> [[id: "all_genomes"], fasta] }
 
     // combine the different iterations of a single consensus
     ch_genomes_mapped = ch_genome.multiMap { meta, fasta ->
@@ -43,7 +42,7 @@ workflow CONSENSUS_QC {
         }
         .map { file -> [file.simpleName, file] }
         .join(ch_genomes_mapped.metadata.unique())
-        .map { id, genome, meta -> [meta, genome] }
+        .map { _id, genome, meta -> [meta, genome] }
 
     // Contig summary statistics
     if (!params.skip_quast) {
@@ -126,6 +125,5 @@ workflow CONSENSUS_QC {
     checkv     = ch_checkv        // channel: [ val(meta), [ tsv ] ]
     quast      = ch_quast         // channel: [ val(meta), [ tsv ] ]
     annotation = ch_annotation    // channel: [ val(meta), [ txt ] ]
-    mqc        = ch_multiqc_files // channel: [ tsv ]
     versions   = ch_versions      // channel: [ versions.yml ]
 }

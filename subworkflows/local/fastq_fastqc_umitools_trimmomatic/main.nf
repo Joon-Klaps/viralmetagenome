@@ -36,9 +36,9 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     min_trimmed_reads // integer: > 0
 
     main:
-    ch_versions = Channel.empty()
-    ch_fastqc_raw_html = Channel.empty()
-    ch_fastqc_raw_zip = Channel.empty()
+    ch_versions = channel.empty()
+    ch_fastqc_raw_html = channel.empty()
+    ch_fastqc_raw_zip = channel.empty()
     if (!skip_fastqc) {
         FASTQC_RAW(
             ch_reads
@@ -48,7 +48,7 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     }
 
     ch_umi_reads = ch_reads
-    ch_umi_log = Channel.empty()
+    ch_umi_log = channel.empty()
     if (with_umi && !skip_umi_extract) {
         UMITOOLS_EXTRACT(
             ch_reads
@@ -65,12 +65,12 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     }
 
     ch_trim_reads          = ch_umi_reads
-    ch_trim_summ           = Channel.empty()
-    ch_trim_unpaired_reads = Channel.empty()
-    ch_trim_log            = Channel.empty()
-    ch_fastqc_trim_html    = Channel.empty()
-    ch_fastqc_trim_zip     = Channel.empty()
-    ch_trim_read_count     = Channel.empty()
+    ch_trim_summ           = channel.empty()
+    ch_trim_unpaired_reads = channel.empty()
+    ch_trim_log            = channel.empty()
+    ch_fastqc_trim_html    = channel.empty()
+    ch_fastqc_trim_zip     = channel.empty()
+    ch_trim_read_count     = channel.empty()
 
     if (!skip_trimming) {
         TRIMMOMATIC(
