@@ -21,9 +21,9 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
 
     main:
     ch_reference_reads_intermediate = ch_reference_reads
-    ch_consensus_allsteps = Channel.empty()
-    ch_multiqc = Channel.empty()
-    ch_versions = Channel.empty()
+    ch_consensus_allsteps = channel.empty()
+    ch_multiqc = channel.empty()
+    ch_versions = channel.empty()
     if (repeats >= 1) {
         ch_reference_reads_intermediate = ch_reference_reads_intermediate
             .map { meta, fasta, reads -> [meta + [iteration: '1', step: "it1", previous_step: meta.step], fasta, reads] }

@@ -26,7 +26,7 @@ workflow PIPELINE_INITIALISATION {
     take:
     version           // boolean: Display version and exit
     validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
-    monochrome_logs   // boolean: Do not use coloured log outputs
+    _monochrome_logs  // boolean: Do not use coloured log outputs
     nextflow_cli_args //   array: List of positional nextflow CLI args
     outdir            //  string: The output directory where the results will be saved
     input             //  string: Path to input samplesheet
@@ -92,8 +92,8 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-    Channel
-        .fromList(samplesheetToList(params.input, "${projectDir}/assets/schemas/input.json"))
+    channel
+        .fromList(samplesheetToList(input, "${projectDir}/assets/schemas/input.json"))
         .map{
             meta, read1, read2 ->
             def single_end = read1 && !read2
@@ -323,11 +323,11 @@ def methodsDescriptionText(mqc_methods_yaml) {
 }
 
 def createFileChannel(param) {
-    return param ? Channel.fromPath(param, checkIfExists: true).collect() : []
+    return param ? channel.fromPath(param, checkIfExists: true).collect() : []
 }
 
 def createChannel(dbPath, dbName, skipFlag) {
-    return dbPath && skipFlag ? Channel.fromPath(dbPath, checkIfExists: true).map { db -> [[id: dbName], db] } : Channel.empty()
+    return dbPath && skipFlag ? channel.fromPath(dbPath, checkIfExists: true).map { db -> [[id: dbName], db] } : channel.empty()
 }
 
 def filterContigs(contig, min_len, n_100) {
@@ -342,7 +342,7 @@ def filterContigs(contig, min_len, n_100) {
 
 def failedContigsToMultiQC(tsv_data, min_len, n_100) {
     tsv_data
-        .map { meta, fasta, stats -> ["$meta.id\t$meta.sample\t$meta.cluster_id\t$meta.previous_step\t$stats.contig_size\t$stats.n_100"] }
+        .map { meta, _fasta, stats -> ["$meta.id\t$meta.sample\t$meta.cluster_id\t$meta.previous_step\t$stats.contig_size\t$stats.n_100"] }
         .collect()
         .map { tsv ->
             multiqcTsvFromList(
@@ -398,7 +398,7 @@ def getStatsMappedReads(statsFile) {
 
 def failedMappedReadsToMultiQC(tsv_data, min_mapped_reads) {
     tsv_data
-        .map { meta, bam, mapped_reads ->
+        .map { meta, _bam, mapped_reads ->
             ["$meta.id\t$meta.sample\t$meta.cluster_id\t$meta.previous_step\t$mapped_reads"]
             }
         .collect()
@@ -429,7 +429,7 @@ def multiqcTsvFromList(tsv_data, header, comments) {
 
 def noBlastHitsToMultiQC(tsv_data, assemblers) {
     tsv_data
-        .map { meta, txt, fasta ->
+        .map { meta, _txt, fasta ->
             def n_fasta = fasta.countFasta()
             ["$meta.sample\t$n_fasta"]}
         .collect()

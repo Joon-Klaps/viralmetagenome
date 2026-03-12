@@ -10,8 +10,7 @@ workflow MAP_READS {
     main:
     ch_multiqc = channel.empty()
 
-    ch_reads = ch_reference_reads.map { meta, fasta, fastq -> [meta, fastq] }
-    ch_reference = ch_reference_reads.map { meta, fasta, fastq -> [meta, fasta] }
+    ch_reference = ch_reference_reads.map { meta, fasta, _fastq -> [meta, fasta] }
 
     if (mapper == 'bwamem2') {
         BWAMEM2_INDEX(ch_reference)
