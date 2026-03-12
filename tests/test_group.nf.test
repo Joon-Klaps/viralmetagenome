@@ -34,9 +34,9 @@ nextflow_pipeline {
                     workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
                     removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml"),
-                    output_samples_csv.columnNames,
+                    output_samples_csv.columnNames.sort(),
                     output_samples_csv.columns["sample"].sort(),
-                    output_contigs_csv.columnNames,
+                    output_contigs_csv.columnNames.sort(),
                     output_contigs_csv.columns["index"].sort(),
                 ).match() },
                 { assert snapshot(stable_name_multiqc, stable_path_multiqc).match('multiqc') },
