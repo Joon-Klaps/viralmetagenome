@@ -11,6 +11,7 @@ nextflow_pipeline {
         when {
             params {
                 outdir = "$outputDir"
+                transpose_overview_tables = true
             }
         }
 
@@ -23,6 +24,8 @@ nextflow_pipeline {
             def stable_path_multiqc = getAllFilesFromDir(
                 params.outdir, include: ['multiqc/**'], ignoreFile: 'tests/.nftignore'
             )
+            def output_samples_csv = path(params.outdir + '/overview-tables/samples_overview.tsv').csv(sep:"\t")
+            def output_contigs_csv = path(params.outdir + '/overview-tables/contigs_overview-with-iterations.tsv').csv(sep:"\t")
 
             assert workflow.success
             assertAll(
@@ -31,6 +34,10 @@ nextflow_pipeline {
                     workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
                     removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml"),
+                    output_samples_csv.columnNames.sort(),
+                    output_samples_csv.columns["sample"].sort(),
+                    output_contigs_csv.columnNames.sort(),
+                    output_contigs_csv.columns["index"].sort(),
                 ).match() },
                 { assert snapshot(stable_name_multiqc, stable_path_multiqc).match('multiqc') },
             )

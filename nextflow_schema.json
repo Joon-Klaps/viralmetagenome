@@ -48,6 +48,13 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                },
+                "transpose_overview_tables": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
+                    "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
+                    "fa_icon": "fas fa-table"
                 }
             }
         },
