@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add better output file descriptions for prokka [#274](https://github.com/nf-core/viralmetagenome/pull/274) (by @Joon-Klaps)
 - Better item descriptors (`it -> [it[0], it[1]` to `meta, fasta , _foo -> [meta,fasta]`) for better readability ([#265](https://github.com/nf-core/viralmetagenome/pull/265)) (by @Joon-Klaps)
 - Include the new parameter `--transpose_overview_tables` , fixes [#220](https://github.com/nf-core/viralmetagenome/issues/220) ([#275](https://github.com/nf-core/viralmetagenome/pull/275)) (by @Joon-Klaps)
+- Bump version from dev to `1.1.1` for release ([#277](https://github.com/nf-core/viralmetagenome/pull/276)) (by @Joon-Klaps)
 
 ### `Fixed`
 
