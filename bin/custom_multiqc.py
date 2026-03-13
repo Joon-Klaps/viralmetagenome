@@ -180,7 +180,7 @@ def parse_args(argv=None):
     parser.add_argument(
         "--transpose_overview_tables",
         action="store_true",
-        help="Transpose the samples overview table so samples become columns and result fields become rows.",
+        help="Transpose the samples overview table so that samples are columns and result fields are rows.",
     )
 
     parser.add_argument(
