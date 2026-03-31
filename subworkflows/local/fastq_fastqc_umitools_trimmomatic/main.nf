@@ -33,14 +33,12 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     skip_umi_extract  // boolean: true/false
     umi_discard_read  // integer: 0, 1 or 2
     skip_trimming     // boolean: true/false
-    save_trimmed_fail // boolean: true/false
-    save_merged       // boolean: true/false
     min_trimmed_reads // integer: > 0
 
     main:
-    ch_versions = Channel.empty()
-    ch_fastqc_raw_html = Channel.empty()
-    ch_fastqc_raw_zip = Channel.empty()
+    ch_versions = channel.empty()
+    ch_fastqc_raw_html = channel.empty()
+    ch_fastqc_raw_zip = channel.empty()
     if (!skip_fastqc) {
         FASTQC_RAW(
             ch_reads
@@ -50,14 +48,13 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     }
 
     ch_umi_reads = ch_reads
-    ch_umi_log = Channel.empty()
+    ch_umi_log = channel.empty()
     if (with_umi && !skip_umi_extract) {
         UMITOOLS_EXTRACT(
             ch_reads
         )
         ch_umi_reads = UMITOOLS_EXTRACT.out.reads
         ch_umi_log = UMITOOLS_EXTRACT.out.log
-        ch_versions = ch_versions.mix(UMITOOLS_EXTRACT.out.versions.first())
 
         // Discard R1 / R2 if required
         if (umi_discard_read in [1, 2]) {
@@ -68,12 +65,12 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
     }
 
     ch_trim_reads          = ch_umi_reads
-    ch_trim_summ           = Channel.empty()
-    ch_trim_unpaired_reads = Channel.empty()
-    ch_trim_log            = Channel.empty()
-    ch_fastqc_trim_html    = Channel.empty()
-    ch_fastqc_trim_zip     = Channel.empty()
-    ch_trim_read_count     = Channel.empty()
+    ch_trim_summ           = channel.empty()
+    ch_trim_unpaired_reads = channel.empty()
+    ch_trim_log            = channel.empty()
+    ch_fastqc_trim_html    = channel.empty()
+    ch_fastqc_trim_zip     = channel.empty()
+    ch_trim_read_count     = channel.empty()
 
     if (!skip_trimming) {
         TRIMMOMATIC(
@@ -82,7 +79,6 @@ workflow FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC {
         ch_trim_summ = TRIMMOMATIC.out.summary
         ch_trim_log = TRIMMOMATIC.out.trim_log
         ch_trim_unpaired_reads = TRIMMOMATIC.out.unpaired_reads
-        ch_versions = ch_versions.mix(TRIMMOMATIC.out.versions.first())
 
         //
         // Filter FastQ files based on minimum trimmed read count after adapter trimming

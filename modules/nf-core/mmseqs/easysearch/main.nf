@@ -13,7 +13,7 @@ process MMSEQS_EASYSEARCH {
 
     output:
     tuple val(meta), path("${prefix}.tsv"), emit: tsv
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('mmseqs'), eval('mmseqs version'), topic: versions, emit: versions_mmseqs
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,7 +22,6 @@ process MMSEQS_EASYSEARCH {
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: "*.dbtype"
     prefix = task.ext.prefix ?: "${meta.id}"
-    strand_search = args.contains("--search-type 3") ? "--strand 2" : ""
     """
     mkdir -p ${prefix}
 
@@ -36,14 +35,9 @@ process MMSEQS_EASYSEARCH {
         ${prefix}.tsv \\
         tmp1 \\
         ${args} \\
-        $strand_search \\
         --threads ${task.cpus}
 
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        mmseqs: \$(mmseqs | grep 'Version' | sed 's/MMseqs2 Version: //')
-    END_VERSIONS
     """
 
     stub:
@@ -55,9 +49,5 @@ process MMSEQS_EASYSEARCH {
     echo ${args2}
     touch ${prefix}.tsv
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        mmseqs: \$(mmseqs | grep 'Version' | sed 's/MMseqs2 Version: /')
-    END_VERSIONS
     """
 }

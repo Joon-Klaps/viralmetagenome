@@ -42,7 +42,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -69,7 +68,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -96,7 +94,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -123,7 +120,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -151,7 +147,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -178,7 +173,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -205,7 +199,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -232,7 +225,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -262,7 +254,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -292,7 +283,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -319,7 +309,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -346,7 +335,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -374,7 +362,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -402,7 +389,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -430,7 +416,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -458,7 +443,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -489,7 +473,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }
@@ -517,7 +500,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.clusters,
-                    workflow.out.versions.collect { path(it).yaml }.unique()
                 ).match() }
             )
         }

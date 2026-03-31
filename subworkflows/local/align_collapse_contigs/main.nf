@@ -9,12 +9,11 @@ workflow ALIGN_COLLAPSE_CONTIGS {
     ch_references_members
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     ch_sequences = ch_references_members.map { meta, references, members -> [meta, [references, members]] }
 
     CAT_CLUSTER(ch_sequences)
-    ch_versions = ch_versions.mix(CAT_CLUSTER.out.versions.first())
 
     // if external_reference is false, we need to include the reference when mapping towards the reference (i.e. the reference is also a member)
     // if external_reference is true, we need to exclude the reference when mapping towards the reference
@@ -22,19 +21,18 @@ workflow ALIGN_COLLAPSE_CONTIGS {
     // Call consensus using IVAR_consensus with low treshholds (eg. 1) (needs only 1 coverage)
     // If there are ambigous bases in the consensus due to low coverage we populate it with the reference sequence.
 
-    ch_references = ch_references_members.map { meta, references, members -> [meta, references] }
+    ch_references = ch_references_members.map { meta, references, _members -> [meta, references] }
 
     MINIMAP2_CONTIG_INDEX(ch_references)
-    ch_versions = ch_versions.mix(MINIMAP2_CONTIG_INDEX.out.versions.first())
 
     ch_splitup = MINIMAP2_CONTIG_INDEX.out.index
         .join(ch_references_members, by: [0])
         .join(CAT_CLUSTER.out.file_out, by: [0])
         .branch { meta, index, _references, members, comb ->
             external: meta.external_reference
-            return [meta, index, members]
+                return [meta, index, members]
             internal: true
-            return [meta, index, comb]
+                return [meta, index, comb]
         }
 
     ch_index_contigs = ch_splitup.external.mix(ch_splitup.internal)
@@ -43,7 +41,6 @@ workflow ALIGN_COLLAPSE_CONTIGS {
     ch_contigs = ch_index_contigs.map { meta, _index, contigs -> [meta, contigs] }
 
     MINIMAP2_CONTIG_ALIGN(ch_contigs, ch_index, true, "bai", false, false)
-    ch_versions = ch_versions.mix(MINIMAP2_CONTIG_ALIGN.out.versions.first())
 
     ch_references_bam = ch_references_members
         .join(MINIMAP2_CONTIG_ALIGN.out.bam, by: [0])
@@ -59,7 +56,6 @@ workflow ALIGN_COLLAPSE_CONTIGS {
     ch_versions = ch_versions.mix(IVAR_CONTIG_CONSENSUS.out.versions.first())
 
     RENAME_FASTA_HEADER_CONTIG_CONSENSUS(IVAR_CONTIG_CONSENSUS.out.fasta, [])
-    ch_versions = ch_versions.mix(RENAME_FASTA_HEADER_CONTIG_CONSENSUS.out.versions.first())
 
     emit:
     consensus       = RENAME_FASTA_HEADER_CONTIG_CONSENSUS.out.fasta // channel: [ val(meta), [ fasta ] ]

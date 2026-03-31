@@ -15,7 +15,8 @@ process MAKE_BED_MASK {
     output:
     tuple val(meta), path("*.bed")    , emit: bed
     tuple val(meta), path("*.mpileup"), optional: true, emit: mpileup
-    path "versions.yml"               , emit: versions
+    tuple val("${task.process}"), val('samtools'), eval("samtools version | sed '1!d;s/.* //'"), topic: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -38,27 +39,12 @@ process MAKE_BED_MASK {
         ${vcf} \\
         lowcov_positions.txt \\
         ${prefix}.bed
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
-        python: \$(python --version | sed 's/Python //g')
-    END_VERSIONS
     """
 
     stub:
-    def args = task.ext.args ?: ''
-    def args2 = task.ext.args2 ?: 5
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def mpileup = save_mpileup ? "| tee ${prefix}.mpileup" : ""
     """
     touch ${prefix}.bed
     touch ${prefix}.mpileup
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
-        python: \$(python --version | sed 's/Python //g')
-    END_VERSIONS
     """
 }

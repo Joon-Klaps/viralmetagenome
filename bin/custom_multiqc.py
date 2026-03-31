@@ -25,7 +25,7 @@ from multiqc.types import Anchor
 from utils.constant_variables import CLUSTER_PCONFIG
 from utils.file_tools import filelist_to_df, get_module_selection, read_in_quast, write_df
 from utils.module_data_processing import *
-from utils.pandas_tools import filter_and_rename_columns, join_df, reorder_columns, select_columns
+from utils.pandas_tools import filter_and_rename_columns, join_df, reorder_columns, select_columns, transpose_table
 
 logger = logging.getLogger()
 
@@ -175,6 +175,12 @@ def parse_args(argv=None):
         metavar="MULTIQC DIR",
         help="Multiqc directory where the multiqc files will be used to create the custom tables for multiqc",
         type=Path,
+    )
+
+    parser.add_argument(
+        "--transpose_overview_tables",
+        action="store_true",
+        help="Transpose the samples overview table so that samples are columns and result fields are rows.",
     )
 
     parser.add_argument(
@@ -479,8 +485,12 @@ def add_n_consensus_clusters_to_mqc(dataframe: pd.DataFrame)-> pd.DataFrame:
     return 0
 
 
-
-def write_results(contigs_mqc: pd.DataFrame, constraints_mqc: pd.DataFrame, constraints_genstats: pd.DataFrame) -> int:
+def write_results(
+    contigs_mqc: pd.DataFrame,
+    constraints_mqc: pd.DataFrame,
+    constraints_genstats: pd.DataFrame,
+    transpose_overview_tables: bool = False,
+) -> int:
 
     """
     Write the results to files.
@@ -510,6 +520,9 @@ def write_results(contigs_mqc: pd.DataFrame, constraints_mqc: pd.DataFrame, cons
         samples_overview["sample"] = samples_overview.index
         if not constraints_genstats.empty:
             samples_overview = samples_overview.join(constraints_genstats, on="sample", how="left")
+
+        if transpose_overview_tables:
+            samples_overview = transpose_table(samples_overview)
 
         write_df(reorder_columns(samples_overview, ["sample"]), "samples_overview.tsv", [])
 
@@ -581,7 +594,7 @@ def main(argv=None):
 
     coalesced_constraints, constraints_genstats = reformat_constraint_df(constraints_mqc, renamed_columns, args)
 
-    write_results(contigs_mqc, coalesced_constraints, constraints_genstats)
+    write_results(contigs_mqc, coalesced_constraints, constraints_genstats, args.transpose_overview_tables)
 
     return 0
 

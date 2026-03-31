@@ -23,8 +23,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -43,9 +41,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -65,7 +61,6 @@ nextflow_workflow {
                         workflow.out.trim_reads_fail,
                         workflow.out.trim_reads_merged,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -81,8 +76,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-SE:2:30:10"
             }
@@ -97,9 +90,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -117,7 +108,6 @@ nextflow_workflow {
                         workflow.out.trim_reads_fail,
                         workflow.out.trim_reads_merged,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -133,8 +123,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -153,9 +141,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -174,7 +160,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -190,8 +175,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -210,9 +193,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -228,7 +209,6 @@ nextflow_workflow {
                         workflow.out.reads,
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -245,8 +225,6 @@ nextflow_workflow {
                 skip_umi_extract  = true
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -265,9 +243,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -286,7 +262,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -302,8 +277,6 @@ nextflow_workflow {
                 skip_umi_extract  = true
                 umi_discard_read  = 2
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -322,9 +295,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -343,7 +314,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -359,8 +329,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = true
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -379,9 +347,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -401,7 +367,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -437,9 +402,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -458,7 +421,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -494,9 +456,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -515,7 +475,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -552,9 +511,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -573,7 +530,6 @@ nextflow_workflow {
                         workflow.out.trim_read_count,
                         workflow.out.trim_unpaired_reads,
                         workflow.out.umi_log,
-                        workflow.out.versions.collect { path(it).yaml }.unique()
                     ).match()
                 }
             )
@@ -590,8 +546,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -610,9 +564,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -635,8 +587,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -655,9 +605,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -680,8 +628,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -700,9 +646,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -726,8 +670,6 @@ nextflow_workflow {
                 skip_umi_extract  = true
                 umi_discard_read  = 1
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -746,9 +688,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -771,8 +711,6 @@ nextflow_workflow {
                 skip_umi_extract  = true
                 umi_discard_read  = 2
                 skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -791,9 +729,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -816,8 +752,6 @@ nextflow_workflow {
                 skip_umi_extract  = false
                 umi_discard_read  = 1
                 skip_trimming     = true
-                save_trimmed_fail = false
-                save_merged       = false
                 min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
@@ -836,9 +770,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -891,9 +823,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -936,9 +866,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }
@@ -982,9 +910,7 @@ nextflow_workflow {
                 input[3] = params.skip_umi_extract
                 input[4] = params.umi_discard_read
                 input[5] = params.skip_trimming
-                input[6] = params.save_trimmed_fail
-                input[7] = params.save_merged
-                input[8] = params.min_trimmed_reads
+                input[6] = params.min_trimmed_reads
                 """
             }
         }

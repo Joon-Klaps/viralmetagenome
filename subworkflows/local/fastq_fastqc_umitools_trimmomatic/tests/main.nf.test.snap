@@ -36,20 +36,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:25:59.523537625",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:45:55.734422026"
+        }
     },
     "sarscov2 paired-end [fastq] | with_umi": {
         "content": [
@@ -85,25 +78,13 @@
                         "test.unpaired.trim_2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ]
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:UMITOOLS_EXTRACT": {
-                        "umitools": "1.1.6"
-                    }
-                },
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:25:45.150323507",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:45:40.093817487"
+        }
     },
     "sarscov2 paired-end [fastq] | umi_discard_read = 2 - stub": {
         "content": [
@@ -121,7 +102,7 @@
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ],
                 "2": [
                     [
@@ -250,15 +231,15 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:23:33.600719532",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:19:51.539064549"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "sarscov2 single-end [fastq]": {
         "content": [
@@ -278,20 +259,13 @@
             null,
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:25:21.725149469",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:45:10.254844119"
+        }
     },
     "sarscov2 paired-end [fastq] | skip_trimming": {
         "content": [
@@ -307,16 +281,13 @@
             ],
             [
                 
-            ],
-            [
-                
             ]
         ],
+        "timestamp": "2026-02-10T17:26:22.166777919",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T12:01:19.988347264"
+        }
     },
     "sarscov2 paired-end [fastq] | skip_trimming - stub": {
         "content": [
@@ -363,11 +334,11 @@
                 
             ]
         ],
+        "timestamp": "2026-01-05T12:03:08.459879823",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T12:03:08.459879823"
+        }
     },
     "sarscov2 paired-end [fastq] | umi_discard_read = 2": {
         "content": [
@@ -406,20 +377,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:26:11.347313808",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:46:11.502726403"
+        }
     },
     "sarscov2 paired-end [fastq] | min_trimmed_reads = 26 - stub": {
         "content": [
@@ -437,7 +401,7 @@
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ],
                 "2": [
                     [
@@ -566,15 +530,15 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:24:07.368313552",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:20:28.432135306"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "sarscov2 paired-end [fastq] | save_trimmed_fail": {
         "content": [
@@ -613,20 +577,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:26:33.82873196",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:46:38.118276039"
+        }
     },
     "sarscov2 paired-end [fastq] | skip_fastqc": {
         "content": [
@@ -665,20 +622,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:25:30.909627856",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:45:18.909864581"
+        }
     },
     "sarscov2 paired-end [fastq] | save_trimmed_fail - stub": {
         "content": [
@@ -696,7 +646,7 @@
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ],
                 "2": [
                     [
@@ -825,15 +775,15 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:23:50.57219468",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:20:08.760466169"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "sarscov2 paired-end [fastq] | skip_fastqc - stub": {
         "content": [
@@ -845,7 +795,7 @@
                     
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ],
                 "2": [
                     
@@ -956,15 +906,15 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:23:04.693655766",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:19:19.884039656"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "sarscov2 paired-end [fastq] | save_merged - stub": {
         "content": [
@@ -982,7 +932,7 @@
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ],
                 "2": [
                     [
@@ -1111,15 +1061,15 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:23:58.8983985",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:20:18.325610987"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "sarscov2 paired-end [fastq] | min_trimmed_reads = 26": {
         "content": [
@@ -1158,20 +1108,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:27:01.77560647",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:47:08.635289701"
+        }
     },
     "sarscov2 paired-end [fastq]": {
         "content": [
@@ -1200,20 +1143,13 @@
             null,
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:25:10.595987929",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:44:57.88704348"
+        }
     },
     "sarscov2 paired-end [fastq] | save_merged": {
         "content": [
@@ -1252,20 +1188,13 @@
             ],
             [
                 
-            ],
-            [
-                {
-                    "FASTQ_FASTQC_UMITOOLS_TRIMMOMATIC:TRIMMOMATIC": {
-                        "trimmomatic": 0.39
-                    }
-                }
             ]
         ],
+        "timestamp": "2026-02-10T17:26:48.661112466",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:46:53.107979053"
+        }
     },
     "sarscov2 paired-end [fastq] - stub": {
         "content": [
@@ -1283,7 +1212,7 @@
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ],
                 "2": [
                     [
@@ -1412,15 +1341,15 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:22:56.186493902",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:19:11.309238599"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "sarscov2 paired-end [fastq] | with_umi - stub": {
         "content": [
@@ -1438,8 +1367,7 @@
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8",
-                    "versions.yml:md5,5bf51704162b538b2044097047af738a"
+                    
                 ],
                 "2": [
                     [
@@ -1580,16 +1508,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8",
-                    "versions.yml:md5,5bf51704162b538b2044097047af738a"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:23:16.354503283",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:19:32.81145211"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "sarscov2 paired-end [fastq] | skip_umi_extract - stub": {
         "content": [
@@ -1607,7 +1534,7 @@
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ],
                 "2": [
                     [
@@ -1736,14 +1663,14 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,50ace978236dd4cd3f29be19f74174c8"
+                    
                 ]
             }
         ],
+        "timestamp": "2026-02-12T17:23:25.040777525",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
-        },
-        "timestamp": "2026-01-05T11:19:42.168607181"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

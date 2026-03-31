@@ -48,6 +48,13 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                },
+                "transpose_overview_tables": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
+                    "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
+                    "fa_icon": "fas fa-table"
                 }
             }
         },
@@ -961,8 +968,8 @@
                 },
                 "arguments_bcftools_norm": {
                     "type": "string",
-                    "default": "--do-not-normalize --output-type z --multiallelics -any",
-                    "description": "Arguments for BCFtools norm",
+                    "default": "--do-not-normalize --output-type z --multiallelics -any --write-index=tbi",
+                    "description": "Arguments for BCFtools norm, `--write-index=tbi` is required for downstream steps",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
                 },
@@ -1255,6 +1262,20 @@
                     "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
                     "hidden": true
                 },
+                "prefix": {
+                    "type": "string",
+                    "description": "Prefix that will be used to generate a global prefix, date and runname will be added for all output files and directories.",
+                    "fa_icon": "fas fa-heading",
+                    "help_text": "A string to prefix all output files and directories with. This can be useful to distinguish outputs from different runs or to add a project/sample name. The prefix will be added before the default output directory structure, e.g. `prefix/results/`.",
+                    "hidden": true
+                },
+                "global_prefix": {
+                    "type": "string",
+                    "description": "Prefix for all output files and directories, including logs and intermediate files.",
+                    "fa_icon": "fas fa-heading",
+                    "help_text": "A string to prefix all output files and directories with, including logs and intermediate files. This can be useful to distinguish outputs from different runs or to add a project/sample name. The prefix will be added before the entire output directory structure, e.g. `global_prefix/nextflow.log` and `global_prefix/results/`.",
+                    "hidden": true
+                },
                 "email_on_fail": {
                     "type": "string",
                     "description": "Email address for completion summary, only when pipeline fails.",
@@ -1345,18 +1366,6 @@
                 "show_hidden": {
                     "type": "boolean",
                     "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
-                },
-                "prefix": {
-                    "type": "string",
-                    "description": "Prefix of all output files followed by [date]_[pipelineversion]_[runName]",
-                    "fa_icon": "fab fa-autoprefixer",
-                    "help_text": "In order to track your files better, you can add a custom prefix to all output files. The prefix will be followed by the date, pipeline version and run name."
-                },
-                "global_prefix": {
-                    "type": "string",
-                    "fa_icon": "fas fa-tag",
-                    "description": "Global prefix set if you don't want metadata embedded in the output filenames",
-                    "hidden": true
                 }
             }
         }

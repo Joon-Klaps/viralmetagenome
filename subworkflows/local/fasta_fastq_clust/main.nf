@@ -1,12 +1,9 @@
-include { CDHIT_CDHITEST   } from '../../../modules/nf-core/cdhit/cdhitest/main'
-include { VSEARCH_CLUSTER  } from '../../../modules/nf-core/vsearch/cluster/main'
-include { MMSEQS_CREATEDB  } from '../../../modules/nf-core/mmseqs/createdb/main'
-include { MMSEQS_LINCLUST  } from '../../../modules/nf-core/mmseqs/linclust/main'
-include { MMSEQS_CLUSTER   } from '../../../modules/nf-core/mmseqs/cluster/main'
-include { MMSEQS_CREATETSV } from '../../../modules/nf-core/mmseqs/createtsv/main'
-include { VRHYME_VRHYME    } from '../../../modules/nf-core/vrhyme/vrhyme/main'
-include { MASH_DIST        } from '../../../modules/nf-core/mash/dist/main'
-include { CLUSTY           } from '../../../modules/nf-core/clusty/main'
+include { CDHIT_CDHITEST       } from '../../../modules/nf-core/cdhit/cdhitest/main'
+include { VSEARCH_CLUSTER      } from '../../../modules/nf-core/vsearch/cluster/main'
+include { MMSEQS_FASTA_CLUSTER } from '../../../subworkflows/nf-core/mmseqs_fasta_cluster/main'
+include { VRHYME_VRHYME        } from '../../../modules/nf-core/vrhyme/vrhyme/main'
+include { MASH_DIST            } from '../../../modules/nf-core/mash/dist/main'
+include { CLUSTY               } from '../../../modules/nf-core/clusty/main'
 
 workflow FASTA_FASTQ_CLUST {
     take:
@@ -21,9 +18,7 @@ workflow FASTA_FASTQ_CLUST {
     // cluster our reference hits and contigs should make this a subworkflow
     if (cluster_method == "vsearch") {
         VSEARCH_CLUSTER(ch_fasta)
-
         ch_clusters = VSEARCH_CLUSTER.out.uc
-        ch_versions = ch_versions.mix(VSEARCH_CLUSTER.out.versions.first())
     }
     else if (cluster_method == "cdhitest") {
         if (identity_threshold < 0.80) {
@@ -32,34 +27,10 @@ workflow FASTA_FASTQ_CLUST {
         CDHIT_CDHITEST(ch_fasta)
 
         ch_clusters = CDHIT_CDHITEST.out.clusters
-        ch_versions = ch_versions.mix(CDHIT_CDHITEST.out.versions.first())
     }
     else if (cluster_method == "mmseqs-linclust" || cluster_method == "mmseqs-cluster") {
-        MMSEQS_CREATEDB(ch_fasta)
-        ch_versions = ch_versions.mix(MMSEQS_CREATEDB.out.versions.first())
-
-        if (cluster_method == "mmseqs-linclust") {
-            MMSEQS_LINCLUST(MMSEQS_CREATEDB.out.db)
-            ch_db_cluster = MMSEQS_LINCLUST.out.db_cluster
-            ch_versions = ch_versions.mix(MMSEQS_LINCLUST.out.versions.first())
-        }
-        else {
-            MMSEQS_CLUSTER(MMSEQS_CREATEDB.out.db)
-            ch_db_cluster = MMSEQS_CLUSTER.out.db_cluster
-            ch_versions = ch_versions.mix(MMSEQS_CLUSTER.out.versions.first())
-        }
-
-        ch_createtsv_input = ch_db_cluster
-            .join(MMSEQS_CREATEDB.out.db, by: [0])
-            .multiMap { meta, db_clus, db_in ->
-                result: [meta, db_clus]
-                query: [meta, db_in]
-                target: [meta, db_in]
-            }
-
-        MMSEQS_CREATETSV(ch_createtsv_input.result, ch_createtsv_input.query, ch_createtsv_input.target)
-        ch_clusters = MMSEQS_CREATETSV.out.tsv
-        ch_versions = ch_versions.mix(MMSEQS_CREATETSV.out.versions.first())
+        MMSEQS_FASTA_CLUSTER(ch_fasta, cluster_method == "mmseqs-linclust" ? "linclust" : "cluster")
+        ch_clusters = MMSEQS_FASTA_CLUSTER.out.clusters
     }
     else if (cluster_method == "vrhyme") {
         vhryme_in = ch_fasta_fastq.branch { meta, fasta, reads ->

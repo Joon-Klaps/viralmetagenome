@@ -18,18 +18,17 @@ workflow CONSENSUS_QC {
 
     main:
 
-    ch_versions        = Channel.empty()
-    ch_multiqc_files   = Channel.empty()
-    ch_blast           = Channel.empty()
-    ch_checkv          = Channel.empty()
-    ch_quast           = Channel.empty()
-    ch_annotation      = Channel.empty()
-    ch_genome_grouped  = Channel.empty()
+    ch_versions        = channel.empty()
+    ch_blast           = channel.empty()
+    ch_checkv          = channel.empty()
+    ch_quast           = channel.empty()
+    ch_annotation      = channel.empty()
+    ch_genome_grouped  = channel.empty()
 
     // Combine all genomes into a single file
     ch_genomes_all = ch_genome
-        .collectFile(name: "all_genomes.fa") { it[1] }
-        .map { it -> [[id: "all_genomes"], it] }
+        .collectFile(name: "all_genomes.fa") {_meta, fasta -> fasta }
+        .map { fasta -> [[id: "all_genomes"], fasta] }
 
     // combine the different iterations of a single consensus
     ch_genomes_mapped = ch_genome.multiMap { meta, fasta ->
@@ -43,27 +42,24 @@ workflow CONSENSUS_QC {
         }
         .map { file -> [file.simpleName, file] }
         .join(ch_genomes_mapped.metadata.unique())
-        .map { id, genome, meta -> [meta, genome] }
+        .map { _id, genome, meta -> [meta, genome] }
 
     // Contig summary statistics
     if (!params.skip_quast) {
         QUAST_QC(ch_genome, [[:], []], [[:], []])
         ch_quast = QUAST_QC.out.tsv
-        ch_versions = ch_versions.mix(QUAST_QC.out.versions.first())
     }
 
     // Identify closest reference from the reference pool database using blast
     if (!params.skip_blast_qc) {
         BLASTN_QC(ch_genomes_all, ch_refpool_db, [], [], [])
         ch_blast = BLASTN_QC.out.txt
-        ch_versions = ch_versions.mix(BLASTN_QC.out.versions.first())
     }
 
     // use MMSEQS easy search to find best hits against annotation db
     if (!params.skip_consensus_annotation) {
         MMSEQS_ANNOTATE(ch_genomes_all, ch_annotation_db)
         ch_annotation = MMSEQS_ANNOTATE.out.tsv
-        ch_versions = ch_versions.mix(MMSEQS_ANNOTATE.out.versions)
     }
 
     // Annotate proteins with prokka
@@ -104,7 +100,6 @@ workflow CONSENSUS_QC {
 
         MAFFT_ITERATIONS(ch_genome_grouped_branch.pass, [[:], []], [[:], []], [[:], []], [[:], []], [[:], []], false)
 
-        ch_versions = ch_versions.mix(MAFFT_ITERATIONS.out.versions.first())
         ch_contigs_mod = ch_aligned_raw_contigs.map { meta, genome -> [meta.id, meta, genome] }
 
         // Make a channel that contains the alignment of the iterations with
@@ -123,8 +118,6 @@ workflow CONSENSUS_QC {
             }
 
         MAFFT_QC(ch_mafftQC_in.scaffolds, ch_mafftQC_in.contigs, [[:], []], [[:], []], [[:], []], [[:], []], false)
-
-        ch_versions = ch_versions.mix(MAFFT_QC.out.versions.first())
     }
 
     emit:
@@ -132,6 +125,5 @@ workflow CONSENSUS_QC {
     checkv     = ch_checkv        // channel: [ val(meta), [ tsv ] ]
     quast      = ch_quast         // channel: [ val(meta), [ tsv ] ]
     annotation = ch_annotation    // channel: [ val(meta), [ txt ] ]
-    mqc        = ch_multiqc_files // channel: [ tsv ]
     versions   = ch_versions      // channel: [ versions.yml ]
 }

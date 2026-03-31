@@ -14,9 +14,8 @@ workflow SCAFFOLDS_EXTEND_STATS {
     name             // value 'spades','trinity','megahit'
 
     main:
-    ch_versions = Channel.empty()
-    ch_scaffolds = Channel.empty()
-    ch_multiqc = Channel.empty()
+    ch_scaffolds = channel.empty()
+    ch_multiqc = channel.empty()
 
     ch_scaffolds = ch_scaffolds_raw
         .filter { _meta, contigs -> contigs != null }
@@ -24,8 +23,7 @@ workflow SCAFFOLDS_EXTEND_STATS {
 
     // QUAST
     QUAST(ch_scaffolds, [[:], []], [[:], []])
-    ch_versions = ch_versions.mix(QUAST.out.versions.first())
-    ch_multiqc = ch_multiqc.mix(QUAST.out.tsv.collect { it[1] }.ifEmpty([]))
+    ch_multiqc = ch_multiqc.mix(QUAST.out.tsv.collect{_meta, tsv -> tsv}.ifEmpty([]))
 
     // SSPACE_BASIC
     if (!params.skip_sspace_basic) {
@@ -44,31 +42,26 @@ workflow SCAFFOLDS_EXTEND_STATS {
             ch_sspace_input.settings,
             ch_sspace_input.name,
         )
-        ch_versions = ch_versions.mix(SSPACE_BASIC.out.versions.first())
 
         ch_scaffolds = SSPACE_BASIC.out.scaffolds
     }
 
-    ch_coverages = Channel.empty()
+    ch_coverages = channel.empty()
     if (params.perc_reads_contig != 0) {
         ch_map_reads_input = ch_scaffolds.join(ch_reads)
 
         MAP_READS_CONTIGS(ch_map_reads_input, params.mapper)
         ch_bam = MAP_READS_CONTIGS.out.bam
-        ch_versions = ch_versions.mix(MAP_READS_CONTIGS.out.versions)
 
         CONTIG_INDEX(ch_bam)
         ch_bam_bai = ch_bam.join(CONTIG_INDEX.out.bai)
-        ch_versions = ch_versions.mix(CONTIG_INDEX.out.versions.first())
 
         CONTIG_IDXSTATS(ch_bam_bai)
         ch_coverages = CONTIG_IDXSTATS.out.idxstats
-        ch_versions = ch_versions.mix(CONTIG_IDXSTATS.out.versions.first())
     }
 
     emit:
     scaffolds = ch_scaffolds // channel: [ val(meta), [ scaffolds] ]
     coverages = ch_coverages // channel: [ val(meta), [ idxstats ] ]
     mqc       = ch_multiqc   // channel: [ val(meta), [ mqc ] ]
-    versions  = ch_versions  // channel: [ versions.yml ]
 }

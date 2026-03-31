@@ -3,6 +3,39 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.1.1 - 13-03-2026
+
+### `Added`
+
+- Template update for nf-core/tools v3.5.2 ([#270](https://github.com/nf-core/viralmetagenome/pull/270)) (by @Joon-Klaps)
+- Modules update to latest nf-core versions ([#271](https://github.com/nf-core/viralmetagenome/pull/271)) (by @Joon-Klaps)
+- Update local modules to use topics ([#272](https://github.com/nf-core/viralmetagenome/pull/272)) (by @Joon-Klaps)
+- Add better output file descriptions for prokka [#274](https://github.com/nf-core/viralmetagenome/pull/274) (by @Joon-Klaps)
+- Better item descriptors (`it -> [it[0], it[1]` to `meta, fasta , _foo -> [meta,fasta]`) for better readability ([#265](https://github.com/nf-core/viralmetagenome/pull/265)) (by @Joon-Klaps)
+- Include the new parameter `--transpose_overview_tables` , fixes [#220](https://github.com/nf-core/viralmetagenome/issues/220) ([#275](https://github.com/nf-core/viralmetagenome/pull/275)) (by @Joon-Klaps)
+- Bump version from dev to `1.1.1` for release ([#277](https://github.com/nf-core/viralmetagenome/pull/276)) (by @Joon-Klaps)
+
+### `Fixed`
+
+- Follow the rules of strict syntax health [#265](https://github.com/nf-core/viralmetagenome/pull/265) (by @Joon-Klaps)
+- Moved the module specifics from base.config to modules.config ([#265](https://github.com/nf-core/viralmetagenome/pull/265))
+- Fix bug from regex in input schema still allowing underscores in sample and group names ([#269](https://github.com/nf-core/viralmetagenome/pull/269)) - (by @Joon-Klaps)
+
+### `Dependencies`
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `snpeff`   | 5.3.0a      | 5.4.0a      |
+
+### `Parameters`
+
+| Old parameter | New parameter                 |
+| ------------- | ----------------------------- |
+|               | `--transpose_overview_tables` |
+
+> **NB:** Parameter has been **updated** if both old and new parameter information is present.
+> **NB:** Parameter has been **added** if just the new parameter information is present.
+
 ## v1.1.0 - 2026-01-23
 
 ### `Added`

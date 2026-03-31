@@ -259,3 +259,19 @@ def select_columns(df: pd.DataFrame, columns: List[str]) -> pd.DataFrame:
     """
     result = df[[column for column in columns if column in df.columns]]
     return result.copy()
+
+
+def transpose_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Transpose a table so the values from the `sample` column become column names.
+    """
+    if df.empty:
+        return df
+
+    if "sample" not in df.columns:
+        logger.warning("Could not transpose table because the 'sample' column is missing")
+        return df
+
+    transposed_df = df.set_index("sample").transpose().reset_index()
+    transposed_df = transposed_df.rename(columns={"index": "sample"})
+    return transposed_df
