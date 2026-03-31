@@ -58,7 +58,7 @@ process SNPSIFT_EXTRACTFIELDS {
         avail_mem = task.memory.giga
     }
     """
-    echo "${args}
+    echo "${args}"
     touch ${prefix}.snpsift.txt
     """
 }
