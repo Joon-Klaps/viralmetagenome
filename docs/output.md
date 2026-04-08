@@ -258,7 +258,7 @@ By default, nf-core/viralmetagenome will only provide the BLAST results in a tab
 
 - `polishing/`
   - `blast/<sample-id>_filter.tsv`: Filtered BLAST results in tabular format.
-  - `intermediate/blast/filtered-sequences/<sample-id>_withref.fa`: Contigs with the blast hit sequence in a fasta file.
+  - `intermediate/blast/filtered-sequences/<sample-id>_withref.fa`: A FASTA containing the contigs together with selected BLAST-hit reference sequences. This file is used as clustering input only when `--cluster_with_reference true`, which is the pipeline default.
   - `intermediate/blast/hits/<sample-id>.txt`: unfiltered BLAST results in tabular format.
 
 :::

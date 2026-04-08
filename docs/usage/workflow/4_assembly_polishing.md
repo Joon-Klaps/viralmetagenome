@@ -51,7 +51,7 @@ Processed reads are mapped back against the contigs to determine the number of r
 
 The newly assembled contigs are compared to a reference sequence pool (`--reference_pool`) using a [BLASTn search](https://www.ncbi.nlm.nih.gov/books/NBK153387/). This process not only helps annotate the contigs but also assists in linking together sets of contigs that are distant within a single genome. Essentially, it aids in identifying contigs belonging to the same genomic segment and choosing the right reference for scaffolding purposes.
 
-The top 5 hits for each contig are combined with the de novo contigs and sent to the clustering step.
+The top 5 hits for each contig can be combined with the de novo contigs and sent to the clustering step. This behaviour is controlled with `--cluster_with_reference` and is enabled by default.
 
 > [!NOTE]
 > The reference pool can be specified with the `--reference_pool` parameter. The default is the latest clustered [Reference Viral DataBase (RVDB)](https://rvdb.dbi.udel.edu/).
@@ -72,7 +72,7 @@ graph LR;
 
 ### 5.1 Pre-clustering using taxonomy
 
-The contigs along with their references have their taxonomy assigned using [Kraken2](https://ccb.jhu.edu/software/kraken2/) and [Kaiju](https://kaiju.binf.ku.dk/).
+The contigs, and optionally their selected BLAST-hit references, have their taxonomy assigned using [Kraken2](https://ccb.jhu.edu/software/kraken2/) and [Kaiju](https://kaiju.binf.ku.dk/).
 
 > [!NOTE]
 > The default databases are the same ones used for read classification:
@@ -182,4 +182,4 @@ If the `--perc_reads_contig` is set to `5`, the cumulative sum of the contigs fr
 
 ## 7. Scaffolding
 
-After classifying all contigs and their top BLAST hits into distinct clusters or bins, the contigs are then scaffolded to the centroid of each bin. Any external references that are not centroids of the cluster are subsequently removed to prevent further bias. All members of the cluster are consequently mapped towards their centroid with [Minimap2](https://github.com/lh3/minimap2) and consensus is called using [iVar-consensus](https://andersen-lab.github.io/ivar/html/manualpage.html).
+After classifying the contigs, and optionally their top BLAST hits, into distinct clusters or bins, the cluster members are scaffolded to the centroid of each bin. When `--cluster_with_reference true` is used, selected BLAST-hit references may be present as cluster members and any external references that are not chosen as centroids are removed before downstream consensus generation. When `--cluster_with_reference false`, clustering and scaffolding proceed on contigs alone. All members of the cluster are consequently mapped towards their centroid with [Minimap2](https://github.com/lh3/minimap2) and consensus is called using [iVar-consensus](https://andersen-lab.github.io/ivar/html/manualpage.html).
