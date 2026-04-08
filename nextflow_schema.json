@@ -537,6 +537,13 @@
                     "help_text": "Provide a newline-delimited list of identifiers or fragments when your reference pool bundles partial or defective genomes.",
                     "fa_icon": "fas fa-ban"
                 },
+                "cluster_with_reference": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-object-group",
+                    "description": "Include BLAST-hit reference sequences in the FASTA used for clustering",
+                    "help_text": "If true, contigs and top BLAST-hit references are clustered together. If false, BLAST still runs but clustering uses only the de novo contigs."
+                },
                 "skip_precluster": {
                     "type": "boolean",
                     "fa_icon": "fas fa-forward",
