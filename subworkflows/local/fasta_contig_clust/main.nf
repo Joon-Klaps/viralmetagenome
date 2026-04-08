@@ -17,6 +17,7 @@ workflow FASTA_CONTIG_CLUST {
     contig_classifiers    // value ['kraken2','kaiju']
     cluster_method        // value ['vsearch','cdhitest','mmseqs-linclust','mmseqs-cluster','vrhyme', 'mash']
     identity_threshold    // value: 0.85
+    cluster_with_reference // boolean
     skip_precluster       // boolean
     perc_reads_contig     // value: 5
 
@@ -33,9 +34,10 @@ workflow FASTA_CONTIG_CLUST {
     )
     no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits
     fasta_ref_contigs = FASTA_BLAST_REFSEL.out.fasta_ref_contigs
+    ch_cluster_fasta  = cluster_with_reference ? fasta_ref_contigs : ch_fasta
 
     // Combine with reads if vrhyme is used
-    ch_contigs_reads = fasta_ref_contigs
+    ch_contigs_reads = ch_cluster_fasta
         .join(ch_fasta_fastq, by: [0])
         .map{meta, contigs_joined, _contigs, reads -> [meta + [ntaxa: 1], contigs_joined, reads]} // ntaxa will use later
 
@@ -61,13 +63,13 @@ workflow FASTA_CONTIG_CLUST {
 
     // if we have no coverage files, make the empty array else join with coverages
     if (perc_reads_contig == 0){
-        sample_fasta_ref_contigs = fasta_ref_contigs
+        sample_fasta_ref_contigs = ch_cluster_fasta
             .map{ meta, fasta -> [meta.sample, meta, fasta,[]] }               // add sample for join
     } else {
         sample_coverages = ch_coverages
             .map{ meta, idxstats -> [meta.sample, meta, idxstats] }            // add sample for join
 
-        sample_fasta_ref_contigs = fasta_ref_contigs
+        sample_fasta_ref_contigs = ch_cluster_fasta
             .map{ meta, fasta -> [meta.sample, meta, fasta] }                  // add sample for join
             .join(sample_coverages, by: [0])                                   // join with coverages
             .map{ sample, meta_fasta, fasta, _meta_coverages, coverages ->     // remove meta coverages

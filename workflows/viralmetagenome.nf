@@ -215,6 +215,7 @@ workflow VIRALMETAGENOME {
                 contig_classifiers,
                 params.cluster_method,
                 params.identity_threshold,
+                params.cluster_with_reference,
                 params.skip_precluster,
                 params.perc_reads_contig
                 )
