@@ -182,4 +182,7 @@ If the `--perc_reads_contig` is set to `5`, the cumulative sum of the contigs fr
 
 ## 7. Scaffolding
 
-After classifying the contigs, and optionally their top BLAST hits, into distinct clusters or bins, the cluster members are scaffolded to the centroid of each bin. When `--cluster_with_reference true` is used, selected BLAST-hit references may be present as cluster members and any external references that are not chosen as centroids are removed before downstream consensus generation. When `--cluster_with_reference false`, clustering and scaffolding proceed on contigs alone. All members of the cluster are consequently mapped towards their centroid with [Minimap2](https://github.com/lh3/minimap2) and consensus is called using [iVar-consensus](https://andersen-lab.github.io/ivar/html/manualpage.html).
+After classifying the contigs, and optionally their top BLAST hits, into distinct clusters or bins, the cluster members are scaffolded to the centroid of each bin. Selected BLAST-hit references may be present as cluster members and any external references that are not chosen as centroids are removed before downstream consensus generation. When `--reference_pool false` or is set to `null`, clustering and scaffolding proceed on contigs alone. All members of the cluster are consequently mapped towards their centroid with [Minimap2](https://github.com/lh3/minimap2) and consensus is called using [iVar-consensus](https://andersen-lab.github.io/ivar/html/manualpage.html).
+
+> [!NOTE]
+> Whenever, supplied references are to divergent from the contigs, scaffolding will be done using only the contigs themselves. This can be further controlled with the param `arguments_blast_filter`.

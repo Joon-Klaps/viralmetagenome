@@ -119,8 +119,8 @@ workflow VIRALMETAGENOME {
 
         // transfer to value channels so processes are not just done once
         // '.collect()' is necessary to transform to list so cartesian products are made downstream
-        ch_ref_pool         = ch_db.reference.collect{_meta, unpacked -> unpacked}.ifEmpty([]).filter{ it != null }.map{unpacked -> [[id: 'reference'], unpacked]}
-        ch_annotation_db    = ch_db.annotation.collect{_meta, unpacked -> unpacked}.ifEmpty([]).filter{ it != null }.map{unpacked -> [[id: 'annotation'], unpacked]}
+        ch_ref_pool         = ch_db.reference.collect{_meta, unpacked -> unpacked}.ifEmpty([]).map{unpacked -> [[id: 'reference'], unpacked]}
+        ch_annotation_db    = ch_db.annotation.collect{_meta, unpacked -> unpacked}.ifEmpty([]).map{unpacked -> [[id: 'annotation'], unpacked]}
         ch_kraken2_db       = ch_db.kraken2.collect().ifEmpty([])
         ch_kaiju_db         = ch_db.kaiju.collect().ifEmpty([])
         ch_checkv_db        = ch_db.checkv.collect().ifEmpty([])
