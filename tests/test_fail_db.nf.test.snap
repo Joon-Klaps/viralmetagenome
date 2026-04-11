@@ -219,10 +219,8 @@
                 "SRR11140744.final.renamed.scaffolds.fa:md5,93b179a2758004c756ef5b1a8714aea3",
                 "SRR11140748.final.renamed.scaffolds.fa:md5,5cc675bbc449de5cf78078ac9fb30ad4",
                 "SRR11140744.library.txt:md5,ae286fa8c5a883968a050f2d657620a0",
-                "SRR11140744.logfile.txt:md5,34dd72aeab7f034c1be27393a977e7d2",
                 "SRR11140744.summaryfile.txt:md5,cbaee7f36e6e9190059479c7bebcd899",
                 "SRR11140748.library.txt:md5,1118b848c68c8cdfd5fbe071db143369",
-                "SRR11140748.logfile.txt:md5,33f690f750930cb38346dc4c13e4b92c",
                 "SRR11140748.summaryfile.txt:md5,c8b8719bf14faa02239635f4a00af197",
                 "SRR11140744_bad_out.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_bad_out.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
@@ -239,19 +237,15 @@
                 "empty-SRR.fastp.json:md5,7291568569db81b5940b8a78bb277ad8",
                 "SRR11140744_bad_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140744_bad_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "SRR11140744_good_out_R1.fastq.gz:md5,d120f7088f8348ba4cc6ca387379ced3",
-                "SRR11140744_good_out_R2.fastq.gz:md5,6e211d1f838145009dc513eca8478552",
                 "SRR11140744_single_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140744_single_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_bad_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_bad_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "SRR11140748_good_out_R1.fastq.gz:md5,f68a1b9d83ce2653281a64f57071ce41",
-                "SRR11140748_good_out_R2.fastq.gz:md5,724f48f99feb750023407bd3e8721057",
                 "SRR11140748_single_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_single_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-04-11T12:38:13.512757",
+        "timestamp": "2026-04-11T13:25:05.259948",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -494,10 +488,8 @@
                 "SRR11140744.final.renamed.scaffolds.fa:md5,93b179a2758004c756ef5b1a8714aea3",
                 "SRR11140748.final.renamed.scaffolds.fa:md5,5cc675bbc449de5cf78078ac9fb30ad4",
                 "SRR11140744.library.txt:md5,ae286fa8c5a883968a050f2d657620a0",
-                "SRR11140744.logfile.txt:md5,27ca000c7cc899d2809693d6d6b32a83",
                 "SRR11140744.summaryfile.txt:md5,cbaee7f36e6e9190059479c7bebcd899",
                 "SRR11140748.library.txt:md5,1118b848c68c8cdfd5fbe071db143369",
-                "SRR11140748.logfile.txt:md5,e2ace2a8756dcc59430046655cf227e8",
                 "SRR11140748.summaryfile.txt:md5,c8b8719bf14faa02239635f4a00af197",
                 "SRR11140744_bad_out.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_bad_out.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
@@ -514,19 +506,15 @@
                 "empty-SRR.fastp.json:md5,7291568569db81b5940b8a78bb277ad8",
                 "SRR11140744_bad_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140744_bad_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "SRR11140744_good_out_R1.fastq.gz:md5,51f89cf6dc73fa26927d2a5f5d9bbc43",
-                "SRR11140744_good_out_R2.fastq.gz:md5,f4ce4ead1484e4e050a304876040173e",
                 "SRR11140744_single_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140744_single_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_bad_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_bad_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "SRR11140748_good_out_R1.fastq.gz:md5,c8e91ee2e27475a6e607c9d7d05fcac4",
-                "SRR11140748_good_out_R2.fastq.gz:md5,2ee74c1192a1dd2a563bc9e7f3871062",
                 "SRR11140748_single_out_R1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SRR11140748_single_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-04-11T12:35:01.279338",
+        "timestamp": "2026-04-11T13:21:29.158794",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
