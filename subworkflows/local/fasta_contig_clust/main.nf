@@ -17,27 +17,30 @@ workflow FASTA_CONTIG_CLUST {
     contig_classifiers    // value ['kraken2','kaiju']
     cluster_method        // value ['vsearch','cdhitest','mmseqs-linclust','mmseqs-cluster','vrhyme', 'mash']
     identity_threshold    // value: 0.85
-    cluster_with_reference // boolean
     skip_precluster       // boolean
     perc_reads_contig     // value: 5
+    has_blast_db          // boolean: whether blast db is provided (if not, skip blast ref selection)
 
     main:
-    ch_versions        = channel.empty()
-    ch_fasta           = ch_fasta_fastq.map{ meta, fasta, _fastq -> [meta, fasta] }
+    ch_versions          = channel.empty()
+    ch_no_blast_hits     = channel.empty()
+    ch_fasta             = ch_fasta_fastq.map{ meta, fasta, _fastq -> [meta, fasta] }
+    ch_fasta_ref_contigs = ch_fasta
 
-    // Blast contigs to a reference database, to find a reference genome can be used for scaffolding
-    FASTA_BLAST_REFSEL (
-        ch_fasta,
-        ch_blacklist,
-        ch_blast_db,
-        ch_blast_db_fasta
-    )
-    no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits
-    fasta_ref_contigs = FASTA_BLAST_REFSEL.out.fasta_ref_contigs
-    ch_cluster_fasta  = cluster_with_reference ? fasta_ref_contigs : ch_fasta
+    if ( has_blast_db ) {
+        // Blast contigs to a reference database, to find a reference genome can be used for scaffolding
+        FASTA_BLAST_REFSEL (
+            ch_fasta,
+            ch_blacklist,
+            ch_blast_db,
+            ch_blast_db_fasta
+        )
+        ch_no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits
+        ch_fasta_ref_contigs = FASTA_BLAST_REFSEL.out.fasta_ref_contigs
+    }
 
     // Combine with reads if vrhyme is used
-    ch_contigs_reads = ch_cluster_fasta
+    ch_contigs_reads = ch_fasta_ref_contigs
         .join(ch_fasta_fastq, by: [0])
         .map{meta, contigs_joined, _contigs, reads -> [meta + [ntaxa: 1], contigs_joined, reads]} // ntaxa will use later
 
@@ -63,13 +66,13 @@ workflow FASTA_CONTIG_CLUST {
 
     // if we have no coverage files, make the empty array else join with coverages
     if (perc_reads_contig == 0){
-        sample_fasta_ref_contigs = ch_cluster_fasta
+        sample_fasta_ref_contigs = ch_fasta_ref_contigs
             .map{ meta, fasta -> [meta.sample, meta, fasta,[]] }               // add sample for join
     } else {
         sample_coverages = ch_coverages
             .map{ meta, idxstats -> [meta.sample, meta, idxstats] }            // add sample for join
 
-        sample_fasta_ref_contigs = ch_cluster_fasta
+        sample_fasta_ref_contigs = ch_fasta_ref_contigs
             .map{ meta, fasta -> [meta.sample, meta, fasta] }                  // add sample for join
             .join(sample_coverages, by: [0])                                   // join with coverages
             .map{ sample, meta_fasta, fasta, _meta_coverages, coverages ->     // remove meta coverages
@@ -121,7 +124,7 @@ workflow FASTA_CONTIG_CLUST {
     centroids_members     = ch_seq_centroids_members       // channel: [ [ meta ], [ seq_centroids.fa], [ seq_members.fa] ]
     clusters_tsv          = EXTRACT_CLUSTER.out.tsv        // channel: [ [ meta ], [ tsv ] ]
     clusters_summary      = EXTRACT_CLUSTER.out.summary    // channel: [ [ meta ], [ tsv ] ]
-    no_blast_hits_mqc     = no_blast_hits                  // channel: [ tsv ]
+    no_blast_hits_mqc     = ch_no_blast_hits               // channel: [ tsv ]
     versions              = ch_versions                    // channel: [ versions.yml ]
 
 }

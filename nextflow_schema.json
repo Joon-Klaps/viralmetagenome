@@ -51,7 +51,6 @@
                 },
                 "transpose_overview_tables": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
                     "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
                     "fa_icon": "fas fa-table"
@@ -536,13 +535,6 @@
                     "description": "File containing identifiers to exclude from the scaffolding reference pool",
                     "help_text": "Provide a newline-delimited list of identifiers or fragments when your reference pool bundles partial or defective genomes.",
                     "fa_icon": "fas fa-ban"
-                },
-                "cluster_with_reference": {
-                    "type": "boolean",
-                    "default": true,
-                    "fa_icon": "fas fa-object-group",
-                    "description": "Include BLAST-hit reference sequences in the FASTA used for clustering",
-                    "help_text": "If true, contigs and top BLAST-hit references are clustered together. If false, BLAST still runs but clustering uses only the de novo contigs."
                 },
                 "skip_precluster": {
                     "type": "boolean",

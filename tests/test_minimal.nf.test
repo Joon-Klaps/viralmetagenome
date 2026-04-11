@@ -36,19 +36,4 @@ nextflow_pipeline {
             )
         }
     }
-
-    test("-profile test_minimal - cluster_with_reference false") {
-
-        when {
-            params {
-                outdir = "$outputDir"
-                cluster_with_reference = false
-            }
-        }
-
-        then {
-
-            assert workflow.success
-        }
-    }
 }

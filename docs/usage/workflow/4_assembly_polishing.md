@@ -51,10 +51,10 @@ Processed reads are mapped back against the contigs to determine the number of r
 
 The newly assembled contigs are compared to a reference sequence pool (`--reference_pool`) using a [BLASTn search](https://www.ncbi.nlm.nih.gov/books/NBK153387/). This process not only helps annotate the contigs but also assists in linking together sets of contigs that are distant within a single genome. Essentially, it aids in identifying contigs belonging to the same genomic segment and choosing the right reference for scaffolding purposes.
 
-The top 5 hits for each contig can be combined with the de novo contigs and sent to the clustering step. This behaviour is controlled with `--cluster_with_reference` and is enabled by default.
+The top 5 hits for each contig can be combined with the de novo contigs and sent to the clustering step.
 
 > [!NOTE]
-> The reference pool can be specified with the `--reference_pool` parameter. The default is the latest clustered [Reference Viral DataBase (RVDB)](https://rvdb.dbi.udel.edu/).
+> The reference pool can be specified with the `--reference_pool` parameter. The default is the latest clustered [Reference Viral DataBase (RVDB)](https://rvdb.dbi.udel.edu/). To not use a reference pool and blast the contigs, set `--reference_pool false` or in a `-param-file <file>` to `null`.
 
 > [!NOTE]
 > Reference collections may contain truncated or defective sequences (for example some RVDB entries). Supply the `--blacklist` parameter with a newline-delimited list of identifiers (or identifier fragments) to exclude those hits during BLAST filtering and prevent them from being used as a reference during scaffolding.
