@@ -7,19 +7,19 @@ include { getMapFromJson          } from '../utils_nfcore_viralmetagenome_pipeli
 workflow FASTA_CONTIG_CLUST {
 
     take:
-    ch_fasta_fastq        // channel: [ val(meta), [ fasta ],  [ fastq ] ]
-    ch_coverages          // channel: [ val(meta), [ idxstats* ] ]
-    ch_blacklist          // channel: [ path(blacklist) ]
-    ch_blast_db           // channel: [ val(meta), path(db) ]
-    ch_blast_db_fasta     // channel: [ val(meta), path(fasta) ]
-    ch_kraken2_db         // channel: [ val(meta), path(db) ]
-    ch_kaiju_db           // channel: [ val(meta), path(db) ]
-    contig_classifiers    // value ['kraken2','kaiju']
-    cluster_method        // value ['vsearch','cdhitest','mmseqs-linclust','mmseqs-cluster','vrhyme', 'mash']
-    identity_threshold    // value: 0.85
-    skip_precluster       // boolean
-    perc_reads_contig     // value: 5
-    has_blast_db          // boolean: whether blast db is provided (if not, skip blast ref selection)
+    ch_fasta_fastq              // channel: [ val(meta), [ fasta ],  [ fastq ] ]
+    ch_coverages                // channel: [ val(meta), [ idxstats* ] ]
+    ch_blacklist                // channel: [ path(blacklist) ]
+    ch_blast_db                 // channel: [ val(meta), path(db) ]
+    ch_blast_db_fasta           // channel: [ val(meta), path(fasta) ]
+    ch_kraken2_db               // channel: [ val(meta), path(db) ]
+    ch_kaiju_db                 // channel: [ val(meta), path(db) ]
+    contig_classifiers          // value ['kraken2','kaiju']
+    cluster_method              // value ['vsearch','cdhitest','mmseqs-linclust','mmseqs-cluster','vrhyme', 'mash']
+    identity_threshold          // value: 0.85
+    skip_precluster             // boolean
+    perc_reads_contig           // value: 5
+    cluster_with_reference_pool // boolean: whether blast db is provided (if not, skip blast ref selection)
 
     main:
     ch_versions          = channel.empty()
@@ -27,7 +27,7 @@ workflow FASTA_CONTIG_CLUST {
     ch_fasta             = ch_fasta_fastq.map{ meta, fasta, _fastq -> [meta, fasta] }
     ch_fasta_ref_contigs = ch_fasta
 
-    if ( has_blast_db ) {
+    if ( cluster_with_reference_pool ) {
         // Blast contigs to a reference database, to find a reference genome can be used for scaffolding
         FASTA_BLAST_REFSEL (
             ch_fasta,

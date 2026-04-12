@@ -36,12 +36,12 @@ nextflow_pipeline {
         }
     }
 
-    test("-profile test_fail_db without reference pool") {
+    test("-profile test_fail_db no clustering with reference") {
 
         when {
             params {
                 outdir = "$outputDir"
-                reference_pool = null
+                cluster_with_reference_pool = false
             }
         }
 

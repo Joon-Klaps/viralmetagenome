@@ -208,7 +208,7 @@ workflow VIRALMETAGENOME {
                 params.identity_threshold,
                 params.skip_precluster,
                 params.perc_reads_contig,
-                params.reference_pool ? true : false
+                params.cluster_with_reference_pool
                 )
             ch_versions = ch_versions.mix(FASTA_CONTIG_CLUST.out.versions)
 
@@ -389,7 +389,7 @@ workflow VIRALMETAGENOME {
             ch_consensus_filter,
             ch_unaligned_contigs,
             ch_checkv_db,
-            ch_blast_refdb,
+            ch_blast_refdb.ifEmpty([]),
             ch_annotation_db,
             ch_prokka_db
             )
