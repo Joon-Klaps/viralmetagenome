@@ -53,7 +53,7 @@ nextflow_workflow {
             script "../../../../modules/nf-core/untar/main.nf"
             process {
                 """
-                input[0] = Channel.of([[id:"kraken2"],file(params.modules_testdata_base_path + '/genomics/sarscov2/genome/db/kraken2_bracken.tar.gz', checkIfExists: true)])
+                input[0] = Channel.of([[id:"kraken2"],file(params.pipelines_testdata_base_path + '/db/kraken2_bracken.tar.gz', checkIfExists: true)])
                 """
             }
         }
