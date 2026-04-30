@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Add param `--cluster_with_reference_pool` to optionally include the reference pool in the clustering step ([#278](https://github.com/nf-core/viralmetagenome/pull/278)) (by @nrminor, @Joon-Klaps)
+
 ### `Fixed`
 
 ### `Dependencies`
 
 ### `Parameters`
+
+| Old parameter | New parameter                   |
+| ------------- | ------------------------------- |
+|               | `--cluster_with_reference_pool` |
 
 > **NB:** Parameter has been **updated** if both old and new parameter information is present.
 > **NB:** Parameter has been **added** if just the new parameter information is present.

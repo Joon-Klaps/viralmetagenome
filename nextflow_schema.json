@@ -51,7 +51,6 @@
                 },
                 "transpose_overview_tables": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
                     "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
                     "fa_icon": "fas fa-table"
@@ -530,6 +529,13 @@
                     "default": "https://rvdb.dbi.udel.edu/download/C-RVDBvCurrent.fasta.gz",
                     "description": "Set of fasta sequences used as potential references for the contigs",
                     "fa_icon": "fas fa-database"
+                },
+                "cluster_with_reference_pool": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include BLAST-hit reference sequences in the contig clustering input",
+                    "help_text": "When set to `false`, contigs are still searched against `reference_pool` for BLAST reporting and downstream QC, but the matched reference sequences are not injected into clustering as a potential scaffolding reference.",
+                    "fa_icon": "fas fa-bezier-curve"
                 },
                 "blacklist": {
                     "type": "string",

@@ -48,6 +48,7 @@ overview-tables/mapping_overview.tsv
 # ------------------------------------------------------------------------------
 **/fastqc/**_fastqc.{html,zip}
 **/fastp/**fastp.html
+**/*_good_out_R*.fastq.gz
 
 # ------------------------------------------------------------------------------
 # Alignment and mapping outputs
@@ -81,6 +82,7 @@ overview-tables/mapping_overview.tsv
 **/*_good_out.fasta
 **/assemblers/*/idxstats/*.idxstats
 **/*.combined.fa
+**/*logfile.txt
 
 # ------------------------------------------------------------------------------
 # Classification and search results

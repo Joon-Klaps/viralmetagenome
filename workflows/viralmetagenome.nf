@@ -132,18 +132,9 @@ workflow VIRALMETAGENOME {
     // Prepare blast DB
     ch_blast_refdb  = channel.empty()
 
-    if ( (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)){
-        ch_blastdb_in = channel.empty()
-        ch_blastdb_in = ch_blastdb_in.mix(ch_ref_pool)
-
-        BLAST_MAKEBLASTDB ( ch_blastdb_in )
-        ch_blastdb_out = BLAST_MAKEBLASTDB.out.db
-            .branch { meta, db ->
-                reference: meta.id == 'reference'
-                    return [ meta, db ]
-            }
-        ch_blast_refdb  = ch_blastdb_out.reference.collect{_meta, db -> db}.ifEmpty([]).map{db -> [[id: 'reference'], db]}
-
+    if ( params.reference_pool && ((!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc))){
+        BLAST_MAKEBLASTDB ( ch_ref_pool )
+        ch_blast_refdb = BLAST_MAKEBLASTDB.out.db
     }
 
     // If we don't preprocess reads, remove samples with 0 reads
@@ -208,15 +199,16 @@ workflow VIRALMETAGENOME {
                 ch_contigs_reads,
                 ch_coverages,
                 ch_blacklist,
-                ch_blast_refdb,
-                ch_ref_pool,
+                ch_blast_refdb.ifEmpty([]),
+                ch_ref_pool.ifEmpty([]),
                 ch_kraken2_db,
                 ch_kaiju_db,
                 contig_classifiers,
                 params.cluster_method,
                 params.identity_threshold,
                 params.skip_precluster,
-                params.perc_reads_contig
+                params.perc_reads_contig,
+                params.cluster_with_reference_pool
                 )
             ch_versions = ch_versions.mix(FASTA_CONTIG_CLUST.out.versions)
 
@@ -397,7 +389,7 @@ workflow VIRALMETAGENOME {
             ch_consensus_filter,
             ch_unaligned_contigs,
             ch_checkv_db,
-            ch_blast_refdb,
+            ch_blast_refdb.ifEmpty([]),
             ch_annotation_db,
             ch_prokka_db
             )
