@@ -6,7 +6,7 @@ lint:
     - .gitattributes
     - .prettierignore
   multiqc_config: false
-nf_core_version: 4.0.0
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
   author: Joon Klaps, Philippe Lemey, Liana Kafetzopoulou
