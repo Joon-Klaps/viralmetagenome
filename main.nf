@@ -48,9 +48,6 @@ workflow NFCORE_VIRALMETAGENOME {
     //
     VIRALMETAGENOME (
         samplesheet,
-        params.multiqc_config,
-        params.multiqc_logo,
-        params.multiqc_methods_description,
         params.outdir,
     )
     emit:

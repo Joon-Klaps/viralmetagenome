@@ -55,6 +55,7 @@ workflow VIRALMETAGENOME {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input
+    outdir
 
     main:
 
@@ -441,7 +442,7 @@ workflow VIRALMETAGENOME {
             name: 'nf_core_'  +  'viralmetagenome_software_'  + 'mqc_'  + 'versions.yml',
             sort: true,
             newLine: true
-        ).set { ch_collated_versions }
+        )
 
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
     ch_multiqc_files = ch_multiqc_files.mix(

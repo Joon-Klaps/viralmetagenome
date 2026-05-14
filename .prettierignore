@@ -13,3 +13,4 @@ bin/
 ro-crate-metadata.json
 modules/nf-core/
 subworkflows/nf-core/
+*multiqc_report.html
