@@ -13,6 +13,8 @@ Learn more about contributing: [CONTRIBUTING.md](https://github.com/nf-core/vira
 
 ## PR checklist
 
+I MADE CHANGES
+
 - [ ] This comment contains a description of changes (with reason).
 - [ ] If you've fixed a bug or added code that should be tested, add tests!
 - [ ] If you've added a new tool - have you followed the pipeline conventions in the [contribution docs](https://github.com/nf-core/viralmetagenome/tree/main/docs/CONTRIBUTING.md)
