@@ -108,7 +108,7 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 
 ## Citations
 
-> Klaps J, Lemey P, nf-core community, Kafetzopoulou LE. nf-core/viralmetagenome: A Novel Pipeline for Untargeted Viral Genome Reconstruction bioRxiv 2025.06.27.661954; doi:10.1101/2025.06.27.661954
+> Joon Klaps, Philippe Lemey, Magda Bletsa, nf-core community, Liana Eleni Kafetzopoulou, nf-core/viralmetagenome: A novel pipeline for untargeted viral genome reconstruction, Bioinformatics, Volume 42, Issue 5, May 2026, btag187, https://doi.org/10.1093/bioinformatics/btag187
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
