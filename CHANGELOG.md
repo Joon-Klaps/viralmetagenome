@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
+- Cast Lazymaps to Hashmaps to become thread safe with various groovy operators ([#291](https://github.com/nf-core/viralmetagenome/pull/291)) (by @Joon-Klaps)
+
 ### `Dependencies`
 
 ### `Parameters`
