@@ -5,6 +5,7 @@ lint:
   files_unchanged:
     - .gitattributes
     - .prettierignore
+    - PULL_REQUEST_TEMPLATE.md
   multiqc_config: false
 nf_core_version: 4.0.2
 repository_type: pipeline
