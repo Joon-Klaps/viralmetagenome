@@ -23,14 +23,15 @@ nextflow_pipeline {
             def stable_bam_files = getAllFilesFromDir(params.outdir, include: ['**/*.bam'])
             def stable_vcf_files = getAllFilesFromDir(params.outdir, include: ['**/*.vcf.gz'])
 
-            assertAll(
+             assertAll(
+                { assert workflow.success},
                 { assert snapshot(
                     // Number of successful tasks
                     workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
                     removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml"),
                     // All stable path name, with a relative path
-                    stable_path,
+                    stable_name,
                     // All files with stable contents
                     stable_path,
                     // Samples overview file with stable content
