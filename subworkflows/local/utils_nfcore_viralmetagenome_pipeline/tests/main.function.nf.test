@@ -1,12 +1,6 @@
 // Behavioral tests for getMapFromJson — guard for the LazyMap thread-safety
 // fix in https://github.com/nf-core/viralmetagenome/issues/290.
 //
-// NOTE: nf-test serializes function.result to JSON and re-parses it before
-// exposing it back to assertions, which means we cannot use this layer to
-// check the actual class of the returned object (it always looks like
-// LazyMap on the test side). The structural LazyMap check lives in
-// `tests/lazymap_repro.groovy`. Here we only assert behavioral correctness:
-// the function parses the input file and exposes the expected fields/values.
 
 nextflow_function {
 

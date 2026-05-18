@@ -402,7 +402,7 @@ def deepEager(obj) {
         return out
     }
     if (obj instanceof List) {
-        return obj.collect { deepEager(it) }
+        return obj.collect { item -> deepEager(item) }
     }
     return obj
 }

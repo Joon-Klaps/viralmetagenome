@@ -9,23 +9,6 @@ include { FASTP                 } from '../../../modules/nf-core/fastp/main'
 //
 // Function that parses fastp json output file to get total number of reads after trimming
 //
-// JsonSlurper().parseText() returns groovy.json.internal.LazyMap, which is not
-// thread-safe (concurrent hashCode() can NPE). These helpers currently extract
-// scalars and don't leak the map into a meta, but we still deep-convert to
-// plain HashMap/ArrayList up-front so future edits cannot regress this.
-// See https://github.com/nf-core/viralmetagenome/issues/290
-
-def deepEagerFastpJson(obj) {
-    if (obj instanceof Map) {
-        def out = new HashMap()
-        obj.each { k, v -> out[k] = deepEagerFastpJson(v) }
-        return out
-    }
-    if (obj instanceof List) {
-        return obj.collect { deepEagerFastpJson(it) }
-    }
-    return obj
-}
 
 def getFastpReadsAfterFiltering(json_file, min_num_reads) {
 
@@ -33,8 +16,8 @@ def getFastpReadsAfterFiltering(json_file, min_num_reads) {
         return min_num_reads
     }
 
-    def json = deepEagerFastpJson(new groovy.json.JsonSlurper().parseText(json_file.text))
-    return json['summary']['after_filtering']['total_reads'].toLong()
+    def json = new groovy.json.JsonSlurper().parseText(json_file.text).get('summary') as Map
+    return json['after_filtering']['total_reads'].toLong()
 }
 
 def getFastpAdapterSequence(json_file) {
@@ -43,7 +26,7 @@ def getFastpAdapterSequence(json_file) {
         return ""
     }
 
-    def json = deepEagerFastpJson(new groovy.json.JsonSlurper().parseText(json_file.text))
+    def json = new groovy.json.JsonSlurper().parseText(json_file.text) as Map
     try {
         return json['adapter_cutting']['read1_adapter_sequence']
     }
