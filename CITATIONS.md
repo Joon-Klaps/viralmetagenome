@@ -2,9 +2,9 @@
 
 # Citations
 
-## [nf-core/viralmetagenome](https://doi.org/10.1101/2025.06.27.661954)
+## [nf-core/viralmetagenome](https://doi.org/10.1093/bioinformatics/btag187)
 
-> Klaps J, Lemey P, nf-core community, Kafetzopoulou LE. nf-core/viralmetagenome: A Novel Pipeline for Untargeted Viral Genome Reconstruction bioRxiv 2025.06.27.661954; doi:10.1101/2025.06.27.661954
+> Klaps J, Lemey P, Bletsa M, nf-core community, Kafetzopoulou LE. nf-core/viralmetagenome: A Novel Pipeline for Untargeted Viral Genome Reconstruction. Bioinformatics 2026 May 1;42(5):btag187. doi: 10.1093/bioinformatics/btag187.
 
 ## [nf-core](https://doi.org/10.1038/s41587-020-0439-x)
 
