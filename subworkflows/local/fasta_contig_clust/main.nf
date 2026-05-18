@@ -106,10 +106,6 @@ workflow FASTA_CONTIG_CLUST {
         .transpose()                                                                   // wide to long
         .map { meta, seq_members, seq_centroids, json_file ->
             def j = getMapFromJson(json_file)                                          // deep-eager HashMap; safe to drop into meta
-            // Only carry fields that are actually read downstream. `members` and
-            // `cumulative_read_depth` are written to the JSON file on disk but
-            // never read from meta — keeping them only inflates the hash surface
-            // that Nextflow scans on every join/groupTuple.
             def map_json = [
                 id                : "${meta.sample}_${j.cluster_id}",                  // rename meta.id to include cluster number
                 centroid          : j.centroid?.toString(),
