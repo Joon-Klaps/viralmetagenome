@@ -6,7 +6,6 @@ nextflow_function {
 
     name "Test Functions utils_nfcore_viralmetagenome_pipeline"
     script "../main.nf"
-    config "./nextflow.config"
     tag "subworkflows"
     tag "subworkflows_local"
     tag "utils_nfcore_viralmetagenome_pipeline"
