@@ -105,14 +105,14 @@ workflow FASTA_CONTIG_CLUST {
         .members_centroids
         .transpose()                                                                   // wide to long
         .map { meta, seq_members, seq_centroids, json_file ->
-            def j = getMapFromJson(json_file)                                          // deep-eager HashMap; safe to drop into meta
+            def json = getMapFromJson(json_file)                                       // deep-cloned HashMap; safe to drop into meta
             def map_json = [
-                id                : "${meta.sample}_${j.cluster_id}",                  // rename meta.id to include cluster number
-                centroid          : j.centroid?.toString(),
-                cluster_id        : j.cluster_id?.toString(),
-                cluster_size      : (j.cluster_size as Integer),
-                external_reference: (j.external_reference as Boolean),
-                taxid             : j.taxid?.toString()
+                id                : "${meta.sample}_${json.cluster_id}",               // rename meta.id to include cluster number
+                centroid          : json.centroid?.toString(),
+                cluster_id        : json.cluster_id?.toString(),
+                cluster_size      : (json.cluster_size as Integer),
+                external_reference: (json.external_reference as Boolean),
+                taxid             : json.taxid?.toString()
             ]
             return [meta + map_json, seq_centroids, seq_members]
         }

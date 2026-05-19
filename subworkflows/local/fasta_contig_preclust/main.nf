@@ -74,9 +74,9 @@ workflow FASTA_CONTIG_PRECLUST {
     ch_sequences_reads = EXTRACT_PRECLUSTER
         .out
         .sequences
-        .map { meta, fastas, json ->
-            def lazy_json = getMapFromJson(json)
-            [meta + [ntaxa: lazy_json.ntaxa],fastas]                                                    // json contains ONLY ntaxa
+        .map { meta, fastas, json_file ->
+            def json = getMapFromJson(json_file)
+            [meta + [ntaxa: json.ntaxa], fastas]                                                        // json contains ONLY ntaxa
         }
         .transpose()                                                                                    // wide to long
         .map{ meta, fasta ->

@@ -385,26 +385,15 @@ def getLengthAndAmbigous(fastaFile) {
     return [contig_size: length.toInteger(), n_100 :ambiguousPerc.toInteger()]
 }
 
-// JsonSlurper().parseText() returns groovy.json.internal.LazyMap, whose
-// hashCode() lazily mutates internal state. When such a map (or any nested
-// LazyMap/LazyList) ends up inside a channel meta, Nextflow's concurrent
-// hashing in JoinOp / GroupTupleOp races and throws
+// JsonSlurperClassic (the eager parser) returns plain HashMap/ArrayList trees.
+// We must avoid the default JsonSlurper here: it returns groovy.json.internal.LazyMap,
+// whose hashCode() lazily mutates internal state without synchronization. When
+// such a map enters a channel meta, Nextflow's concurrent hashing in JoinOp /
+// GroupTupleOp races and throws
 // "NullPointerException: Cannot load from object array because this.keys is null".
 // See https://github.com/nf-core/viralmetagenome/issues/290
 def getMapFromJson(json_file) {
-    return deepEager(new groovy.json.JsonSlurper().parseText(json_file.text))
-}
-
-def deepEager(obj) {
-    if (obj instanceof Map) {
-        def out = new HashMap()
-        obj.each { k, v -> out.put(k, deepEager(v)) }
-        return out
-    }
-    if (obj instanceof List) {
-        return obj.collect { item -> deepEager(item) }
-    }
-    return obj
+    return new groovy.json.JsonSlurperClassic().parseText(json_file.text)
 }
 
 def getStatsMappedReads(statsFile) {
