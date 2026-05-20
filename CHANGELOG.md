@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 - Add param `--cluster_with_reference_pool` to optionally include the reference pool in the clustering step ([#278](https://github.com/nf-core/viralmetagenome/pull/278)) (by @nrminor, @Joon-Klaps)
+- Template update to nf-core/tools v4.0.2 ([#289](https://github.com/nf-core/viralmetagenome/pull/289)) (by @Joon-Klaps)
 
 ### `Fixed`
+
+- Cast Lazymaps to Hashmaps to become thread safe with various groovy operators ([#291](https://github.com/nf-core/viralmetagenome/pull/291)) (by @aersoares81, @Joon-Klaps)
 
 ### `Dependencies`
 

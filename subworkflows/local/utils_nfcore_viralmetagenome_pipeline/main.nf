@@ -385,9 +385,15 @@ def getLengthAndAmbigous(fastaFile) {
     return [contig_size: length.toInteger(), n_100 :ambiguousPerc.toInteger()]
 }
 
+// JsonSlurperClassic (the eager parser) returns plain HashMap/ArrayList trees.
+// We must avoid the default JsonSlurper here: it returns groovy.json.internal.LazyMap,
+// whose hashCode() lazily mutates internal state without synchronization. When
+// such a map enters a channel meta, Nextflow's concurrent hashing in JoinOp /
+// GroupTupleOp races and throws
+// "NullPointerException: Cannot load from object array because this.keys is null".
+// See https://github.com/nf-core/viralmetagenome/issues/290
 def getMapFromJson(json_file) {
-    def Map json = new groovy.json.JsonSlurper().parseText(json_file.text)
-    return json
+    return new groovy.json.JsonSlurperClassic().parseText(json_file.text)
 }
 
 def getStatsMappedReads(statsFile) {
