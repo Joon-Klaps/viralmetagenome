@@ -16,8 +16,8 @@ process EXTRACT_CLUSTER {
     tuple val(meta), path("*.clusters.tsv")                                     , emit: tsv
     tuple val(meta), path("*.summary_mqc.tsv")                                  , emit: summary
     tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //g'"), topic: versions
-    tuple val("${task.process}"), val('pandas'), eval("pip show pandas | sed '2!d;s/Version: //g'"), topic: versions
-    tuple val("${task.process}"), val('biopython'), eval("pip show biopython | sed '2!d;s/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('pandas'), eval("python -c 'import pandas; print(pandas.__version__)'"), topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c 'import Bio; print(Bio.__version__)'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
