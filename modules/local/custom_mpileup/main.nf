@@ -12,9 +12,9 @@ process CUSTOM_MPILEUP {
 
     output:
     tuple val(meta), path("*.tsv"), emit: tsv
-    tuple val("${task.process}"), val('pysam'), eval("pip show pysam | grep Version: | sed 's/Version: //g'"), topic: versions
-    tuple val("${task.process}"), val('numpy'), eval("pip show numpy | grep Version: | sed 's/Version: //g'"), topic: versions
-    tuple val("${task.process}"), val('pysamstats'), eval("pip show pysamstats | grep Version: | sed 's/Version: //g'"), topic: versions
+    tuple val("${task.process}"), val('pysam'), eval("python -c 'import pysam; print(pysam.__version__)'"), topic: versions
+    tuple val("${task.process}"), val('numpy'), eval("python -c 'import numpy; print(numpy.__version__)'"), topic: versions
+    tuple val("${task.process}"), val('pysamstats'), eval("python -c 'import pysamstats; print(pysamstats.__version__)'"), topic: versions
 
     when:
     task.ext.when == null || task.ext.when

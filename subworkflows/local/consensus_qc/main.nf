@@ -71,7 +71,6 @@ workflow CONSENSUS_QC {
         }
 
         PROKKA(ch_genomes_final, ch_prokka_db, [])
-        ch_versions = ch_versions.mix(PROKKA.out.versions.first())
     }
 
 
