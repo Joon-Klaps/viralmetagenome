@@ -3,7 +3,36 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.1.1 - 13-03-2026
+## v1.1.2 - 2026-05-22
+
+### `Added`
+
+- Add param `--cluster_with_reference_pool` to optionally include the reference pool in the clustering step ([#278](https://github.com/nf-core/viralmetagenome/pull/278)) (by @nrminor, @Joon-Klaps)
+- Template update to nf-core/tools v4.0.2 ([#289](https://github.com/nf-core/viralmetagenome/pull/289)) (by @Joon-Klaps)
+- Bump version from dev to `1.1.2` for release ([#292](https://github.com/nf-core/viralmetagenome/pull/292)) (by @Joon-Klaps)
+
+### `Fixed`
+
+- Cast Lazymaps to Hashmaps to become thread safe with various groovy operators ([#291](https://github.com/nf-core/viralmetagenome/pull/291)) (by @aersoares81, @Joon-Klaps)
+- Extract Python package versions via `python -c "import X; print(X.__version__)"` instead of `pip show`, so versions are recorded reliably across conda/pip layouts ([#292](https://github.com/nf-core/viralmetagenome/pull/292)) (by @Joon-Klaps)
+
+### `Dependencies`
+
+| Dependency  | Old version | New version |
+| ----------- | ----------- | ----------- |
+| `nf-schema` | 2.5.1       | 2.7.2       |
+| `nft-utils` | 0.0.3       | 1.0.0       |
+
+### `Parameters`
+
+| Old parameter | New parameter                   |
+| ------------- | ------------------------------- |
+|               | `--cluster_with_reference_pool` |
+
+> **NB:** Parameter has been **updated** if both old and new parameter information is present.
+> **NB:** Parameter has been **added** if just the new parameter information is present.
+
+## v1.1.1 - 2026-03-31
 
 ### `Added`
 

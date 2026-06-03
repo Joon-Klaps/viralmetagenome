@@ -53,7 +53,7 @@ nextflow_workflow {
             script "../../../../modules/nf-core/untar/main.nf"
             process {
                 """
-                input[0] = Channel.of([[id:"kraken2"],file("https://genome-idx.s3.amazonaws.com/kraken/k2_viral_20230314.tar.gz", checkIfExists: true)])
+                input[0] = Channel.of([[id:"kraken2"],file(params.pipelines_testdata_base_path + '/db/kraken2_bracken.tar.gz', checkIfExists: true)])
                 """
             }
         }
@@ -84,6 +84,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
+                input[12] = true
                 """
             }
         }
@@ -126,6 +127,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = false
                 input[11] = 0
+                input[12] = true
                 """
             }
         }
@@ -168,6 +170,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 30
+                input[12] = true
                 """
             }
         }
@@ -210,6 +213,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
+                input[12] = true
                 """
             }
         }
@@ -254,6 +258,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
+                input[12] = true
                 """
             }
         }
@@ -296,6 +301,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
+                input[12] = true
                 """
             }
         }
@@ -341,6 +347,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
+                input[12] = true
                 """
             }
         }
@@ -383,6 +390,47 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
+                input[12] = true
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.clusters,
+                    workflow.out.centroids_members,
+                    workflow.out.clusters_tsv,
+                    workflow.out.clusters_summary,
+                    workflow.out.no_blast_hits_mqc,
+                ).match() }
+            )
+        }
+    }
+
+    test("sarscov2 - contigs - vsearch - no blast db") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [id:'test', sample:'test'],
+                    file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fasta/contigs.fasta', checkIfExists: true),
+                    []
+                ])
+                input[1] = Channel.of([[id:'test', sample:'test'], [file(params.pipelines_testdata_base_path + '/genomes/coverages_spades.idxstats', checkIfExists: true)]])
+                input[2] = Channel.of([])
+                input[3] = [] // no blast db
+                input[4] = [] // no sequencing db
+                input[5] = Channel.of([])
+                input[6] = Channel.of([])
+                input[7] = []
+                input[8] = "vsearch"
+                input[9] = 0.85
+                input[10] = true
+                input[11] = 0
+                input[12] = false
                 """
             }
         }
@@ -426,6 +474,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = true
                 input[11] = 0
+                input[12] = true
                 """
             }
         }
@@ -469,6 +518,7 @@ nextflow_workflow {
                 input[9] = 0.85
                 input[10] = false
                 input[11] = 0
+                input[12] = true
                 """
             }
         }

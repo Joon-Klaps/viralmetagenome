@@ -1,7 +1,4 @@
 email_template.html
-*multiqc_report.html
-adaptivecard.json
-slackreport.json
 .nextflow*
 work/
 data/
@@ -16,3 +13,4 @@ bin/
 ro-crate-metadata.json
 modules/nf-core/
 subworkflows/nf-core/
+*multiqc_report.html

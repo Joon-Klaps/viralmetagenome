@@ -137,7 +137,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.1"
+                    "nf-core/viralmetagenome": "v1.1.2"
                 }
             }
         ],
@@ -355,7 +355,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.1"
+                    "nf-core/viralmetagenome": "v1.1.2"
                 }
             },
             [
@@ -579,7 +579,6 @@
                 "consensus/quality_control/prokka/SRR11140744/constraint/SRR11140744_MN908947-CONSTRAINT/SRR11140744_MN908947-CONSTRAINT.tbl",
                 "consensus/quality_control/prokka/SRR11140744/constraint/SRR11140744_MN908947-CONSTRAINT/SRR11140744_MN908947-CONSTRAINT.tsv",
                 "consensus/quality_control/prokka/SRR11140744/constraint/SRR11140744_MN908947-CONSTRAINT/SRR11140744_MN908947-CONSTRAINT.txt",
-                "consensus/quality_control/prokka/SRR11140744/constraint/versions.yml",
                 "consensus/quality_control/prokka/SRR11140748",
                 "consensus/quality_control/prokka/SRR11140748/constraint",
                 "consensus/quality_control/prokka/SRR11140748/constraint/SRR11140748_BA24-CONSTRAINT",
@@ -608,7 +607,6 @@
                 "consensus/quality_control/prokka/SRR11140748/constraint/SRR11140748_MN908947-CONSTRAINT/SRR11140748_MN908947-CONSTRAINT.tbl",
                 "consensus/quality_control/prokka/SRR11140748/constraint/SRR11140748_MN908947-CONSTRAINT/SRR11140748_MN908947-CONSTRAINT.tsv",
                 "consensus/quality_control/prokka/SRR11140748/constraint/SRR11140748_MN908947-CONSTRAINT/SRR11140748_MN908947-CONSTRAINT.txt",
-                "consensus/quality_control/prokka/SRR11140748/constraint/versions.yml",
                 "consensus/quality_control/quast",
                 "consensus/quality_control/quast/SRR11140744",
                 "consensus/quality_control/quast/SRR11140744/consensus",
@@ -1188,7 +1186,6 @@
                 "SRR11140744_MN908947-CONSTRAINT.tbl:md5,3495cd8010b34942e8fca586e6c10404",
                 "SRR11140744_MN908947-CONSTRAINT.tsv:md5,92f8a656a97092fdae4a60996d85f2bd",
                 "SRR11140744_MN908947-CONSTRAINT.txt:md5,95693f7032525ea4071f32176cd2ad8d",
-                "versions.yml:md5,df9ce05e7a14ea3217811d96a9918621",
                 "SRR11140748_BA24-CONSTRAINT.err:md5,1ca570ce0f277c9002c17b3cf5195758",
                 "SRR11140748_BA24-CONSTRAINT.faa:md5,701eacc7cc3cca79ae922b48548e107c",
                 "SRR11140748_BA24-CONSTRAINT.ffn:md5,7e5bc8b1ea1d2f623d64718f2181dc30",
@@ -1207,7 +1204,6 @@
                 "SRR11140748_MN908947-CONSTRAINT.tbl:md5,43ab70aeff15389aaf975a2b26b721e7",
                 "SRR11140748_MN908947-CONSTRAINT.tsv:md5,c7519d94e3183c158fdd166901e0e0bc",
                 "SRR11140748_MN908947-CONSTRAINT.txt:md5,bef9381119a336e779721baff36be941",
-                "versions.yml:md5,df9ce05e7a14ea3217811d96a9918621",
                 "SRR11140744_cl0.tsv:md5,5514ae32a7423a7a48b098847e7b7538",
                 "SRR11140744_BA2-CONSTRAINT.tsv:md5,568fefc887abcba133e77c4f6440f247",
                 "SRR11140744_BA24-CONSTRAINT.tsv:md5,37d74a48d51cf8188248449a3f97c2a3",
@@ -1692,7 +1688,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.1"
+                    "nf-core/viralmetagenome": "v1.1.2"
                 }
             }
         ],
@@ -2154,7 +2150,7 @@
                     "untar": 1.34
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.1.1"
+                    "nf-core/viralmetagenome": "v1.1.2"
                 }
             }
         ],

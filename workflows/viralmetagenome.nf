@@ -55,6 +55,7 @@ workflow VIRALMETAGENOME {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input
+    outdir
 
     main:
 
@@ -132,18 +133,9 @@ workflow VIRALMETAGENOME {
     // Prepare blast DB
     ch_blast_refdb  = channel.empty()
 
-    if ( (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)){
-        ch_blastdb_in = channel.empty()
-        ch_blastdb_in = ch_blastdb_in.mix(ch_ref_pool)
-
-        BLAST_MAKEBLASTDB ( ch_blastdb_in )
-        ch_blastdb_out = BLAST_MAKEBLASTDB.out.db
-            .branch { meta, db ->
-                reference: meta.id == 'reference'
-                    return [ meta, db ]
-            }
-        ch_blast_refdb  = ch_blastdb_out.reference.collect{_meta, db -> db}.ifEmpty([]).map{db -> [[id: 'reference'], db]}
-
+    if ( params.reference_pool && ((!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc))){
+        BLAST_MAKEBLASTDB ( ch_ref_pool )
+        ch_blast_refdb = BLAST_MAKEBLASTDB.out.db
     }
 
     // If we don't preprocess reads, remove samples with 0 reads
@@ -208,15 +200,16 @@ workflow VIRALMETAGENOME {
                 ch_contigs_reads,
                 ch_coverages,
                 ch_blacklist,
-                ch_blast_refdb,
-                ch_ref_pool,
+                ch_blast_refdb.ifEmpty([]),
+                ch_ref_pool.ifEmpty([]),
                 ch_kraken2_db,
                 ch_kaiju_db,
                 contig_classifiers,
                 params.cluster_method,
                 params.identity_threshold,
                 params.skip_precluster,
-                params.perc_reads_contig
+                params.perc_reads_contig,
+                params.cluster_with_reference_pool
                 )
             ch_versions = ch_versions.mix(FASTA_CONTIG_CLUST.out.versions)
 
@@ -397,7 +390,7 @@ workflow VIRALMETAGENOME {
             ch_consensus_filter,
             ch_unaligned_contigs,
             ch_checkv_db,
-            ch_blast_refdb,
+            ch_blast_refdb.ifEmpty([]),
             ch_annotation_db,
             ch_prokka_db
             )
@@ -412,8 +405,8 @@ workflow VIRALMETAGENOME {
     // MODULE: MultiQC
     //
     ch_multiqc_config                     = channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-    // ch_multiqc_custom_config              = params.multiqc_config              ? channel.fromPath(params.multiqc_config, checkIfExists: true) : channel.empty()
-    // ch_multiqc_logo                       = params.multiqc_logo                ? channel.fromPath(params.multiqc_logo, checkIfExists: true) : channel.empty()
+    // ch_multiqc_custom_config           = params.multiqc_config              ? channel.fromPath(params.multiqc_config, checkIfExists: true) : channel.empty()
+    // ch_multiqc_logo                    = params.multiqc_logo                ? channel.fromPath(params.multiqc_logo, checkIfExists: true) : channel.empty()
     ch_multiqc_custom_methods_description = params.multiqc_methods_description ? file(params.multiqc_methods_description, checkIfExists: true) : file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
     ch_multiqc_custom_table_headers       = params.custom_table_headers        ? channel.fromPath(params.custom_table_headers, checkIfExists:true ) : channel.fromPath("$projectDir/assets/custom_table_headers.yml", checkIfExists:true )
     summary_params                        = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
@@ -442,14 +435,14 @@ workflow VIRALMETAGENOME {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+    def ch_collated_versions = softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
         .mix(topic_versions_string)
         .collectFile(
-            storeDir: "${params.outdir}/pipeline_info",
+            storeDir: "${outdir}/pipeline_info",
             name: 'nf_core_'  +  'viralmetagenome_software_'  + 'mqc_'  + 'versions.yml',
             sort: true,
             newLine: true
-        ).set { ch_collated_versions }
+        )
 
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
     ch_multiqc_files = ch_multiqc_files.mix(

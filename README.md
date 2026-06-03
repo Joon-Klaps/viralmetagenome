@@ -10,8 +10,8 @@
 [![GitHub Actions Linting Status](https://github.com/nf-core/viralmetagenome/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/viralmetagenome/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/viralmetagenome/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.17524074-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.17524074)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.5.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.5.2)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.10.4-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-4.0.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/4.0.2)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -40,7 +40,7 @@
 4. Denovo assembly ([`SPAdes`](https://ablab.github.io/spades/), [`TRINITY`](https://github.com/trinityrnaseq/trinityrnaseq), [`megahit`](https://github.com/voutcn/megahit)), combine contigs.
 5. [Optional] Extend the contigs with [sspace_basic](https://github.com/nsoranzo/sspace_basic) and filter with [`prinseq++`](https://github.com/Adrian-Cantu/PRINSEQ-plus-plus)
 6. [Optional] Map reads to contigs for coverage estimation ([`Bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/),[`BWA-MEM2`](https://github.com/bwa-mem2/bwa-mem2))
-7. Contig reference identification ([`blastn`](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch)), the top 5 hits for every contig are considered for scaffolding
+7. [Optional] Contig reference identification ([`blastn`](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch)), the top 5 hits for every contig are considered for scaffolding
 8. [Optional] Precluster contigs on taxonomy classification with [`Kraken2`](https://ccb.jhu.edu/software/kraken2/) and/or [`Kaiju`](https://bioinformatics-centre.github.io/kaiju/)
 9. Cluster contigs (or every taxonomic bin) with any of the following tools: [`CD-HIT-EST`](https://sites.google.com/view/cd-hit), [`vsearch`](https://github.com/torognes/vsearch/wiki/Clustering), [`mmseqs-linclust`](https://github.com/soedinglab/MMseqs2/wiki#linear-time-clustering-using-mmseqs-linclust), [`mmseqs-cluster`](https://github.com/soedinglab/MMseqs2/wiki#cascaded-clustering), [`vRhyme`](https://github.com/AnantharamanLab/vRhyme) or [`Mash`](https://github.com/marbl/Mash) with [`Clusty`](https://github.com/refresh-bio/clusty)
 10. [Optional] Remove clusters with low read coverage. `bin/extract_clusters.py`
@@ -59,7 +59,7 @@
 ## Usage
 
 > [!NOTE]
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
+> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/get_started/environment_setup/overview) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/get_started/run-your-first-pipeline) with `-profile test` before running the workflow on actual data.
 
 First, prepare a samplesheet with your input data that looks as follows:
 
@@ -84,7 +84,7 @@ nextflow run nf-core/viralmetagenome \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/running/run-pipelines#using-parameter-files).
 
 To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/viralmetagenome/results) tab on the nf-core website pipeline page.
 For more details about the output files and reports, please refer to the
@@ -102,13 +102,13 @@ We thank the following people for their extensive assistance in the development 
 
 ## Contributions and Support
 
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
+If you would like to contribute to this pipeline, please see the [contributing guidelines](docs/CONTRIBUTING.md).
 
 For further information or help, don't hesitate to get in touch on the [Slack `#viralmetagenome` channel](https://nfcore.slack.com/channels/viralmetagenome) (you can join with [this invite](https://nf-co.re/join/slack)).
 
 ## Citations
 
-> Klaps J, Lemey P, nf-core community, Kafetzopoulou LE. nf-core/viralmetagenome: A Novel Pipeline for Untargeted Viral Genome Reconstruction bioRxiv 2025.06.27.661954; doi:10.1101/2025.06.27.661954
+> Joon Klaps, Philippe Lemey, Magda Bletsa, nf-core community, Liana Eleni Kafetzopoulou, nf-core/viralmetagenome: A novel pipeline for untargeted viral genome reconstruction, Bioinformatics, Volume 42, Issue 5, May 2026, btag187, https://doi.org/10.1093/bioinformatics/btag187
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 

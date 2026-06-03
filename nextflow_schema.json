@@ -531,6 +531,13 @@
                     "description": "Set of fasta sequences used as potential references for the contigs",
                     "fa_icon": "fas fa-database"
                 },
+                "cluster_with_reference_pool": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include BLAST-hit reference sequences in the contig clustering input",
+                    "help_text": "When set to `false`, contigs are still searched against `reference_pool` for BLAST reporting and downstream QC, but the matched reference sequences are not injected into clustering as a potential scaffolding reference.",
+                    "fa_icon": "fas fa-bezier-curve"
+                },
                 "blacklist": {
                     "type": "string",
                     "description": "File containing identifiers to exclude from the scaffolding reference pool",
@@ -961,7 +968,7 @@
                 },
                 "arguments_bcftools_mpileup3": {
                     "type": "string",
-                    "default": "--include 'INFO/DP>=5",
+                    "default": "--include \\'INFO/DP>=5\\",
                     "description": "Arguments for BCFtools mpileup step 3",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
@@ -1302,13 +1309,6 @@
                     "type": "boolean",
                     "description": "Do not use coloured log outputs.",
                     "fa_icon": "fas fa-palette",
-                    "hidden": true
-                },
-                "hook_url": {
-                    "type": "string",
-                    "description": "Incoming hook URL for messaging service",
-                    "fa_icon": "fas fa-people-group",
-                    "help_text": "Incoming hook URL for messaging service. Currently, MS Teams and Slack are supported.",
                     "hidden": true
                 },
                 "multiqc_config": {
