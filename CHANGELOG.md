@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-- RVDB changing their default param name from `fasta.gz` to `fasta.tar.gz`.
+- RVDB changing their default param name from `fasta.gz` to `fasta.tar.gz`. ([#298](https://github.com/nf-core/viralmetagenome/pull/298)) (by @Joon-Klaps)
 
 ### `Dependencies`
 
