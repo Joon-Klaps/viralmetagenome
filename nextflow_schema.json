@@ -527,7 +527,7 @@
                 },
                 "reference_pool": {
                     "type": "string",
-                    "default": "https://rvdb.dbi.udel.edu/download/C-RVDBvCurrent.fasta.gz",
+                    "default": "https://rvdb.dbi.udel.edu/download/C-RVDBvCurrent.fasta.tar.gz",
                     "description": "Set of fasta sequences used as potential references for the contigs",
                     "fa_icon": "fas fa-database"
                 },
