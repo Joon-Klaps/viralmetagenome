@@ -530,7 +530,7 @@
                     "default": "https://rvdb.dbi.udel.edu/download/C-RVDBv31.0.fasta.gz",
                     "description": "Set of fasta sequences used as potential references for the contigs",
                     "fa_icon": "fas fa-database",
-                    "pattern": "^.*\\.(fasta|fa|fna|fn)(\\.gz)?$",
+                    "pattern": "^.*\\.(fasta|fa|fas|fna|fn)(\\.gz)?$",
                     "errorMessage": "Please provide a valid path to a fasta file or a URL to a fasta file."
                 },
                 "cluster_with_reference_pool": {
