@@ -12,7 +12,7 @@ Building custom databases for taxonomic profilers, can be challenging. [nf-core 
 
 The reference pool dataset is used to identify potential references for scaffolding. It's a multifasta file of diverse viral genomes in nucleotide format, for which a blast database will be made within the pipeline.
 
-The default database is the [latest version of clustered Reference Viral DataBase (C-RVDB)](https://rvdb.dbi.udel.edu/) a database that was built for enhancing virus detection using high-throughput/next-generation sequencing (HTS/NGS) technologies. The RVDB is updated biannually.
+The default database is the [v31.0 of the Reference Viral DataBase (C-RVDB; Jan 9, 2026)](https://rvdb.dbi.udel.edu/) a database that was built for enhancing virus detection using high-throughput/next-generation sequencing (HTS/NGS) technologies. The RVDB is updated biannually.
 
 An alternative reference pool is the [Virosaurus](https://viralzone.expasy.org/8676) database which is a manually curated database of viral genomes, which was last updated in 2020.
 
@@ -20,6 +20,9 @@ An alternative reference pool is the [Virosaurus](https://viralzone.expasy.org/8
 > Some reference pools bundle partial or defective genomes (for example specific entries in RVDB). If you encounter such sequences, supply the `--blacklist` parameter with a newline-separated list of identifiers or identifier fragments to keep them out of the scaffolding step.
 
 Any nucleotide fasta file will do. Specify it with the parameter `--reference_pool`.
+
+> [!NOTE]
+> The input to `--reference_pool` must be a multifasta file (can be compressed `.gz`), directories or `tar.gz` will fail.
 
 ## Kaiju
 
