@@ -3,7 +3,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.1.2 - 2026-05-22
+## v1.1.3 - 2026-06-27
+
+### `Added`
+
+### `Fixed`
+
+- default value of `--reference_pool` from `current` to `C-RVDBv31.0` as RVDB changed their default link from `fasta.gz` to `fasta.tar.gz` which can no longer be directly integrated within the pipeline. ([#298](https://github.com/nf-core/viralmetagenome/pull/298)) (by @Joon-Klaps)
+
+### `Dependencies`
+
+### `Parameters`
+
+> **NB:** Parameter has been **updated** if both old and new parameter information is present.
+> **NB:** Parameter has been **added** if just the new parameter information is present.
+
+## v1.1.2 - 2026-06-03
 
 ### `Added`
 
