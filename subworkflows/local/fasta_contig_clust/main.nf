@@ -52,7 +52,6 @@ workflow FASTA_CONTIG_CLUST {
             ch_kaiju_db,
             ch_kraken2_db
         )
-        ch_versions      = ch_versions.mix(FASTA_CONTIG_PRECLUST.out.versions)
         ch_contigs_reads = FASTA_CONTIG_PRECLUST.out.contigs_reads
     }
 
