@@ -21,11 +21,17 @@
                     ]
                 ],
                 "read_classifications": [
-                    
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_kraken2.kraken2.classifiedreads.txt:md5,7987fbc9a001916926ade4a4380a318f"
+                    ]
                 ]
             }
         ],
-        "timestamp": "2026-07-06T10:42:53.165215",
+        "timestamp": "2026-07-06T13:14:30.221886",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.1"
@@ -53,11 +59,17 @@
                     ]
                 ],
                 "read_classifications": [
-                    
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_kraken2.kraken2.classifiedreads.txt:md5,7987fbc9a001916926ade4a4380a318f"
+                    ]
                 ]
             }
         ],
-        "timestamp": "2026-07-06T10:42:05.474323",
+        "timestamp": "2026-07-06T13:14:53.05312",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.1"
@@ -89,7 +101,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-07-06T10:49:41.405206",
+        "timestamp": "2026-07-06T13:14:41.382444",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.1"
@@ -131,11 +143,17 @@
                     ]
                 ],
                 "read_classifications": [
-                    
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_kraken2.kraken2.classifiedreads.txt:md5,7987fbc9a001916926ade4a4380a318f"
+                    ]
                 ]
             }
         ],
-        "timestamp": "2026-07-06T10:49:16.700102",
+        "timestamp": "2026-07-06T13:14:17.011936",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.1"
@@ -177,11 +195,17 @@
                     ]
                 ],
                 "read_classifications": [
-                    
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_kraken2.kraken2.classifiedreads.txt:md5,7987fbc9a001916926ade4a4380a318f"
+                    ]
                 ]
             }
         ],
-        "timestamp": "2026-07-06T10:49:03.100704",
+        "timestamp": "2026-07-06T13:14:03.350389",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.1"

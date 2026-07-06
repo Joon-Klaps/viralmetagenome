@@ -17,6 +17,9 @@ workflow FASTQ_KRAKEN_KAIJU {
     ch_kraken2_db    // channel: [ path(kraken2_db) ]
     ch_bracken_db    // channel: [ path(bracken_db) ]
     ch_kaiju_db      // channel: [ path(kaiju_db) ]
+    kraken2_save_reads // value: true/false
+    kraken2_save_readclassification // value: true/false
+    kaiju_taxon_rank // value: phylum, class, order, family, genus, species
 
     main:
     ch_multiqc_files       = channel.empty()
@@ -26,7 +29,7 @@ workflow FASTQ_KRAKEN_KAIJU {
 
     // Kraken
     if ('kraken2' in read_classifiers || 'bracken' in read_classifiers) {
-        KRAKEN2_KRAKEN2(ch_reads, ch_kraken2_db, params.kraken2_save_reads, params.kraken2_save_readclassification)
+        KRAKEN2_KRAKEN2(ch_reads, ch_kraken2_db, kraken2_save_reads, kraken2_save_readclassification)
         ch_raw_classifications = ch_raw_classifications.mix(KRAKEN2_KRAKEN2.out.classified_reads_assignment)
         kraken2_report = KRAKEN2_KRAKEN2.out.report.map { meta, report -> [meta + [tool: 'kraken2'], report] }
 
@@ -46,7 +49,7 @@ workflow FASTQ_KRAKEN_KAIJU {
         KAIJU_KAIJU(ch_reads, ch_kaiju_db)
         ch_kaiju_report = KAIJU_KAIJU.out.results.map { meta, report -> [meta + [tool: 'kaiju'], report] }
 
-        KAIJU_KAIJU2TABLE(ch_kaiju_report, ch_kaiju_db, params.kaiju_taxon_rank)
+        KAIJU_KAIJU2TABLE(ch_kaiju_report, ch_kaiju_db, kaiju_taxon_rank)
         ch_multiqc_files = ch_multiqc_files.mix(KAIJU_KAIJU2TABLE.out.summary)
 
         KAIJU_KAIJU2KRONA(ch_kaiju_report, ch_kaiju_db)

@@ -50,6 +50,9 @@ nextflow_workflow {
                 input[2] = KRAKEN2_DB_UNTAR.out.untar.map { meta, db -> [db] } //kraken2 db
                 input[3] = KRAKEN2_DB_UNTAR.out.untar.map { meta, db -> [db] } //bracken db
                 input[4] = KAIJU_DB_UNTAR.out.untar.map { meta, db -> [db] } //kaiju db
+                input[5] = true // kraken2_save_reads
+                input[6] = true // kraken2_save_readclassification
+                input[7] = "species" // kaiju_taxon_rank
                 """
             }
         }
@@ -78,6 +81,9 @@ nextflow_workflow {
                 input[2] = KRAKEN2_DB_UNTAR.out.untar.map { meta, db -> [db] } //kraken2 db
                 input[3] = KRAKEN2_DB_UNTAR.out.untar.map { meta, db -> [db] } //bracken db
                 input[4] = KAIJU_DB_UNTAR.out.untar.map { meta, db -> [db] } //kaiju db
+                input[5] = true
+                input[6] = true
+                input[7] = "species"
                 """
             }
         }
@@ -106,6 +112,9 @@ nextflow_workflow {
                 input[2] = KRAKEN2_DB_UNTAR.out.untar.map { meta, db -> [db] } //kraken2 db
                 input[3] = KRAKEN2_DB_UNTAR.out.untar.map { meta, db -> [db] } //bracken db
                 input[4] = []
+                input[5] = true
+                input[6] = true
+                input[7] = "species"
                 """
             }
         }
@@ -134,6 +143,9 @@ nextflow_workflow {
                 input[2] = []
                 input[3] = []
                 input[4] = KAIJU_DB_UNTAR.out.untar.map { meta, db -> [db] } //kaiju db
+                input[5] = true
+                input[6] = true
+                input[7] = "species"
                 """
             }
         }
@@ -162,6 +174,9 @@ nextflow_workflow {
                 input[2] = KRAKEN2_DB_UNTAR.out.untar.map { meta, db -> [db] } //kraken2 db
                 input[3] = []
                 input[4] = []
+                input[5] = true
+                input[6] = true
+                input[7] = "species"
                 """
             }
         }

@@ -163,7 +163,10 @@ workflow VIRALMETAGENOME {
             read_classifiers,
             ch_kraken2_db,
             ch_bracken_db,
-            ch_kaiju_db
+            ch_kaiju_db,
+            params.kraken2_save_reads,
+            params.kraken2_save_readclassification,
+            params.kaiju_taxon_rank
             )
         ch_multiqc_files = ch_multiqc_files.mix(FASTQ_KRAKEN_KAIJU.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
     }
