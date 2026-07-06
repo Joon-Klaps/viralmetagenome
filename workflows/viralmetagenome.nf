@@ -166,7 +166,6 @@ workflow VIRALMETAGENOME {
             ch_kaiju_db
             )
         ch_multiqc_files = ch_multiqc_files.mix(FASTQ_KRAKEN_KAIJU.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
-        ch_versions      = ch_versions.mix(FASTQ_KRAKEN_KAIJU.out.versions)
     }
 
     // Assembly

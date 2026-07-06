@@ -149,17 +149,18 @@
                     },
                     "kaiju/kaiju": {
                         "branch": "master",
-                        "git_sha": "2ddcb4e4aa28aa06678b6689048d05a0d2af6a97",
-                        "installed_by": ["modules"]
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/kaiju/kaiju/kaiju-kaiju.diff"
                     },
                     "kaiju/kaiju2krona": {
                         "branch": "master",
-                        "git_sha": "2ddcb4e4aa28aa06678b6689048d05a0d2af6a97",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["modules"]
                     },
                     "kaiju/kaiju2table": {
                         "branch": "master",
-                        "git_sha": "2ddcb4e4aa28aa06678b6689048d05a0d2af6a97",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["modules"]
                     },
                     "kraken2/kraken2": {
@@ -170,12 +171,12 @@
                     },
                     "krakentools/kreport2krona": {
                         "branch": "master",
-                        "git_sha": "2ddcb4e4aa28aa06678b6689048d05a0d2af6a97",
+                        "git_sha": "03bd94fc81b464595bcef5d9dc3f06ea1f34bfa0",
                         "installed_by": ["modules"]
                     },
                     "krona/ktimporttext": {
                         "branch": "master",
-                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "git_sha": "10d22ca9b72ecea28167f289df13a81ceb12d085",
                         "installed_by": ["modules"]
                     },
                     "mafft/align": {
