@@ -32,6 +32,9 @@
                     "@id": "assets/"
                 },
                 {
+                    "@id": "bin/"
+                },
+                {
                     "@id": "conf/"
                 },
                 {
@@ -42,6 +45,9 @@
                 },
                 {
                     "@id": "modules/"
+                },
+                {
+                    "@id": "modules/local/"
                 },
                 {
                     "@id": "modules/nf-core/"
@@ -121,8 +127,12 @@
         },
         {
             "@id": "main.nf",
-            "@type": ["File", "SoftwareSourceCode", "ComputationalWorkflow"],
-            "contributor": [
+            "@type": [
+                "File",
+                "SoftwareSourceCode",
+                "ComputationalWorkflow"
+            ],
+            "author": [
                 {
                     "@id": "https://orcid.org/0000-0002-2507-0430"
                 },
@@ -146,8 +156,17 @@
                 "virology",
                 "virus-genomes"
             ],
-            "license": ["MIT"],
-            "name": ["nf-core/viralmetagenome"],
+            "license": [
+                "MIT"
+            ],
+            "maintainer": [
+                {
+                    "@id": "https://orcid.org/0000-0002-2507-0430"
+                }
+            ],
+            "name": [
+                "nf-core/viralmetagenome"
+            ],
             "programmingLanguage": {
                 "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"
             },
@@ -206,6 +225,11 @@
             "description": "Additional files"
         },
         {
+            "@id": "bin/",
+            "@type": "Dataset",
+            "description": "Scripts that must be callable from a pipeline process"
+        },
+        {
             "@id": "conf/",
             "@type": "Dataset",
             "description": "Configuration files"
@@ -224,6 +248,11 @@
             "@id": "modules/",
             "@type": "Dataset",
             "description": "Modules used by the pipeline"
+        },
+        {
+            "@id": "modules/local/",
+            "@type": "Dataset",
+            "description": "Pipeline-specific modules"
         },
         {
             "@id": "modules/nf-core/",
@@ -314,16 +343,21 @@
         {
             "@id": "https://orcid.org/0000-0002-2507-0430",
             "@type": "Person",
-            "name": "Joon Klaps"
+            "affiliation": "KU Leuven, Rega Institute for Medical Research",
+            "email": "joon.klaps@kuleuven.be",
+            "name": "Joon Klaps",
+            "url": "https://github.com/Joon-Klaps"
         },
         {
             "@id": "https://orcid.org/0000-0003-2826-5353",
             "@type": "Person",
+            "affiliation": "KU Leuven, Rega Institute for Medical Research",
             "name": "Philippe Lemey"
         },
         {
             "@id": "https://orcid.org/0000-0003-4531-1374",
             "@type": "Person",
+            "affiliation": "KU Leuven, Rega Institute for Medical Research",
             "name": "Liana Kafetzopoulou"
         }
     ]

@@ -3,6 +3,7 @@ nextflow_pipeline {
     name "Test pipeline"
     script "../main.nf"
     tag "pipeline"
+    tag "default"
 
     test("-profile test") {
 
@@ -13,21 +14,96 @@ nextflow_pipeline {
         }
 
         then {
-            // stable_path: All files + folders in ${params.outdir}/ with a stable path (including file name)
-            def stable_path = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
-            // stable_content: All files in ${params.outdir}/ with stable content
-            def stable_content = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
-            assert workflow.success
+            // stable_name: All files + folders in ${params.outdir}/ with a stable name
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            // stable_path: All files in ${params.outdir}/ with stable content
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            def output_samples_csv = path(params.outdir + '/overview-tables/samples_overview.tsv').csv(sep:"\t")
+            def output_contigs_csv = path(params.outdir + '/overview-tables/contigs_overview-with-iterations.tsv').csv(sep:"\t")
+            def stable_bam_files = getAllFilesFromDir(params.outdir, include: ['**/*.bam'])
+            def stable_vcf_files = getAllFilesFromDir(params.outdir, include: ['**/*.vcf.gz'])
+
             assertAll(
+                { assert workflow.success},
                 { assert snapshot(
+                    // Number of successful tasks
+                    workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
                     removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml"),
                     // All stable path name, with a relative path
-                    stable_path,
+                    stable_name,
                     // All files with stable contents
-                    stable_content
-                ).match() }
+                    stable_path,
+                    // Samples overview file with stable content
+                    stable_bam_files.collect{ file -> [ file.getName(), bam(file.toString()).getStatistics() ] },
+                    stable_vcf_files.collect{ file -> [ file.getName(), path(file.toString()).vcf.getVariantsMD5() ] }
+                ).match() },
+                { assert snapshot(
+                    output_samples_csv.columnNames,
+                    output_samples_csv.columns["sample"].sort(),
+                    output_contigs_csv.columnNames,
+                    output_contigs_csv.columns["index"].sort(),
+                ).match("output samplesheets")}
             )
         }
     }
+
+    // ------------------------------------------------------------------
+    // Variant caller matrix tests (same `test` profile, different params)
+    // These mirror the combinations used in .github/workflows/ci.yml
+    // ------------------------------------------------------------------
+    test("-profile test - variant_caller bcftools - consensus_caller bcftools") {
+        when {
+            params {
+                outdir = "$outputDir"
+                variant_caller = "bcftools"
+                consensus_caller = "bcftools"
+                skip_assembly = true // Running out of memory on CI
+            }
+        }
+        then {
+            assert workflow.success
+            assert snapshot(
+                workflow.trace.succeeded().size(),
+                removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml")
+            ).match()
+        }
+    }
+
+    test("-profile test - variant_caller ivar - consensus_caller bcftools") {
+        when {
+            params {
+                outdir = "$outputDir"
+                variant_caller = "ivar"
+                consensus_caller = "bcftools"
+                skip_assembly = true
+            }
+        }
+        then {
+            assert workflow.success
+            assert snapshot(
+                workflow.trace.succeeded().size(),
+                removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml")
+            ).match()
+        }
+    }
+
+    test("-profile test - variant_caller ivar - consensus_caller ivar") {
+        when {
+            params {
+                outdir = "$outputDir"
+                variant_caller = "ivar"
+                consensus_caller = "ivar"
+                skip_assembly = true
+            }
+        }
+        then {
+            assert workflow.success
+            assert snapshot(
+                workflow.trace.succeeded().size(),
+                removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml")
+            ).match()
+        }
+    }
+
 }

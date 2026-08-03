@@ -1,0 +1,28 @@
+{
+    "-profile test_minimal": {
+        "content": [
+            1,
+            {
+                "Workflow": {
+                    "nf-core/viralmetagenome": "v1.2.1dev"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.7"
+        },
+        "timestamp": "2025-11-04T16:13:44.334980229"
+    },
+    "multiqc": {
+        "content": [
+            [],
+            []
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.7"
+        },
+        "timestamp": "2025-09-10T13:20:58.134335254"
+    }
+}

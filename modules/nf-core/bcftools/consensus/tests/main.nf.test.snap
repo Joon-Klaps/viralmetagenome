@@ -1,0 +1,125 @@
+{
+    "bcftools - stub - test": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        "BCFTOOLS_CONSENSUS",
+                        "bcftools",
+                        "1.22"
+                    ]
+                ],
+                "fasta": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions_bcftools": [
+                    [
+                        "BCFTOOLS_CONSENSUS",
+                        "bcftools",
+                        "1.22"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-20T12:01:02.62010115"
+    },
+    "bcftools - test": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa:md5,313f4a657187fdaf293c4ed69d98c112"
+                    ]
+                ],
+                "1": [
+                    [
+                        "BCFTOOLS_CONSENSUS",
+                        "bcftools",
+                        "1.22"
+                    ]
+                ],
+                "fasta": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa:md5,313f4a657187fdaf293c4ed69d98c112"
+                    ]
+                ],
+                "versions_bcftools": [
+                    [
+                        "BCFTOOLS_CONSENSUS",
+                        "bcftools",
+                        "1.22"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-20T12:00:47.233578547"
+    },
+    "bcftools - test - no mask": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa:md5,e57d3e4d113f989bc069c5fd61627091"
+                    ]
+                ],
+                "1": [
+                    [
+                        "BCFTOOLS_CONSENSUS",
+                        "bcftools",
+                        "1.22"
+                    ]
+                ],
+                "fasta": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa:md5,e57d3e4d113f989bc069c5fd61627091"
+                    ]
+                ],
+                "versions_bcftools": [
+                    [
+                        "BCFTOOLS_CONSENSUS",
+                        "bcftools",
+                        "1.22"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-01-20T12:00:54.682605351"
+    }
+}
