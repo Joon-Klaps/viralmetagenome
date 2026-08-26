@@ -30,14 +30,7 @@ workflow FASTQ_ASSEMBLY {
     ch_bad_assemblies = channel.empty()
     assemblers        = params.assemblers ? params.assemblers.split(',').collect{assemblers -> assemblers.trim().toLowerCase() } : []
 
-    // Digital normalisation, for the assemblers only.
-    //
-    // BBNorm discards reads by k-mer coverage. That is exactly what makes it useful
-    // ahead of SPAdes/MEGAHIT on high-coverage libraries, and exactly what makes it
-    // unsafe anywhere else: the EXTEND_* calls below map reads back onto contigs to
-    // extend scaffolds and to compute the per-contig depth behind --perc_reads_contig,
-    // so they must keep seeing the full read set. Only the three assembler calls read
-    // ch_reads_assembly; everything else stays on ch_reads.
+    // Digital normalisation by k-mer coverage, for the assemblers only.
     ch_reads_assembly = ch_reads
     if (normalise_reads) {
         BBMAP_BBNORM ( ch_reads )

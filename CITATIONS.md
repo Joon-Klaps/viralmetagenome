@@ -16,11 +16,11 @@
 
 ## Pipeline tools
 
-- [BBNorm](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbnorm-guide/)
+- [Bbduk](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/)
 
   > Bushnell B. (2022) BBMap, URL: http://sourceforge.net/projects/bbmap/
 
-- [Bbduk](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/)
+- [BBNorm](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbnorm-guide/)
 
   > Bushnell B. (2022) BBMap, URL: http://sourceforge.net/projects/bbmap/
 

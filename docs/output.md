@@ -181,9 +181,9 @@ Multiple intermediate files can be generated during the assembly process, some o
 
 ### BBNorm - read normalisation
 
-Setting `--normalise_reads` runs [`BBNorm`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbnorm-guide/) before de novo assembly. BBNorm discards reads by k-mer coverage, flattening the depth of very highly covered regions. This reduces the memory and runtime cost of assembling high-coverage libraries, which is usually the most expensive step in the pipeline.
+Setting `--normalise_reads` runs [`BBNorm`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbnorm-guide/) before de novo assembly. BBNorm discards reads by k-mer coverage, flattening the depth of very highly covered regions.
 
-Normalisation is applied **only to the reads handed to the assemblers**. Scaffold extension and the per-contig coverage that drives `--perc_reads_contig` continue to use the complete read set, and the reads used for mapping, variant calling and consensus generation are never normalised — discarding reads by k-mer depth would distort allele frequencies and make intra-host variant calls unreliable.
+Normalisation is applied **only to the reads handed to the assemblers**. Scaffold extension and the per-contig coverage that drives `--perc_reads_contig` continue to use the complete read set, and the reads used for mapping, variant calling and consensus generation are never normalised.
 
 :::note{title="Output files" collapse}
 
