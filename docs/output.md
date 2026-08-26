@@ -504,6 +504,17 @@ If Bowtie2 is used, the output from the raw mapping results (in addition to the 
 
 :::
 
+By default alignments keep both mapped and unmapped reads. Setting `--remove_unmapped` drops the unmapped reads (`samtools view -F 4`) from the alignments carried into deduplication, variant calling and consensus generation. Because the pipeline maps up to five times per sample (`--iterative_refinement_cycles` plus the final round), this can cut alignment storage substantially on large runs.
+
+Mapping statistics and the `--min_mapped_reads` filter are computed **before** this step, so reported mapping rates and the failed-sample table are unaffected by the setting.
+
+:::note{title="Output files - mapped-only alignments" collapse}
+
+- `variants/intermediate/mapped-only/`
+  - `<sample-id>.mapped.bam`: The alignment with unmapped reads removed. Only produced when `--remove_unmapped` is set, and only published when `--save_intermediate_polishing` is also set.
+
+:::
+
 ### Deduplication
 
 To accommodate for PCR duplicates, the reads are deduplicated. The deduplication results are stored in the directory `variants/mapping-info/deduplicate/` or in the iterations directory `assembly/polishing/iterations/it#/deduplicate`.

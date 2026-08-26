@@ -302,6 +302,11 @@
                         "git_sha": "fe93fde0845f907fc91ad7cc7d797930408824df",
                         "installed_by": ["bam_stats_samtools", "modules"]
                     },
+                    "samtools/view": {
+                        "branch": "master",
+                        "git_sha": "4dd270e412e2a7e78761be38aafa5cfa1dcdf891",
+                        "installed_by": ["modules"]
+                    },
                     "snpeff/snpeff": {
                         "branch": "master",
                         "git_sha": "51d2d20973eca80048a9490339e8b421db122908",
