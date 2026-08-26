@@ -10,6 +10,7 @@ include { SCAFFOLDS_EXTEND_STATS as EXTEND_TRINITY   } from '../scaffolds_extend
 include { SCAFFOLDS_EXTEND_STATS as EXTEND_MEGAHIT   } from '../scaffolds_extend_stats'
 include { CAT_CAT as CAT_ASSEMBLERS                  } from '../../../modules/nf-core/cat/cat/main'
 include { PRINSEQPLUSPLUS as PRINSEQ_CONTIG          } from '../../../modules/nf-core/prinseqplusplus/main'
+include { BBMAP_BBNORM                              } from '../../../modules/nf-core/bbmap/bbnorm/main'
 include { noContigSamplesToMultiQC                   } from '../utils_nfcore_viralmetagenome_pipeline'
 
 
@@ -19,6 +20,7 @@ workflow FASTQ_ASSEMBLY {
     ch_reads        // channel: [ val(meta), [ reads ] ]
     ch_spades_yml   // channel: ['path/to/yml']
     ch_spades_hmm   // channel: ['path/to/hmm']
+    normalise_reads // val: [ true | false ] digital normalisation before assembly
 
     main:
     ch_versions       = channel.empty()
@@ -28,10 +30,25 @@ workflow FASTQ_ASSEMBLY {
     ch_bad_assemblies = channel.empty()
     assemblers        = params.assemblers ? params.assemblers.split(',').collect{assemblers -> assemblers.trim().toLowerCase() } : []
 
+    // Digital normalisation, for the assemblers only.
+    //
+    // BBNorm discards reads by k-mer coverage. That is exactly what makes it useful
+    // ahead of SPAdes/MEGAHIT on high-coverage libraries, and exactly what makes it
+    // unsafe anywhere else: the EXTEND_* calls below map reads back onto contigs to
+    // extend scaffolds and to compute the per-contig depth behind --perc_reads_contig,
+    // so they must keep seeing the full read set. Only the three assembler calls read
+    // ch_reads_assembly; everything else stays on ch_reads.
+    ch_reads_assembly = ch_reads
+    if (normalise_reads) {
+        BBMAP_BBNORM ( ch_reads )
+        ch_reads_assembly = BBMAP_BBNORM.out.fastq
+        ch_multiqc        = ch_multiqc.mix(BBMAP_BBNORM.out.log)
+    }
+
     // SPADES
     if ('spades' in assemblers) {
         SPADES(
-            ch_reads.map {meta, reads -> [meta, reads, [], []]},
+            ch_reads_assembly.map {meta, reads -> [meta, reads, [], []]},
             ch_spades_yml,
             ch_spades_hmm
             )
@@ -49,7 +66,7 @@ workflow FASTQ_ASSEMBLY {
 
     // TRINITY
     if ('trinity' in assemblers) {
-        TRINITY(ch_reads)
+        TRINITY(ch_reads_assembly)
 
         EXTEND_TRINITY( ch_reads, TRINITY.out.transcript_fasta, "trinity")
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_TRINITY.out.scaffolds)
@@ -59,11 +76,11 @@ workflow FASTQ_ASSEMBLY {
 
     // MEGAHIT
     if ('megahit' in assemblers) {
-        ch_megahit_in = ch_reads
+        ch_megahit_in = ch_reads_assembly
             .filter {meta, _reads -> meta.single_end }
             .map { meta, reads -> [meta, [reads], []] }
             .mix(
-                ch_reads.filter {meta, _reads -> !meta.single_end }.map { meta, reads -> [meta, [reads[0]], [reads[1]]] }
+                ch_reads_assembly.filter {meta, _reads -> !meta.single_end }.map { meta, reads -> [meta, [reads[0]], [reads[1]]] }
             )
         MEGAHIT(ch_megahit_in)
         ch_versions          = ch_versions.mix(MEGAHIT.out.versions.first())

@@ -51,7 +51,6 @@
                 },
                 "transpose_overview_tables": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
                     "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
                     "fa_icon": "fas fa-table"
@@ -464,6 +463,18 @@
                     "fa_icon": "fas fa-exchange-alt",
                     "description": "Specify the read orientation.",
                     "hidden": true
+                },
+                "normalise_reads": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-balance-scale",
+                    "description": "Digitally normalise reads with BBNorm before de novo assembly",
+                    "help_text": "Runs BBNorm on the reads passed to SPAdes, Trinity and MEGAHIT, which reduces the memory and runtime cost of assembling high-coverage libraries. Normalisation is applied **only** to the assemblers: scaffold extension and the per-contig coverage behind `--perc_reads_contig` continue to use the full read set, and reads used for mapping, variant calling and consensus generation are never normalised."
+                },
+                "arguments_bbnorm": {
+                    "type": "string",
+                    "default": "target=100 min=5",
+                    "fa_icon": "fas fa-terminal",
+                    "description": "Extra arguments passed to BBNorm"
                 },
                 "arguments_spades": {
                     "type": "string",

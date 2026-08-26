@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Add param `--normalise_reads` to digitally normalise reads with BBNorm before de novo assembly (by @Joon-Klaps)
+
 ### `Fixed`
 
 - Fix [#285](https://github.com/nf-core/viralmetagenome/issues/285) & update modules of the subworkflow `fastq_kraken_kaiju` ([#302](https://github.com/nf-core/viralmetagenome/pull/302)) (by @Joon-Klaps)
@@ -15,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Dependencies`
 
 ### `Parameters`
+
+| Old parameter | New parameter        |
+| ------------- | -------------------- |
+|               | `--normalise_reads`  |
+|               | `--arguments_bbnorm` |
 
 > **NB:** Parameter has been **updated** if both old and new parameter information is present.
 > **NB:** Parameter has been **added** if just the new parameter information is present.
