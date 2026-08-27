@@ -35,7 +35,6 @@ workflow FASTQ_ASSEMBLY {
     if (normalise_reads) {
         BBMAP_BBNORM ( ch_reads )
         ch_reads_assembly = BBMAP_BBNORM.out.fastq
-        ch_multiqc        = ch_multiqc.mix(BBMAP_BBNORM.out.log.collect{_meta, log -> log}.ifEmpty([]))
     }
 
     // SPADES
