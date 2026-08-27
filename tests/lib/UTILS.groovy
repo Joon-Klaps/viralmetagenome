@@ -1,15 +1,5 @@
 // Shared helpers for the pipeline-level nf-tests.
-//
-// nf-test adds `tests/lib` (the default `libDir`) to the classpath automatically,
-// so this class is available inside any .nf.test file without an import.
-//
-// Everything here is a static *closure*, not a static method. That is deliberate:
-// `getAllFilesFromDir`, `removeNextflowVersion`, `path`, `bam`, `snapshot`,
-// `workflow` and friends are nf-test DSL methods that only exist on the delegate
-// of a running test. A closure has its delegate rebound when it is called from
-// inside `then {}`, so those names resolve. A plain static method would fail with
-// "No such property/method".
-//
+// Taken from nf-core/sarek/tests/lib/UTILS.groovy and modified for nf-core/viralmetagenome.
 // A test file becomes a list of scenarios plus one line:
 //
 //     def scenarios = [ [ name: "-profile test", scope: "files", bam: true ] ]
@@ -186,6 +176,21 @@ class UTILS {
                         ).match()
                     }
                 )
+            }
+
+            cleanup {
+                // getenv returns a String, so the bare truth check that upstream uses fires on
+                // NFT_CLEANUP=false as well. Treat the usual falsy spellings as "off".
+                def nft_cleanup = System.getenv('NFT_CLEANUP')
+                if (nft_cleanup && !(nft_cleanup.toLowerCase() in ['false', '0', 'no', 'off'])) {
+                    println ""
+                    println "CLEANUP"
+                    println "Set NFT_CLEANUP to false to disable."
+                    println "The following folders will be deleted:"
+                    println "- ${workDir}"
+
+                    new File("${workDir}").deleteDir()
+                }
             }
         }
     }
