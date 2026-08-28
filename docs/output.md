@@ -179,6 +179,20 @@ The results of the assembly processes & polishing are stored in the directory `a
 
 Multiple intermediate files can be generated during the assembly process, some of them might not always be interesting to have. For this reason, there is an option to save the intermediate files with the `--save_intermediate_polishing` argument which is by default off.
 
+### BBNorm - read normalisation
+
+Setting `--normalise_reads` runs [`BBNorm`](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbnorm-guide/) before de novo assembly. BBNorm discards reads by k-mer coverage, flattening the depth of very highly covered regions.
+
+Normalisation is applied **only to the reads handed to the assemblers**. Scaffold extension and the per-contig coverage that drives `--perc_reads_contig` continue to use the complete read set, and the reads used for mapping, variant calling and consensus generation are never normalised.
+
+:::note{title="Output files" collapse}
+
+- `assembly/intermediate/bbnorm/`
+  - `<sample-id>.norm.fastq.gz`: The normalised reads passed to the assemblers. Only produced when `--normalise_reads` is set, and only published when `--save_intermediate_polishing` is also set.
+  - `<sample-id>.norm.log`: BBNorm log reporting how many reads were kept and discarded.
+
+:::
+
 ### Assemblers
 
 Multiple assemblers [spades, trinity, megahit] can be used which have their results combined. Each assembler has its own directory in the `assembly/assemblers` directory, where there will be a subfolder for the contigs and the QC results from QUAST.
