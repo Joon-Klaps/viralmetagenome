@@ -57,6 +57,7 @@ workflow VIRALMETAGENOME {
     ch_samplesheet // channel: samplesheet read in from --input
     outdir
     remove_unmapped // boolean: drop unmapped reads from downstream alignments
+    normalise_reads // boolean: digitally normalise reads before assembly
 
     main:
 
@@ -188,7 +189,7 @@ workflow VIRALMETAGENOME {
 
     if (!params.skip_assembly) {
         // run different assemblers and combine contigs
-        FASTQ_ASSEMBLY( ch_host_trim_reads, ch_spades_yml, ch_spades_hmm)
+        FASTQ_ASSEMBLY( ch_host_trim_reads, ch_spades_yml, ch_spades_hmm, normalise_reads)
         ch_contigs       = FASTQ_ASSEMBLY.out.scaffolds
         ch_coverages     = FASTQ_ASSEMBLY.out.coverages
         ch_versions      = ch_versions.mix(FASTQ_ASSEMBLY.out.versions)

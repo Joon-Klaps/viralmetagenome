@@ -132,11 +132,13 @@
                 "assembly/polishing",
                 "assembly/polishing/cdhitest",
                 "assembly/polishing/cdhitest/SRR11140744",
+                "assembly/polishing/cdhitest/SRR11140744/SRR11140744.clusters.tsv",
                 "assembly/polishing/cdhitest/SRR11140744/clusters",
                 "assembly/polishing/cdhitest/SRR11140744/clusters/SRR11140744_taxid2697049_cdhit.fa.clstr",
                 "assembly/polishing/cdhitest/SRR11140744/references",
                 "assembly/polishing/cdhitest/SRR11140744/references/SRR11140744_taxid2697049_cdhit.fa",
                 "assembly/polishing/cdhitest/SRR11140748",
+                "assembly/polishing/cdhitest/SRR11140748/SRR11140748.clusters.tsv",
                 "assembly/polishing/cdhitest/SRR11140748/clusters",
                 "assembly/polishing/cdhitest/SRR11140748/clusters/SRR11140748_taxid2697049_cdhit.fa.clstr",
                 "assembly/polishing/cdhitest/SRR11140748/references",
@@ -253,10 +255,10 @@
                 "SRR11140748_single_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-04-12T10:27:31.666386",
+        "timestamp": "2026-08-27T15:17:48.981798522",
         "meta": {
-            "nf-test": "0.9.4",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
         }
     },
     "-profile test_fail_db": {
@@ -401,11 +403,13 @@
                 "assembly/polishing/blast",
                 "assembly/polishing/cdhitest",
                 "assembly/polishing/cdhitest/SRR11140744",
+                "assembly/polishing/cdhitest/SRR11140744/SRR11140744.clusters.tsv",
                 "assembly/polishing/cdhitest/SRR11140744/clusters",
                 "assembly/polishing/cdhitest/SRR11140744/clusters/SRR11140744_taxid2697049_cdhit.fa.clstr",
                 "assembly/polishing/cdhitest/SRR11140744/references",
                 "assembly/polishing/cdhitest/SRR11140744/references/SRR11140744_taxid2697049_cdhit.fa",
                 "assembly/polishing/cdhitest/SRR11140748",
+                "assembly/polishing/cdhitest/SRR11140748/SRR11140748.clusters.tsv",
                 "assembly/polishing/cdhitest/SRR11140748/clusters",
                 "assembly/polishing/cdhitest/SRR11140748/clusters/SRR11140748_taxid2697049_cdhit.fa.clstr",
                 "assembly/polishing/cdhitest/SRR11140748/references",
@@ -522,10 +526,10 @@
                 "SRR11140748_single_out_R2.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-04-11T13:21:29.158794",
+        "timestamp": "2026-08-27T15:16:14.274928931",
         "meta": {
-            "nf-test": "0.9.4",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
         }
     }
 }

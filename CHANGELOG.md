@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
-- Add param `--remove_unmapped` to drop unmapped reads from alignments used in polishing and consensus refinement ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) (by @Joon-Klaps)
+- ([#313](https://github.com/nf-core/viralmetagenome/pull/313)) - Add param `--normalise_reads` to digitally normalise reads with BBNorm before de novo assembly (by @Joon-Klaps)
+- ([#317](https://github.com/nf-core/viralmetagenome/pull/317)) - Add `tests/lib/UTILS.groovy` and rewrite the pipeline-level nf-tests as scenario lists, so assertions are defined once instead of copied across seven files (by @Joon-Klaps)
+- ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) - Add param `--remove_unmapped` to drop unmapped reads from alignments used in polishing and consensus refinement, resolves [#282]((https://github.com/nf-core/viralmetagenome/pull/312)) (by @Joon-Klaps)
+
 
 ### `Fixed`
 
-- Fix [#285](https://github.com/nf-core/viralmetagenome/issues/285) & update modules of the subworkflow `fastq_kraken_kaiju` ([#302](https://github.com/nf-core/viralmetagenome/pull/302)) (by @Joon-Klaps)
-- Fix [#314](https://github.com/nf-core/viralmetagenome/issues/314) - make `cluster.tsv` not an 'intermediate' file, as it contains a lot of info and is useful for downstream analyses ([#315](https://github.com/nf-core/viralmetagenome/pull/315)) (by @Joon-Klaps)
-- The `--min_mapped_reads` filter was bypassed when `--deduplicate false` was set: samples below the threshold were reported as failed in MultiQC but still continued into variant calling and consensus generation ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) (by @Joon-Klaps)
+- ([#302](https://github.com/nf-core/viralmetagenome/pull/302)) - Fix [#285](https://github.com/nf-core/viralmetagenome/issues/285) & update modules of the subworkflow `fastq_kraken_kaiju` (by @Joon-Klaps)
+- ([#315](https://github.com/nf-core/viralmetagenome/pull/315)) - Fix [#314](https://github.com/nf-core/viralmetagenome/issues/314) - make `cluster.tsv` not an 'intermediate' file, as it contains a lot of info and is useful for downstream analyses (by @Joon-Klaps)
 
 ### `Dependencies`
 
@@ -22,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Old parameter | New parameter       |
 | ------------- | ------------------- |
 |               | `--remove_unmapped` |
+|               | `--normalise_reads`  |
+|               | `--arguments_bbnorm` |
 
 > **NB:** Parameter has been **updated** if both old and new parameter information is present.
 > **NB:** Parameter has been **added** if just the new parameter information is present.
