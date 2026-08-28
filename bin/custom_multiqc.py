@@ -22,7 +22,7 @@ import multiqc as mqc
 import pandas as pd
 from multiqc.plots import bargraph
 from multiqc.types import Anchor
-from utils.constant_variables import CLUSTER_PCONFIG
+from utils.constant_variables import CLUSTER_PCONFIG, CONTIG_TAXONOMY_PCONFIG
 from utils.file_tools import filelist_to_df, get_module_selection, read_in_quast, write_df
 from utils.module_data_processing import *
 from utils.pandas_tools import filter_and_rename_columns, join_df, reorder_columns, select_columns, transpose_table
@@ -485,6 +485,77 @@ def add_n_consensus_clusters_to_mqc(dataframe: pd.DataFrame)-> pd.DataFrame:
     return 0
 
 
+def add_contig_taxonomy_to_mqc(dataframe: pd.DataFrame) -> Optional[int]:
+    """
+    Add a stacked bar chart of the taxonomic classification of the final consensus contigs/clusters
+    to the MultiQC report, aggregated to species/taxon level per sample (never per-contig, to keep
+    the report light in the browser).
+
+    Taxonomy comes from the MMseqs2 annotation results already present in the contig overview
+    table (the `(annotation) species` / `(annotation) name` columns). The section is skipped
+    entirely when that data isn't available, e.g. when `--skip_consensus_annotation` or
+    `--skip_consensus_qc` was used - no separate flag is needed here.
+
+    When possible, a second switchable dataset with a genome-completeness estimate per
+    sample/taxon is added to the same plot: CheckV `completeness` when CheckV ran (`(checkv)
+    completeness`), otherwise a proxy based on the QUAST ambiguous-base percentage
+    (`100 - (quast) % N's`). If neither is available, the plot only shows contig counts.
+    """
+    species_col = next(
+        (col for col in ("(annotation) species", "(annotation) name") if col in dataframe.columns and dataframe[col].notna().any()),
+        None,
+    )
+
+    if species_col is None:
+        logger.info("No contig annotation data available - skipping contig taxonomy plot")
+        return None
+
+    df = dataframe.copy()
+    df["sample"] = df["sample"].astype(str)
+    df["taxon"] = df[species_col].fillna("Unclassified")
+
+    counts = df.groupby(["sample", "taxon"]).size().unstack(fill_value=0)
+    datasets = [counts.to_dict(orient="index")]
+    data_labels = [{"name": "Contig counts", "ylab": "# contigs"}]
+
+    if "(checkv) completeness" in df.columns and df["(checkv) completeness"].notna().any():
+        completeness = pd.to_numeric(df["(checkv) completeness"], errors="coerce")
+        completeness_label = "Mean completeness (CheckV)"
+    elif "(quast) % N's" in df.columns and df["(quast) % N's"].notna().any():
+        completeness = 100 - pd.to_numeric(df["(quast) % N's"], errors="coerce")
+        completeness_label = "Mean completeness (QUAST proxy)"
+    else:
+        completeness = None
+        completeness_label = None
+
+    if completeness is not None:
+        df["_completeness"] = completeness
+        mean_completeness = df.dropna(subset=["_completeness"]).groupby(["sample", "taxon"])["_completeness"].mean().round(2)
+        # Only include sample/taxon combinations with a known value - MultiQC pads any missing
+        # category for a sample with NaN itself, which renders as a gap rather than a misleading 0.
+        completeness_by_sample: Dict[str, Dict[str, float]] = defaultdict(dict)
+        for (sample, taxon), value in mean_completeness.items():
+            completeness_by_sample[sample][taxon] = value
+        datasets.append(dict(completeness_by_sample))
+        data_labels.append({"name": completeness_label, "ylab": "% completeness"})
+    else:
+        logger.info("No CheckV or QUAST data available - contig taxonomy plot will only show contig counts")
+
+    pconfig = {**CONTIG_TAXONOMY_PCONFIG, "data_labels": data_labels}
+    plot = bargraph.plot(data=datasets, pconfig=pconfig)
+    module = mqc.BaseMultiqcModule(name="Contig Taxonomy", anchor=Anchor("contig-taxonomy"))
+    module.add_section(
+        anchor=Anchor("contig-taxonomy"),
+        plot=plot,
+        description=(
+            "Taxonomic classification (species/taxon level) of the final consensus contigs/clusters per sample, "
+            "based on the best MMseqs2 annotation hit. 'Unclassified' contigs had no significant annotation hit."
+        ),
+    )
+    mqc.report.modules.append(module)
+    return 0
+
+
 def write_results(
     contigs_mqc: pd.DataFrame,
     constraints_mqc: pd.DataFrame,
@@ -503,6 +574,7 @@ def write_results(
         write_df(contigs_mqc.sort_values(by=["sample", "cluster", "step"]), "contigs_overview-with-iterations.tsv", [])
         table_plot = contigs_mqc[~contigs_mqc.index.isin(generate_ignore_samples(contigs_mqc))]
         add_n_consensus_clusters_to_mqc(table_plot)
+        add_contig_taxonomy_to_mqc(table_plot)
         write_df(table_plot.sort_values(by=["sample", "cluster", "step"]), "contigs_overview.tsv", [])
 
     if not constraints_mqc.empty:

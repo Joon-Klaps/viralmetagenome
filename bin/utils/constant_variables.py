@@ -104,5 +104,14 @@ CLUSTER_PCONFIG = {
     "y_decimals": False,
 }
 
+CONTIG_TAXONOMY_PCONFIG = {
+    "id": "contig_taxonomy",
+    "title": "Contig taxonomic classification",
+    "ylab": "# contigs",
+    "y_decimals": False,
+    "use_legend": True,
+    "tt_decimals": 2,
+}
+
 
 MASH_SCREEN_COLUMNS = ["identity", "shared-hashes", "median-multiplicity", "p-value", "query-ID", "query-comment"]
