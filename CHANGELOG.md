@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
-- Add a "Contig Taxonomy" MultiQC bar chart summarising contig taxonomic classifications (species/taxon level, per sample) with a switchable genome-completeness dataset, fixes [#310](https://github.com/nf-core/viralmetagenome/issues/310) (by @Joon-Klaps)
+- Add a "Contig Taxonomy" MultiQC bar chart summarising contig taxonomic classifications (species/taxon level, per sample) with a switchable genome-completeness dataset ([#319](https://github.com/nf-core/viralmetagenome/pull/319)) (by @Joon-Klaps)
 
 ### `Fixed`
 
