@@ -10,6 +10,11 @@
                         "git_sha": "051e7c60dbdcc5d96ce7814c31426ce776f5319b",
                         "installed_by": ["modules"]
                     },
+                    "bbmap/bbnorm": {
+                        "branch": "master",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "installed_by": ["modules"]
+                    },
                     "bcftools/consensus": {
                         "branch": "master",
                         "git_sha": "5e748ff2b0f990949081c9e49792622eb3fe9ee9",
