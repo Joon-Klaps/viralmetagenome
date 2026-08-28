@@ -106,4 +106,25 @@ nextflow_pipeline {
         }
     }
 
+    // ------------------------------------------------------------------
+    // issue #281: --use_host_filtered_reads routes host-filtered reads
+    // into the mapping-constraint / final variant-calling mapping step.
+    // ------------------------------------------------------------------
+    test("-profile test - use_host_filtered_reads") {
+        when {
+            params {
+                outdir = "$outputDir"
+                use_host_filtered_reads = true
+                skip_assembly = true // Running out of memory on CI
+            }
+        }
+        then {
+            assert workflow.success
+            assert snapshot(
+                workflow.trace.succeeded().size(),
+                removeNextflowVersion("$outputDir/pipeline_info/nf_core_viralmetagenome_software_mqc_versions.yml")
+            ).match()
+        }
+    }
+
 }

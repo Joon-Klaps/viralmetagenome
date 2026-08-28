@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Add opt-in param `--use_host_filtered_reads` to route host-filtered reads into the iterative consensus refinement and final variant-calling mapping steps once host removal has completed successfully, reducing runtime and storage usage on large datasets. Defaults to `false` to preserve existing behaviour ([#281](https://github.com/nf-core/viralmetagenome/issues/281))
+
 ### `Fixed`
 
 ### `Dependencies`
 
 ### `Parameters`
+
+| Old parameter | New parameter               |
+| ------------- | --------------------------- |
+|               | `--use_host_filtered_reads` |
 
 > **NB:** Parameter has been **updated** if both old and new parameter information is present.
 > **NB:** Parameter has been **added** if just the new parameter information is present.

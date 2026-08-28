@@ -51,7 +51,6 @@
                 },
                 "transpose_overview_tables": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
                     "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
                     "fa_icon": "fas fa-table"
@@ -198,6 +197,12 @@
                     "fa_icon": "fas fa-forward",
                     "description": "Skip the fastqc step after host & contaminants were removed",
                     "hidden": true
+                },
+                "use_host_filtered_reads": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-filter",
+                    "description": "Prefer host-filtered reads for downstream mapping & polishing steps once host removal has completed successfully",
+                    "help_text": "When enabled, the iterative consensus refinement and final variant-calling mapping steps (`bwamem2`/`bowtie2`) consume the host-filtered reads instead of the pre-host-removal, decomplexified reads. Has no effect if `--skip_hostremoval` or `--skip_preprocessing` is set, since no host-filtered reads exist in that case. De novo assembly (and optional SSPACE scaffolding) already always uses host-filtered reads when available and is unaffected by this option."
                 },
                 "arguments_fastqc": {
                     "type": "string",
@@ -920,7 +925,7 @@
                 },
                 "arguments_umitools_dedup": {
                     "type": "string",
-                    "default": "--umi-separator=\\':\\' --method cluster --unmapped-reads use",
+                    "default": "--umi-separator=':' --method cluster --unmapped-reads use",
                     "description": "Arguments for UMI-tools deduplication",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
@@ -968,7 +973,7 @@
                 },
                 "arguments_bcftools_mpileup3": {
                     "type": "string",
-                    "default": "--include \\'INFO/DP>=5\\",
+                    "default": "--include 'INFO/DP>=5",
                     "description": "Arguments for BCFtools mpileup step 3",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true

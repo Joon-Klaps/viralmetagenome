@@ -49,6 +49,7 @@ workflow NFCORE_VIRALMETAGENOME {
     VIRALMETAGENOME (
         samplesheet,
         params.outdir,
+        params.use_host_filtered_reads,
     )
     emit:
     multiqc_report = VIRALMETAGENOME.out.multiqc_report // channel: /path/to/multiqc_report.html
