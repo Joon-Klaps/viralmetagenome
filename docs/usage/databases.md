@@ -147,14 +147,20 @@ Identifying the species and the segment of the final genome constructs is done b
 
 This annotation database can be specified using `--annotation_db`
 
-### Creating a custom annotation dataset with [BV-BRC](https://www.bv-brc.org/)
-
-In case [Virosaurus](https://viralzone.expasy.org/8676) does not suffice your needs, a custom annotation dataset can be made. Creating a custom annotation dataset can easily be done as long as the annotation data is in the fasta header using this format: `(key)=(value)` or `(key):(value)`. For example, the following fasta headers are both valid:
+In case [Virosaurus](https://viralzone.expasy.org/8676) does not suffice your needs, a custom annotation dataset can be made. Creating a custom annotation dataset can easily be done as long as the annotation data is embedded in the fasta header (the part of the `>` line after the identifier) as one or more `key=value` (or `key="value"`) pairs. The key can be any word (letters, digits, underscores); the value may be quoted or unquoted and must not itself contain a `"` or `;`. Any separator between pairs works (`|`, `;`, whitespace, ...) since each `key=value`/`key="value"` token is picked out independently - a `key:value` (colon-separated) pair will **not** be picked up. For example, the following fasta headers are both valid:
 
 ```text
 >754189.6 species="Ungulate tetraparvovirus 3"|segment="nan"|host_common_name="Pig"|genbank_accessions="NC_038883"|taxon_id="754189"
 >NC_001731; usual name=Molluscum contagiosum virus; clinical level=SPECIES; clinical typing=unknown; species=Molluscum contagiosum virus; taxid=10279; acronym=MOCV; nucleic acid=DNA; circular=N; segment=N/A; host=Human,Vertebrate;
 ```
+
+Every `key` becomes its own column in the annotation overview table, so there is no fixed vocabulary of required fields - but `species`, `segment` and a host field are the ones nf-core/viralmetagenome's own reporting relies on for describing a consensus genome, so include those where you can.
+
+:::note
+Any attribute you add to the header only shows up in the report if it's parsed out this way; a plain description with no `key=value` pairs will not be annotated.
+:::
+
+### Creating a custom annotation dataset with [BV-BRC](https://www.bv-brc.org/)
 
 An easy-to-use public database with a lot of metadata is [BV-BRC](https://www.bv-brc.org/). Sequences can be extracted using their [CLI-tool](https://www.bv-brc.org/docs/cli_tutorial/index.html) and linked to their [metadata](https://www.bv-brc.org/docs/cli_tutorial/cli_getting_started.html#the-bv-brc-database)
 
@@ -218,4 +224,69 @@ with open("bv-brc-refvirus-anno.fasta", "w") as f:
 - `refseq-virus-anno.txt`
 - `bv-brc-refvirus-anno.fasta`
 
+:::
+
+### Creating a custom annotation dataset with [NCBI Virus](https://www.ncbi.nlm.nih.gov/labs/virus/)
+
+[NCBI Virus](https://www.ncbi.nlm.nih.gov/labs/virus/) is a good alternative to BV-BRC when you want a dataset that is refreshed more often, or that is focused tightly on one taxon of interest. Sequences and their metadata are downloaded separately and then merged, the same way as for BV-BRC above.
+
+1. Open NCBI Virus and search "Nucleotide" sequences for your taxon of interest - the search accepts a species/family name or an NCBI taxid, e.g. `https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&VirusLineage_ss=Orthomyxoviridae,taxid:11308` for the family _Orthomyxoviridae_.
+1. Narrow the result set with the built-in filters (host, sequence length, completeness, ambiguous base count, RefSeq only, ...) - similar to selecting "Reference genomes" for BV-BRC above - so you end up with a representative, non-redundant set rather than every deposited sequence.
+1. Use the column-selector above the results table to enable the metadata columns you want (at least `Species`, `Segment` and `Host`; `Accession` is always included). Then `Download` > `Current table` > `CSV` to export the metadata for the filtered set.
+1. `Download` > `Nucleotide` > `FASTA` for the same filtered/selected records to get the matching sequences. NCBI Virus can also bake fields directly into the FASTA header via "Customize FASTA defline", but downloading sequences and metadata separately and merging them yourself, as below, gives full control over the `key="value"` format the pipeline expects.
+1. Merge the metadata and sequences into a single annotation fasta:
+
+```python
+import pandas as pd
+
+# metadata exported from NCBI Virus ("Download" -> "Current table" -> CSV);
+# column names reflect whichever fields you enabled in the column selector,
+# check the header row of your download and adjust the rename below to match
+meta = pd.read_csv("ncbi_virus_metadata.csv", dtype=str).set_index("Accession")
+meta = meta.rename(
+    columns={
+        "Species": "species",
+        "Segment": "segment",
+        "Host": "host_common_name",
+        "GenBank_Title": "genbank_title",
+    }
+)[["species", "segment", "host_common_name", "genbank_title"]]
+
+
+def read_fasta(path):
+    header, seq = None, []
+    with open(path) as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if line.startswith(">"):
+                if header is not None:
+                    yield header, "".join(seq)
+                header, seq = line[1:], []
+            else:
+                seq.append(line)
+    if header is not None:
+        yield header, "".join(seq)
+
+
+with open("ncbi-virus-anno.fasta", "w") as out:
+    for header, seq in read_fasta("ncbi_virus_sequences.fasta"):
+        accession = header.split()[0].split(".")[0]  # drop the version suffix, e.g. MN908947.3 -> MN908947
+        if accession not in meta.index:
+            continue
+        annotations = "|".join(f'{key}="{value}"' for key, value in meta.loc[accession].items() if pd.notna(value))
+        out.write(f">{header} {annotations}\n{seq}\n")
+```
+
+1. Point `--annotation_db` at the resulting `ncbi-virus-anno.fasta` (gzip it if you want to mirror the default Virosaurus `.fas.gz`).
+
+:::tip{title="Expected files in database directory"}
+
+- `ncbi_virus_metadata.csv`
+- `ncbi_virus_sequences.fasta`
+- `ncbi-virus-anno.fasta`
+
+:::
+
+:::note{title="What about JenaDB?"}
+The best match found for a database going by that name is [VirJenDB](https://www.virjendb.org) (also written VJDB), a FAIR virus (meta)data platform developed at Friedrich Schiller University Jena as part of [NFDI4Microbiota](https://nfdi4microbiota.de/usecases/virjendb) and described in [Nucleic Acids Research](https://academic.oup.com/nar/article/54/D1/D912/8382361). It aggregates and harmonises sequences and roughly 200 metadata fields from 16 upstream sources - including NCBI Virus, BV-BRC, ICTV and ViralZone - and offers FASTA/TSV/CSV/JSON/XML export through its web portal and a documented REST API. It's a comparatively new and still-evolving resource, so check its own documentation for the current export options; the same recipe as above (download sequences and metadata, join on accession, build a `key="value"` header) applies regardless of which of these sources you pull from.
 :::

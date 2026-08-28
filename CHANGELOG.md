@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- Document how to build a custom annotation database from NCBI Virus, and fix stale `customisation/databases.md` cross-references left over from a docs restructure, fixes [#137](https://github.com/nf-core/viralmetagenome/issues/137) (by @Joon-Klaps)
+
 ### `Fixed`
 
 ### `Dependencies`
