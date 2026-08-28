@@ -21,7 +21,11 @@
 //   failure       true if the run is expected to fail.
 //   tag           extra nf-test tag.
 //   ignoreFiles   extra glob(s) excluded from the stable-content assertion.
-//   warnings      true to snapshot filtered Nextflow warnings.
+//   logs          true to snapshot the run's WARN + ERROR lines, or a list of
+//                 levels to narrow it, e.g. logs: ["ERROR"]. Always on for
+//                 `failure` scenarios.
+//   snapshot_ignore extra substrings dropped from the captured log lines, on top
+//                 of SNAPSHOT_IGNORE.
 
 class UTILS {
 
@@ -120,14 +124,25 @@ class UTILS {
             assertion.add(contigs.columns["index"].sort())
         }
 
-        if (scenario.warnings) {
+        // A `failure` scenario otherwise asserts only `workflow.failed`, which any
+        // breakage satisfies -- a typo in a module would pass exactly as well as
+        // the error the test was written for. Snapshotting the message is what
+        // pins it to the *expected* failure, so logs are always on there.
+        // Default on for `failure`; an explicit `logs: false` still opts back out.
+        def wantLogs = scenario.containsKey('logs') ? scenario.logs : scenario.failure
+        def logLevels = wantLogs instanceof List ? wantLogs : (wantLogs ? ["WARN", "ERROR"] : null)
+
+        if (logLevels) {
+            // filterNextflowOutput strips ANSI codes, timestamps, task and work-dir
+            // hashes, run names, absolute paths and container-engine names, which is
+            // what makes these lines stable enough to snapshot at all.
             def std = workflow.stderr + workflow.stdout
             assertion.add(
                 filterNextflowOutput(
                     std,
-                    include: ["WARN"],
+                    include: logLevels,
                     ignore: SNAPSHOT_IGNORE + (scenario.snapshot_ignore ?: [])
-                ) ?: "No warnings"
+                ) ?: "No ${logLevels.join('/')} messages"
             )
         }
 
