@@ -1,8 +1,11 @@
 {
     "-profile test_group": {
         "content": [
-            272,
+            274,
             {
+                "BBMAP_BBNORM": {
+                    "bbmap": 39.18
+                },
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": 1.22
                 },
