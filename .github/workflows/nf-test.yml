@@ -20,6 +20,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NFT_VER: "0.9.4"
   NFT_WORKDIR: "~"
+  NFT_CLEANUP: "true"
   NXF_ANSI_LOG: false
   NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/.singularity
   NXF_SINGULARITY_LIBRARYDIR: ${{ github.workspace }}/.singularity
@@ -95,6 +96,7 @@ jobs:
         uses: ./.github/actions/nf-test
         continue-on-error: ${{ matrix.NXF_VER == 'latest-everything' }}
         env:
+          NFT_CLEANUP: ${{ env.NFT_CLEANUP }}
           NFT_WORKDIR: ${{ env.NFT_WORKDIR }}
           NXF_VERSION: ${{ matrix.NXF_VER }}
         with:
