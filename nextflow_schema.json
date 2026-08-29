@@ -938,7 +938,7 @@
                 },
                 "arguments_umitools_dedup": {
                     "type": "string",
-                    "default": "--umi-separator=':' --method cluster --unmapped-reads use",
+                    "default": "--umi-separator=\\':\\' --method cluster --unmapped-reads use",
                     "description": "Arguments for UMI-tools deduplication",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
@@ -986,7 +986,7 @@
                 },
                 "arguments_bcftools_mpileup3": {
                     "type": "string",
-                    "default": "--include 'INFO/DP>=5",
+                    "default": "--include \\'INFO/DP>=5\\",
                     "description": "Arguments for BCFtools mpileup step 3",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true

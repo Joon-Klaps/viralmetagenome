@@ -25,8 +25,6 @@ multiqc/multiqc_data/multiqc_fastqc_1.yaml
 multiqc/multiqc_data/multiqc_fastqc_2.yaml
 multiqc/multiqc_data/multiqc_general_stats.txt
 multiqc/multiqc_data/mosdepth-coverage-per-contig-single.txt
-multiqc/multiqc_data/multiqc_fastp.yaml
-multiqc/multiqc_data/fastp-insert-size-plot.txt
 multiqc/multiqc_data/multiqc_samtools_flagstat.yaml
 multiqc/multiqc_data/multiqc_samtools_stats.yaml
 multiqc/multiqc_data/multiqc_samtools_stats_1.yaml
@@ -50,7 +48,6 @@ overview-tables/mapping_overview.tsv
 # ------------------------------------------------------------------------------
 **/fastqc/**_fastqc.{html,zip}
 **/fastp/**fastp.html
-**/fastp/report/*.json
 **/*_good_out_R*.fastq.gz
 
 # ------------------------------------------------------------------------------
