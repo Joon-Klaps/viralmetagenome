@@ -54,9 +54,10 @@ include { VCF_ANNOTATE                    } from '../subworkflows/local/vcf_anno
 workflow VIRALMETAGENOME {
 
     take:
-    ch_samplesheet             // channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
     outdir
-    use_host_filtered_reads    // boolean: prefer host-filtered reads for downstream mapping & polishing steps
+    normalise_reads // boolean: digitally normalise reads before assembly
+    use_host_filtered_reads // boolean: prefer host-filtered reads for downstream mapping & polishing steps
 
     main:
 
@@ -174,10 +175,12 @@ workflow VIRALMETAGENOME {
             read_classifiers,
             ch_kraken2_db,
             ch_bracken_db,
-            ch_kaiju_db
+            ch_kaiju_db,
+            params.kraken2_save_reads,
+            params.kraken2_save_readclassification,
+            params.kaiju_taxon_rank
             )
         ch_multiqc_files = ch_multiqc_files.mix(FASTQ_KRAKEN_KAIJU.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
-        ch_versions      = ch_versions.mix(FASTQ_KRAKEN_KAIJU.out.versions)
     }
 
     // Assembly
@@ -196,7 +199,7 @@ workflow VIRALMETAGENOME {
 
     if (!params.skip_assembly) {
         // run different assemblers and combine contigs
-        FASTQ_ASSEMBLY( ch_host_trim_reads, ch_spades_yml, ch_spades_hmm)
+        FASTQ_ASSEMBLY( ch_host_trim_reads, ch_spades_yml, ch_spades_hmm, normalise_reads)
         ch_contigs       = FASTQ_ASSEMBLY.out.scaffolds
         ch_coverages     = FASTQ_ASSEMBLY.out.coverages
         ch_versions      = ch_versions.mix(FASTQ_ASSEMBLY.out.versions)
