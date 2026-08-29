@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ([#313](https://github.com/nf-core/viralmetagenome/pull/313)) - Add param `--normalise_reads` to digitally normalise reads with BBNorm before de novo assembly (by @Joon-Klaps)
 - ([#317](https://github.com/nf-core/viralmetagenome/pull/317)) - Add `tests/lib/UTILS.groovy` and rewrite the pipeline-level nf-tests as scenario lists, so assertions are defined once instead of copied across seven files (by @Joon-Klaps)
-- ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) - Add param `--remove_unmapped` to drop unmapped reads from alignments used in polishing and consensus refinement, resolves [#282]((https://github.com/nf-core/viralmetagenome/pull/312)) (by @Joon-Klaps)
-
+- ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) - Fix [#282](https://github.com/nf-core/viralmetagenome/issues/282) - add param `--remove_unmapped` to drop unmapped reads from alignments used in polishing and consensus refinement (by @Joon-Klaps)
 
 ### `Fixed`
 
@@ -21,9 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Parameters`
 
-| Old parameter | New parameter       |
-| ------------- | ------------------- |
-|               | `--remove_unmapped` |
+| Old parameter | New parameter        |
+| ------------- | -------------------- |
+|               | `--remove_unmapped`  |
 |               | `--normalise_reads`  |
 |               | `--arguments_bbnorm` |
 

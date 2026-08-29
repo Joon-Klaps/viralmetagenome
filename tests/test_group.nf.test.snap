@@ -1,7 +1,7 @@
 {
     "-profile test_group": {
         "content": [
-            258,
+            267,
             {
                 "BBMAP_BBNORM": {
                     "bbmap": 39.18
@@ -188,6 +188,9 @@
                 },
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
+                },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
                 },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,
