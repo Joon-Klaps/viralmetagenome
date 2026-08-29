@@ -53,8 +53,14 @@ The newly assembled contigs are compared to a reference sequence pool (`--refere
 
 The top 5 hits for each contig can be combined with the de novo contigs and sent to the clustering step when `--cluster_with_reference_pool` is enabled.
 
-> [!NOTE]
-> The reference pool can be specified with the `--reference_pool` parameter. The default is the latest clustered [Reference Viral DataBase (RVDB)](https://rvdb.dbi.udel.edu/). To exclude external database sequences from clustering along with the contigs set `--cluster_with_reference_pool false`, allowing only denovo contigs to be clustered.
+:::note
+
+- The reference pool can be specified with the `--reference_pool` parameter.
+- The default is [v31.0 of the Reference Viral DataBase (C-RVDB; Jan 9, 2026)](https://rvdb.dbi.udel.edu/).
+- The input to `--reference_pool` must be a multifasta file (can be compressed `.gz`), directories or `tar.gz` will fail.
+- To exclude external database sequences from clustering along with the contigs set `--cluster_with_reference_pool false`, allowing only denovo contigs to be clustered.
+
+:::
 
 > [!NOTE]
 > Reference collections may contain truncated or defective sequences (for example some RVDB entries). Supply the `--blacklist` parameter with a newline-delimited list of identifiers (or identifier fragments) to exclude those hits during BLAST filtering and prevent them from being used as a reference during scaffolding.
@@ -171,9 +177,9 @@ The coverage of the contigs is calculated using the same method as in the [cover
 :::info{title="Show me an example how it works"}
 If the `--perc_reads_contig` is set to `5`, the cumulative sum of the contigs from every assembler is calculated. For example:
 
-- Cluster 1: the cumulative sum of the contigs from SPAdes is 0.6, Megahit is 0.5, the cluster is kept.
-- Cluster 2: the cumulative sum of the contigs from SPAdes is 0.1, Megahit is 0.1, the cluster is removed.
-- Cluster 3: the cumulative sum of the contigs from SPAdes is 0.5, Megahit is 0, the cluster is kept.
+- Cluster 1: the cumulative sum of the contigs from SPAdes is `6`, Megahit is `5`, the cluster is kept.
+- Cluster 2: the cumulative sum of the contigs from SPAdes is `1`, Megahit is `1`, the cluster is removed.
+- Cluster 3: the cumulative sum of the contigs from SPAdes is `5`, Megahit is `0`, the cluster is kept.
 
 :::
 

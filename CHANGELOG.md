@@ -7,9 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
-- Add a "Contig Taxonomy" MultiQC bar chart summarising contig taxonomic classifications (species/taxon level, per sample) with a switchable genome-completeness dataset ([#319](https://github.com/nf-core/viralmetagenome/pull/319)) (by @Joon-Klaps)
+- ([#313](https://github.com/nf-core/viralmetagenome/pull/313)) - Add param `--normalise_reads` to digitally normalise reads with BBNorm before de novo assembly (by @Joon-Klaps)
+- ([#317](https://github.com/nf-core/viralmetagenome/pull/317)) - Add `tests/lib/UTILS.groovy` and rewrite the pipeline-level nf-tests as scenario lists, so assertions are defined once instead of copied across seven files (by @Joon-Klaps)
+- ([#319](https://github.com/nf-core/viralmetagenome/pull/319)) - Add a "Contig Taxonomy" MultiQC bar chart summarising contig taxonomic classifications (species/taxon level, per sample) with a switchable genome-completeness dataset (by @Joon-Klaps)
 
 ### `Fixed`
+
+- ([#302](https://github.com/nf-core/viralmetagenome/pull/302)) - Fix [#285](https://github.com/nf-core/viralmetagenome/issues/285) & update modules of the subworkflow `fastq_kraken_kaiju` (by @Joon-Klaps)
+- ([#315](https://github.com/nf-core/viralmetagenome/pull/315)) - Fix [#314](https://github.com/nf-core/viralmetagenome/issues/314) - make `cluster.tsv` not an 'intermediate' file, as it contains a lot of info and is useful for downstream analyses (by @Joon-Klaps)
+
+### `Dependencies`
+
+### `Parameters`
+
+| Old parameter | New parameter        |
+| ------------- | -------------------- |
+|               | `--normalise_reads`  |
+|               | `--arguments_bbnorm` |
+
+> **NB:** Parameter has been **updated** if both old and new parameter information is present.
+> **NB:** Parameter has been **added** if just the new parameter information is present.
+
+## v1.1.3 - 2026-07-02
+
+### `Added`
+
+### `Fixed`
+
+- default value of `--reference_pool` from `current` to `C-RVDBv31.0` as RVDB changed their default link from `fasta.gz` to `fasta.tar.gz` which can no longer be directly integrated within the pipeline. ([#298](https://github.com/nf-core/viralmetagenome/pull/298)) (by @Joon-Klaps)
 
 ### `Dependencies`
 
