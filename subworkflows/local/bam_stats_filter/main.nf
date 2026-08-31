@@ -12,7 +12,7 @@ workflow BAM_STATS_FILTER {
     ch_bam           // channel: [ val(meta), [ bam ] ]
     ch_reference     // channel: [ val(meta), [ fasta ] ]
     min_mapped_reads // integer: min_mapped_reads
-    keep_unmapped    // boolean: keep unmapped reads in the passing alignments
+    keep_unmapped    // boolean: keep unmapped read pairs in the passing alignments
 
     main:
 
@@ -45,7 +45,7 @@ workflow BAM_STATS_FILTER {
     bam_pass = ch_bam_filtered.pass
     bam_fail = ch_bam_filtered.fail
 
-    // Drop unmapped reads to save storage
+    // Drop read pairs with both ends unmapped to save storage
     if (!keep_unmapped) {
         SAMTOOLS_VIEW (
             bam_pass.map { meta, bam -> [ meta, bam, [] ] },

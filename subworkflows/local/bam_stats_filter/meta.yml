@@ -31,14 +31,15 @@ input:
   - keep_unmapped:
       type: boolean
       description: |
-        Keep unmapped reads in the passing alignments. When false (the default) they
-        are dropped after statistics are generated, so that mapping rates and the
-        min_mapped_reads filter still see the full alignment.
+        Keep unmapped reads in the passing alignments. When false (the default) the read
+        pairs with both ends unmapped are dropped, after statistics are generated so that
+        mapping rates and the min_mapped_reads filter still see the full alignment.
 output:
   - bam_pass:
       description: |
         BAM files that passed the minimum mapped reads threshold. Unless keep_unmapped
-        is set, unmapped reads have been removed from these alignments.
+        is set, the read pairs with both ends unmapped have been removed from these
+        alignments.
         Structure: [ val(meta), path(bam) ]
   - stats:
       description: |

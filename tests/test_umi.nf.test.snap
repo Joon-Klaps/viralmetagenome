@@ -1,7 +1,7 @@
 {
     "-profile test_umi": {
         "content": [
-            150,
+            155,
             {
                 "BCFTOOLS_FILTER": {
                     "bcftools": 1.22
@@ -96,6 +96,9 @@
                 },
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
+                },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
                 },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,
@@ -230,7 +233,7 @@
                 "umitools_stats_violin.txt:md5,d947cc2259c457ce5d6d4045c8dcdf41"
             ]
         ],
-        "timestamp": "2026-08-27T15:11:30.539013319",
+        "timestamp": "2026-08-31T15:12:49.27266",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"

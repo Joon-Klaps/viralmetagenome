@@ -518,7 +518,7 @@ If Bowtie2 is used, the output from the raw mapping results (in addition to the 
 
 :::
 
-By default the unmapped reads are dropped (`samtools view -F 4`) from the alignments carried into deduplication, variant calling and consensus generation. Because the pipeline maps up to five times per sample (`--iterative_refinement_cycles` plus the final round), this cuts alignment storage substantially on large runs. Set `--keep_unmapped` to carry the full alignment, unmapped reads included, through those steps.
+By default read pairs with both ends unmapped are dropped (`samtools view -G 12`) from the alignments carried into deduplication, variant calling and consensus generation, leaving pairs intact. Because the pipeline maps up to five times per sample (`--iterative_refinement_cycles` plus the final round), this cuts alignment storage substantially on large runs. Set `--keep_unmapped` to carry the full alignment through those steps. The contig-coverage alignment behind `--perc_reads_contig` drops every unmapped read instead (`samtools view -F 4`), as only its per-contig mapped counts are used.
 
 ### Deduplication
 
