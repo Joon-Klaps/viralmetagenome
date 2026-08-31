@@ -12,7 +12,7 @@ workflow BAM_STATS_FILTER {
     ch_bam           // channel: [ val(meta), [ bam ] ]
     ch_reference     // channel: [ val(meta), [ fasta ] ]
     min_mapped_reads // integer: min_mapped_reads
-    remove_unmapped  // boolean: drop unmapped reads from the passing alignments
+    keep_unmapped    // boolean: keep unmapped reads in the passing alignments
 
     main:
 
@@ -45,11 +45,8 @@ workflow BAM_STATS_FILTER {
     bam_pass = ch_bam_filtered.pass
     bam_fail = ch_bam_filtered.fail
 
-    // Optionally drop unmapped reads to save storage during iterative refinement.
-    // This runs *after* SAMTOOLS_STATS on purpose: mapping-rate statistics and the
-    // min_mapped_reads filter above must both see the complete alignment, otherwise
-    // every sample would report 100% mapped.
-    if (remove_unmapped) {
+    // Drop unmapped reads to save storage
+    if (!keep_unmapped) {
         SAMTOOLS_VIEW (
             bam_pass.map { meta, bam -> [ meta, bam, [] ] },
             [[], [], []],

@@ -56,7 +56,7 @@ workflow VIRALMETAGENOME {
     take:
     ch_samplesheet // channel: samplesheet read in from --input
     outdir
-    remove_unmapped // boolean: drop unmapped reads from downstream alignments
+    keep_unmapped // boolean: keep unmapped reads in downstream alignments
     normalise_reads // boolean: digitally normalise reads before assembly
 
     main:
@@ -275,7 +275,7 @@ workflow VIRALMETAGENOME {
                     params.intermediate_consensus_caller,
                     params.intermediate_mapping_stats,
                     params.min_mapped_reads,
-                    remove_unmapped,
+                    keep_unmapped,
                     params.min_contig_size,
                     params.max_n_perc
                 )
@@ -366,7 +366,7 @@ workflow VIRALMETAGENOME {
             params.consensus_caller,
             params.mapping_stats,
             params.min_mapped_reads,
-            remove_unmapped,
+            keep_unmapped,
             params.min_contig_size,
             params.max_n_perc
         )

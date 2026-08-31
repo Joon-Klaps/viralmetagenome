@@ -882,11 +882,11 @@
                     "help_text": "Samples, reference combinations below this total mapped read threshold are skipped for variant/consensus calling to avoid unreliable results.",
                     "minimum": 1
                 },
-                "remove_unmapped": {
+                "keep_unmapped": {
                     "type": "boolean",
                     "fa_icon": "fas fa-filter",
-                    "description": "Remove unmapped reads from alignments used in polishing and consensus refinement",
-                    "help_text": "Alignments keep both mapped and unmapped reads by default. Enabling this drops unmapped reads (`samtools view -F 4`) from the alignments carried into deduplication, variant calling and consensus generation, which substantially reduces storage across iterative refinement cycles. Mapping statistics and the `--min_mapped_reads` filter are computed before this step, so reported mapping rates are unaffected."
+                    "description": "Keep unmapped reads in the alignments used in polishing and consensus refinement",
+                    "help_text": "Unmapped reads are dropped (`samtools view -F 4`) from the alignments carried into deduplication, variant calling and consensus generation by default, which substantially reduces storage across iterative refinement cycles. Enable this to carry the full alignment, including unmapped reads, through those steps. Mapping statistics and the `--min_mapped_reads` filter are computed before this step, so reported mapping rates are unaffected either way."
                 },
                 "min_consensus_depth": {
                     "type": "integer",

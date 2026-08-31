@@ -16,7 +16,7 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
     intermediate_consensus_caller // val: [ bcftools | ivar ]
     intermediate_mapping_stats    // val: [ true | false ]
     min_mapped_reads              // integer: min_mapped_reads
-    remove_unmapped               // val: [ true | false ]
+    keep_unmapped                 // val: [ true | false ]
     min_len                       // integer: min_length
     n_100                         // integer: n_100
 
@@ -39,7 +39,7 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             intermediate_consensus_caller,
             intermediate_mapping_stats,
             min_mapped_reads,
-            remove_unmapped,
+            keep_unmapped,
             min_len,
             n_100,
         )
@@ -66,7 +66,7 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             intermediate_consensus_caller,
             intermediate_mapping_stats,
             min_mapped_reads,
-            remove_unmapped,
+            keep_unmapped,
             min_len,
             n_100,
         )
@@ -93,7 +93,7 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             intermediate_consensus_caller,
             intermediate_mapping_stats,
             min_mapped_reads,
-            remove_unmapped,
+            keep_unmapped,
             min_len,
             n_100,
         )
@@ -120,7 +120,7 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             intermediate_consensus_caller,
             intermediate_mapping_stats,
             min_mapped_reads,
-            remove_unmapped,
+            keep_unmapped,
             min_len,
             n_100,
         )

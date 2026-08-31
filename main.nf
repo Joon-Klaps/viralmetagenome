@@ -49,7 +49,7 @@ workflow NFCORE_VIRALMETAGENOME {
     VIRALMETAGENOME (
         samplesheet,
         params.outdir,
-        params.remove_unmapped,
+        params.keep_unmapped,
         params.normalise_reads,
     )
     emit:
