@@ -1125,7 +1125,17 @@
                     "default": "ftp://ftp.expasy.org/databases/viralzone/2020_4/virosaurus90_vertebrate-20200330.fas.gz",
                     "fa_icon": "fas fa-database",
                     "description": "Database used for annotation of the consensus constructs",
-                    "help_text": "The metadata fields are stored in the fasta comment as `key1:\"value1\"|key2:\"value2\"|...` see docs/databases.md for more information."
+                    "help_text": "The annotation fields are read from `--annotation_metadata` when that is given, and are otherwise parsed out of the fasta header as `key1=\"value1\"|key2=\"value2\"|...` pairs. See docs/usage/databases.md for more information."
+                },
+                "annotation_metadata": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.(csv|tsv|txt)(\\.gz)?$",
+                    "fa_icon": "fas fa-table",
+                    "description": "Metadata table describing the sequences of the annotation database",
+                    "help_text": "Optional csv/tsv table (may be gzipped) whose first column holds the sequence identifiers of `--annotation_db` and whose remaining columns become annotation fields in the report. When given, it replaces parsing those fields out of the fasta headers, so the database itself needs no `key=\"value\"` annotations."
                 },
                 "skip_prokka": {
                     "type": "boolean",
