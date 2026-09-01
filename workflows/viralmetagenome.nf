@@ -79,6 +79,7 @@ workflow VIRALMETAGENOME {
     ch_spades_yml      = createFileChannel(params.spades_yml)
     ch_spades_hmm      = createFileChannel(params.spades_hmm)
     ch_constraint_meta = createFileChannel(params.mapping_constraints)
+    ch_annotation_meta = createFileChannel(params.annotation_metadata)
 
     // Databases, we really don't want to stage unnecessary databases
     ch_ref_pool      = (!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc)           ? createChannel( params.reference_pool, "reference", true )                                                         : channel.empty()
@@ -469,6 +470,7 @@ workflow VIRALMETAGENOME {
         ch_blast_summary.ifEmpty([]),
         ch_constraint_meta,
         ch_annotation_summary.ifEmpty([]),
+        ch_annotation_meta,
         ch_clusters_tsv.ifEmpty([]),
         ch_mash_screen.ifEmpty([]),
         ch_multiqc_custom_table_headers.ifEmpty([])

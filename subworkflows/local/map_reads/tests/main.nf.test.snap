@@ -23,7 +23,7 @@
                 ]
             ],
             [
-
+                
             ]
         ],
         "timestamp": "2026-08-31T15:43:42.544029",
@@ -38,13 +38,13 @@
                 "maxReadLength": 151,
                 "minReadLength": 53,
                 "meanReadLength": 138,
-                "maxQuality": 44,
+                "maxQuality": 42,
                 "minQuality": 0,
-                "meanQuality": 42,
+                "meanQuality": 39,
                 "readCount": 200,
                 "duplicateReadCount": 0
             },
-            "d96c2f94b64daa490d0ea690b7347c63",
+            "4a5809cf1dc80711062fea062764f4b9",
             [
                 [
                     {
@@ -62,11 +62,11 @@
                         "sample": "test",
                         "single_end": false
                     },
-                    "test_null.bowtie2.log:md5,1d6eaf6beb1ba9c414e5f2720c752733"
+                    "test_null.bowtie2.log:md5,7569bc0aa37bca966eb59b71bd273299"
                 ]
             ]
         ],
-        "timestamp": "2026-08-31T15:44:05.649693",
+        "timestamp": "2026-09-01T16:35:06.787154",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -96,7 +96,7 @@
                 ]
             ],
             [
-
+                
             ]
         ],
         "timestamp": "2026-08-31T15:43:24.888811",
@@ -111,13 +111,13 @@
                 "maxReadLength": 151,
                 "minReadLength": 53,
                 "meanReadLength": 138,
-                "maxQuality": 44,
-                "minQuality": 2,
-                "meanQuality": 43,
-                "readCount": 199,
+                "maxQuality": 42,
+                "minQuality": 23,
+                "meanQuality": 41,
+                "readCount": 190,
                 "duplicateReadCount": 0
             },
-            "7bc09345b01a4c9691532fba595d543c",
+            "2526a2a5d7a8983c4494fd6912db7676",
             [
                 [
                     {
@@ -135,11 +135,11 @@
                         "sample": "test",
                         "single_end": false
                     },
-                    "test_null.bowtie2.log:md5,1d6eaf6beb1ba9c414e5f2720c752733"
+                    "test_null.bowtie2.log:md5,7569bc0aa37bca966eb59b71bd273299"
                 ]
             ]
         ],
-        "timestamp": "2026-08-31T15:43:54.275294",
+        "timestamp": "2026-09-01T16:34:56.779746",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
