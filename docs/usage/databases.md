@@ -160,7 +160,7 @@ NC_078521,Mykissvirus tructae,3,Oncorhynchus mykiss
 KM368312,Alphainfluenzavirus influenzae,3,Sus scrofa
 ```
 
-Identifiers are matched against the fasta header up to the first whitespace, with or without a version suffix (`NC_078521.1` matches `NC_078521`). Empty cells, and sequences missing from the table, are left unannotated.
+Identifiers are matched against the fasta header up to the first whitespace, with or without a version suffix (`NC_078521.1` matches `NC_078521`). Empty cells, and sequences missing from the table, are left unannotated. A column named like one of the search result columns is skipped with a warning, ignoring case - so NCBI Virus' `Length` gives way to the alignment `length` and does not reach the report.
 
 ### Fasta headers
 

@@ -183,8 +183,10 @@ def extract_annotation_data(df, metadata_df=None):
             )
 
     # An annotation field that is named like one of the search result columns would end up
-    # as a duplicated column and break every lookup on it further down.
-    clashes = extracted.columns.intersection(df.columns)
+    # as a duplicated column and break every lookup on it further down. Names are compared
+    # without case, as columns differing only in case ('length' from the search and 'Length'
+    # from a metadata table) are read as one by plenty of table readers.
+    clashes = extracted.columns[extracted.columns.str.casefold().isin(df.columns.str.casefold())]
     if not clashes.empty:
         logger.warning(
             "Ignoring annotation field(s) %s as they collide with the search result columns.",
