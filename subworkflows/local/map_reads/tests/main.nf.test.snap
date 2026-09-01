@@ -38,13 +38,13 @@
                 "maxReadLength": 151,
                 "minReadLength": 53,
                 "meanReadLength": 138,
-                "maxQuality": 44,
+                "maxQuality": 42,
                 "minQuality": 0,
-                "meanQuality": 42,
+                "meanQuality": 39,
                 "readCount": 200,
                 "duplicateReadCount": 0
             },
-            "640485caac4a793f350b5ec90ce67a6f",
+            "4a5809cf1dc80711062fea062764f4b9",
             [
                 [
                     {
@@ -62,14 +62,14 @@
                         "sample": "test",
                         "single_end": false
                     },
-                    "test_null.bowtie2.log:md5,1d6eaf6beb1ba9c414e5f2720c752733"
+                    "test_null.bowtie2.log:md5,7569bc0aa37bca966eb59b71bd273299"
                 ]
             ]
         ],
-        "timestamp": "2026-09-01T16:30:23.37893",
+        "timestamp": "2026-09-01T16:35:06.787154",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
         }
     },
     "sarscov2 - bwamem2 - drops the unmapped reads": {
@@ -111,13 +111,13 @@
                 "maxReadLength": 151,
                 "minReadLength": 53,
                 "meanReadLength": 138,
-                "maxQuality": 44,
-                "minQuality": 2,
-                "meanQuality": 43,
-                "readCount": 199,
+                "maxQuality": 42,
+                "minQuality": 23,
+                "meanQuality": 41,
+                "readCount": 190,
                 "duplicateReadCount": 0
             },
-            "9c0cdcc104734a89efafcd4e57fafedb",
+            "2526a2a5d7a8983c4494fd6912db7676",
             [
                 [
                     {
@@ -135,14 +135,14 @@
                         "sample": "test",
                         "single_end": false
                     },
-                    "test_null.bowtie2.log:md5,1d6eaf6beb1ba9c414e5f2720c752733"
+                    "test_null.bowtie2.log:md5,7569bc0aa37bca966eb59b71bd273299"
                 ]
             ]
         ],
-        "timestamp": "2026-09-01T16:30:13.682023",
+        "timestamp": "2026-09-01T16:34:56.779746",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
         }
     }
 }
