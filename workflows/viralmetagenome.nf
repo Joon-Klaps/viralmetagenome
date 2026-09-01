@@ -141,9 +141,9 @@ workflow VIRALMETAGENOME {
         ch_blast_refdb = BLAST_MAKEBLASTDB.out.db
     }
 
-    // If we don't preprocess reads, remove samples with 0 reads
-    ch_host_trim_reads      = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
-    ch_decomplex_trim_reads = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
+    ch_host_trim_reads      = channel.empty()
+    ch_decomplex_trim_reads = channel.empty()
+
     // preprocessing illumina reads
     if (!params.skip_preprocessing){
         PREPROCESSING_ILLUMINA (
@@ -157,6 +157,11 @@ workflow VIRALMETAGENOME {
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.low_reads_mqc.ifEmpty([]))
         ch_versions             = ch_versions.mix(PREPROCESSING_ILLUMINA.out.versions)
+    } else {
+        // Nothing downstream drops empty samples, so remove them here.
+        // countFastq() reads every file on the head node, hence only when preprocessing is skipped.
+        ch_host_trim_reads      = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
+        ch_decomplex_trim_reads = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
     }
 
     // Reads used for downstream mapping & polishing steps (iterative refinement, mapping-constraint
