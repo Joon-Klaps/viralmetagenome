@@ -202,7 +202,7 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-filter",
                     "description": "Prefer host-filtered reads for downstream mapping & polishing steps once host removal has completed successfully",
-                    "help_text": "When enabled, the iterative consensus refinement and final variant-calling mapping steps (`bwamem2`/`bowtie2`) consume the host-filtered reads instead of the pre-host-removal, decomplexified reads. Has no effect if `--skip_hostremoval` or `--skip_preprocessing` is set, since no host-filtered reads exist in that case. De novo assembly (and optional SSPACE scaffolding) already always uses host-filtered reads when available and is unaffected by this option."
+                    "help_text": "When enabled, the iterative consensus refinement and final variant-calling mapping steps (`bwamem2`/`bowtie2`) consume the host-filtered reads instead of the pre-host-removal, decomplexified reads."
                 },
                 "arguments_fastqc": {
                     "type": "string",

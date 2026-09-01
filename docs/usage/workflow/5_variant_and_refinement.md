@@ -73,10 +73,10 @@ All three methods are supported to keep protocol compatibility with other pipeli
 > [!NOTE]
 > The mapping tool can be specified with the `--mapper` parameter, the default is `bwamem2`, in case the intermediate mapper (for intermediate refinement cycles) needs to be different, this can be specified with `--intermediate_mapper` otherwise it uses the supplied `--mapper` tool.
 
-By default, both the iterative consensus refinement mapping and the final variant-calling mapping use the trimmed & decomplexified reads produced during [preprocessing](2_preprocessing.md), **before** [host read-removal](2_preprocessing.md#5-host-read-removal). This preserves historic behaviour and keeps these steps unaffected even if host removal is skipped for a given run.
+By default, both the iterative consensus refinement mapping and the final variant-calling mapping use the trimmed & decomplexified reads produced during [preprocessing](2_preprocessing.md), **before** [host read-removal](2_preprocessing.md#5-host-read-removal).
 
 > [!NOTE]
-> Set `--use_host_filtered_reads true` to instead map the host-filtered reads at these two steps, once host removal has completed successfully. This can meaningfully reduce runtime and storage on large datasets with a substantial host fraction. It has no effect when `--skip_hostremoval` or `--skip_preprocessing` is set. See the [preprocessing host read-removal section](2_preprocessing.md#5-host-read-removal) for details.
+> Set `--use_host_filtered_reads true` to instead map the host-filtered reads at these two steps.
 
 ### 2.1 Deduplication
 

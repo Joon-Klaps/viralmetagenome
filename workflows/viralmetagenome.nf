@@ -159,13 +159,7 @@ workflow VIRALMETAGENOME {
     }
 
     // Reads used for downstream mapping & polishing steps (iterative refinement, mapping-constraint
-    // selection, final variant-calling mapping). By default these steps use `ch_decomplex_trim_reads`
-    // (trimmed/decomplexified, but never host-filtered) to preserve historic behaviour. When
-    // `--use_host_filtered_reads` is enabled, they instead receive `ch_host_trim_reads`, which is
-    // already host-filtered whenever host removal ran successfully (and is otherwise identical to
-    // `ch_decomplex_trim_reads`, e.g. when `--skip_hostremoval` or `--skip_preprocessing` is set).
-    // De novo assembly (incl. SSPACE scaffolding & contig-coverage mapping) already always consumes
-    // `ch_host_trim_reads` and is intentionally left unaffected by this flag.
+    // selection, final variant-calling mapping).
     ch_mapping_polishing_reads = use_host_filtered_reads ? ch_host_trim_reads : ch_decomplex_trim_reads
 
     // Determining metagenomic diversity
@@ -264,11 +258,9 @@ workflow VIRALMETAGENOME {
             // To do this we combine the channels based on sample
             // Extract the reference meta's and reads
             // Make cartesian product of identified references & reads so all references will be mapped against again.
-                ch_reads_tmp     = ch_mapping_polishing_reads.map { meta, fastq -> [meta.sample,meta, fastq]}
-                ch_consensus_tmp = ch_consensus.map { meta, fasta -> [meta.sample,meta, fasta] }
-
-                ch_consensus_reads_intermediate = ch_consensus_tmp
-                    .combine(ch_reads_tmp, by: [0])
+                ch_consensus_reads_intermediate = ch_consensus
+                    .map { meta, fasta -> [meta.sample, meta, fasta] }
+                    .combine(ch_mapping_polishing_reads.map { meta, fastq -> [meta.sample, meta, fastq]}, by: [0])
                     .map{
                         _sample, meta_ref, fasta, _meta_reads, fastq -> [meta_ref, fasta, fastq]
                     }
