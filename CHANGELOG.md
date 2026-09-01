@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ([#317](https://github.com/nf-core/viralmetagenome/pull/317)) - Add `tests/lib/UTILS.groovy` and rewrite the pipeline-level nf-tests as scenario lists, so assertions are defined once instead of copied across seven files (by @Joon-Klaps)
 - ([#318](https://github.com/nf-core/viralmetagenome/pull/318)) - Document how to build a custom annotation database from NCBI Virus, and fix stale `customisation/databases.md` cross-references left over from a docs restructure (by @Joon-Klaps)
 - ([#318](https://github.com/nf-core/viralmetagenome/pull/318)) - Add param `--annotation_metadata` to read the consensus annotation fields from a csv/tsv table (optionally gzipped) instead of parsing them out of the annotation database fasta headers (by @Joon-Klaps)
+- ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) - Fix [#282](https://github.com/nf-core/viralmetagenome/issues/282) - drop unmapped reads from the contig-coverage alignment and unmapped read pairs from the alignments used in polishing and consensus refinement, and add param `--keep_unmapped` to carry them through instead (by @Joon-Klaps)
 
 ### `Fixed`
 
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Old parameter | New parameter           |
 | ------------- | ----------------------- |
+|               | `--keep_unmapped`       |
 |               | `--normalise_reads`     |
 |               | `--annotation_metadata` |
 |               | `--arguments_bbnorm`    |
