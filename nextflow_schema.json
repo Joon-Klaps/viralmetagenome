@@ -51,7 +51,6 @@
                 },
                 "transpose_overview_tables": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
                     "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
                     "fa_icon": "fas fa-table"
@@ -882,6 +881,12 @@
                     "description": "Define the minimum number of mapped reads in order to continue the variant and consensus calling",
                     "help_text": "Samples, reference combinations below this total mapped read threshold are skipped for variant/consensus calling to avoid unreliable results.",
                     "minimum": 1
+                },
+                "keep_unmapped": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-filter",
+                    "description": "Keep unmapped reads in the alignments used for contig coverage, polishing and consensus refinement",
+                    "help_text": "Unmapped reads are dropped (`samtools view -F 4`) by default, both from the alignments carried into deduplication, variant calling and consensus generation, and from the contig-coverage alignment behind `--perc_reads_contig`. This substantially reduces the temporary storage footprint, since the pipeline maps up to five times per sample. Enable this to carry the full alignment, including unmapped reads, through those steps. Mapping statistics and the `--min_mapped_reads` filter are computed before the polishing alignments are filtered, so reported mapping rates are unaffected either way."
                 },
                 "min_consensus_depth": {
                     "type": "integer",
