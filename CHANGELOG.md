@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ([#313](https://github.com/nf-core/viralmetagenome/pull/313)) - Add param `--normalise_reads` to digitally normalise reads with BBNorm before de novo assembly (by @Joon-Klaps)
 - ([#317](https://github.com/nf-core/viralmetagenome/pull/317)) - Add `tests/lib/UTILS.groovy` and rewrite the pipeline-level nf-tests as scenario lists, so assertions are defined once instead of copied across seven files (by @Joon-Klaps)
 - ([#320](https://github.com/nf-core/viralmetagenome/pull/320)) - Fix [#281](https://github.com/nf-core/viralmetagenome/issues/281) - add opt-in param `--use_host_filtered_reads` to route host-filtered reads into the iterative consensus refinement and final variant-calling mapping steps. Defaults to `false` to preserve existing behaviour (by @Joon-Klaps)
+- ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) - Fix [#282](https://github.com/nf-core/viralmetagenome/issues/282) - drop unmapped reads from the contig-coverage alignment and unmapped read pairs from the alignments used in polishing and consensus refinement, and add param `--keep_unmapped` to carry them through instead (by @Joon-Klaps)
 
 ### `Fixed`
 
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Old parameter | New parameter               |
 | ------------- | --------------------------- |
+|               | `--keep_unmapped`           |
 |               | `--normalise_reads`         |
 |               | `--arguments_bbnorm`        |
 |               | `--use_host_filtered_reads` |

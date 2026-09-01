@@ -1,7 +1,7 @@
 {
     "-profile test - variant_caller bcftools - consensus_caller bcftools": {
         "content": [
-            164,
+            169,
             {
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": 1.22
@@ -116,6 +116,9 @@
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
                 },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
+                },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,
                     "pandas": "2.2.3",
@@ -141,15 +144,15 @@
                 }
             }
         ],
-        "timestamp": "2026-02-25T17:17:52.893734457",
+        "timestamp": "2026-08-31T14:54:25.383898",
         "meta": {
-            "nf-test": "0.9.4",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
         }
     },
     "-profile test": {
         "content": [
-            279,
+            288,
             {
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": 1.22
@@ -330,6 +333,9 @@
                 },
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
+                },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
                 },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,
@@ -954,14 +960,14 @@
                 "variants/mapping-info/deduplicate",
                 "variants/mapping-info/deduplicate/bam",
                 "variants/mapping-info/deduplicate/bam/SRR11140744",
-                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA2-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA24-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_MN908947-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_cl0_it1.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA2-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA24-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_MN908947-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_cl0_it1.mapped.bam.bai",
                 "variants/mapping-info/deduplicate/bam/SRR11140748",
-                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_BA24-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_MN908947-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_cl0_it1.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_BA24-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_MN908947-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_cl0_it1.mapped.bam.bai",
                 "variants/mapping-info/mash",
                 "variants/mapping-info/mash/screen",
                 "variants/mapping-info/mash/screen/SRR11140744_BA24-CONSTRAINT.screen",
@@ -1851,7 +1857,7 @@
                 "SRR11140748_cl0_itvariant-calling"
             ]
         ],
-        "timestamp": "2026-08-27T15:22:55.593040424",
+        "timestamp": "2026-08-31T14:51:09.605833",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -1859,7 +1865,7 @@
     },
     "-profile test - variant_caller ivar - consensus_caller ivar": {
         "content": [
-            149,
+            154,
             {
                 "BCFTOOLS_FILTER": {
                     "bcftools": 1.22
@@ -1968,6 +1974,9 @@
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
                 },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
+                },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,
                     "pandas": "2.2.3",
@@ -1993,10 +2002,10 @@
                 }
             }
         ],
-        "timestamp": "2026-02-25T17:20:41.232520612",
+        "timestamp": "2026-08-31T15:00:58.683664",
         "meta": {
-            "nf-test": "0.9.4",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
         }
     },
     "-profile test - use_host_filtered_reads": {
@@ -2453,7 +2462,7 @@
     },
     "-profile test - variant_caller ivar - consensus_caller bcftools": {
         "content": [
-            169,
+            174,
             {
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": 1.22
@@ -2572,6 +2581,9 @@
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
                 },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
+                },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,
                     "pandas": "2.2.3",
@@ -2597,10 +2609,10 @@
                 }
             }
         ],
-        "timestamp": "2026-03-02T13:58:44.10435821",
+        "timestamp": "2026-08-31T14:57:47.692535",
         "meta": {
-            "nf-test": "0.9.4",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
         }
     }
 }
