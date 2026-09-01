@@ -172,9 +172,11 @@ def extract_annotation_data(df, metadata_df=None):
         lookup = lookup[~lookup.index.duplicated()]
         # identifiers that look numeric ('754189.6') are read as floats, the lookup needs the text
         subject = df["subject"].astype(str)
-        extracted = lookup.reindex(subject.where(subject.isin(lookup.index), subject.str.split(".").str[0]))
+        keys = subject.where(subject.isin(lookup.index), subject.str.split(".").str[0])
+        extracted = lookup.reindex(keys)
         extracted.index = df.index
-        missing = int(extracted.isna().all(axis=1).sum())
+        # counted on the keys, a row that was found can have empty annotation values of its own
+        missing = int((~keys.isin(lookup.index)).sum())
         if missing:
             logger.warning(
                 "%d of the %d annotated contigs hit a sequence that is not in the annotation metadata file.",
