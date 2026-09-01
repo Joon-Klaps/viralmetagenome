@@ -45,12 +45,14 @@ nextflow_pipeline {
                 skip_assembly: true,
             ],
         ],
-        // issue #281: --use_host_filtered_reads routes host-filtered reads into the
-        // mapping-constraint / final variant-calling mapping step.
         [
             name: "-profile test - use_host_filtered_reads",
-            tag: "default",
-            scope: "versions",
+            tag: "host_filtered",
+            scope: "files",
+            bam: true,
+            vcf: true,
+            overview: true,
+            logs: true,
             params: [
                 use_host_filtered_reads: true,
                 skip_assembly: true, // running out of memory on CI
