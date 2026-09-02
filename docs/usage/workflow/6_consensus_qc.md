@@ -67,10 +67,10 @@ Prokka can be given a custom protein database to annotate your genomes with, hav
 MMseqs was used for the annotation step instead of BLAST because of the ability to query using a tblastx search for highly diverging viruses while supplying a nucleotide annotation database. To specify another type of search (e.g. blastp, blastx, etc.), please refer to the [parameters consensus-qc section](../parameters.md#consensus-qc).
 :::
 
-The species assigned to each final consensus cluster is also summarised across the whole run in the "Contig clusters" section of the MultiQC report - one bar per sample stacked by species, similar to the read-level Kaiju/Kraken2 bar charts, alongside a heatmap of the median genome completeness per sample and species. Species that show more than one genome segment across the run get a heatmap column per segment, so a partially recovered influenza genome shows which segments came through.
+The species assigned to each final consensus cluster is also summarised across the whole run in the "Contig clusters" section of the MultiQC report, see [output section](../output.md#multiqc).
 
 > [!NOTE]
-> MMseqs-search can be skipped with `--skip_consensus_annotation`. The "Contig clusters" MultiQC section is still drawn without it, with every cluster reported as "Unclassified" - the cluster counts and the genome completeness do not depend on taxonomy.
+> MMseqs-search can be skipped with `--skip_consensus_annotation`.
 
 ## SnpEff and SnpSift
 

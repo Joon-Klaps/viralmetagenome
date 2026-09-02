@@ -100,16 +100,10 @@ CLUSTER_HEADERS = {
 CONTIG_TAXONOMY_TOP_N = 5
 CONTIG_COMPLETENESS_TOP_N = 10 # Heatmap can fit more
 
-# Species and segment are read back from whatever the annotation database wrote into its fasta
-# headers, so the key naming is database specific. Virosaurus ("species=...; segment=N/A;") and
-# the BV-BRC recipe in docs/usage/databases.md ('species="..."|segment="nan"') both land on
-# `species` and `segment`; the remaining aliases cover the namings other sources use. Matched
-# case-insensitively and ignoring _/- and spaces, first hit wins.
+# Species and segment are read back from whatever the annotation database wrote, accomodating for a few
+# BV-BRC, virosaurus, and NCBI naming convetions.
 ANNOTATION_SPECIES_KEYS = ["species", "speciesname", "virusspecies", "organismname", "organism", "name"]
 ANNOTATION_SEGMENT_KEYS = ["segment", "segmentname", "genomesegment", "segmentnumber", "seg"]
-
-# Values that mean "not segmented" / "not recorded". Virosaurus writes "N/A", the BV-BRC recipe
-# writes pandas' "nan" string, and NCBI-derived headers tend to leave the field empty.
 ANNOTATION_NULL_VALUES = frozenset({"", "n/a", "na", "nan", "none", "null", "unknown", "undefined", "-", ".", "?"})
 
 # Category names shared by the taxonomy barplot and the completeness heatmap.
