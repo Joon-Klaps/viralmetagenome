@@ -241,8 +241,6 @@ def load_custom_data(args) -> List[pd.DataFrame]:
         # Adding to general stats
         module = mqc.BaseMultiqcModule(name="Cluster Summary", anchor=Anchor("cluster-summary"))
         module.general_stats_addcols(clusters_summary_df.to_dict(orient="index"))
-        # No barplot here: the "Contig clusters" section plots the same kept/removed split,
-        # broken down by taxon, so a standalone cluster barplot would only duplicate it.
         mqc.report.modules.append(module)
 
     # General Stats - Sample metadata
@@ -558,13 +556,6 @@ def add_contig_taxonomy_barplot(module: "mqc.BaseMultiqcModule", df: pd.DataFram
         plot=plot,
         description=(
             "Contig clusters per sample, coloured by the species of their best MMseqs2 annotation hit. "
-            f"Only the {CONTIG_TAXONOMY_TOP_N} most abundant species get their own colour; the rest are "
-            f"grouped as '{TAXON_OTHER}', and clusters without a significant hit as '{TAXON_UNCLASSIFIED}'. "
-            f"The completeness heatmap below names the top {CONTIG_COMPLETENESS_TOP_N} instead, as it is not "
-            "limited by a legend. "
-            f"On the 'All clusters' view the grey '{TAXON_UNRECONSTRUCTED}' segment completes each bar to the "
-            "total number of clusters the sample started with, i.e. the clusters dropped during coverage "
-            "filtering or refinement."
         ),
     )
 
@@ -596,13 +587,20 @@ def add_contig_completeness_heatmap(module: "mqc.BaseMultiqcModule", df: pd.Data
         "Empty cells are species or segments that were not reconstructed in that sample."
     )
     if source == "CheckV":
-        description += " Completeness is CheckV's estimate."
+        description += (
+            " <b>Completeness is CheckV's own estimate</b>, taken from its <code>quality_summary.tsv</code>. "
+            "It is used here because CheckV estimated every contig in this run; if it had failed on any of "
+            "them, all values would fall back to the estimate below instead, so that the plot never mixes "
+            "two different metrics."
+        )
     else:
         description += (
-            " CheckV did not run, so completeness is estimated as the fraction of the annotation hit's "
-            "reference genome that the consensus spans, discounted by the ambiguous bases QUAST counted. "
-            f"'{TAXON_UNCLASSIFIED}' clusters have no hit and so no reference length: for those the estimate "
-            "falls back to the called fraction of the consensus, which is an upper bound on completeness."
+            " <b>Completeness is estimated from the alignment</b>, as the share of the annotation hit's "
+            "reference genome that the consensus covers with called bases: "
+            "<code>(1 - % N's / 100) &times; qlen / slen &times; 100</code>, capped at 100%, where "
+            "<code>qlen</code> is the length of the consensus, <code>slen</code> the length of the reference "
+            "it hit, and <code>% N's</code> the ambiguous bases QUAST counted. This is used either because "
+            "CheckV did not run, or because it could not estimate every contig."
         )
     module.add_section(name="Genome completeness", anchor=Anchor("contig-completeness"), plot=plot, description=description)
 

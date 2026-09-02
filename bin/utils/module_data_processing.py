@@ -277,11 +277,6 @@ def collapse_taxa(dataframe: pd.DataFrame, top_n: int) -> pd.Series:
     cap, as a barplot runs out of distinguishable colours long before a heatmap runs out of
     columns.
 
-    Taxonomy comes from the MMseqs2 annotation results already present in the contig overview
-    table. Clusters whose best hit carries no species, and every cluster of a run without
-    annotation at all (`--skip_consensus_annotation`, `--skip_consensus_qc`), land in
-    "Unclassified" - the plots still show how many clusters each sample yielded and how complete
-    they are, which is the part that does not depend on taxonomy.
     """
     species_col = find_annotation_column(dataframe, ANNOTATION_SPECIES_KEYS)
 
@@ -297,10 +292,6 @@ def split_taxa_by_segment(dataframe: pd.DataFrame, taxa: pd.Series) -> pd.Series
     """
     Append the genome segment to the taxon of segmented viruses, so influenza's eight segments
     get a column each instead of being averaged into one number.
-
-    Only species that actually show more than one segment in this run are split - an unsegmented
-    virus keeps its plain species name rather than gaining a meaningless suffix. The "Other
-    species" and "Unclassified" buckets are aggregates of several species and are never split.
     """
     segment_col = find_annotation_column(dataframe, ANNOTATION_SEGMENT_KEYS)
     if segment_col is None:
@@ -351,15 +342,29 @@ def estimate_completeness(dataframe: pd.DataFrame) -> Tuple[Optional[pd.Series],
     """
     Estimate how complete each final consensus genome is, as a percentage.
 
-    CheckV's own `completeness` estimate is used whenever CheckV ran. Without it we fall back to
-    the fraction of the annotation hit's reference genome (`slen`) that the consensus (`qlen`)
-    spans, discounted by the ambiguous bases QUAST counted - so a 350bp contig of a 7kb genome
-    scores ~5% rather than the ~100% that `100 - % N's` on its own would report.
+    CheckV's own estimate is used only when it managed to place *every* cluster in the run.
+    CheckV leaves `completeness` empty whenever it cannot, which happens readily for short
+    genomes and for the individual segments of a segmented virus; taking it whenever the column
+    merely exists would mix two different metrics in one plot and leave gaps that read as "not
+    reconstructed" rather than "not estimated".
+
+    The fallback is the share of the annotation hit's reference genome (`slen`) that the
+    consensus (`qlen`) covers with called bases, so a 350bp contig of a 7kb genome scores ~5%
+    rather than the ~100% that `100 - % N's` on its own would report.
 
     Returns (None, "") when neither source is available.
     """
-    if "(checkv) completeness" in dataframe.columns and dataframe["(checkv) completeness"].notna().any():
-        return pd.to_numeric(dataframe["(checkv) completeness"], errors="coerce"), "CheckV"
+    if "(checkv) completeness" in dataframe.columns:
+        checkv = pd.to_numeric(dataframe["(checkv) completeness"], errors="coerce")
+        missing = int(checkv.isna().sum())
+        if not checkv.empty and missing == 0:
+            return checkv, "CheckV"
+        logger.info(
+            "CheckV could not estimate completeness for %d of %d clusters - using the QUAST proxy "
+            "for all of them so the plot stays on one metric",
+            missing,
+            len(checkv),
+        )
 
     if "(quast) % N's" not in dataframe.columns or not dataframe["(quast) % N's"].notna().any():
         logger.info("No CheckV or QUAST data available - skipping the completeness heatmap")
