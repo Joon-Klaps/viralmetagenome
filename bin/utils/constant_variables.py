@@ -97,20 +97,60 @@ CLUSTER_HEADERS = {
     },
 }
 
-CLUSTER_PCONFIG = {
-    "id": "summary_clusters_info",
-    "title": "Number of contig clusters",
-    "ylab": "# clusters",
-    "y_decimals": False,
-}
+# Number of taxa that get their own colour in the contig taxonomy barplot, the rest is
+# collapsed into a single "Other species" category to keep the legend readable.
+CONTIG_TAXONOMY_TOP_N = 5
+
+# Species and segment are read back from whatever the annotation database wrote into its fasta
+# headers, so the key naming is database specific. Virosaurus ("species=...; segment=N/A;") and
+# the BV-BRC recipe in docs/usage/databases.md ('species="..."|segment="nan"') both land on
+# `species` and `segment`; the remaining aliases cover the namings other sources use. Matched
+# case-insensitively and ignoring _/- and spaces, first hit wins.
+ANNOTATION_SPECIES_KEYS = ["species", "speciesname", "virusspecies", "organismname", "organism", "name"]
+ANNOTATION_SEGMENT_KEYS = ["segment", "segmentname", "genomesegment", "segmentnumber", "seg"]
+
+# Values that mean "not segmented" / "not recorded". Virosaurus writes "N/A", the BV-BRC recipe
+# writes pandas' "nan" string, and NCBI-derived headers tend to leave the field empty.
+ANNOTATION_NULL_VALUES = frozenset({"", "n/a", "na", "nan", "none", "null", "unknown", "undefined", "-", ".", "?"})
+
+# Category names shared by the taxonomy barplot and the completeness heatmap.
+TAXON_OTHER = "Other species"
+TAXON_UNCLASSIFIED = "Unclassified"
+TAXON_UNRECONSTRUCTED = "Not reconstructed"
+
+# Joins a species to its genome segment in the completeness heatmap: "Influenza A virus | seg 4".
+SEGMENT_SEPARATOR = "|"
 
 CONTIG_TAXONOMY_PCONFIG = {
     "id": "contig_taxonomy",
-    "title": "Contig taxonomic classification",
-    "ylab": "# contigs",
+    "title": "Contig clusters per sample",
+    "ylab": "# clusters",
     "y_decimals": False,
     "use_legend": True,
-    "tt_decimals": 2,
+}
+
+# Sequential (ColorBrewer Greens) instead of the diverging default: pale is an incomplete
+# genome, dark is a complete one, which reads more naturally for a 0-100% quality metric.
+CONTIG_COMPLETENESS_PCONFIG = {
+    "id": "contig_completeness",
+    "title": "Consensus genome completeness",
+    "xlab": "Species",
+    "ylab": "Sample",
+    "zlab": "Completeness",
+    "min": 0,
+    "max": 100,
+    "square": False,
+    "tt_decimals": 1,
+    "cluster_rows": False,
+    "cluster_cols": False,
+    "xcats_samples": False,
+    "colstops": [
+        [0, "#f7fcf5"],
+        [0.25, "#c7e9c0"],
+        [0.5, "#74c476"],
+        [0.75, "#31a354"],
+        [1, "#006d2c"],
+    ],
 }
 
 

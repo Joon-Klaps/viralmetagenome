@@ -211,8 +211,9 @@
                 "multiqc/multiqc_data/bcftools_stats_vqc_Count_SNP.txt",
                 "multiqc/multiqc_data/bcftools_stats_vqc_Count_Transitions.txt",
                 "multiqc/multiqc_data/bcftools_stats_vqc_Count_Transversions.txt",
-                "multiqc/multiqc_data/contig_taxonomy_Contig_counts.txt",
-                "multiqc/multiqc_data/contig_taxonomy_Mean_completeness_QUAST_proxy_.txt",
+                "multiqc/multiqc_data/contig_completeness.txt",
+                "multiqc/multiqc_data/contig_taxonomy_All_clusters.txt",
+                "multiqc/multiqc_data/contig_taxonomy_Reconstructed_clusters.txt",
                 "multiqc/multiqc_data/fastp-insert-size-plot.txt",
                 "multiqc/multiqc_data/fastp-seq-content-gc-plot_Read_1_After_filtering.txt",
                 "multiqc/multiqc_data/fastp-seq-content-gc-plot_Read_1_Before_filtering.txt",
@@ -292,7 +293,6 @@
                 "multiqc/multiqc_data/samtools-flagstat-dp_Read_counts.txt",
                 "multiqc/multiqc_data/samtools-stats-dp.txt",
                 "multiqc/multiqc_data/samtools_alignment_plot.txt",
-                "multiqc/multiqc_data/summary_clusters_info.txt",
                 "multiqc/multiqc_report.html"
             ],
             [
@@ -684,7 +684,6 @@
                 "multiqc/multiqc_data/samtools-flagstat-dp_Read_counts.txt",
                 "multiqc/multiqc_data/samtools-stats-dp.txt",
                 "multiqc/multiqc_data/samtools_alignment_plot.txt",
-                "multiqc/multiqc_data/summary_clusters_info.txt",
                 "multiqc/multiqc_report.html"
             ],
             [

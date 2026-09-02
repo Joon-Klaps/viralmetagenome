@@ -13,6 +13,7 @@ contain these intermediate results
 
 import argparse
 import logging
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -20,12 +21,23 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import multiqc as mqc
 import pandas as pd
-from multiqc.plots import bargraph
+from multiqc.plots import bargraph, heatmap
 from multiqc.types import Anchor
-from utils.constant_variables import CLUSTER_PCONFIG, CONTIG_TAXONOMY_PCONFIG
+from utils.constant_variables import (
+    ANNOTATION_NULL_VALUES,
+    ANNOTATION_SEGMENT_KEYS,
+    ANNOTATION_SPECIES_KEYS,
+    CONTIG_COMPLETENESS_PCONFIG,
+    CONTIG_TAXONOMY_PCONFIG,
+    CONTIG_TAXONOMY_TOP_N,
+    SEGMENT_SEPARATOR,
+    TAXON_OTHER,
+    TAXON_UNCLASSIFIED,
+    TAXON_UNRECONSTRUCTED,
+)
 from utils.file_tools import filelist_to_df, get_module_selection, read_in_quast, write_df
 from utils.module_data_processing import *
-from utils.pandas_tools import filter_and_rename_columns, join_df, reorder_columns, select_columns, transpose_table
+from utils.pandas_tools import filter_and_rename_columns, join_df, reorder_columns, transpose_table
 
 logger = logging.getLogger()
 
@@ -221,12 +233,8 @@ def load_custom_data(args) -> List[pd.DataFrame]:
         # Adding to general stats
         module = mqc.BaseMultiqcModule(name="Cluster Summary", anchor=Anchor("cluster-summary"))
         module.general_stats_addcols(clusters_summary_df.to_dict(orient="index"))
-        # Custom barplot -  Clusters sample
-        plot_df = select_columns(clusters_summary_df, ["# Clusters", "# Removed clusters"])
-        plot = bargraph.plot(data=plot_df.to_dict(orient="index"), pconfig=CLUSTER_PCONFIG)
-        module.add_section(
-            anchor=Anchor("cluster-summary"), plot=plot, description="Number of identified contig clusters per sample after assembly."
-        )
+        # No barplot here: the "Contig clusters" section plots the same kept/removed split,
+        # broken down by taxon, so a standalone cluster barplot would only duplicate it.
         mqc.report.modules.append(module)
 
     # General Stats - Sample metadata
@@ -285,7 +293,7 @@ def load_custom_data(args) -> List[pd.DataFrame]:
         clusters_df = clusters_df.add_prefix("(cluster) ")
         clusters_df = clusters_df.rename(columns={"(cluster) sample": "sample", "(cluster) cluster": "cluster"})
 
-    return result, clusters_df
+    return result, clusters_df, clusters_summary_df
 
 
 def get_general_stats_data_mod(sample: Optional[str] = None) -> Dict:
@@ -485,81 +493,292 @@ def add_n_consensus_clusters_to_mqc(dataframe: pd.DataFrame)-> pd.DataFrame:
     return 0
 
 
-def add_contig_taxonomy_to_mqc(dataframe: pd.DataFrame) -> Optional[int]:
+def find_annotation_column(dataframe: pd.DataFrame, keys: List[str]) -> Optional[str]:
     """
-    Add a stacked bar chart of the taxonomic classification of the final consensus contigs/clusters
-    to the MultiQC report, aggregated to species/taxon level per sample (never per-contig, to keep
-    the report light in the browser).
+    Find the `(annotation) ...` column matching the first of `keys` that the annotation database
+    actually provided.
+
+    Which keys exist depends entirely on the fasta headers of `--annotation_db`, so match
+    case-insensitively and ignore separators: `segment`, `Segment`, `segment_name` and
+    `segment name` all answer to the same alias. Columns that are present but empty are skipped,
+    which is what happens when a database declares a field it never fills in.
+    """
+    normalise = lambda text: re.sub(r"[\s_\-]+", "", text).lower()
+    available = {
+        normalise(col.removeprefix("(annotation) ")): col
+        for col in dataframe.columns
+        if col.startswith("(annotation) ")
+    }
+    for key in keys:
+        col = available.get(normalise(key))
+        if col is not None and dataframe[col].notna().any():
+            return col
+    return None
+
+
+def clean_annotation_value(value: object) -> Optional[str]:
+    """
+    Return a stripped annotation value, or None when it is one of the many ways the supported
+    databases spell "not recorded" - Virosaurus `N/A`, BV-BRC `nan`, an empty NCBI field.
+    """
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return None
+    text = str(value).strip().strip('"')
+    return None if text.lower() in ANNOTATION_NULL_VALUES else text
+
+
+def normalise_segment(value: object) -> Optional[str]:
+    """
+    Normalise a segment label so the same segment from different databases lands in one column.
+
+    BV-BRC records bare numbers (`4`), GenBank-derived titles spell it out (`segment 4`), and
+    Virosaurus uses names (`HA`, `PB2`, `S`). Numbers become `seg 4`, names are kept as written.
+    """
+    segment = clean_annotation_value(value)
+    if segment is None:
+        return None
+
+    segment = re.sub(r"^(?:segment|seg\.?)\s*", "", segment, flags=re.IGNORECASE).strip()
+    if not segment or segment.lower() in ANNOTATION_NULL_VALUES:
+        return None
+    return f"seg {segment}" if segment.isdigit() else segment
+
+
+def collapse_taxa(dataframe: pd.DataFrame) -> Optional[pd.Series]:
+    """
+    Return the taxon of every final cluster, keeping only the `CONTIG_TAXONOMY_TOP_N` most
+    abundant taxa and collapsing the remainder into a single "Other species" category, so the
+    legend stays readable when a run contains dozens of species.
 
     Taxonomy comes from the MMseqs2 annotation results already present in the contig overview
-    table (the `(annotation) species` / `(annotation) name` columns). The section is skipped
-    entirely when that data isn't available, e.g. when `--skip_consensus_annotation` or
-    `--skip_consensus_qc` was used - no separate flag is needed here.
-
-    When possible, a second switchable dataset with a genome-completeness estimate per
-    sample/taxon is added to the same plot: CheckV `completeness` when CheckV ran (`(checkv)
-    completeness`), otherwise a proxy based on the QUAST ambiguous-base percentage
-    (`100 - (quast) % N's`). If neither is available, the plot only shows contig counts.
+    table. Returns None when no annotation data is available, e.g. with `--skip_consensus_annotation`
+    or `--skip_consensus_qc`, in which case the whole section is skipped.
     """
-    species_col = next(
-        (col for col in ("(annotation) species", "(annotation) name") if col in dataframe.columns and dataframe[col].notna().any()),
-        None,
-    )
+    species_col = find_annotation_column(dataframe, ANNOTATION_SPECIES_KEYS)
 
     if species_col is None:
-        logger.info("No contig annotation data available - skipping contig taxonomy plot")
+        logger.info("No contig annotation data available - skipping contig taxonomy section")
+        return None
+
+    logger.info("Reading contig taxonomy from column %s", species_col)
+    taxa = dataframe[species_col].map(clean_annotation_value).fillna(TAXON_UNCLASSIFIED)
+    keep = set(taxa[taxa != TAXON_UNCLASSIFIED].value_counts().head(CONTIG_TAXONOMY_TOP_N).index)
+    return taxa.map(lambda taxon: taxon if taxon in keep or taxon == TAXON_UNCLASSIFIED else TAXON_OTHER)
+
+
+def split_taxa_by_segment(dataframe: pd.DataFrame, taxa: pd.Series) -> pd.Series:
+    """
+    Append the genome segment to the taxon of segmented viruses, so influenza's eight segments
+    get a column each instead of being averaged into one number.
+
+    Only species that actually show more than one segment in this run are split - an unsegmented
+    virus keeps its plain species name rather than gaining a meaningless suffix. The "Other
+    species" and "Unclassified" buckets are aggregates of several species and are never split.
+    """
+    segment_col = find_annotation_column(dataframe, ANNOTATION_SEGMENT_KEYS)
+    if segment_col is None:
+        return taxa
+
+    segments = dataframe[segment_col].map(normalise_segment)
+    if not segments.notna().any():
+        return taxa
+
+    logger.info("Splitting segmented species by column %s", segment_col)
+    splittable = {
+        taxon
+        for taxon, group in segments.groupby(taxa)
+        if taxon not in (TAXON_OTHER, TAXON_UNCLASSIFIED) and group.nunique() > 1
+    }
+    return pd.Series(
+        [
+            f"{taxon} {SEGMENT_SEPARATOR} {segment}" if taxon in splittable and segment else taxon
+            for taxon, segment in zip(taxa, segments)
+        ],
+        index=taxa.index,
+    )
+
+
+def order_taxa(taxa: pd.Series) -> List[str]:
+    """
+    Order taxa by abundance, always ending with the two catch-all categories. Segments of the
+    same species stay together and in natural order (seg 2 before seg 10).
+    """
+    def split_segment(taxon: str) -> Tuple[str, str]:
+        species, _, segment = taxon.partition(f" {SEGMENT_SEPARATOR} ")
+        return species, segment
+
+    def sort_key(taxon: str) -> tuple:
+        species, segment = split_segment(taxon)
+        digits = re.sub(r"\D", "", segment)
+        return (-species_counts.get(species, 0), species, int(digits) if digits else 0, segment)
+
+    species_counts = taxa.map(lambda taxon: split_segment(taxon)[0]).value_counts().to_dict()
+    ranked = sorted(
+        (taxon for taxon in taxa.unique() if taxon not in (TAXON_OTHER, TAXON_UNCLASSIFIED)),
+        key=sort_key,
+    )
+    return ranked + [catch_all for catch_all in (TAXON_OTHER, TAXON_UNCLASSIFIED) if (taxa == catch_all).any()]
+
+
+def estimate_completeness(dataframe: pd.DataFrame) -> Tuple[Optional[pd.Series], str]:
+    """
+    Estimate how complete each final consensus genome is, as a percentage.
+
+    CheckV's own `completeness` estimate is used whenever CheckV ran. Without it we fall back to
+    the fraction of the annotation hit's reference genome (`slen`) that the consensus (`qlen`)
+    spans, discounted by the ambiguous bases QUAST counted - so a 350bp contig of a 7kb genome
+    scores ~5% rather than the ~100% that `100 - % N's` on its own would report.
+
+    Returns (None, "") when neither source is available.
+    """
+    if "(checkv) completeness" in dataframe.columns and dataframe["(checkv) completeness"].notna().any():
+        return pd.to_numeric(dataframe["(checkv) completeness"], errors="coerce"), "CheckV"
+
+    if "(quast) % N's" not in dataframe.columns or not dataframe["(quast) % N's"].notna().any():
+        logger.info("No CheckV or QUAST data available - skipping the completeness heatmap")
+        return None, ""
+
+    called = 1 - pd.to_numeric(dataframe["(quast) % N's"], errors="coerce") / 100
+    if all(col in dataframe.columns for col in ("(annotation) qlen", "(annotation) slen")):
+        qlen = pd.to_numeric(dataframe["(annotation) qlen"], errors="coerce")
+        slen = pd.to_numeric(dataframe["(annotation) slen"], errors="coerce")
+        spanned = (qlen / slen).where(slen > 0)
+        return (called * spanned * 100).clip(upper=100), "QUAST proxy"
+
+    return called * 100, "QUAST proxy"
+
+
+def add_contig_taxonomy_to_mqc(dataframe: pd.DataFrame, clusters_summary: pd.DataFrame) -> Optional[int]:
+    """
+    Add the "Contig clusters" module: how many contig clusters each sample yielded and what they
+    were classified as, plus how complete the resulting consensus genomes are.
+
+    Aggregated per sample and taxon, never per contig, to keep the report light in the browser.
+    """
+    taxa = collapse_taxa(dataframe)
+    if taxa is None:
         return None
 
     df = dataframe.copy()
     df["sample"] = df["sample"].astype(str)
-    df["taxon"] = df[species_col].fillna("Unclassified")
+    df["taxon"] = taxa
+    module = mqc.BaseMultiqcModule(name="Contig clusters", anchor=Anchor("contig-clusters"))
 
+    add_contig_taxonomy_barplot(module, df, clusters_summary)
+    add_contig_completeness_heatmap(module, df)
+
+    mqc.report.modules.append(module)
+    return 0
+
+
+def add_contig_taxonomy_barplot(module: "mqc.BaseMultiqcModule", df: pd.DataFrame, clusters_summary: pd.DataFrame) -> None:
+    """
+    Stacked barplot of the final contig clusters per sample, coloured by taxon.
+
+    The first dataset also carries a grey "Not reconstructed" segment, so the bar totals the
+    clusters the sample started with and the coloured part is what survived into a consensus -
+    this is what the standalone cluster summary barplot used to show separately. The second
+    dataset drops that segment for when only the reconstructed genomes are of interest.
+    """
     counts = df.groupby(["sample", "taxon"]).size().unstack(fill_value=0)
-    datasets = [counts.to_dict(orient="index")]
-    data_labels = [{"name": "Contig counts", "ylab": "# contigs"}]
+    cats: Dict[str, Dict[str, str]] = {taxon: {"name": taxon} for taxon in order_taxa(df["taxon"])}
+    reconstructed = counts.reindex(columns=list(cats), fill_value=0)
 
-    if "(checkv) completeness" in df.columns and df["(checkv) completeness"].notna().any():
-        completeness = pd.to_numeric(df["(checkv) completeness"], errors="coerce")
-        completeness_label = "Mean completeness (CheckV)"
-    elif "(quast) % N's" in df.columns and df["(quast) % N's"].notna().any():
-        completeness = 100 - pd.to_numeric(df["(quast) % N's"], errors="coerce")
-        completeness_label = "Mean completeness (QUAST proxy)"
-    else:
-        completeness = None
-        completeness_label = None
+    has_totals = not clusters_summary.empty and {"# Clusters", "# Removed clusters"}.issubset(clusters_summary.columns)
+    if has_totals:
+        # Keep samples that clustered but ended up with no consensus at all - they are the ones
+        # worth spotting, and they would otherwise be missing from the plot entirely.
+        samples = reconstructed.index.union(clusters_summary.index)
+        reconstructed = reconstructed.reindex(samples, fill_value=0)
 
-    if completeness is not None:
-        df["_completeness"] = completeness
-        mean_completeness = df.dropna(subset=["_completeness"]).groupby(["sample", "taxon"])["_completeness"].mean().round(2)
-        # Only include sample/taxon combinations with a known value - MultiQC pads any missing
-        # category for a sample with NaN itself, which renders as a gap rather than a misleading 0.
-        completeness_by_sample: Dict[str, Dict[str, float]] = defaultdict(dict)
-        for (sample, taxon), value in mean_completeness.items():
-            completeness_by_sample[sample][taxon] = value
-        datasets.append(dict(completeness_by_sample))
-        data_labels.append({"name": completeness_label, "ylab": "% completeness"})
-    else:
-        logger.info("No CheckV or QUAST data available - contig taxonomy plot will only show contig counts")
+    datasets = [reconstructed.to_dict(orient="index")]
+    cats_per_dataset = [cats]
+    data_labels = [{"name": "Reconstructed clusters", "ylab": "# clusters"}]
 
-    pconfig = {**CONTIG_TAXONOMY_PCONFIG, "data_labels": data_labels}
-    plot = bargraph.plot(data=datasets, pconfig=pconfig)
-    module = mqc.BaseMultiqcModule(name="Contig Taxonomy", anchor=Anchor("contig-taxonomy"))
+    if has_totals:
+        total = clusters_summary[["# Clusters", "# Removed clusters"]].sum(axis=1)
+        total = pd.to_numeric(total, errors="coerce").reindex(reconstructed.index).fillna(0)
+        with_removed = reconstructed.copy()
+        with_removed[TAXON_UNRECONSTRUCTED] = (total - reconstructed.sum(axis=1)).clip(lower=0)
+        datasets.insert(0, with_removed.to_dict(orient="index"))
+        cats_per_dataset.insert(0, {**cats, TAXON_UNRECONSTRUCTED: {"name": TAXON_UNRECONSTRUCTED, "color": "#c8c8c8"}})
+        data_labels.insert(0, {"name": "All clusters", "ylab": "# clusters"})
+
+    plot = bargraph.plot(
+        data=datasets,
+        cats=cats_per_dataset,
+        pconfig={**CONTIG_TAXONOMY_PCONFIG, "data_labels": data_labels},
+    )
     module.add_section(
+        name="Taxonomic classification",
         anchor=Anchor("contig-taxonomy"),
         plot=plot,
         description=(
-            "Taxonomic classification (species/taxon level) of the final consensus contigs/clusters per sample, "
-            "based on the best MMseqs2 annotation hit. 'Unclassified' contigs had no significant annotation hit."
+            "Contig clusters per sample, coloured by the species of their best MMseqs2 annotation hit. "
+            f"Only the {CONTIG_TAXONOMY_TOP_N} most abundant species get their own colour; the rest are "
+            f"grouped as '{TAXON_OTHER}', and clusters without a significant hit as '{TAXON_UNCLASSIFIED}'. "
+            f"On the 'All clusters' view the grey '{TAXON_UNRECONSTRUCTED}' segment completes each bar to the "
+            "total number of clusters the sample started with, i.e. the clusters dropped during coverage "
+            "filtering or refinement."
         ),
     )
-    mqc.report.modules.append(module)
-    return 0
+
+
+def add_contig_completeness_heatmap(module: "mqc.BaseMultiqcModule", df: pd.DataFrame) -> None:
+    """
+    Heatmap of the mean consensus genome completeness per sample and taxon.
+
+    A heatmap rather than a barplot because completeness is a percentage per sample/taxon pair:
+    stacking those percentages would be meaningless, and a blank cell readably means "this
+    species was not reconstructed in this sample".
+    """
+    completeness, source = estimate_completeness(df)
+    if completeness is None:
+        return
+
+    # Segments get a column each here but not in the barplot: averaging the completeness of
+    # influenza's eight segments into one number hides exactly what you want to see, while the
+    # barplot is answering "which species are in this sample" and is better off undivided.
+    segmented = split_taxa_by_segment(df, df["taxon"])
+    values = (
+        df.assign(completeness=completeness, segmented=segmented)
+        .dropna(subset=["completeness"])
+        .groupby(["sample", "segmented"])["completeness"]
+        .mean()
+        .round(1)
+        .unstack()
+    )
+    if values.empty:
+        return
+
+    values = values.reindex(columns=[taxon for taxon in order_taxa(segmented) if taxon in values.columns])
+    rows = [[None if pd.isna(value) else float(value) for value in row] for _, row in values.iterrows()]
+
+    plot = heatmap.plot(
+        data=rows,
+        xcats=list(values.columns),
+        ycats=list(values.index),
+        pconfig={**CONTIG_COMPLETENESS_PCONFIG, "zlab": f"Completeness ({source}) %"},
+    )
+    description = (
+        "Mean completeness of the consensus genomes per sample and species. Empty cells are "
+        "species that were not reconstructed in that sample."
+    )
+    if source == "CheckV":
+        description += " Completeness is CheckV's estimate."
+    else:
+        description += (
+            " CheckV did not run, so completeness is estimated as the fraction of the annotation hit's "
+            "reference genome that the consensus spans, discounted by the ambiguous bases QUAST counted."
+        )
+    module.add_section(name="Genome completeness", anchor=Anchor("contig-completeness"), plot=plot, description=description)
 
 
 def write_results(
     contigs_mqc: pd.DataFrame,
     constraints_mqc: pd.DataFrame,
     constraints_genstats: pd.DataFrame,
+    clusters_summary: pd.DataFrame,
     transpose_overview_tables: bool = False,
 ) -> int:
 
@@ -574,7 +793,7 @@ def write_results(
         write_df(contigs_mqc.sort_values(by=["sample", "cluster", "step"]), "contigs_overview-with-iterations.tsv", [])
         table_plot = contigs_mqc[~contigs_mqc.index.isin(generate_ignore_samples(contigs_mqc))]
         add_n_consensus_clusters_to_mqc(table_plot)
-        add_contig_taxonomy_to_mqc(table_plot)
+        add_contig_taxonomy_to_mqc(table_plot, clusters_summary)
         write_df(table_plot.sort_values(by=["sample", "cluster", "step"]), "contigs_overview.tsv", [])
 
     if not constraints_mqc.empty:
@@ -646,7 +865,7 @@ def main(argv=None):
     mqc.parse_logs(args.multiqc_files, args.multiqc_config, ignore_samples=generate_ignore_samples(mqc_custom_df))
 
     # 4. Parse our custom files into the correct tables
-    overview_tables, cluster_df = load_custom_data(args)
+    overview_tables, cluster_df, clusters_summary = load_custom_data(args)
 
     # 5. Make our own summary files
     # 5.1 Join with the custom contig tables
@@ -666,7 +885,7 @@ def main(argv=None):
 
     coalesced_constraints, constraints_genstats = reformat_constraint_df(constraints_mqc, renamed_columns, args)
 
-    write_results(contigs_mqc, coalesced_constraints, constraints_genstats, args.transpose_overview_tables)
+    write_results(contigs_mqc, coalesced_constraints, constraints_genstats, clusters_summary, args.transpose_overview_tables)
 
     return 0
 
