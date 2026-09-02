@@ -52,7 +52,6 @@ nextflow_pipeline {
             bam: true,
             vcf: true,
             overview: true,
-            logs: true,
             params: [
                 use_host_filtered_reads: true,
                 skip_assembly: true, // running out of memory on CI
