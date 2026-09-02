@@ -2010,7 +2010,7 @@
     },
     "-profile test - use_host_filtered_reads": {
         "content": [
-            149,
+            154,
             {
                 "BCFTOOLS_FILTER": {
                     "bcftools": 1.22
@@ -2118,6 +2118,9 @@
                 },
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
+                },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
                 },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,
@@ -2513,12 +2516,12 @@
                 "variants/mapping-info/deduplicate",
                 "variants/mapping-info/deduplicate/bam",
                 "variants/mapping-info/deduplicate/bam/SRR11140744",
-                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA2-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA24-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_MN908947-CONSTRAINT_constraint.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA2-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_BA24-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140744/SRR11140744_MN908947-CONSTRAINT_constraint.mapped.bam.bai",
                 "variants/mapping-info/deduplicate/bam/SRR11140748",
-                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_BA24-CONSTRAINT_constraint.bam.bai",
-                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_MN908947-CONSTRAINT_constraint.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_BA24-CONSTRAINT_constraint.mapped.bam.bai",
+                "variants/mapping-info/deduplicate/bam/SRR11140748/SRR11140748_MN908947-CONSTRAINT_constraint.mapped.bam.bai",
                 "variants/mapping-info/mash",
                 "variants/mapping-info/mash/screen",
                 "variants/mapping-info/mash/screen/SRR11140744_BA24-CONSTRAINT.screen",
@@ -2693,7 +2696,7 @@
                 "bcftools_stats_vqc_Count_SNP.txt:md5,45294eceb9d20e990e3181c083f87745",
                 "bcftools_stats_vqc_Count_Transitions.txt:md5,2566bfedd0aac6d792e8d03d349dadb8",
                 "bcftools_stats_vqc_Count_Transversions.txt:md5,c32b34565e5c3bdb8ad0ffe64d502a98",
-                "fastp-insert-size-plot.txt:md5,fecb500e21cc306950bc8b7e18980531",
+                "fastp-insert-size-plot.txt:md5,eca7a05e9de1aa4b6664a93bbd685866",
                 "fastp-seq-content-gc-plot_Read_1_After_filtering.txt:md5,77fb928de301ef52db00166b15dfdd93",
                 "fastp-seq-content-gc-plot_Read_1_Before_filtering.txt:md5,fc8340a43942ce0029c43815b51e7206",
                 "fastp-seq-content-gc-plot_Read_2_After_filtering.txt:md5,8592fa1e8514cb99b3ea4cb1bb0ede05",
@@ -2716,13 +2719,13 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,d3e6fae9b860d7b777b2110a2f7642dd",
                 "multiqc_bcftools_stats.yaml:md5,cbb839bead138ffbbfd60cd65b7e6dbb",
                 "multiqc_citations.txt:md5,888c4fd02526795cbf2943413494d685",
-                "multiqc_fastp.yaml:md5,e53ea9d6ac78e8203e4a83e6a9c8bf79",
+                "multiqc_fastp.yaml:md5,7d451b3424c8529b59d7bbcff843ff26",
                 "multiqc_ivar_variants.yaml:md5,dd8c93144f89c6b69b00660618bacb47",
                 "multiqc_kraken.yaml:md5,d5b81d208510e7de8e3b8ceb01ecb9a2",
                 "multiqc_samples_low_reads.yaml:md5,a6448224a69eb18345f91150747c7621",
-                "SRR11140744.fastp.json:md5,b8901aa534cd4b5bb1bf11d7486b1c49",
-                "SRR11140748.fastp.json:md5,a27d08f1c1c2e2dfe6ed3e1715b00630",
-                "empty-SRR.fastp.json:md5,e910b467cff99eb59d495b3e407a813a",
+                "SRR11140744.fastp.json:md5,f8eef72194acbdd00321057edfb972d0",
+                "SRR11140748.fastp.json:md5,bbcea546259f1a4f694eec82d756a4cb",
+                "empty-SRR.fastp.json:md5,7291568569db81b5940b8a78bb277ad8",
                 "SRR11140744_kraken2_host.kraken2.report.txt:md5,8af6d6b36473056da22d0a01e65a468a",
                 "SRR11140748_kraken2_host.kraken2.report.txt:md5,dcb606266fa1e1b47b4ef5d275159490",
                 "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,325037abad3ce6abfc40cad6b2fa9f1e",
@@ -3021,7 +3024,7 @@
             "No contigs_overview-with-iterations.tsv",
             "No WARN/ERROR messages"
         ],
-        "timestamp": "2026-09-01T16:04:06.754322",
+        "timestamp": "2026-09-02T09:18:34.078679",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
