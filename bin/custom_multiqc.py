@@ -28,6 +28,7 @@ from utils.constant_variables import (
     ANNOTATION_SEGMENT_KEYS,
     ANNOTATION_SPECIES_KEYS,
     CONTIG_COMPLETENESS_PCONFIG,
+    CONTIG_COMPLETENESS_TOP_N,
     CONTIG_TAXONOMY_PCONFIG,
     CONTIG_TAXONOMY_TOP_N,
     SEGMENT_SEPARATOR,
@@ -557,25 +558,26 @@ def normalise_segment(value: object) -> Optional[str]:
     return f"seg {segment}" if segment.isdigit() else segment
 
 
-def collapse_taxa(dataframe: pd.DataFrame) -> Optional[pd.Series]:
+def collapse_taxa(dataframe: pd.DataFrame, top_n: int) -> pd.Series:
     """
-    Return the taxon of every final cluster, keeping only the `CONTIG_TAXONOMY_TOP_N` most
-    abundant taxa and collapsing the remainder into a single "Other species" category, so the
-    legend stays readable when a run contains dozens of species.
+    Return the taxon of every final cluster, keeping only the `top_n` most abundant taxa and
+    collapsing the remainder into a single "Other species" category. Each plot passes its own
+    cap, as a barplot runs out of distinguishable colours long before a heatmap runs out of
+    columns.
 
     Taxonomy comes from the MMseqs2 annotation results already present in the contig overview
-    table. Returns None when no annotation data is available, e.g. with `--skip_consensus_annotation`
-    or `--skip_consensus_qc`, in which case the whole section is skipped.
+    table. Clusters whose best hit carries no species, and every cluster of a run without
+    annotation at all (`--skip_consensus_annotation`, `--skip_consensus_qc`), land in
+    "Unclassified" - the plots still show how many clusters each sample yielded and how complete
+    they are, which is the part that does not depend on taxonomy.
     """
     species_col = find_annotation_column(dataframe, ANNOTATION_SPECIES_KEYS)
 
     if species_col is None:
-        logger.info("No contig annotation data available - skipping contig taxonomy section")
-        return None
+        return pd.Series(TAXON_UNCLASSIFIED, index=dataframe.index)
 
-    logger.info("Reading contig taxonomy from column %s", species_col)
     taxa = dataframe[species_col].map(clean_annotation_value).fillna(TAXON_UNCLASSIFIED)
-    keep = set(taxa[taxa != TAXON_UNCLASSIFIED].value_counts().head(CONTIG_TAXONOMY_TOP_N).index)
+    keep = set(taxa[taxa != TAXON_UNCLASSIFIED].value_counts().head(top_n).index)
     return taxa.map(lambda taxon: taxon if taxon in keep or taxon == TAXON_UNCLASSIFIED else TAXON_OTHER)
 
 
@@ -655,7 +657,9 @@ def estimate_completeness(dataframe: pd.DataFrame) -> Tuple[Optional[pd.Series],
     if all(col in dataframe.columns for col in ("(annotation) qlen", "(annotation) slen")):
         qlen = pd.to_numeric(dataframe["(annotation) qlen"], errors="coerce")
         slen = pd.to_numeric(dataframe["(annotation) slen"], errors="coerce")
-        spanned = (qlen / slen).where(slen > 0)
+        # Unclassified clusters have no hit and so no reference length. Rather than dropping them
+        # out of the heatmap, fall back to the called fraction alone, which is an upper bound.
+        spanned = (qlen / slen).where(slen > 0).fillna(1.0)
         return (called * spanned * 100).clip(upper=100), "QUAST proxy"
 
     return called * 100, "QUAST proxy"
@@ -668,13 +672,14 @@ def add_contig_taxonomy_to_mqc(dataframe: pd.DataFrame, clusters_summary: pd.Dat
 
     Aggregated per sample and taxon, never per contig, to keep the report light in the browser.
     """
-    taxa = collapse_taxa(dataframe)
-    if taxa is None:
-        return None
+    species_col = find_annotation_column(dataframe, ANNOTATION_SPECIES_KEYS)
+    if species_col is None:
+        logger.info("No contig annotation data available - reporting every cluster as %s", TAXON_UNCLASSIFIED)
+    else:
+        logger.info("Reading contig taxonomy from column %s", species_col)
 
     df = dataframe.copy()
     df["sample"] = df["sample"].astype(str)
-    df["taxon"] = taxa
     module = mqc.BaseMultiqcModule(name="Contig clusters", anchor=Anchor("contig-clusters"))
 
     add_contig_taxonomy_barplot(module, df, clusters_summary)
@@ -693,8 +698,9 @@ def add_contig_taxonomy_barplot(module: "mqc.BaseMultiqcModule", df: pd.DataFram
     this is what the standalone cluster summary barplot used to show separately. The second
     dataset drops that segment for when only the reconstructed genomes are of interest.
     """
-    counts = df.groupby(["sample", "taxon"]).size().unstack(fill_value=0)
-    cats: Dict[str, Dict[str, str]] = {taxon: {"name": taxon} for taxon in order_taxa(df["taxon"])}
+    taxa = collapse_taxa(df, CONTIG_TAXONOMY_TOP_N)
+    counts = df.assign(taxon=taxa).groupby(["sample", "taxon"]).size().unstack(fill_value=0)
+    cats: Dict[str, Dict[str, str]] = {taxon: {"name": taxon} for taxon in order_taxa(taxa)}
     reconstructed = counts.reindex(columns=list(cats), fill_value=0)
 
     has_totals = not clusters_summary.empty and {"# Clusters", "# Removed clusters"}.issubset(clusters_summary.columns)
@@ -730,6 +736,8 @@ def add_contig_taxonomy_barplot(module: "mqc.BaseMultiqcModule", df: pd.DataFram
             "Contig clusters per sample, coloured by the species of their best MMseqs2 annotation hit. "
             f"Only the {CONTIG_TAXONOMY_TOP_N} most abundant species get their own colour; the rest are "
             f"grouped as '{TAXON_OTHER}', and clusters without a significant hit as '{TAXON_UNCLASSIFIED}'. "
+            f"The completeness heatmap below names the top {CONTIG_COMPLETENESS_TOP_N} instead, as it is not "
+            "limited by a legend. "
             f"On the 'All clusters' view the grey '{TAXON_UNRECONSTRUCTED}' segment completes each bar to the "
             "total number of clusters the sample started with, i.e. the clusters dropped during coverage "
             "filtering or refinement."
@@ -749,15 +757,16 @@ def add_contig_completeness_heatmap(module: "mqc.BaseMultiqcModule", df: pd.Data
     if completeness is None:
         return
 
-    # Segments get a column each here but not in the barplot: averaging the completeness of
-    # influenza's eight segments into one number hides exactly what you want to see, while the
-    # barplot is answering "which species are in this sample" and is better off undivided.
-    segmented = split_taxa_by_segment(df, df["taxon"])
+    # Two things are resolved more finely here than in the barplot. More species are named, as
+    # a column costs width rather than a legend colour; and segments get a column each, because
+    # averaging the completeness of influenza's eight segments into one number hides exactly what
+    # you want to see. The barplot answers "which species are in this sample" and stays undivided.
+    segmented = split_taxa_by_segment(df, collapse_taxa(df, CONTIG_COMPLETENESS_TOP_N))
     values = (
         df.assign(completeness=completeness, segmented=segmented)
         .dropna(subset=["completeness"])
         .groupby(["sample", "segmented"])["completeness"]
-        .mean()
+        .median()
         .round(1)
         .unstack()
     )
@@ -774,15 +783,19 @@ def add_contig_completeness_heatmap(module: "mqc.BaseMultiqcModule", df: pd.Data
         pconfig={**CONTIG_COMPLETENESS_PCONFIG, "zlab": f"Completeness ({source}) %"},
     )
     description = (
-        "Mean completeness of the consensus genomes per sample and species. Empty cells are "
-        "species that were not reconstructed in that sample."
+        f"Median completeness of the consensus genomes per sample and species, for the "
+        f"{CONTIG_COMPLETENESS_TOP_N} most abundant species. Segmented viruses get a column per genome "
+        f"segment, and clusters whose best hit carries no species are collected in '{TAXON_UNCLASSIFIED}'. "
+        "Empty cells are species or segments that were not reconstructed in that sample."
     )
     if source == "CheckV":
         description += " Completeness is CheckV's estimate."
     else:
         description += (
             " CheckV did not run, so completeness is estimated as the fraction of the annotation hit's "
-            "reference genome that the consensus spans, discounted by the ambiguous bases QUAST counted."
+            "reference genome that the consensus spans, discounted by the ambiguous bases QUAST counted. "
+            f"'{TAXON_UNCLASSIFIED}' clusters have no hit and so no reference length: for those the estimate "
+            "falls back to the called fraction of the consensus, which is an upper bound on completeness."
         )
     module.add_section(name="Genome completeness", anchor=Anchor("contig-completeness"), plot=plot, description=description)
 

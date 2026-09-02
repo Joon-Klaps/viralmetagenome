@@ -97,9 +97,8 @@ CLUSTER_HEADERS = {
     },
 }
 
-# Number of taxa that get their own colour in the contig taxonomy barplot, the rest is
-# collapsed into a single "Other species" category to keep the legend readable.
 CONTIG_TAXONOMY_TOP_N = 5
+CONTIG_COMPLETENESS_TOP_N = 10 # Heatmap can fit more
 
 # Species and segment are read back from whatever the annotation database wrote into its fasta
 # headers, so the key naming is database specific. Virosaurus ("species=...; segment=N/A;") and

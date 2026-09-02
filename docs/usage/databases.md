@@ -178,30 +178,12 @@ Without `--annotation_metadata`, the annotation data has to be in the header its
 
 ### Creating a custom annotation dataset with [BV-BRC](https://www.bv-brc.org/)
 
-In case [Virosaurus](https://viralzone.expasy.org/8676) does not suffice your needs, a custom annotation dataset can be made. Creating a custom annotation dataset can easily be done as long as the annotation data is in the fasta header using this format: `(key)=(value)` or `(key):(value)`. For example, the following fasta headers are both valid:
+In case [Virosaurus](https://viralzone.expasy.org/8676) does not suffice your needs, a custom annotation dataset can be made. Either supply the annotation as a metadata table, or put `key=value` pairs in the fasta header as described above. For example, the following fasta headers are both valid:
 
 ```text
 >754189.6 species="Ungulate tetraparvovirus 3"|segment="nan"|host_common_name="Pig"|genbank_accessions="NC_038883"|taxon_id="754189"
 >NC_001731; usual name=Molluscum contagiosum virus; clinical level=SPECIES; clinical typing=unknown; species=Molluscum contagiosum virus; taxid=10279; acronym=MOCV; nucleic acid=DNA; circular=N; segment=N/A; host=Human,Vertebrate;
 ```
-
-#### Fields used for the species and segment report
-
-Every `key=value` pair in the header is carried into the overview tables and the MultiQC report, but two of them also drive the "Contig clusters" section: the species colours the bar chart, and the segment splits the completeness heatmap into one column per segment for multipartite genomes such as influenza.
-
-Because the naming differs per database, the first key that is present wins, matched case-insensitively and ignoring spaces, `_` and `-`:
-
-| Field   | Keys recognised, in order                                                       | Used for                                  |
-| ------- | ------------------------------------------------------------------------------- | ----------------------------------------- |
-| Species | `species`, `species_name`, `virus_species`, `organism_name`, `organism`, `name` | Bar chart colours and heatmap columns     |
-| Segment | `segment`, `segment_name`, `genome_segment`, `segment_number`, `seg`            | Splits a species into per-segment columns |
-
-Virosaurus and the BV-BRC recipe below both use plain `species` and `segment`, so neither needs anything extra. NCBI-derived headers usually carry `organism_name` and `segment_name`, which are covered by the aliases.
-
-Values meaning "not recorded" are ignored rather than becoming their own category - this covers Virosaurus' `N/A`, the `nan` that pandas writes for a missing BV-BRC field, and empty NCBI fields (`NA`, `none`, `null`, `unknown`, `-`, `.`, `?`). Segment numbers are normalised, so `4`, `segment 4` and `seg 4` all land in the same column, while named segments such as `HA` or `PB2` are kept as written.
-
-> [!NOTE]
-> A species is only split into per-segment columns when more than one distinct segment is seen for it in a run, so unsegmented viruses never gain a meaningless suffix.
 
 An easy-to-use public database with a lot of metadata is [BV-BRC](https://www.bv-brc.org/). Sequences can be extracted using their [CLI-tool](https://www.bv-brc.org/docs/cli_tutorial/index.html) and linked to their [metadata](https://www.bv-brc.org/docs/cli_tutorial/cli_getting_started.html#the-bv-brc-database)
 
