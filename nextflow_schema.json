@@ -198,6 +198,12 @@
                     "description": "Skip the fastqc step after host & contaminants were removed",
                     "hidden": true
                 },
+                "use_host_filtered_reads": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-filter",
+                    "description": "Prefer host-filtered reads for downstream mapping & polishing steps once host removal has completed successfully",
+                    "help_text": "When enabled, the iterative consensus refinement and final variant-calling mapping steps (`bwamem2`/`bowtie2`) consume the host-filtered reads instead of the pre-host-removal, decomplexified reads."
+                },
                 "arguments_fastqc": {
                     "type": "string",
                     "default": "--quiet",

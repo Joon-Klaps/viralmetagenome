@@ -58,6 +58,7 @@ workflow VIRALMETAGENOME {
     outdir
     keep_unmapped // boolean: keep unmapped reads in downstream alignments
     normalise_reads // boolean: digitally normalise reads before assembly
+    use_host_filtered_reads // boolean: prefer host-filtered reads for downstream mapping & polishing steps
 
     main:
 
@@ -141,9 +142,9 @@ workflow VIRALMETAGENOME {
         ch_blast_refdb = BLAST_MAKEBLASTDB.out.db
     }
 
-    // If we don't preprocess reads, remove samples with 0 reads
-    ch_host_trim_reads      = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
-    ch_decomplex_trim_reads = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
+    ch_host_trim_reads      = channel.empty()
+    ch_decomplex_trim_reads = channel.empty()
+
     // preprocessing illumina reads
     if (!params.skip_preprocessing){
         PREPROCESSING_ILLUMINA (
@@ -157,7 +158,16 @@ workflow VIRALMETAGENOME {
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.low_reads_mqc.ifEmpty([]))
         ch_versions             = ch_versions.mix(PREPROCESSING_ILLUMINA.out.versions)
+    } else {
+        // Nothing downstream drops empty samples, so remove them here.
+        // countFastq() reads every file on the head node, hence only when preprocessing is skipped.
+        ch_host_trim_reads      = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
+        ch_decomplex_trim_reads = ch_reads.filter{ _meta, reads -> reads[0].countFastq() > 0}
     }
+
+    // Reads used for downstream mapping & polishing steps (iterative refinement, mapping-constraint
+    // selection, final variant-calling mapping).
+    ch_mapping_polishing_reads = use_host_filtered_reads ? ch_host_trim_reads : ch_decomplex_trim_reads
 
     // Determining metagenomic diversity
     if (!params.skip_read_classification) {
@@ -255,11 +265,9 @@ workflow VIRALMETAGENOME {
             // To do this we combine the channels based on sample
             // Extract the reference meta's and reads
             // Make cartesian product of identified references & reads so all references will be mapped against again.
-                ch_reads_tmp     = ch_decomplex_trim_reads.map { meta, fastq -> [meta.sample,meta, fastq]}
-                ch_consensus_tmp = ch_consensus.map { meta, fasta -> [meta.sample,meta, fasta] }
-
-                ch_consensus_reads_intermediate = ch_consensus_tmp
-                    .combine(ch_reads_tmp, by: [0])
+                ch_consensus_reads_intermediate = ch_consensus
+                    .map { meta, fasta -> [meta.sample, meta, fasta] }
+                    .combine(ch_mapping_polishing_reads.map { meta, fastq -> [meta.sample, meta, fastq]}, by: [0])
                     .map{
                         _sample, meta_ref, fasta, _meta_reads, fastq -> [meta_ref, fasta, fastq]
                     }
@@ -309,7 +317,7 @@ workflow VIRALMETAGENOME {
             .transpose(remainder: true)                                                   // Unnest
 
         // Joining all the reads with the mapping constraints, filter for those specified or keep everything if none specified.
-        ch_map_seq_anno_combined = ch_decomplex_trim_reads
+        ch_map_seq_anno_combined = ch_mapping_polishing_reads
             .combine ( ch_mapping_constraints )
             .filter { meta_reads, _fastq, _meta_mapping, mapping_samples, _sequence ->
                 mapping_samples == null || mapping_samples == meta_reads.sample

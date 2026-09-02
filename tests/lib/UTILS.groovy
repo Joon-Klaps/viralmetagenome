@@ -16,6 +16,8 @@
 //   vcf           true to add per-VCF variants md5 (implies scope "files").
 //   params        map merged into the `when { params { } }` block.
 //   overview      true to snapshot the overview-tables CSV column names/values.
+//                 A table the run did not produce (e.g. the contigs table under
+//                 `--skip_assembly`) is snapshotted as "No <filename>" instead.
 //   sort_overview true to sort overview column names (test_group did this).
 //   stub          true to run with -stub.
 //   failure       true if the run is expected to fail.
@@ -115,13 +117,18 @@ class UTILS {
         }
         // scope == "versions" adds nothing beyond task count + versions.yml.
 
+        // The overview tables are a special case: we snapshot the column names and the values of the sample/index column, but not the other columns.
         if (scenario.overview) {
-            def samples = path("${outdir}/overview-tables/samples_overview.tsv").csv(sep: "\t")
-            def contigs = path("${outdir}/overview-tables/contigs_overview-with-iterations.tsv").csv(sep: "\t")
-            assertion.add(scenario.sort_overview ? samples.columnNames.sort() : samples.columnNames)
-            assertion.add(samples.columns["sample"].sort())
-            assertion.add(scenario.sort_overview ? contigs.columnNames.sort() : contigs.columnNames)
-            assertion.add(contigs.columns["index"].sort())
+            ["samples_overview.tsv": "sample", "contigs_overview-with-iterations.tsv": "index"].each { name, idColumn ->
+                def tsv = new File("${outdir}/overview-tables/${name}")
+                if (!tsv.exists()) {
+                    assertion.add("No ${name}" as String)
+                    return
+                }
+                def table = path(tsv.toString()).csv(sep: "\t")
+                assertion.add(scenario.sort_overview ? table.columnNames.sort() : table.columnNames)
+                assertion.add(table.columns[idColumn].sort())
+            }
         }
 
         // A `failure` scenario otherwise asserts only `workflow.failed`, which any
