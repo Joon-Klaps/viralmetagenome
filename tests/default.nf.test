@@ -45,6 +45,18 @@ nextflow_pipeline {
                 skip_assembly: true,
             ],
         ],
+        [
+            name: "-profile test - use_host_filtered_reads",
+            tag: "host_filtered",
+            scope: "files",
+            bam: true,
+            vcf: true,
+            overview: true,
+            params: [
+                use_host_filtered_reads: true,
+                skip_assembly: true, // running out of memory on CI
+            ],
+        ],
     ]
 
     scenarios.each { scenario -> test(scenario.name, UTILS.getTest(scenario)) }

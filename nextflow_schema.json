@@ -51,7 +51,6 @@
                 },
                 "transpose_overview_tables": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Transpose the samples overview table so samples become columns and result fields become rows.",
                     "help_text": "Applies only to samples_overview.tsv. The contig and mapping overview tables remain in long format.",
                     "fa_icon": "fas fa-table"
@@ -198,6 +197,12 @@
                     "fa_icon": "fas fa-forward",
                     "description": "Skip the fastqc step after host & contaminants were removed",
                     "hidden": true
+                },
+                "use_host_filtered_reads": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-filter",
+                    "description": "Prefer host-filtered reads for downstream mapping & polishing steps once host removal has completed successfully",
+                    "help_text": "When enabled, the iterative consensus refinement and final variant-calling mapping steps (`bwamem2`/`bowtie2`) consume the host-filtered reads instead of the pre-host-removal, decomplexified reads."
                 },
                 "arguments_fastqc": {
                     "type": "string",
@@ -883,6 +888,12 @@
                     "help_text": "Samples, reference combinations below this total mapped read threshold are skipped for variant/consensus calling to avoid unreliable results.",
                     "minimum": 1
                 },
+                "keep_unmapped": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-filter",
+                    "description": "Keep unmapped reads in the alignments used for contig coverage, polishing and consensus refinement",
+                    "help_text": "Unmapped reads are dropped (`samtools view -F 4`) by default, both from the alignments carried into deduplication, variant calling and consensus generation, and from the contig-coverage alignment behind `--perc_reads_contig`. This substantially reduces the temporary storage footprint, since the pipeline maps up to five times per sample. Enable this to carry the full alignment, including unmapped reads, through those steps. Mapping statistics and the `--min_mapped_reads` filter are computed before the polishing alignments are filtered, so reported mapping rates are unaffected either way."
+                },
                 "min_consensus_depth": {
                     "type": "integer",
                     "minimum": 1,
@@ -1125,7 +1136,17 @@
                     "default": "ftp://ftp.expasy.org/databases/viralzone/2020_4/virosaurus90_vertebrate-20200330.fas.gz",
                     "fa_icon": "fas fa-database",
                     "description": "Database used for annotation of the consensus constructs",
-                    "help_text": "The metadata fields are stored in the fasta comment as `key1:\"value1\"|key2:\"value2\"|...` see docs/databases.md for more information."
+                    "help_text": "The annotation fields are read from `--annotation_metadata` when that is given, and are otherwise parsed out of the fasta header as `key1=\"value1\"|key2=\"value2\"|...` pairs. See docs/usage/databases.md for more information."
+                },
+                "annotation_metadata": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.(csv|tsv|txt)(\\.gz)?$",
+                    "fa_icon": "fas fa-table",
+                    "description": "Metadata table describing the sequences of the annotation database",
+                    "help_text": "Optional csv/tsv table (may be gzipped) whose first column holds the sequence identifiers of `--annotation_db` and whose remaining columns become annotation fields in the report. When given, it replaces parsing those fields out of the fasta headers, so the database itself needs no `key=\"value\"` annotations."
                 },
                 "skip_prokka": {
                     "type": "boolean",

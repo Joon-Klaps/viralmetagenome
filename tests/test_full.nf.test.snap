@@ -1,7 +1,7 @@
 {
     "-profile test_full": {
         "content": [
-            481,
+            495,
             {
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": 1.22
@@ -185,6 +185,9 @@
                 },
                 "SAMTOOLS_STATS": {
                     "samtools": "1.22.1"
+                },
+                "SAMTOOLS_VIEW": {
+                    "samtools": 1.24
                 },
                 "SELECT_REFERENCE": {
                     "biopython": 1.85,

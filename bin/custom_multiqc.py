@@ -79,6 +79,18 @@ def parse_args(argv=None):
     )
 
     parser.add_argument(
+        "--annotation_metadata",
+        metavar="ANNOTATION METADATA",
+        help=(
+            "Metadata table describing the sequences of the annotation database. The first column "
+            "must hold the sequence identifiers used in the fasta headers, every other column becomes "
+            "an annotation field. When not given, the annotation fields are parsed from the fasta "
+            "headers instead. Supported formats: '.csv', '.tsv', optionally gzipped."
+        ),
+        type=lambda s: file_choices(("csv", "tsv", "txt", "gz"), s),
+    )
+
+    parser.add_argument(
         "--prefix",
         metavar="FILE_OUT_PREFIX",
         type=str,
@@ -276,7 +288,8 @@ def load_custom_data(args) -> List[pd.DataFrame]:
     # Cluster table - mmseqs easysearch summary (annotation section)
     annotation_df = filelist_to_df(args.annotation_files, header=None)
     if not annotation_df.empty:
-        annotation_df = process_annotation_df(annotation_df)
+        annotation_metadata_df = read_annotation_metadata(args.annotation_metadata)
+        annotation_df = process_annotation_df(annotation_df, annotation_metadata_df)
         result.extend([annotation_df])
 
     # Cluster table - cluster summary of members & centroids
