@@ -8,17 +8,17 @@
                         "sample": "test",
                         "previous_step": "it1"
                     },
-                    "test_it1.raw.stats:md5,9813b9275caee52b958bb11f94b49d6b"
+                    "test_it1.raw.stats:md5,fd9aea62ba5bb3193eeb6df4ee23d9f7"
                 ]
             ],
             [
                 "failed_mapped_reads_mqc.tsv:md5,1c77c9a740b5c0924b3239a179f832b0"
             ]
         ],
-        "timestamp": "2026-08-31T15:43:33.45304",
+        "timestamp": "2026-09-03T17:18:52.430085",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
         }
     },
     "homo_sapiens - keep_unmapped carries the full alignment through": {
@@ -30,17 +30,17 @@
                         "sample": "test",
                         "previous_step": "it1"
                     },
-                    "test_it1.raw.stats:md5,0847f08bb1c599016cc225e11466b4c7"
+                    "test_it1.raw.stats:md5,86165e2becc05d0ce105c51cba59a2fa"
                 ]
             ],
             [
                 
             ]
         ],
-        "timestamp": "2026-08-31T15:43:16.15146",
+        "timestamp": "2026-09-03T17:18:34.140549",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
         }
     },
     "sarscov2 - keeps mapped reads whose mate did not map": {
@@ -63,14 +63,14 @@
                         "sample": "test",
                         "previous_step": "it1"
                     },
-                    "test_it1.raw.stats:md5,9813b9275caee52b958bb11f94b49d6b"
+                    "test_it1.raw.stats:md5,fd9aea62ba5bb3193eeb6df4ee23d9f7"
                 ]
             ],
             [
                 
             ]
         ],
-        "timestamp": "2026-08-31T15:39:03.75964",
+        "timestamp": "2026-09-03T17:18:44.041943",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -96,14 +96,14 @@
                         "sample": "test",
                         "previous_step": "it1"
                     },
-                    "test_it1.raw.stats:md5,0847f08bb1c599016cc225e11466b4c7"
+                    "test_it1.raw.stats:md5,86165e2becc05d0ce105c51cba59a2fa"
                 ]
             ],
             [
                 
             ]
         ],
-        "timestamp": "2026-08-31T15:38:45.256029",
+        "timestamp": "2026-09-03T17:18:25.354919",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
