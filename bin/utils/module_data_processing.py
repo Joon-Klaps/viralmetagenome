@@ -374,10 +374,17 @@ def estimate_completeness(dataframe: pd.DataFrame) -> Tuple[Optional[pd.Series],
     if all(col in dataframe.columns for col in ("(annotation) qlen", "(annotation) slen")):
         qlen = pd.to_numeric(dataframe["(annotation) qlen"], errors="coerce")
         slen = pd.to_numeric(dataframe["(annotation) slen"], errors="coerce")
+        # A consensus can be longer than the reference it hit, either because the database entry
+        # is a partial sequence or because the contig carries contamination. Nothing can be more
+        # than complete, so cap the covered fraction at 1 - and cap it here rather than capping
+        # the percentage at the end, so that the ambiguous-base discount always still applies.
+        # The excess length itself shows up as a low "(annotation) % contig aligned" in
+        # contigs_overview.tsv, which is where to look for contamination.
+        #
         # Unclassified clusters have no hit and so no reference length. Rather than dropping them
         # out of the heatmap, fall back to the called fraction alone, which is an upper bound.
-        spanned = (qlen / slen).where(slen > 0).fillna(1.0)
-        return (called * spanned * 100).clip(upper=100), "QUAST proxy"
+        covered = (qlen / slen).where(slen > 0).fillna(1.0).clip(upper=1.0)
+        return called * covered * 100, "QUAST proxy"
 
     return called * 100, "QUAST proxy"
 
@@ -412,11 +419,15 @@ def summarise_clusters_per_taxon(
 
 def summarise_completeness_per_taxon(dataframe: pd.DataFrame, top_n: int) -> Tuple[Optional[pd.DataFrame], str]:
     """
-    Median consensus genome completeness per sample and taxon.
+    Best consensus genome completeness per sample and taxon.
 
     Taxa are resolved more finely than for the barplot: more of them are named, and segmented
     viruses get one entry per genome segment, because collapsing influenza's eight segments into
     a single number hides which of them were recovered.
+
+    Where a sample yields several clusters of the same taxon the most complete one is reported,
+    since that is the reconstruction carried forward; an average would let a spurious fragment
+    drag down a genome that was in fact recovered in full.
 
     Returns (values, source) with a sample x taxon frame holding NaN where a taxon was not
     reconstructed in a sample, and the name of the completeness estimate that was used. Returns
@@ -431,7 +442,7 @@ def summarise_completeness_per_taxon(dataframe: pd.DataFrame, top_n: int) -> Tup
         dataframe.assign(completeness=completeness, segmented=segmented)
         .dropna(subset=["completeness"])
         .groupby(["sample", "segmented"])["completeness"]
-        .median()
+        .max()
         .round(1)
         .unstack()
     )

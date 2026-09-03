@@ -581,10 +581,11 @@ def add_contig_completeness_heatmap(module: "mqc.BaseMultiqcModule", df: pd.Data
         pconfig={**CONTIG_COMPLETENESS_PCONFIG, "zlab": f"Completeness ({source}) %"},
     )
     description = (
-        f"Median completeness of the consensus genomes per sample and species, for the "
+        f"Completeness of the best consensus genome per sample and species, for the "
         f"{CONTIG_COMPLETENESS_TOP_N} most abundant species. Segmented viruses get a column per genome "
         f"segment, and clusters whose best hit carries no species are collected in '{TAXON_UNCLASSIFIED}'. "
-        "Empty cells are species or segments that were not reconstructed in that sample."
+        "Empty cells are species or segments that were not reconstructed in that sample. Where a sample "
+        "yielded several contigs of one species, the most complete one is shown."
     )
     if source == "CheckV":
         description += (
@@ -600,7 +601,10 @@ def add_contig_completeness_heatmap(module: "mqc.BaseMultiqcModule", df: pd.Data
             "<code>(1 - % N's / 100) &times; qlen / slen &times; 100</code>, capped at 100%, where "
             "<code>qlen</code> is the length of the consensus, <code>slen</code> the length of the reference "
             "it hit, and <code>% N's</code> the ambiguous bases QUAST counted. This is used either because "
-            "CheckV did not run, or because it could not estimate every contig."
+            "CheckV did not run, or because it could not estimate every contig. A consensus longer than the "
+            "reference it hit - a partial database entry, or contamination carried into the contig - counts as "
+            "fully covered rather than over 100%; that excess shows up as a low '% contig aligned' in "
+            "<code>contigs_overview.tsv</code>."
         )
     module.add_section(name="Genome completeness", anchor=Anchor("contig-completeness"), plot=plot, description=description)
 
