@@ -11,7 +11,7 @@ from typing import Dict, List, Union, Tuple, Optional, Any
 import pandas as pd
 
 from utils.constant_variables import BLAST_COLUMNS, CONSTRAINT_GENERAL_STATS_COLUMNS, COLUMN_MAPPING, READ_DECLARATION
-from utils.file_tools import filelist_to_df
+from utils.file_tools import filelist_to_df, read_file_to_df
 from utils.pandas_tools import (
     coalesce_constraint,
     drop_columns,
@@ -60,14 +60,15 @@ def process_blast_df(blast_df):
     return blast_df
 
 
-def process_annotation_df(annotation_df):
+def process_annotation_df(annotation_df, metadata_df=None):
     """
     Process the annotation DataFrame.
 
     Args:
         annotation_df (pd.DataFrame): The annotation DataFrame.
-        blast_header (list): A list of strings representing the header for the output file.
-        output_file (str): The path to the output file.
+        metadata_df (pd.DataFrame): Optional annotation metadata table, as returned by
+            read_annotation_metadata(). When given, the annotation fields are looked up
+            in it instead of being parsed out of the fasta header.
 
     Returns:
         pd.DataFrame: The processed annotation DataFrame.
@@ -84,7 +85,7 @@ def process_annotation_df(annotation_df):
         annotation_df = annotation_df.sort_values("bitscore", ascending=False).drop_duplicates("query")
 
         # Extract all key-value pairs into separate columns
-        annotation_df = extract_annotation_data(annotation_df)
+        annotation_df = extract_annotation_data(annotation_df, metadata_df)
 
         # Remove subject title:
         annotation_df.drop(columns=["subject title"], inplace=True)
@@ -103,10 +104,98 @@ def process_annotation_df(annotation_df):
     return annotation_df
 
 
-def extract_annotation_data(df):
-    # Extract all key-value pairs into separate columns
-    df_extracted = df["subject title"].apply(parse_annotation_data).apply(pd.Series)
-    return pd.concat([df, df_extracted], axis=1)
+def read_annotation_metadata(metadata_file) -> pd.DataFrame:
+    """
+    Read an annotation metadata table that describes the sequences of the annotation database.
+
+    The first column must hold the sequence identifiers as they appear in the fasta header
+    (the part of the '>' line up to the first whitespace); every other column becomes an
+    annotation field. Supported formats are csv, tsv and their gzipped counterparts.
+
+    Args:
+        metadata_file: Path to the metadata table, or None.
+
+    Returns:
+        pd.DataFrame: The metadata indexed by sequence identifier, empty if no file was given.
+    """
+    if not metadata_file:
+        return pd.DataFrame()
+
+    metadata_df = read_file_to_df(metadata_file, dtype=str)
+    if metadata_df.empty:
+        logger.warning("The annotation metadata file %s is empty, ignoring it.", metadata_file)
+        return metadata_df
+
+    if len(metadata_df.columns) < 2:
+        logger.warning(
+            "The annotation metadata file %s has no annotation columns next to the identifier column, ignoring it.",
+            metadata_file,
+        )
+        return pd.DataFrame()
+
+    id_column = metadata_df.columns[0]
+    logger.info(
+        "Reading annotation metadata from %s: using '%s' as the sequence identifier and %s as annotation fields.",
+        metadata_file,
+        id_column,
+        ", ".join(f"'{column}'" for column in metadata_df.columns[1:]),
+    )
+
+    metadata_df = metadata_df.set_index(id_column)
+    duplicates = metadata_df.index.duplicated()
+    if duplicates.any():
+        logger.warning(
+            "The annotation metadata file %s has %d duplicated identifiers, keeping the first occurrence of each.",
+            metadata_file,
+            int(duplicates.sum()),
+        )
+        metadata_df = metadata_df[~duplicates]
+
+    return metadata_df
+
+
+def extract_annotation_data(df, metadata_df=None):
+    """
+    Add the annotation fields of the best hit as separate columns.
+
+    The fields come from the metadata table when one is given, and are parsed out of the
+    fasta header of the hit otherwise. An identifier is matched as it is written first and
+    on its versionless form after that ('NC_078521.1' -> 'NC_078521'), so that a database
+    and a metadata table that disagree on the suffix still line up.
+    """
+    if metadata_df is None or metadata_df.empty:
+        extracted = df["subject title"].astype(str).apply(parse_annotation_data).apply(pd.Series)
+    else:
+        # exact identifiers come first so that they win over the versionless ones
+        metadata_df = metadata_df.rename(index=str)
+        lookup = pd.concat([metadata_df, metadata_df.rename(index=lambda i: i.split(".")[0])])
+        lookup = lookup[~lookup.index.duplicated()]
+        # identifiers that look numeric ('754189.6') are read as floats, the lookup needs the text
+        subject = df["subject"].astype(str)
+        keys = subject.where(subject.isin(lookup.index), subject.str.split(".").str[0])
+        extracted = lookup.reindex(keys)
+        extracted.index = df.index
+        # counted on the keys, a row that was found can have empty annotation values of its own
+        missing = int((~keys.isin(lookup.index)).sum())
+        if missing:
+            logger.warning(
+                "%d of the %d annotated contigs hit a sequence that is not in the annotation metadata file.",
+                missing,
+                len(df),
+            )
+
+    # An annotation field that is named like one of the search result columns would end up
+    # as a duplicated column and break every lookup on it further down. Names are compared
+    # without case, as columns differing only in case ('length' from the search and 'Length'
+    # from a metadata table) are read as one by plenty of table readers.
+    clashes = extracted.columns[extracted.columns.str.casefold().isin(df.columns.str.casefold())]
+    if not clashes.empty:
+        logger.warning(
+            "Ignoring annotation field(s) %s as they collide with the search result columns.",
+            ", ".join(clashes),
+        )
+
+    return pd.concat([df, extracted.drop(columns=clashes)], axis=1)
 
 
 def parse_annotation_data(annotation_str):

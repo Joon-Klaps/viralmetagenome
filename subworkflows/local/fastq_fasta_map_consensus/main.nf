@@ -19,6 +19,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     consensus_caller     // val: [ bcftools | ivar ]
     mapping_stats        // val: [ true | false ]
     min_mapped_reads     // integer: min_mapped_reads
+    keep_unmapped        // val: [ true | false ]
     min_len              // integer: min_length
     n_100                // integer: n_100
 
@@ -38,7 +39,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     SAMTOOLS_FAIDX ( ch_reference.map{meta, ref -> [meta, ref, []]}, false)
 
     // remove references-read combinations with low mapping rates
-    BAM_STATS_FILTER ( ch_bam, ch_reference, min_mapped_reads )
+    BAM_STATS_FILTER ( ch_bam, ch_reference, min_mapped_reads, keep_unmapped )
     ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.stats.collect{_meta, stats -> stats}.ifEmpty([]))
     ch_multiqc   = ch_multiqc.mix(BAM_STATS_FILTER.out.bam_fail_mqc.ifEmpty([]))
 
@@ -54,7 +55,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
         ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
 
     } else {
-        ch_dedup_bam = ch_bam
+        ch_dedup_bam = BAM_STATS_FILTER.out.bam_pass
     }
 
     ch_dedup_bam_ref = ch_dedup_bam

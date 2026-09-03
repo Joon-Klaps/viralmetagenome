@@ -518,6 +518,8 @@ If Bowtie2 is used, the output from the raw mapping results (in addition to the 
 
 :::
 
+By default read pairs with both ends unmapped are dropped (`samtools view -G 12`) from the alignments carried into deduplication, variant calling and consensus generation, leaving pairs intact. Because the pipeline maps up to five times per sample (`--iterative_refinement_cycles` plus the final round), this cuts alignment storage substantially on large runs. Set `--keep_unmapped` to carry the full alignment through those steps. The contig-coverage alignment behind `--perc_reads_contig` drops every unmapped read instead (`samtools view -F 4`), as only its per-contig mapped counts are used.
+
 ### Deduplication
 
 To accommodate for PCR duplicates, the reads are deduplicated. The deduplication results are stored in the directory `variants/mapping-info/deduplicate/` or in the iterations directory `assembly/polishing/iterations/it#/deduplicate`.
@@ -864,7 +866,7 @@ Modifying these columns can be done through a custom config file and by updating
 
 ### MMseqs-search (annotation)
 
-[MMseqs-search](https://github.com/soedinglab/MMseqs2/wiki#searching) is an ultra-fast and sensitive search tool for protein and nucleotide databases. nf-core/viralmetagenome uses MMseqs to search the consensus genomes in an annotated database, like [Virosaurus](https://virosaurus.vital-it.ch/) (see also [defining your own custom annotation database](customisation/databases.md#annotation-sequences)), and uses the annotation data of the best hit to assign the consensus genome a species name, segment name, expected host, and any other metadata that is embedded within the database.
+[MMseqs-search](https://github.com/soedinglab/MMseqs2/wiki#searching) is an ultra-fast and sensitive search tool for protein and nucleotide databases. nf-core/viralmetagenome uses MMseqs to search the consensus genomes in an annotated database, like [Virosaurus](https://virosaurus.vital-it.ch/) (see also [defining your own custom annotation database](usage/databases.md#annotation-sequences)), and uses the annotation data of the best hit to assign the consensus genome a species name, segment name, expected host, and any other metadata that describes the database sequences - taken from a metadata table when `--annotation_metadata` is given, and from the fasta headers otherwise.
 
 :::info{title="Column names" collapse}
 

@@ -1,7 +1,7 @@
 {
     "-profile test_full": {
         "content": [
-            481,
+            495,
             {
                 "BCFTOOLS_CONSENSUS": {
                     "bcftools": "1.23.1"
@@ -195,6 +195,9 @@
                     "samtools": 1.24
                 },
                 "SAMTOOLS_STATS": {
+                    "samtools": 1.24
+                },
+                "SAMTOOLS_VIEW": {
                     "samtools": 1.24
                 },
                 "SELECT_REFERENCE": {
