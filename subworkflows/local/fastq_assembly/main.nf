@@ -8,7 +8,7 @@ include { MEGAHIT                                    } from '../../../modules/nf
 include { SCAFFOLDS_EXTEND_STATS as EXTEND_SPADES    } from '../scaffolds_extend_stats'
 include { SCAFFOLDS_EXTEND_STATS as EXTEND_TRINITY   } from '../scaffolds_extend_stats'
 include { SCAFFOLDS_EXTEND_STATS as EXTEND_MEGAHIT   } from '../scaffolds_extend_stats'
-include { CAT_CAT as CAT_ASSEMBLERS                  } from '../../../modules/nf-core/cat/cat/main'
+include { FIND_CONCATENATE as CAT_ASSEMBLERS         } from '../../../modules/nf-core/find/concatenate/main'
 include { PRINSEQPLUSPLUS as PRINSEQ_CONTIG          } from '../../../modules/nf-core/prinseqplusplus/main'
 include { BBMAP_BBNORM                              } from '../../../modules/nf-core/bbmap/bbnorm/main'
 include { noContigSamplesToMultiQC                   } from '../utils_nfcore_viralmetagenome_pipeline'
@@ -23,7 +23,6 @@ workflow FASTQ_ASSEMBLY {
     normalise_reads // val: [ true | false ] digital normalisation before assembly
 
     main:
-    ch_versions       = channel.empty()
     ch_scaffolds      = channel.empty()
     ch_coverages      = channel.empty()
     ch_multiqc        = channel.empty()
@@ -44,7 +43,6 @@ workflow FASTQ_ASSEMBLY {
             ch_spades_yml,
             ch_spades_hmm
             )
-        ch_versions          = ch_versions.mix(SPADES.out.versions.first())
 
         ch_spades_consensus = SPADES.out.scaffolds
             .join(SPADES.out.contigs, remainder:true)
@@ -75,7 +73,6 @@ workflow FASTQ_ASSEMBLY {
                 ch_reads_assembly.filter {meta, _reads -> !meta.single_end }.map { meta, reads -> [meta, [reads[0]], [reads[1]]] }
             )
         MEGAHIT(ch_megahit_in)
-        ch_versions          = ch_versions.mix(MEGAHIT.out.versions.first())
 
         EXTEND_MEGAHIT( ch_reads, MEGAHIT.out.contigs, "megahit")
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_MEGAHIT.out.scaffolds)
@@ -112,7 +109,6 @@ workflow FASTQ_ASSEMBLY {
         PRINSEQ_CONTIG(
             ch_prinseq_in,
         )
-        ch_versions = ch_versions.mix(PRINSEQ_CONTIG.out.versions.first())
         ch_good_assemblies = PRINSEQ_CONTIG.out.good_reads
     }
 
@@ -131,6 +127,5 @@ workflow FASTQ_ASSEMBLY {
     scaffolds            = ch_scaffolds           // channel: [ val(meta), [ scaffolds] ]
     coverages            = ch_coverages_combined  // channel: [ val(meta), [ idxstats* ] ]
     mqc                  = ch_multiqc             // channel: [ val(meta), [ mqc ] ]
-    versions             = ch_versions            // channel: [ versions.yml ]
     // there are not any MQC files available for spades, trinity and megahit
 }

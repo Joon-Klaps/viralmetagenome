@@ -60,7 +60,6 @@ workflow VIRALMETAGENOME {
 
     main:
 
-    ch_versions = channel.empty()
     ch_multiqc_files = channel.empty()
 
     /*
@@ -135,7 +134,7 @@ workflow VIRALMETAGENOME {
     ch_blast_refdb  = channel.empty()
 
     if ( params.reference_pool && ((!params.skip_assembly && !params.skip_polishing) || (!params.skip_consensus_qc && !params.skip_blast_qc))){
-        BLAST_MAKEBLASTDB ( ch_ref_pool )
+        BLAST_MAKEBLASTDB ( ch_ref_pool, [] )
         ch_blast_refdb = BLAST_MAKEBLASTDB.out.db
     }
 
@@ -154,7 +153,6 @@ workflow VIRALMETAGENOME {
         ch_decomplex_trim_reads = PREPROCESSING_ILLUMINA.out.reads_decomplexified
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_multiqc_files        = ch_multiqc_files.mix(PREPROCESSING_ILLUMINA.out.low_reads_mqc.ifEmpty([]))
-        ch_versions             = ch_versions.mix(PREPROCESSING_ILLUMINA.out.versions)
     }
 
     // Determining metagenomic diversity
@@ -191,7 +189,6 @@ workflow VIRALMETAGENOME {
         FASTQ_ASSEMBLY( ch_host_trim_reads, ch_spades_yml, ch_spades_hmm, normalise_reads)
         ch_contigs       = FASTQ_ASSEMBLY.out.scaffolds
         ch_coverages     = FASTQ_ASSEMBLY.out.coverages
-        ch_versions      = ch_versions.mix(FASTQ_ASSEMBLY.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(FASTQ_ASSEMBLY.out.mqc.ifEmpty([]))
 
         if (!params.skip_polishing){
@@ -214,7 +211,6 @@ workflow VIRALMETAGENOME {
                 params.perc_reads_contig,
                 params.cluster_with_reference_pool
                 )
-            ch_versions = ch_versions.mix(FASTA_CONTIG_CLUST.out.versions)
 
             // Split up clusters into singletons and clusters of multiple contigs
             ch_centroids_members = FASTA_CONTIG_CLUST.out.centroids_members
@@ -236,7 +232,6 @@ workflow VIRALMETAGENOME {
             ALIGN_COLLAPSE_CONTIGS (
                 ch_centroids_members.multiple
                 )
-            ch_versions = ch_versions.mix(ALIGN_COLLAPSE_CONTIGS.out.versions)
 
             SINGLETON_FILTERING (
                 ch_centroids_members.singletons,
@@ -279,7 +274,6 @@ workflow VIRALMETAGENOME {
                 )
                 ch_consensus                 = ch_consensus.mix(FASTQ_FASTA_ITERATIVE_CONSENSUS.out.consensus_allsteps)
                 ch_polishing_consensus_reads = FASTQ_FASTA_ITERATIVE_CONSENSUS.out.consensus_reads
-                ch_versions                  = ch_versions.mix(FASTQ_FASTA_ITERATIVE_CONSENSUS.out.versions)
                 ch_multiqc_files             = ch_multiqc_files.mix(FASTQ_FASTA_ITERATIVE_CONSENSUS.out.mqc.ifEmpty([])) //collect already done in subworkflow
             } else {
                 ch_polishing_consensus_reads = ch_consensus_reads_intermediate
@@ -338,7 +332,6 @@ workflow VIRALMETAGENOME {
             ch_constraint_consensus_reads.multiFastaSelection
         )
         ch_mash_screen = FASTQ_FASTA_MASH_SCREEN.out.json.collect{_meta, json -> json}
-        ch_versions    = ch_versions.mix(FASTQ_FASTA_MASH_SCREEN.out.versions)
 
         // For QC we keep original sequence to compare to
         ch_unaligned_contigs = ch_unaligned_raw_contigs
@@ -369,7 +362,6 @@ workflow VIRALMETAGENOME {
         )
         ch_consensus     = ch_consensus.mix(FASTQ_FASTA_MAP_CONSENSUS.out.consensus_all)
         ch_multiqc_files = ch_multiqc_files.mix(FASTQ_FASTA_MAP_CONSENSUS.out.mqc.ifEmpty([])) // collect already done in subworkflow
-        ch_versions      = ch_versions.mix(FASTQ_FASTA_MAP_CONSENSUS.out.versions)
 
     }
 
@@ -397,7 +389,6 @@ workflow VIRALMETAGENOME {
             ch_annotation_db,
             ch_prokka_db
             )
-        ch_versions           = ch_versions.mix(CONSENSUS_QC.out.versions)
         ch_checkv_summary     = CONSENSUS_QC.out.checkv.collect{_meta, summary -> summary}.ifEmpty([])
         ch_quast_summary      = CONSENSUS_QC.out.quast.collect{_meta, summary -> summary}.ifEmpty([])
         ch_blast_summary      = CONSENSUS_QC.out.blast.collect{_meta, summary -> summary}.ifEmpty([])
@@ -438,7 +429,7 @@ workflow VIRALMETAGENOME {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    def ch_collated_versions = softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+    def ch_collated_versions = softwareVersionsToYAML(topic_versions.versions_file)
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
@@ -473,7 +464,6 @@ workflow VIRALMETAGENOME {
 
     emit:
     multiqc_report = CUSTOM_MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
-    versions       = ch_versions                        // channel: [ path(versions.yml) ]
 }
 
 /*
