@@ -1240,7 +1240,7 @@
                 "bcftools_stats_vqc_Count_SNP.txt:md5,6966b0d24238aaf8b5008206ad16a117",
                 "bcftools_stats_vqc_Count_Transitions.txt:md5,80264147fac6ac3c97775b9a5c61749e",
                 "bcftools_stats_vqc_Count_Transversions.txt:md5,a9a09ced0666b1c073d1affcb77e1ffc",
-                "contig_completeness.txt:md5,5cbe40beed6e375f1e4fa58e27a24524",
+                "contig_completeness.txt:md5,f32110b4be7aac0158119fda120410fc",
                 "contig_taxonomy_All_clusters.txt:md5,5ff56a25d06788b5f4211b58ad73e74a",
                 "contig_taxonomy_Reconstructed_clusters.txt:md5,0cd73e8030119486de21c4b0759dcc3d",
                 "fastp-insert-size-plot.txt:md5,eca7a05e9de1aa4b6664a93bbd685866",
@@ -1861,7 +1861,7 @@
                 "SRR11140748_cl0_itvariant-calling"
             ]
         ],
-        "timestamp": "2026-08-31T14:51:09.605833",
+        "timestamp": "2026-09-03T10:16:08.908852",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
