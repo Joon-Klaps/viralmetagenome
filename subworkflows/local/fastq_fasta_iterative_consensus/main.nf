@@ -24,7 +24,6 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
     ch_reference_reads_intermediate = ch_reference_reads
     ch_consensus_allsteps = channel.empty()
     ch_multiqc = channel.empty()
-    ch_versions = channel.empty()
     if (repeats >= 1) {
         ch_reference_reads_intermediate = ch_reference_reads_intermediate
             .map { meta, fasta, reads -> [meta + [iteration: '1', step: "it1", previous_step: meta.step], fasta, reads] }
@@ -47,7 +46,6 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
         ch_reference_reads_intermediate = ITERATION_1.out.consensus_reads
         ch_consensus_allsteps = ch_consensus_allsteps.mix(ITERATION_1.out.consensus)
         ch_multiqc = ch_multiqc.mix(ITERATION_1.out.mqc)
-        ch_versions = ch_versions.mix(ITERATION_1.out.versions)
         ch_bam = ITERATION_1.out.bam
         ch_vcf = ITERATION_1.out.vcf
         ch_vcf_filter = ITERATION_1.out.vcf_filter
@@ -74,7 +72,6 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
         ch_reference_reads_intermediate = ITERATION_2.out.consensus_reads
         ch_consensus_allsteps = ch_consensus_allsteps.mix(ITERATION_2.out.consensus)
         ch_multiqc = ch_multiqc.mix(ITERATION_2.out.mqc)
-        ch_versions = ch_versions.mix(ITERATION_2.out.versions)
         ch_bam = ITERATION_2.out.bam
         ch_vcf = ITERATION_2.out.vcf
         ch_vcf_filter = ITERATION_2.out.vcf_filter
@@ -101,7 +98,6 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
         ch_reference_reads_intermediate = ITERATION_3.out.consensus_reads
         ch_consensus_allsteps = ch_consensus_allsteps.mix(ITERATION_3.out.consensus)
         ch_multiqc = ch_multiqc.mix(ITERATION_3.out.mqc)
-        ch_versions = ch_versions.mix(ITERATION_3.out.versions)
         ch_bam = ITERATION_3.out.bam
         ch_vcf = ITERATION_3.out.vcf
         ch_vcf_filter = ITERATION_3.out.vcf_filter
@@ -128,7 +124,6 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
         ch_reference_reads_intermediate = ITERATION_4.out.consensus_reads
         ch_consensus_allsteps = ch_consensus_allsteps.mix(ITERATION_4.out.consensus)
         ch_multiqc = ch_multiqc.mix(ITERATION_4.out.mqc)
-        ch_versions = ch_versions.mix(ITERATION_4.out.versions)
         ch_bam = ITERATION_4.out.bam
         ch_vcf = ITERATION_4.out.vcf
         ch_vcf_filter = ITERATION_4.out.vcf_filter
@@ -143,5 +138,4 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
     vcf_filter         = ch_vcf_filter                   // channel: [ val(meta), [ vcf ] ]
     consensus          = consensus                       // channel: [ val(meta), [ fasta ] ]
     mqc                = ch_multiqc                      // channel: [  mqc ]
-    versions           = ch_versions                     // channel: [ versions.yml ]
 }

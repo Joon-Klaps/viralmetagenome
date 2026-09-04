@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ([#313](https://github.com/nf-core/viralmetagenome/pull/313)) - Add param `--normalise_reads` to digitally normalise reads with BBNorm before de novo assembly (by @Joon-Klaps)
 - ([#317](https://github.com/nf-core/viralmetagenome/pull/317)) - Add `tests/lib/UTILS.groovy` and rewrite the pipeline-level nf-tests as scenario lists, so assertions are defined once instead of copied across seven files (by @Joon-Klaps)
 - ([#319](https://github.com/nf-core/viralmetagenome/pull/319)) - Add a "Contig Taxonomy" MultiQC bar chart summarising contig taxonomic classifications (species/taxon level, per sample) with a switchable genome-completeness dataset (by @Joon-Klaps)
+- ([#318](https://github.com/nf-core/viralmetagenome/pull/318)) - Update all nf-core modules and subworkflows (by @Joon-Klaps)
 - ([#320](https://github.com/nf-core/viralmetagenome/pull/320)) - Fix [#281](https://github.com/nf-core/viralmetagenome/issues/281) - add opt-in param `--use_host_filtered_reads` to route host-filtered reads into the iterative consensus refinement and final variant-calling mapping steps. Defaults to `false` to preserve existing behaviour (by @Joon-Klaps)
 - ([#318](https://github.com/nf-core/viralmetagenome/pull/318)) - Document how to build a custom annotation database from NCBI Virus, and fix stale `customisation/databases.md` cross-references left over from a docs restructure (by @Joon-Klaps)
 - ([#318](https://github.com/nf-core/viralmetagenome/pull/318)) - Add param `--annotation_metadata` to read the consensus annotation fields from a csv/tsv table (optionally gzipped) instead of parsing them out of the annotation database fasta headers (by @Joon-Klaps)
@@ -19,8 +20,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ([#302](https://github.com/nf-core/viralmetagenome/pull/302)) - Fix [#285](https://github.com/nf-core/viralmetagenome/issues/285) & update modules of the subworkflow `fastq_kraken_kaiju` (by @Joon-Klaps)
 - ([#315](https://github.com/nf-core/viralmetagenome/pull/315)) - Fix [#314](https://github.com/nf-core/viralmetagenome/issues/314) - make `cluster.tsv` not an 'intermediate' file, as it contains a lot of info and is useful for downstream analyses (by @Joon-Klaps)
+- ([#318](https://github.com/nf-core/viralmetagenome/pull/318)) - Replace the deprecated `cat/cat` module with `find/concatenate`, and `tabix/tabix` module with `htslib/bgziptabix` (by @Joon-Klaps)
 
 ### `Dependencies`
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `bcftools` | 1.22        | 1.23.1      |
+| `fastp`    | 1.0.1       | 1.3.6       |
+| `htslib`   | 1.22.1      | 1.24        |
+| `minimap2` | 2.29        | 2.30        |
+| `mosdepth` | 0.3.11      | 0.3.14      |
+| `multiqc`  | 1.34        | 1.35        |
+| `picard`   | 3.4.0       | 3.5.0       |
+| `prokka`   | 1.14.6      | 1.15.6      |
+| `samtools` | 1.22.1      | 1.24        |
+| `snpeff`   | 5.4.0a      | 5.4.0c      |
+| `vsearch`  | 2.21.1      | 2.31.0      |
 
 ### `Parameters`
 

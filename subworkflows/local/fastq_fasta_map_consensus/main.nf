@@ -25,7 +25,6 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
     main:
 
-    ch_versions     = channel.empty()
     ch_multiqc      = channel.empty()
     ch_dedup_bam    = channel.empty()
     ch_reads_in     = ch_reference_reads.map{meta, _ref, reads -> [meta,reads] }
@@ -79,7 +78,6 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
             variant_caller,
             mapping_stats
         )
-        ch_versions   = ch_versions.mix(BAM_CALL_VARIANTS.out.versions)
         ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_vcf_filter = BAM_CALL_VARIANTS.out.vcf_filter
         ch_vcf        = BAM_CALL_VARIANTS.out.vcf
@@ -95,7 +93,6 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
         consensus_caller,
         mapping_stats
     )
-    ch_versions = ch_versions.mix(BAM_CALL_CONSENSUS.out.versions)
     ch_consensus_all      = BAM_CALL_CONSENSUS.out.consensus
 
     // Check if consensus genomes are long enough
@@ -120,5 +117,4 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     vcf_filter      = ch_vcf_filter                          // channel: [ val(meta), [ vcf ] ]
 
     mqc             = ch_multiqc                             // channel: [ csi  ]
-    versions        = ch_versions                            // channel: [ versions.yml ]
 }

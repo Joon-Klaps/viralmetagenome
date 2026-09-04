@@ -23,7 +23,12 @@ process KAIJU_KAIJU {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def input = meta.single_end ? "-i ${reads}" : "-i ${reads[0]} -j ${reads[1]}"
 
-    // if (!db.find { db_files -> db_files.name.endsWith('names.dmp') } || !db.find { db_files -> db_files.name.endsWith('nodes.dmp') }) {
+    // The pipeline stages the unpacked database as a single-element list holding the
+    // extracted directory, so this check cannot resolve `names.dmp`/`nodes.dmp` and
+    // would abort every run. The `find -L` calls below locate them at runtime instead.
+    // def db_list = db instanceof List ? db : db.listDirectory()
+    //
+    // if (!db_list.find { db_files -> db_files.name.endsWith('names.dmp') } || !db_list.find { db_files -> db_files.name.endsWith('nodes.dmp') }) {
     //     error('[KAIJU_KAIJU] Module error: Missing one of `nodes.dmp`, `names.dmp`. Check input.')
     // }
     """

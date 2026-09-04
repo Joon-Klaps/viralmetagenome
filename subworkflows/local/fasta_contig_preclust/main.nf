@@ -13,7 +13,6 @@ workflow FASTA_CONTIG_PRECLUST {
     ch_kraken2_db      // channel: [ db ]
 
     main:
-    ch_versions = channel.empty()
 
     // modify single_end so kaiju & kraken don't crash
     ch_contigs = ch_contigs_reads.map{ meta, fasta, _reads -> [meta + [single_end:true, og_single_end:meta.single_end], fasta] }
