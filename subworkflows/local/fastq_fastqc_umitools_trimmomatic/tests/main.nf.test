@@ -772,8 +772,7 @@ nextflow_workflow {
                     workflow.out.trim_log,
                     workflow.out.trim_read_count,
                     workflow.out.trim_unpaired_reads,
-                    workflow.out.umi_log,
-                    workflow.out.versions.collect { path(it).yaml }.unique()).match() }
+                    workflow.out.umi_log).match() }
             )
         }
     }

@@ -4,19 +4,19 @@
             169,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_MPILEUP": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_NORM": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -38,6 +38,8 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_CAT_READS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
                     "pigz": 2.8
                 },
                 "CAT_FASTQ": {
@@ -49,7 +51,7 @@
                     "pysamstats": "1.1.2"
                 },
                 "FASTP": {
-                    "fastp": "1.0.1"
+                    "fastp": "1.3.6"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -62,6 +64,10 @@
                 },
                 "GUNZIP_DB": {
                     "gunzip": 1.13
+                },
+                "HTSLIB_BGZIPTABIX": {
+                    "htslib": 1.24,
+                    "xz": "5.8.3"
                 },
                 "KRAKEN2_HOST_REMOVE": {
                     "kraken2": "2.1.6",
@@ -84,16 +90,17 @@
                     "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.11"
+                    "gzip": 1.14,
+                    "mosdepth": "0.3.14"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.4.0"
+                    "picard": "3.5.0"
                 },
                 "PRINSEQ_READS": {
                     "prinseqplusplus": 1.2
                 },
                 "PROKKA": {
-                    "prokka": "1.14.6"
+                    "prokka": "1.15.6"
                 },
                 "QUAST_QC": {
                     "quast": "5.3.0"
@@ -102,19 +109,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_VIEW": {
                     "samtools": 1.24
@@ -128,13 +135,10 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.4a"
+                    "snpeff": "5.4c"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": "4.3t"
-                },
-                "TABIX_TABIX": {
-                    "tabix": 1.21
                 },
                 "UNTAR_DB": {
                     "untar": 1.34
@@ -144,7 +148,7 @@
                 }
             }
         ],
-        "timestamp": "2026-08-31T14:54:25.383898",
+        "timestamp": "2026-09-03T14:06:30.277161",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -155,16 +159,16 @@
             288,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -194,12 +198,18 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_ASSEMBLERS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
                     "pigz": 2.8
                 },
                 "CAT_CAT_READS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
                     "pigz": 2.8
                 },
                 "CAT_CLUSTER": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
                     "pigz": 2.8
                 },
                 "CAT_FASTQ": {
@@ -209,10 +219,10 @@
                     "cdhit": "4.8.1"
                 },
                 "CONTIG_IDXSTATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "CONTIG_INDEX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "CUSTOM_MPILEUP": {
                     "numpy": "1.26.4",
@@ -229,7 +239,7 @@
                     "python": "3.9.1"
                 },
                 "FASTP": {
-                    "fastp": "1.0.1"
+                    "fastp": "1.3.6"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -242,6 +252,10 @@
                 },
                 "GUNZIP_DB": {
                     "gunzip": 1.13
+                },
+                "HTSLIB_BGZIPTABIX": {
+                    "htslib": 1.24,
+                    "xz": "5.8.3"
                 },
                 "IVAR_CONSENSUS": {
                     "ivar": "1.4.4"
@@ -281,10 +295,10 @@
                     "megahit": "1.2.9"
                 },
                 "MINIMAP2_CONTIG_ALIGN": {
-                    "minimap2": "2.29-r1283"
+                    "minimap2": "2.30-r1287"
                 },
                 "MINIMAP2_CONTIG_INDEX": {
-                    "minimap2": "2.29-r1283"
+                    "minimap2": "2.30-r1287"
                 },
                 "MMSEQS_CREATEANNOTATIONDB": {
                     "mmseqs": "18.8cc5c"
@@ -293,10 +307,11 @@
                     "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.11"
+                    "gzip": 1.14,
+                    "mosdepth": "0.3.14"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.4.0"
+                    "picard": "3.5.0"
                 },
                 "PRINSEQ_CONTIG": {
                     "prinseqplusplus": 1.2
@@ -305,7 +320,7 @@
                     "prinseqplusplus": 1.2
                 },
                 "PROKKA": {
-                    "prokka": "1.14.6"
+                    "prokka": "1.15.6"
                 },
                 "QUAST": {
                     "quast": "5.3.0"
@@ -320,19 +335,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_VIEW": {
                     "samtools": 1.24
@@ -346,16 +361,13 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.4a"
+                    "snpeff": "5.4c"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": "4.3t"
                 },
                 "SPADES": {
                     "spades": "4.1.0"
-                },
-                "TABIX_TABIX": {
-                    "tabix": 1.21
                 },
                 "UNTAR_DB": {
                     "untar": 1.34
@@ -1165,51 +1177,51 @@
                 "SRR11140748_cl0_centroid.mmi:md5,635d27d38a373c4a32c6912289bd3f24",
                 "SRR11140744_cl0_consensus.merged.bed:md5,3fcdb44d4c37dfd1374859fec84b76f5",
                 "SRR11140748_cl0_consensus.merged.bed:md5,f4d7a1eb43e142f035ca03627365f7f2",
-                "SRR11140744_BA2-CONSTRAINT.err:md5,be53ca88cbac4b86d8056643c7b72bab",
-                "SRR11140744_BA2-CONSTRAINT.faa:md5,7a317edad9a9c8343f2d65ff6bb7c876",
-                "SRR11140744_BA2-CONSTRAINT.ffn:md5,02dc460ab5d2d37f0693c1c0ea6d8284",
+                "SRR11140744_BA2-CONSTRAINT.err:md5,82192dfc542246c3ddd5b259a1306259",
+                "SRR11140744_BA2-CONSTRAINT.faa:md5,3e694733fd6bfbcbed4624a179d0a897",
+                "SRR11140744_BA2-CONSTRAINT.ffn:md5,7e63eb28fd47a99d1793fbb6a0e2c31a",
                 "SRR11140744_BA2-CONSTRAINT.fna:md5,12366cc1454bf849ede6e62fc07664e3",
                 "SRR11140744_BA2-CONSTRAINT.fsa:md5,b45f6451264e3dd5f940ded9e8000c12",
-                "SRR11140744_BA2-CONSTRAINT.gff:md5,41dfd3fd4b4deccb774873c801b06618",
-                "SRR11140744_BA2-CONSTRAINT.tbl:md5,5bb9dd6a81716951be837c0a73cabd68",
-                "SRR11140744_BA2-CONSTRAINT.tsv:md5,5f7630f5ec752f974c05858286cc1f78",
-                "SRR11140744_BA2-CONSTRAINT.txt:md5,95693f7032525ea4071f32176cd2ad8d",
-                "SRR11140744_BA24-CONSTRAINT.err:md5,d4973a9c7aefbddc6430d00516f1e983",
-                "SRR11140744_BA24-CONSTRAINT.faa:md5,ec4d7078c13c6888f4d321030458554a",
-                "SRR11140744_BA24-CONSTRAINT.ffn:md5,39251135cb49445cfa8aee7ed3648d39",
+                "SRR11140744_BA2-CONSTRAINT.gff:md5,d559c891819e27c651802f499eb9b2a1",
+                "SRR11140744_BA2-CONSTRAINT.tbl:md5,acfc2d2fe3bfd05b4467916cb28dc596",
+                "SRR11140744_BA2-CONSTRAINT.tsv:md5,a7007e010185e1b60cacb1764ebccbae",
+                "SRR11140744_BA2-CONSTRAINT.txt:md5,d7c8708d3dce78973c3bfe8bde8baae9",
+                "SRR11140744_BA24-CONSTRAINT.err:md5,5b5163ce6a53437d1cc6461f06ce7421",
+                "SRR11140744_BA24-CONSTRAINT.faa:md5,0d013cbfd2b844b070d87b9a50d2f40b",
+                "SRR11140744_BA24-CONSTRAINT.ffn:md5,3872959d68953bea24045f70808e4b70",
                 "SRR11140744_BA24-CONSTRAINT.fna:md5,0803c31e80793d8b47df945991aad917",
                 "SRR11140744_BA24-CONSTRAINT.fsa:md5,1039c1764abfe596ade141d9ece66ae6",
-                "SRR11140744_BA24-CONSTRAINT.gff:md5,1b0ed5c1f8fdcfbd373a870e540777f2",
-                "SRR11140744_BA24-CONSTRAINT.tbl:md5,4ac079adf15f16bc69d81c8e2aead954",
-                "SRR11140744_BA24-CONSTRAINT.tsv:md5,57479d6a12d2dc36417f9bdfefad6d70",
-                "SRR11140744_BA24-CONSTRAINT.txt:md5,b81c03a5521568d9b8173d4750f6a6c3",
-                "SRR11140744_MN908947-CONSTRAINT.err:md5,8d369957095b44563102eb377bd7acb6",
-                "SRR11140744_MN908947-CONSTRAINT.faa:md5,f4ec292d0e2e78c2dfc787dbab8bae16",
-                "SRR11140744_MN908947-CONSTRAINT.ffn:md5,70a7fb47104aec033412abfddddee826",
+                "SRR11140744_BA24-CONSTRAINT.gff:md5,93af6e285ddad77745924b43a1d317c3",
+                "SRR11140744_BA24-CONSTRAINT.tbl:md5,082b0cfe54ec3c312ad79847486eaf5a",
+                "SRR11140744_BA24-CONSTRAINT.tsv:md5,0de2fe30d2f07d8042158fe58c4bd70a",
+                "SRR11140744_BA24-CONSTRAINT.txt:md5,c10aff23517635e870e0508fa7206a1d",
+                "SRR11140744_MN908947-CONSTRAINT.err:md5,91e1a62c29c0ade85dc360355e4ad85b",
+                "SRR11140744_MN908947-CONSTRAINT.faa:md5,29b4b079dfa5a763bb35011c44c97853",
+                "SRR11140744_MN908947-CONSTRAINT.ffn:md5,52ade2006df1b8517cbef5054c675728",
                 "SRR11140744_MN908947-CONSTRAINT.fna:md5,cb26c68e281e0fa0078400d6c7ccd628",
                 "SRR11140744_MN908947-CONSTRAINT.fsa:md5,82e954660a098cb9038ef073bd599c3e",
-                "SRR11140744_MN908947-CONSTRAINT.gff:md5,39b9d0b8e427b25c57e513085f28034a",
-                "SRR11140744_MN908947-CONSTRAINT.tbl:md5,3495cd8010b34942e8fca586e6c10404",
-                "SRR11140744_MN908947-CONSTRAINT.tsv:md5,92f8a656a97092fdae4a60996d85f2bd",
-                "SRR11140744_MN908947-CONSTRAINT.txt:md5,95693f7032525ea4071f32176cd2ad8d",
-                "SRR11140748_BA24-CONSTRAINT.err:md5,1ca570ce0f277c9002c17b3cf5195758",
-                "SRR11140748_BA24-CONSTRAINT.faa:md5,701eacc7cc3cca79ae922b48548e107c",
-                "SRR11140748_BA24-CONSTRAINT.ffn:md5,7e5bc8b1ea1d2f623d64718f2181dc30",
+                "SRR11140744_MN908947-CONSTRAINT.gff:md5,cb35feff1789165af55b4d906f9ddf7c",
+                "SRR11140744_MN908947-CONSTRAINT.tbl:md5,2051d84946b4651b8be1d80d2ae1be3c",
+                "SRR11140744_MN908947-CONSTRAINT.tsv:md5,0388cf587af3d3e0ff0608f48212188a",
+                "SRR11140744_MN908947-CONSTRAINT.txt:md5,d7c8708d3dce78973c3bfe8bde8baae9",
+                "SRR11140748_BA24-CONSTRAINT.err:md5,542ed7677a8c22a07c90490372fee2a5",
+                "SRR11140748_BA24-CONSTRAINT.faa:md5,36be4a5465d54ed59b63547a6056b387",
+                "SRR11140748_BA24-CONSTRAINT.ffn:md5,e6f016203d3c94d06bb817635a5c20d1",
                 "SRR11140748_BA24-CONSTRAINT.fna:md5,97391960fe42f383bae0b344a50d052e",
                 "SRR11140748_BA24-CONSTRAINT.fsa:md5,4c9562549151286955b108dec2c48ac3",
-                "SRR11140748_BA24-CONSTRAINT.gff:md5,40355bdfb619a5f05edc06ca66814514",
-                "SRR11140748_BA24-CONSTRAINT.tbl:md5,3bebe0f364656550ef4fcd2ccdd5c653",
-                "SRR11140748_BA24-CONSTRAINT.tsv:md5,6f80dedfafc2f9ded8dbbd7e0d415fd9",
-                "SRR11140748_BA24-CONSTRAINT.txt:md5,264a7228e4674bd149309188e64ab552",
-                "SRR11140748_MN908947-CONSTRAINT.err:md5,c6f257a2c0158d039e73d1013074d51a",
-                "SRR11140748_MN908947-CONSTRAINT.faa:md5,f6135d668b8aae08fe3b04d432910c2b",
-                "SRR11140748_MN908947-CONSTRAINT.ffn:md5,02814fb3aff49d9976e28fcf349218d3",
+                "SRR11140748_BA24-CONSTRAINT.gff:md5,2aceec71da5925db9ca51109e692ee01",
+                "SRR11140748_BA24-CONSTRAINT.tbl:md5,cbbc5ade2e4a3c647449d5e098a5b163",
+                "SRR11140748_BA24-CONSTRAINT.tsv:md5,fb875c8882f587b8bb698b8ec2da3975",
+                "SRR11140748_BA24-CONSTRAINT.txt:md5,c10aff23517635e870e0508fa7206a1d",
+                "SRR11140748_MN908947-CONSTRAINT.err:md5,df54c3207791125809d8fa2f9e954f67",
+                "SRR11140748_MN908947-CONSTRAINT.faa:md5,50c61f972b6c719c5357a72c66e2e9cc",
+                "SRR11140748_MN908947-CONSTRAINT.ffn:md5,ce3bd198547f5e384fabb67a2adbd6d5",
                 "SRR11140748_MN908947-CONSTRAINT.fna:md5,10fa246d3983494581b5b76283abae53",
                 "SRR11140748_MN908947-CONSTRAINT.fsa:md5,7ae5887a54ba3df9c82ae6fdbf257c54",
-                "SRR11140748_MN908947-CONSTRAINT.gff:md5,ebb064f02aae8b819571991c6c11969e",
-                "SRR11140748_MN908947-CONSTRAINT.tbl:md5,43ab70aeff15389aaf975a2b26b721e7",
-                "SRR11140748_MN908947-CONSTRAINT.tsv:md5,c7519d94e3183c158fdd166901e0e0bc",
-                "SRR11140748_MN908947-CONSTRAINT.txt:md5,bef9381119a336e779721baff36be941",
+                "SRR11140748_MN908947-CONSTRAINT.gff:md5,48ac493d033d85899251795f1536d884",
+                "SRR11140748_MN908947-CONSTRAINT.tbl:md5,760455b4608ffd65cbdf68ca293d9ccc",
+                "SRR11140748_MN908947-CONSTRAINT.tsv:md5,2cdb4ba7cdb003f2dfd11e344a4b0318",
+                "SRR11140748_MN908947-CONSTRAINT.txt:md5,d7c8708d3dce78973c3bfe8bde8baae9",
                 "SRR11140744_cl0.tsv:md5,5514ae32a7423a7a48b098847e7b7538",
                 "SRR11140744_BA2-CONSTRAINT.tsv:md5,568fefc887abcba133e77c4f6440f247",
                 "SRR11140744_BA24-CONSTRAINT.tsv:md5,37d74a48d51cf8188248449a3f97c2a3",
@@ -1238,7 +1250,7 @@
                 "bcftools_stats_vqc_Count_SNP.txt:md5,6966b0d24238aaf8b5008206ad16a117",
                 "bcftools_stats_vqc_Count_Transitions.txt:md5,80264147fac6ac3c97775b9a5c61749e",
                 "bcftools_stats_vqc_Count_Transversions.txt:md5,a9a09ced0666b1c073d1affcb77e1ffc",
-                "fastp-insert-size-plot.txt:md5,eca7a05e9de1aa4b6664a93bbd685866",
+                "fastp-insert-size-plot.txt:md5,580b7d083a3354de1eb65679b1a286ea",
                 "fastp-seq-content-gc-plot_Read_1_After_filtering.txt:md5,77fb928de301ef52db00166b15dfdd93",
                 "fastp-seq-content-gc-plot_Read_1_Before_filtering.txt:md5,fc8340a43942ce0029c43815b51e7206",
                 "fastp-seq-content-gc-plot_Read_2_After_filtering.txt:md5,8592fa1e8514cb99b3ea4cb1bb0ede05",
@@ -1261,7 +1273,7 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,d3e6fae9b860d7b777b2110a2f7642dd",
                 "multiqc_bcftools_stats.yaml:md5,034f7ed5f1666dba101b54d8e34497ee",
                 "multiqc_citations.txt:md5,ca5ee81b05f0cec3ad44e1557f2cddce",
-                "multiqc_fastp.yaml:md5,7d451b3424c8529b59d7bbcff843ff26",
+                "multiqc_fastp.yaml:md5,f5750b70ba7292b5a539375329f2a7bc",
                 "multiqc_ivar_variants.yaml:md5,221ffc531ec03a14f9c30d3db0557f74",
                 "multiqc_kraken.yaml:md5,d5b81d208510e7de8e3b8ceb01ecb9a2",
                 "multiqc_quast_quast_megahit.yaml:md5,82a185f52a0ca6befb9910eb98b4aff6",
@@ -1270,48 +1282,48 @@
                 "quast_num_contigs.txt:md5,38140ae00dcde51a1a80b5eed7b71c89",
                 "quast_table.txt:md5,0fa42e965c5c8591bebfbd952f2fcf4c",
                 "summary_clusters_info.txt:md5,aed14f7c38c8e1f504f40bfab7597f9e",
-                "SRR11140744.fastp.json:md5,f8eef72194acbdd00321057edfb972d0",
-                "SRR11140748.fastp.json:md5,bbcea546259f1a4f694eec82d756a4cb",
-                "empty-SRR.fastp.json:md5,7291568569db81b5940b8a78bb277ad8",
+                "SRR11140744.fastp.json:md5,79f95b57073a55dc3b9ee56b92456e55",
+                "SRR11140748.fastp.json:md5,0f6f0ba2731cc30ecfca96c7beca6bb4",
+                "empty-SRR.fastp.json:md5,282648c6a1bcc0de4136e143f7631660",
                 "SRR11140744_kraken2_host.kraken2.report.txt:md5,8af6d6b36473056da22d0a01e65a468a",
                 "SRR11140748_kraken2_host.kraken2.report.txt:md5,dcb606266fa1e1b47b4ef5d275159490",
-                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,18de477c7bd736375a206f726dd5e88e",
+                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,804a00769644ebcb05037586995fb3bd",
                 "SRR11140744_BA2-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,61da0c611df0214fd6b2a08383c269de",
+                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,da4588b5c8530ff3e95e783037ca40c5",
                 "SRR11140744_MN908947-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,44edd59d5a381aac099a4f3d32c19121",
+                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,de0584436b8ee98a0749a9655f2683f7",
                 "SRR11140748_MN908947-CONSTRAINT.snpsift.txt:md5,c6660f19b6896ded223d1b0f263606da",
-                "SRR11140744_BA2-CONSTRAINT_constraint.bcftools_stats.txt:md5,0d5d1630ea819361de065484eb206c9b",
+                "SRR11140744_BA2-CONSTRAINT_constraint.bcftools_stats.txt:md5,74b8773f59b3fdbd830c20b5bf790132",
                 "SRR11140744_BA2-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,67543543be553c0b24868f03f221d50e",
                 "SRR11140744_BA2-CONSTRAINT_constraint.tsv:md5,4f32aa4087a571293d77b0a8d2f10c35",
                 "SRR11140744_BA2-CONSTRAINT_constraint.vcf:md5,8c5f14098c33be1ff28bb103e4b9ceea",
                 "SRR11140744_BA2-CONSTRAINT_constraint_all_hap.vcf:md5,8c5f14098c33be1ff28bb103e4b9ceea",
-                "SRR11140744_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,a3796442625be4b575b8c862dabfd300",
+                "SRR11140744_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,2a8886493495b7c8a93c8ce51a575e9c",
                 "SRR11140744_BA24-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,6931249b54d302ef2346e08ce3dda0a1",
                 "SRR11140744_BA24-CONSTRAINT_constraint.tsv:md5,088819b4b628ecb2d53512fbf9d44ac0",
                 "SRR11140744_BA24-CONSTRAINT_constraint.vcf:md5,b3fc2a70e9ec846bf59083cedead3057",
                 "SRR11140744_BA24-CONSTRAINT_constraint_all_hap.vcf:md5,b3fc2a70e9ec846bf59083cedead3057",
-                "SRR11140744_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,7fc8cc8e29bd511aa8b2d7078736dbd6",
+                "SRR11140744_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,cada0eee291f0adce3618da93149232c",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,67543543be553c0b24868f03f221d50e",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.tsv:md5,4f32aa4087a571293d77b0a8d2f10c35",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.vcf:md5,18e37a3c5cdb71518a4eefc5f2bd2574",
                 "SRR11140744_MN908947-CONSTRAINT_constraint_all_hap.vcf:md5,18e37a3c5cdb71518a4eefc5f2bd2574",
-                "SRR11140744_cl0_it1.bcftools_stats.txt:md5,192ece9f688849a4b2283742ec454075",
+                "SRR11140744_cl0_it1.bcftools_stats.txt:md5,86b11c385af6593654e54a6890b902d8",
                 "SRR11140744_cl0_it1.sort.vcf.gz.tbi:md5,7266500cfff13abafc549e5db5638bd3",
                 "SRR11140744_cl0_it1.tsv:md5,b07a0068453e936e2790d7b586448d10",
                 "SRR11140744_cl0_it1.vcf:md5,48943419f70c9b950e01fff4042cb54f",
                 "SRR11140744_cl0_it1_all_hap.vcf:md5,48943419f70c9b950e01fff4042cb54f",
-                "SRR11140748_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,fc77c17f4d5caba7393c64609af1d5ac",
+                "SRR11140748_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,8df65b02d2a5440a6233e9aec949d77d",
                 "SRR11140748_BA24-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,1b2bf4f3a5226eef8bfca040461c7aaa",
                 "SRR11140748_BA24-CONSTRAINT_constraint.tsv:md5,9d1545a807384f20ce21ef09e4c757eb",
                 "SRR11140748_BA24-CONSTRAINT_constraint.vcf:md5,28a2a78c82da03972e5b31295c745a55",
                 "SRR11140748_BA24-CONSTRAINT_constraint_all_hap.vcf:md5,28a2a78c82da03972e5b31295c745a55",
-                "SRR11140748_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,6dcba43d150a298988318d3ae2489242",
+                "SRR11140748_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,4f37ee3386e17ad629c2f36e200fd41c",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,6db273099b34b389edb22e6ad60ecfb1",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.tsv:md5,44352abcc8968d569f477f8982a17a82",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.vcf:md5,ca9ccb79c008311de8ecd22403ebbf64",
                 "SRR11140748_MN908947-CONSTRAINT_constraint_all_hap.vcf:md5,ca9ccb79c008311de8ecd22403ebbf64",
-                "SRR11140748_cl0_it1.bcftools_stats.txt:md5,566de249b30c5a128cdeed6b248206e6",
+                "SRR11140748_cl0_it1.bcftools_stats.txt:md5,9d7b0fdd40d6c580a9f640927918e944",
                 "SRR11140748_cl0_it1.sort.vcf.gz.tbi:md5,ac22d946c0072c4ee4dd6f4ff44dd694",
                 "SRR11140748_cl0_it1.tsv:md5,0a8ee1788f69585553bed36ac06bdf40",
                 "SRR11140748_cl0_it1.vcf:md5,8ee1b19c8b0110487adc7e89653f7f97",
@@ -1857,10 +1869,10 @@
                 "SRR11140748_cl0_itvariant-calling"
             ]
         ],
-        "timestamp": "2026-08-31T14:51:09.605833",
+        "timestamp": "2026-09-03T14:03:07.884423",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.6"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
         }
     },
     "-profile test - variant_caller ivar - consensus_caller ivar": {
@@ -1868,13 +1880,13 @@
             154,
             {
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BLASTN_QC": {
                     "blastn": "2.17.0+"
@@ -1890,6 +1902,8 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_CAT_READS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
                     "pigz": 2.8
                 },
                 "CAT_FASTQ": {
@@ -1901,7 +1915,7 @@
                     "pysamstats": "1.1.2"
                 },
                 "FASTP": {
-                    "fastp": "1.0.1"
+                    "fastp": "1.3.6"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -1914,6 +1928,10 @@
                 },
                 "GUNZIP_DB": {
                     "gunzip": 1.13
+                },
+                "HTSLIB_BGZIPTABIX": {
+                    "htslib": 1.24,
+                    "xz": "5.8.3"
                 },
                 "IVAR_CONSENSUS": {
                     "ivar": "1.4.4"
@@ -1942,16 +1960,17 @@
                     "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.11"
+                    "gzip": 1.14,
+                    "mosdepth": "0.3.14"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.4.0"
+                    "picard": "3.5.0"
                 },
                 "PRINSEQ_READS": {
                     "prinseqplusplus": 1.2
                 },
                 "PROKKA": {
-                    "prokka": "1.14.6"
+                    "prokka": "1.15.6"
                 },
                 "QUAST_QC": {
                     "quast": "5.3.0"
@@ -1960,19 +1979,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_VIEW": {
                     "samtools": 1.24
@@ -1986,13 +2005,10 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.4a"
+                    "snpeff": "5.4c"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": "4.3t"
-                },
-                "TABIX_TABIX": {
-                    "tabix": 1.21
                 },
                 "UNTAR_DB": {
                     "untar": 1.34
@@ -2002,7 +2018,7 @@
                 }
             }
         ],
-        "timestamp": "2026-08-31T15:00:58.683664",
+        "timestamp": "2026-09-03T14:13:15.804633",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -2013,13 +2029,13 @@
             154,
             {
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BLASTN_QC": {
                     "blastn": "2.17.0+"
@@ -2035,6 +2051,8 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_CAT_READS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
                     "pigz": 2.8
                 },
                 "CAT_FASTQ": {
@@ -2046,7 +2064,7 @@
                     "pysamstats": "1.1.2"
                 },
                 "FASTP": {
-                    "fastp": "1.0.1"
+                    "fastp": "1.3.6"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -2059,6 +2077,10 @@
                 },
                 "GUNZIP_DB": {
                     "gunzip": 1.13
+                },
+                "HTSLIB_BGZIPTABIX": {
+                    "htslib": 1.24,
+                    "xz": "5.8.3"
                 },
                 "IVAR_CONSENSUS": {
                     "ivar": "1.4.4"
@@ -2087,16 +2109,17 @@
                     "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.11"
+                    "gzip": 1.14,
+                    "mosdepth": "0.3.14"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.4.0"
+                    "picard": "3.5.0"
                 },
                 "PRINSEQ_READS": {
                     "prinseqplusplus": 1.2
                 },
                 "PROKKA": {
-                    "prokka": "1.14.6"
+                    "prokka": "1.15.6"
                 },
                 "QUAST_QC": {
                     "quast": "5.3.0"
@@ -2105,19 +2128,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_VIEW": {
                     "samtools": 1.24
@@ -2131,13 +2154,10 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.4a"
+                    "snpeff": "5.4c"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": "4.3t"
-                },
-                "TABIX_TABIX": {
-                    "tabix": 1.21
                 },
                 "UNTAR_DB": {
                     "untar": 1.34
@@ -2635,51 +2655,51 @@
                 "variants/mapping-info/metrics/stats/SRR11140748/SRR11140748_MN908947-CONSTRAINT_constraint.stats"
             ],
             [
-                "SRR11140744_BA2-CONSTRAINT.err:md5,be53ca88cbac4b86d8056643c7b72bab",
-                "SRR11140744_BA2-CONSTRAINT.faa:md5,7a317edad9a9c8343f2d65ff6bb7c876",
-                "SRR11140744_BA2-CONSTRAINT.ffn:md5,02dc460ab5d2d37f0693c1c0ea6d8284",
+                "SRR11140744_BA2-CONSTRAINT.err:md5,82192dfc542246c3ddd5b259a1306259",
+                "SRR11140744_BA2-CONSTRAINT.faa:md5,3e694733fd6bfbcbed4624a179d0a897",
+                "SRR11140744_BA2-CONSTRAINT.ffn:md5,7e63eb28fd47a99d1793fbb6a0e2c31a",
                 "SRR11140744_BA2-CONSTRAINT.fna:md5,12366cc1454bf849ede6e62fc07664e3",
                 "SRR11140744_BA2-CONSTRAINT.fsa:md5,b45f6451264e3dd5f940ded9e8000c12",
-                "SRR11140744_BA2-CONSTRAINT.gff:md5,41dfd3fd4b4deccb774873c801b06618",
-                "SRR11140744_BA2-CONSTRAINT.tbl:md5,5bb9dd6a81716951be837c0a73cabd68",
-                "SRR11140744_BA2-CONSTRAINT.tsv:md5,5f7630f5ec752f974c05858286cc1f78",
-                "SRR11140744_BA2-CONSTRAINT.txt:md5,95693f7032525ea4071f32176cd2ad8d",
-                "SRR11140744_BA24-CONSTRAINT.err:md5,d4973a9c7aefbddc6430d00516f1e983",
-                "SRR11140744_BA24-CONSTRAINT.faa:md5,ec4d7078c13c6888f4d321030458554a",
-                "SRR11140744_BA24-CONSTRAINT.ffn:md5,39251135cb49445cfa8aee7ed3648d39",
+                "SRR11140744_BA2-CONSTRAINT.gff:md5,d559c891819e27c651802f499eb9b2a1",
+                "SRR11140744_BA2-CONSTRAINT.tbl:md5,acfc2d2fe3bfd05b4467916cb28dc596",
+                "SRR11140744_BA2-CONSTRAINT.tsv:md5,a7007e010185e1b60cacb1764ebccbae",
+                "SRR11140744_BA2-CONSTRAINT.txt:md5,d7c8708d3dce78973c3bfe8bde8baae9",
+                "SRR11140744_BA24-CONSTRAINT.err:md5,5b5163ce6a53437d1cc6461f06ce7421",
+                "SRR11140744_BA24-CONSTRAINT.faa:md5,0d013cbfd2b844b070d87b9a50d2f40b",
+                "SRR11140744_BA24-CONSTRAINT.ffn:md5,3872959d68953bea24045f70808e4b70",
                 "SRR11140744_BA24-CONSTRAINT.fna:md5,0803c31e80793d8b47df945991aad917",
                 "SRR11140744_BA24-CONSTRAINT.fsa:md5,1039c1764abfe596ade141d9ece66ae6",
-                "SRR11140744_BA24-CONSTRAINT.gff:md5,1b0ed5c1f8fdcfbd373a870e540777f2",
-                "SRR11140744_BA24-CONSTRAINT.tbl:md5,4ac079adf15f16bc69d81c8e2aead954",
-                "SRR11140744_BA24-CONSTRAINT.tsv:md5,57479d6a12d2dc36417f9bdfefad6d70",
-                "SRR11140744_BA24-CONSTRAINT.txt:md5,b81c03a5521568d9b8173d4750f6a6c3",
-                "SRR11140744_MN908947-CONSTRAINT.err:md5,8d369957095b44563102eb377bd7acb6",
-                "SRR11140744_MN908947-CONSTRAINT.faa:md5,f4ec292d0e2e78c2dfc787dbab8bae16",
-                "SRR11140744_MN908947-CONSTRAINT.ffn:md5,70a7fb47104aec033412abfddddee826",
+                "SRR11140744_BA24-CONSTRAINT.gff:md5,93af6e285ddad77745924b43a1d317c3",
+                "SRR11140744_BA24-CONSTRAINT.tbl:md5,082b0cfe54ec3c312ad79847486eaf5a",
+                "SRR11140744_BA24-CONSTRAINT.tsv:md5,0de2fe30d2f07d8042158fe58c4bd70a",
+                "SRR11140744_BA24-CONSTRAINT.txt:md5,c10aff23517635e870e0508fa7206a1d",
+                "SRR11140744_MN908947-CONSTRAINT.err:md5,91e1a62c29c0ade85dc360355e4ad85b",
+                "SRR11140744_MN908947-CONSTRAINT.faa:md5,29b4b079dfa5a763bb35011c44c97853",
+                "SRR11140744_MN908947-CONSTRAINT.ffn:md5,52ade2006df1b8517cbef5054c675728",
                 "SRR11140744_MN908947-CONSTRAINT.fna:md5,cb26c68e281e0fa0078400d6c7ccd628",
                 "SRR11140744_MN908947-CONSTRAINT.fsa:md5,82e954660a098cb9038ef073bd599c3e",
-                "SRR11140744_MN908947-CONSTRAINT.gff:md5,39b9d0b8e427b25c57e513085f28034a",
-                "SRR11140744_MN908947-CONSTRAINT.tbl:md5,3495cd8010b34942e8fca586e6c10404",
-                "SRR11140744_MN908947-CONSTRAINT.tsv:md5,92f8a656a97092fdae4a60996d85f2bd",
-                "SRR11140744_MN908947-CONSTRAINT.txt:md5,95693f7032525ea4071f32176cd2ad8d",
-                "SRR11140748_BA24-CONSTRAINT.err:md5,1ca570ce0f277c9002c17b3cf5195758",
-                "SRR11140748_BA24-CONSTRAINT.faa:md5,701eacc7cc3cca79ae922b48548e107c",
-                "SRR11140748_BA24-CONSTRAINT.ffn:md5,7e5bc8b1ea1d2f623d64718f2181dc30",
+                "SRR11140744_MN908947-CONSTRAINT.gff:md5,cb35feff1789165af55b4d906f9ddf7c",
+                "SRR11140744_MN908947-CONSTRAINT.tbl:md5,2051d84946b4651b8be1d80d2ae1be3c",
+                "SRR11140744_MN908947-CONSTRAINT.tsv:md5,0388cf587af3d3e0ff0608f48212188a",
+                "SRR11140744_MN908947-CONSTRAINT.txt:md5,d7c8708d3dce78973c3bfe8bde8baae9",
+                "SRR11140748_BA24-CONSTRAINT.err:md5,542ed7677a8c22a07c90490372fee2a5",
+                "SRR11140748_BA24-CONSTRAINT.faa:md5,36be4a5465d54ed59b63547a6056b387",
+                "SRR11140748_BA24-CONSTRAINT.ffn:md5,e6f016203d3c94d06bb817635a5c20d1",
                 "SRR11140748_BA24-CONSTRAINT.fna:md5,97391960fe42f383bae0b344a50d052e",
                 "SRR11140748_BA24-CONSTRAINT.fsa:md5,4c9562549151286955b108dec2c48ac3",
-                "SRR11140748_BA24-CONSTRAINT.gff:md5,40355bdfb619a5f05edc06ca66814514",
-                "SRR11140748_BA24-CONSTRAINT.tbl:md5,3bebe0f364656550ef4fcd2ccdd5c653",
-                "SRR11140748_BA24-CONSTRAINT.tsv:md5,6f80dedfafc2f9ded8dbbd7e0d415fd9",
-                "SRR11140748_BA24-CONSTRAINT.txt:md5,264a7228e4674bd149309188e64ab552",
-                "SRR11140748_MN908947-CONSTRAINT.err:md5,c6f257a2c0158d039e73d1013074d51a",
-                "SRR11140748_MN908947-CONSTRAINT.faa:md5,f6135d668b8aae08fe3b04d432910c2b",
-                "SRR11140748_MN908947-CONSTRAINT.ffn:md5,02814fb3aff49d9976e28fcf349218d3",
+                "SRR11140748_BA24-CONSTRAINT.gff:md5,2aceec71da5925db9ca51109e692ee01",
+                "SRR11140748_BA24-CONSTRAINT.tbl:md5,cbbc5ade2e4a3c647449d5e098a5b163",
+                "SRR11140748_BA24-CONSTRAINT.tsv:md5,fb875c8882f587b8bb698b8ec2da3975",
+                "SRR11140748_BA24-CONSTRAINT.txt:md5,c10aff23517635e870e0508fa7206a1d",
+                "SRR11140748_MN908947-CONSTRAINT.err:md5,df54c3207791125809d8fa2f9e954f67",
+                "SRR11140748_MN908947-CONSTRAINT.faa:md5,50c61f972b6c719c5357a72c66e2e9cc",
+                "SRR11140748_MN908947-CONSTRAINT.ffn:md5,ce3bd198547f5e384fabb67a2adbd6d5",
                 "SRR11140748_MN908947-CONSTRAINT.fna:md5,10fa246d3983494581b5b76283abae53",
                 "SRR11140748_MN908947-CONSTRAINT.fsa:md5,7ae5887a54ba3df9c82ae6fdbf257c54",
-                "SRR11140748_MN908947-CONSTRAINT.gff:md5,ebb064f02aae8b819571991c6c11969e",
-                "SRR11140748_MN908947-CONSTRAINT.tbl:md5,43ab70aeff15389aaf975a2b26b721e7",
-                "SRR11140748_MN908947-CONSTRAINT.tsv:md5,c7519d94e3183c158fdd166901e0e0bc",
-                "SRR11140748_MN908947-CONSTRAINT.txt:md5,bef9381119a336e779721baff36be941",
+                "SRR11140748_MN908947-CONSTRAINT.gff:md5,48ac493d033d85899251795f1536d884",
+                "SRR11140748_MN908947-CONSTRAINT.tbl:md5,760455b4608ffd65cbdf68ca293d9ccc",
+                "SRR11140748_MN908947-CONSTRAINT.tsv:md5,2cdb4ba7cdb003f2dfd11e344a4b0318",
+                "SRR11140748_MN908947-CONSTRAINT.txt:md5,d7c8708d3dce78973c3bfe8bde8baae9",
                 "SRR11140744_BA2-CONSTRAINT.tsv:md5,568fefc887abcba133e77c4f6440f247",
                 "SRR11140744_BA24-CONSTRAINT.tsv:md5,37d74a48d51cf8188248449a3f97c2a3",
                 "SRR11140744_MN908947-CONSTRAINT.tsv:md5,7c27b05ee36ba0e76fbb7876423e150d",
@@ -2696,7 +2716,7 @@
                 "bcftools_stats_vqc_Count_SNP.txt:md5,45294eceb9d20e990e3181c083f87745",
                 "bcftools_stats_vqc_Count_Transitions.txt:md5,2566bfedd0aac6d792e8d03d349dadb8",
                 "bcftools_stats_vqc_Count_Transversions.txt:md5,c32b34565e5c3bdb8ad0ffe64d502a98",
-                "fastp-insert-size-plot.txt:md5,eca7a05e9de1aa4b6664a93bbd685866",
+                "fastp-insert-size-plot.txt:md5,580b7d083a3354de1eb65679b1a286ea",
                 "fastp-seq-content-gc-plot_Read_1_After_filtering.txt:md5,77fb928de301ef52db00166b15dfdd93",
                 "fastp-seq-content-gc-plot_Read_1_Before_filtering.txt:md5,fc8340a43942ce0029c43815b51e7206",
                 "fastp-seq-content-gc-plot_Read_2_After_filtering.txt:md5,8592fa1e8514cb99b3ea4cb1bb0ede05",
@@ -2719,42 +2739,42 @@
                 "kraken-top-n-plot_Unclassified.txt:md5,d3e6fae9b860d7b777b2110a2f7642dd",
                 "multiqc_bcftools_stats.yaml:md5,cbb839bead138ffbbfd60cd65b7e6dbb",
                 "multiqc_citations.txt:md5,888c4fd02526795cbf2943413494d685",
-                "multiqc_fastp.yaml:md5,7d451b3424c8529b59d7bbcff843ff26",
+                "multiqc_fastp.yaml:md5,f5750b70ba7292b5a539375329f2a7bc",
                 "multiqc_ivar_variants.yaml:md5,dd8c93144f89c6b69b00660618bacb47",
                 "multiqc_kraken.yaml:md5,d5b81d208510e7de8e3b8ceb01ecb9a2",
                 "multiqc_samples_low_reads.yaml:md5,a6448224a69eb18345f91150747c7621",
-                "SRR11140744.fastp.json:md5,f8eef72194acbdd00321057edfb972d0",
-                "SRR11140748.fastp.json:md5,bbcea546259f1a4f694eec82d756a4cb",
-                "empty-SRR.fastp.json:md5,7291568569db81b5940b8a78bb277ad8",
+                "SRR11140744.fastp.json:md5,79f95b57073a55dc3b9ee56b92456e55",
+                "SRR11140748.fastp.json:md5,0f6f0ba2731cc30ecfca96c7beca6bb4",
+                "empty-SRR.fastp.json:md5,282648c6a1bcc0de4136e143f7631660",
                 "SRR11140744_kraken2_host.kraken2.report.txt:md5,8af6d6b36473056da22d0a01e65a468a",
                 "SRR11140748_kraken2_host.kraken2.report.txt:md5,dcb606266fa1e1b47b4ef5d275159490",
-                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,325037abad3ce6abfc40cad6b2fa9f1e",
+                "SRR11140744_BA2-CONSTRAINT.ann.vcf:md5,2b57500825e1045c123fcdd9e177982a",
                 "SRR11140744_BA2-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,3f2e433bec2a5bc80a2f10f7dfe8382c",
+                "SRR11140744_MN908947-CONSTRAINT.ann.vcf:md5,94af96d5b60598871258c917a27d854c",
                 "SRR11140744_MN908947-CONSTRAINT.snpsift.txt:md5,be7e8aa973ef88e35f927c6f3cdda914",
-                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,7e7c227376d280519c487d6c42afefb9",
+                "SRR11140748_MN908947-CONSTRAINT.ann.vcf:md5,d76221f3159d5a0ba40816d2aaa04545",
                 "SRR11140748_MN908947-CONSTRAINT.snpsift.txt:md5,c6660f19b6896ded223d1b0f263606da",
-                "SRR11140744_BA2-CONSTRAINT_constraint.bcftools_stats.txt:md5,0d5d1630ea819361de065484eb206c9b",
+                "SRR11140744_BA2-CONSTRAINT_constraint.bcftools_stats.txt:md5,74b8773f59b3fdbd830c20b5bf790132",
                 "SRR11140744_BA2-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,32ab39437b5abc93810b57f4772dd5fd",
                 "SRR11140744_BA2-CONSTRAINT_constraint.tsv:md5,2495d887248e4ca6f3a0a7f9f9de5183",
                 "SRR11140744_BA2-CONSTRAINT_constraint.vcf:md5,22d2d96d7112583d9bb5ae9abb761ac4",
                 "SRR11140744_BA2-CONSTRAINT_constraint_all_hap.vcf:md5,22d2d96d7112583d9bb5ae9abb761ac4",
-                "SRR11140744_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,a3796442625be4b575b8c862dabfd300",
+                "SRR11140744_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,2a8886493495b7c8a93c8ce51a575e9c",
                 "SRR11140744_BA24-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,0d250b4a9a9d3078f554e6cada7dfd1b",
                 "SRR11140744_BA24-CONSTRAINT_constraint.tsv:md5,53f374b940592972f6a533727d5080f1",
                 "SRR11140744_BA24-CONSTRAINT_constraint.vcf:md5,fa4fb542c2e3d6802cb795778d21f010",
                 "SRR11140744_BA24-CONSTRAINT_constraint_all_hap.vcf:md5,fa4fb542c2e3d6802cb795778d21f010",
-                "SRR11140744_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,7fc8cc8e29bd511aa8b2d7078736dbd6",
+                "SRR11140744_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,cada0eee291f0adce3618da93149232c",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,32ab39437b5abc93810b57f4772dd5fd",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.tsv:md5,2495d887248e4ca6f3a0a7f9f9de5183",
                 "SRR11140744_MN908947-CONSTRAINT_constraint.vcf:md5,1491dd7ff7d9c06985d7e2d05b018fe0",
                 "SRR11140744_MN908947-CONSTRAINT_constraint_all_hap.vcf:md5,1491dd7ff7d9c06985d7e2d05b018fe0",
-                "SRR11140748_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,fc77c17f4d5caba7393c64609af1d5ac",
+                "SRR11140748_BA24-CONSTRAINT_constraint.bcftools_stats.txt:md5,8df65b02d2a5440a6233e9aec949d77d",
                 "SRR11140748_BA24-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,08791f33762a4bf98cea336c5ca213cd",
                 "SRR11140748_BA24-CONSTRAINT_constraint.tsv:md5,9fd5bf836ce54111fa7139a5676c57de",
                 "SRR11140748_BA24-CONSTRAINT_constraint.vcf:md5,28b20c41d342674fbd2450e2a9cbf4dc",
                 "SRR11140748_BA24-CONSTRAINT_constraint_all_hap.vcf:md5,28b20c41d342674fbd2450e2a9cbf4dc",
-                "SRR11140748_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,6dcba43d150a298988318d3ae2489242",
+                "SRR11140748_MN908947-CONSTRAINT_constraint.bcftools_stats.txt:md5,4f37ee3386e17ad629c2f36e200fd41c",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.sort.vcf.gz.tbi:md5,2ef3e8b4bc67361e0e5137690cfcd2a0",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.tsv:md5,52ac69787cac671726d35817cbef7175",
                 "SRR11140748_MN908947-CONSTRAINT_constraint.vcf:md5,f6d9b40c1de08cca684f1b8807025eb9",
@@ -3023,7 +3043,7 @@
             ],
             "No contigs_overview-with-iterations.tsv"
         ],
-        "timestamp": "2026-09-02T09:18:34.078679",
+        "timestamp": "2026-09-03T18:42:44.66836",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -3344,16 +3364,16 @@
             174,
             {
                 "BCFTOOLS_CONSENSUS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_FILTER": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_SORT": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BCFTOOLS_STATS": {
-                    "bcftools": 1.22
+                    "bcftools": "1.23.1"
                 },
                 "BEDTOOLS_MASKFASTA": {
                     "bedtools": "2.31.1"
@@ -3375,6 +3395,8 @@
                     "samtools": "1.22.1"
                 },
                 "CAT_CAT_READS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
                     "pigz": 2.8
                 },
                 "CAT_FASTQ": {
@@ -3386,7 +3408,7 @@
                     "pysamstats": "1.1.2"
                 },
                 "FASTP": {
-                    "fastp": "1.0.1"
+                    "fastp": "1.3.6"
                 },
                 "FASTQC_HOST": {
                     "fastqc": "0.12.1"
@@ -3399,6 +3421,10 @@
                 },
                 "GUNZIP_DB": {
                     "gunzip": 1.13
+                },
+                "HTSLIB_BGZIPTABIX": {
+                    "htslib": 1.24,
+                    "xz": "5.8.3"
                 },
                 "IVAR_VARIANTS": {
                     "ivar": "1.4.4",
@@ -3428,16 +3454,17 @@
                     "mmseqs": "18.8cc5c"
                 },
                 "MOSDEPTH": {
-                    "mosdepth": "0.3.11"
+                    "gzip": 1.14,
+                    "mosdepth": "0.3.14"
                 },
                 "PICARD_COLLECTMULTIPLEMETRICS": {
-                    "picard": "3.4.0"
+                    "picard": "3.5.0"
                 },
                 "PRINSEQ_READS": {
                     "prinseqplusplus": 1.2
                 },
                 "PROKKA": {
-                    "prokka": "1.14.6"
+                    "prokka": "1.15.6"
                 },
                 "QUAST_QC": {
                     "quast": "5.3.0"
@@ -3446,19 +3473,19 @@
                     "sed": 4.7
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_VIEW": {
                     "samtools": 1.24
@@ -3472,13 +3499,10 @@
                     "snpeff": "5.0e"
                 },
                 "SNPEFF_SNPEFF": {
-                    "snpeff": "5.4a"
+                    "snpeff": "5.4c"
                 },
                 "SNPSIFT_EXTRACTFIELDS": {
                     "snpsift": "4.3t"
-                },
-                "TABIX_TABIX": {
-                    "tabix": 1.21
                 },
                 "UNTAR_DB": {
                     "untar": 1.34
@@ -3488,7 +3512,7 @@
                 }
             }
         ],
-        "timestamp": "2026-08-31T14:57:47.692535",
+        "timestamp": "2026-09-03T14:09:55.694026",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
