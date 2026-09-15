@@ -74,6 +74,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -130,6 +146,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -186,6 +218,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -251,6 +299,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -309,6 +373,22 @@ nextflow_workflow {
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -365,6 +445,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -421,6 +517,22 @@ nextflow_workflow {
                 input[1] = KRAKEN2_HOST_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -479,6 +591,22 @@ nextflow_workflow {
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -535,6 +663,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -592,6 +736,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -643,6 +803,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }
@@ -696,6 +872,22 @@ nextflow_workflow {
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
+                input[4] = params.trim_tool
+                input[5] = params.skip_fastqc
+                input[6] = params.with_umi
+                input[7] = params.skip_umi_extract
+                input[8] = params.umi_discard_read
+                input[9] = params.skip_trimming
+                input[10] = params.save_trimmed_fail
+                input[11] = params.save_merged
+                input[12] = params.min_trimmed_reads
+                input[13] = params.umi_deduplicate
+                input[14] = params.deduplicate
+                input[15] = params.merge_reads
+                input[16] = params.skip_complexity_filtering
+                input[17] = params.decomplexifier
+                input[18] = params.skip_hostremoval
+                input[19] = params.skip_host_fastqc
                 """
             }
         }

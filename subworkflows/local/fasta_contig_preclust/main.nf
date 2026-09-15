@@ -11,6 +11,7 @@ workflow FASTA_CONTIG_PRECLUST {
     contig_classifiers // value:   [ kaiju, kraken2 ]
     ch_kaiju_db        // channel: [ db ]
     ch_kraken2_db      // channel: [ db ]
+    keep_unclassified  // boolean: keep contigs the classifiers left unclassified
 
     main:
 
@@ -82,7 +83,7 @@ workflow FASTA_CONTIG_PRECLUST {
             return [meta.sample, meta + [id: "${meta.id}_taxid${taxid}", taxid: "${taxid}"], fasta ]    // [meta.sample, meta, fasta]
         }
         .filter { _sample, meta, _fasta ->
-            params.keep_unclassified || meta.taxid != "U"                                               // filter out unclassified
+            keep_unclassified || meta.taxid != "U"                                               // filter out unclassified
         }
         .combine(ch_reads, by:[0])                                                                      // reads -> [meta.sample, meta, reads]
         .map{ _sample, meta_contig, fasta, _meta_reads, reads -> [meta_contig, fasta, reads] }            // select only meta of contigs

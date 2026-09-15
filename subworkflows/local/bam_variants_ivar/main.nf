@@ -9,6 +9,7 @@ workflow BAM_VARIANTS_IVAR {
     take:
     ch_bam_fasta // channel: [ val(meta), [ bam ] , [ fasta ]]
     save_stats   // value: [ true | false ]
+    ivar_header  // string: path to a custom iVar VCF header, or null for the bundled one
 
     main:
 
@@ -33,8 +34,8 @@ workflow BAM_VARIANTS_IVAR {
     //
     // Convert original iVar output to VCF, zip and index
     //
-    ch_ivar_vcf_header = params.ivar_header
-        ? file(params.ivar_header, checkIfExists: true)
+    ch_ivar_vcf_header = ivar_header
+        ? file(ivar_header, checkIfExists: true)
         : file("${projectDir}/assets/ivar_variants_header_mqc.txt", checkIfExists: true)
 
     IVAR_VARIANTS_TO_VCF(

@@ -20,6 +20,8 @@ workflow FASTA_CONTIG_CLUST {
     skip_precluster             // boolean
     perc_reads_contig           // value: 5
     cluster_with_reference_pool // boolean: whether blast db is provided (if not, skip blast ref selection)
+    assemblers                  // string:  comma-separated assemblers, only used in the no-blast-hits MultiQC text
+    keep_unclassified           // boolean: keep contigs the preclustering classifiers left unclassified
 
     main:
     ch_no_blast_hits     = channel.empty()
@@ -32,7 +34,8 @@ workflow FASTA_CONTIG_CLUST {
             ch_fasta,
             ch_blacklist,
             ch_blast_db,
-            ch_blast_db_fasta
+            ch_blast_db_fasta,
+            assemblers
         )
         ch_no_blast_hits     = FASTA_BLAST_REFSEL.out.no_blast_hits
         ch_fasta_ref_contigs = FASTA_BLAST_REFSEL.out.fasta_ref_contigs
@@ -49,7 +52,8 @@ workflow FASTA_CONTIG_CLUST {
             ch_contigs_reads,
             contig_classifiers,
             ch_kaiju_db,
-            ch_kraken2_db
+            ch_kraken2_db,
+            keep_unclassified
         )
         ch_contigs_reads = FASTA_CONTIG_PRECLUST.out.contigs_reads
     }

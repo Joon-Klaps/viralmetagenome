@@ -32,6 +32,7 @@ workflow PIPELINE_INITIALISATION {
     help              // boolean: Display help message and exit
     help_full         // boolean: Show the full help message
     show_hidden       // boolean: Show hidden parameters in the help message
+    merge_reads       // boolean: Group reads of the same `group` into one sample
 
     main:
 
@@ -96,14 +97,14 @@ workflow PIPELINE_INITIALISATION {
     )
 
     //
-    // Create channel from input file provided through params.input
+    // Create channel from input file provided through --input
     //
     channel
         .fromList(samplesheetToList(input, "${projectDir}/assets/schemas/input.json"))
         .map{
             meta, read1, read2 ->
             def single_end = read1 && !read2
-            def sample_id = meta?.group && params.merge_reads ? meta.group : meta.id
+            def sample_id = meta?.group && merge_reads ? meta.group : meta.id
             if (single_end) {
                 return [meta + [sample: sample_id, single_end: single_end] , [read1]]
             }

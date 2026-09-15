@@ -19,6 +19,8 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
     keep_unmapped                 // val: [ true | false ]
     min_len                       // integer: min_length
     n_100                         // integer: n_100
+    umi_deduplicate               // string:  [ read | mapping | both ] where UMI deduplication happens
+    ivar_header                   // string:  path to a custom iVar VCF header, or null for the bundled one
 
     main:
     ch_reference_reads_intermediate = ch_reference_reads
@@ -41,6 +43,8 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             keep_unmapped,
             min_len,
             n_100,
+            umi_deduplicate,
+            ivar_header,
         )
 
         ch_reference_reads_intermediate = ITERATION_1.out.consensus_reads
@@ -67,6 +71,8 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             keep_unmapped,
             min_len,
             n_100,
+            umi_deduplicate,
+            ivar_header,
         )
 
         ch_reference_reads_intermediate = ITERATION_2.out.consensus_reads
@@ -93,6 +99,8 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             keep_unmapped,
             min_len,
             n_100,
+            umi_deduplicate,
+            ivar_header,
         )
 
         ch_reference_reads_intermediate = ITERATION_3.out.consensus_reads
@@ -119,6 +127,8 @@ workflow FASTQ_FASTA_ITERATIVE_CONSENSUS {
             keep_unmapped,
             min_len,
             n_100,
+            umi_deduplicate,
+            ivar_header,
         )
 
         ch_reference_reads_intermediate = ITERATION_4.out.consensus_reads

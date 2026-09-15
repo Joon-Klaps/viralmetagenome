@@ -5,6 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v1.2.1dev - YYYY-MM-DD
 
+### `Changed`
+
+- ([#PRNUM](https://github.com/nf-core/viralmetagenome/pull/PRNUM)) - Fix [#296](https://github.com/nf-core/viralmetagenome/issues/296) - `params.*` are now read only in the root `main.nf` and passed down as explicit `take:` inputs; `workflows/` and `subworkflows/local/` no longer reference the global `params` object (by @Joon-Klaps)
+
+## v1.2.0 - 2026-09-14
+
 ### `Added`
 
 - ([#312](https://github.com/nf-core/viralmetagenome/pull/312)) - Fix [#282](https://github.com/nf-core/viralmetagenome/issues/282) - drop unmapped reads from the contig-coverage alignment and unmapped read pairs from the alignments used in polishing and consensus refinement, and add param `--keep_unmapped` to carry them through instead (by @Joon-Klaps)
