@@ -41,7 +41,7 @@
                     "samtools": 1.24
                 },
                 "Workflow": {
-                    "nf-core/viralmetagenome": "v1.2.1dev"
+                    "nf-core/viralmetagenome": "v1.2.0"
                 }
             },
             [
