@@ -21,13 +21,20 @@ workflow FASTQ_ASSEMBLY {
     ch_spades_yml   // channel: ['path/to/yml']
     ch_spades_hmm   // channel: ['path/to/hmm']
     normalise_reads // val: [ true | false ] digital normalisation before assembly
+    assemblers      // list:  [ spades, megahit, trinity ] assemblers to run
+    skip_contig_prinseq // boolean: skip low-complexity contig filtering with prinseq++
+    skip_sspace_basic // boolean: skip scaffold extension with SSPACE
+    read_distance   // integer: SSPACE insert size
+    read_distance_sd // float:   SSPACE insert size standard deviation (fraction)
+    read_orientation // string:  SSPACE read orientation, e.g. FR
+    perc_reads_contig // number:  min % of reads mapping to a contig; 0 skips the contig-coverage mapping
+    mapper          // string:  [ bwamem2 | bowtie2 ] mapper for the contig-coverage alignment
 
     main:
     ch_scaffolds      = channel.empty()
     ch_coverages      = channel.empty()
     ch_multiqc        = channel.empty()
     ch_bad_assemblies = channel.empty()
-    assemblers        = params.assemblers ? params.assemblers.split(',').collect{assemblers -> assemblers.trim().toLowerCase() } : []
 
     // Digital normalisation by k-mer coverage, for the assemblers only.
     ch_reads_assembly = ch_reads
@@ -48,7 +55,7 @@ workflow FASTQ_ASSEMBLY {
             .join(SPADES.out.contigs, remainder:true)
             .map{meta, scaffold, contig -> [meta, scaffold ? scaffold : contig]} // sometimes no scaffold could be created if so take contig
 
-        EXTEND_SPADES( ch_reads, ch_spades_consensus, "spades")
+        EXTEND_SPADES( ch_reads, ch_spades_consensus, "spades", skip_sspace_basic, read_distance, read_distance_sd, read_orientation, perc_reads_contig, mapper)
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_SPADES.out.scaffolds)
         ch_coverages         = ch_coverages.mix(EXTEND_SPADES.out.coverages)
         ch_multiqc           = ch_multiqc.mix(EXTEND_SPADES.out.mqc)
@@ -58,7 +65,7 @@ workflow FASTQ_ASSEMBLY {
     if ('trinity' in assemblers) {
         TRINITY(ch_reads_assembly)
 
-        EXTEND_TRINITY( ch_reads, TRINITY.out.transcript_fasta, "trinity")
+        EXTEND_TRINITY( ch_reads, TRINITY.out.transcript_fasta, "trinity", skip_sspace_basic, read_distance, read_distance_sd, read_orientation, perc_reads_contig, mapper)
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_TRINITY.out.scaffolds)
         ch_coverages         = ch_coverages.mix(EXTEND_TRINITY.out.coverages)
         ch_multiqc           = ch_multiqc.mix(EXTEND_TRINITY.out.mqc)
@@ -74,7 +81,7 @@ workflow FASTQ_ASSEMBLY {
             )
         MEGAHIT(ch_megahit_in)
 
-        EXTEND_MEGAHIT( ch_reads, MEGAHIT.out.contigs, "megahit")
+        EXTEND_MEGAHIT( ch_reads, MEGAHIT.out.contigs, "megahit", skip_sspace_basic, read_distance, read_distance_sd, read_orientation, perc_reads_contig, mapper)
         ch_scaffolds         = ch_scaffolds.mix(EXTEND_MEGAHIT.out.scaffolds)
         ch_coverages         = ch_coverages.mix(EXTEND_MEGAHIT.out.coverages)
         ch_multiqc           = ch_multiqc.mix(EXTEND_MEGAHIT.out.mqc)
@@ -103,7 +110,7 @@ workflow FASTQ_ASSEMBLY {
     ch_bad_assemblies  = ch_scaffolds_branched.fail
 
     // Filter low complexity contigs with prinseq++
-    if (!params.skip_contig_prinseq){
+    if (!skip_contig_prinseq){
         ch_prinseq_in = ch_good_assemblies.map{ meta, scaffolds -> [meta, [], scaffolds] }
 
         PRINSEQ_CONTIG(

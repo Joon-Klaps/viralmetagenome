@@ -7,6 +7,7 @@ workflow BAM_DEDUPLICATE {
     ch_bam_ref_fai // channel: [ val(meta), [ bam ], [ fasta ], [ fai ] ]
     umi            // val: [ true | false ]
     mapping_stats  // val: [ true | false ]
+    umi_deduplicate // string: [ read | mapping | both ] where UMI deduplication happens
 
     main:
 
@@ -15,7 +16,7 @@ workflow BAM_DEDUPLICATE {
     ch_bam = ch_bam_ref_fai.map { meta, bam, _fasta, _fai -> [meta, bam] }
     ch_reference_fai = ch_bam_ref_fai.map { meta, _bam, fasta, fai -> [meta, fasta, fai] }
 
-    if (umi && ['mapping', 'both'].contains(params.umi_deduplicate)) {
+    if (umi && ['mapping', 'both'].contains(umi_deduplicate)) {
         SAMTOOLS_INDEX(ch_bam)
         ch_bam_bai = ch_bam.join(SAMTOOLS_INDEX.out.index, by: [0])
 

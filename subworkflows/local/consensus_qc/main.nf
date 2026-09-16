@@ -15,6 +15,14 @@ workflow CONSENSUS_QC {
     ch_refpool_db          // channel: [ val(meta), [refpool_db] ]
     ch_annotation_db       // channel: [ val(meta), [annotation_db] ]
     ch_prokka_db           // channel: [ val(meta), [prokka_db] ]
+    skip_quast             // boolean: skip QUAST contig statistics
+    skip_blast_qc          // boolean: skip BLAST against the reference pool
+    skip_consensus_annotation // boolean: skip MMseqs2 annotation against the annotation db
+    skip_prokka            // boolean: skip Prokka gene annotation
+    iterative_refinement_cycles // integer: number of refinement cycles; Prokka only runs on the last one
+    skip_checkv            // boolean: skip CheckV completeness estimation
+    checkv_db              // string:  path to the CheckV database, or null to download it
+    skip_alignment_qc      // boolean: skip MAFFT alignment of the consensus iterations
 
     main:
 
@@ -44,29 +52,29 @@ workflow CONSENSUS_QC {
         .map { _id, genome, meta -> [meta, genome] }
 
     // Contig summary statistics
-    if (!params.skip_quast) {
+    if (!skip_quast) {
         QUAST_QC(ch_genome, [[:], []], [[:], []])
         ch_quast = QUAST_QC.out.tsv
     }
 
     // Identify closest reference from the reference pool database using blast
-    if (!params.skip_blast_qc) {
+    if (!skip_blast_qc) {
         BLASTN_QC(ch_genomes_all, ch_refpool_db, [], [], [])
         ch_blast = BLASTN_QC.out.txt
     }
 
     // use MMSEQS easy search to find best hits against annotation db
-    if (!params.skip_consensus_annotation) {
+    if (!skip_consensus_annotation) {
         MMSEQS_ANNOTATE(ch_genomes_all, ch_annotation_db)
         ch_annotation = MMSEQS_ANNOTATE.out.tsv
     }
 
     // Annotate proteins with prokka
-    if (!params.skip_prokka) {
+    if (!skip_prokka) {
         // Run
         ch_genomes_final = ch_genome.filter { meta, _genome ->
             def isConstraint = meta.containsKey('isConstraint') ? meta.isConstraint : false
-            isConstraint || meta.iteration == params.iterative_refinement_cycles
+            isConstraint || meta.iteration == iterative_refinement_cycles
         }
 
         PROKKA(ch_genomes_final, ch_prokka_db, [])
@@ -74,8 +82,8 @@ workflow CONSENSUS_QC {
 
 
     // use Checkv to estimate Completeness and Contamination
-    if (!params.skip_checkv) {
-        if (!params.checkv_db) {
+    if (!skip_checkv) {
+        if (!checkv_db) {
             CHECKV_DOWNLOADDATABASE()
             ch_checkv_db = CHECKV_DOWNLOADDATABASE.out.checkv_db
         }
@@ -86,7 +94,7 @@ workflow CONSENSUS_QC {
     }
 
     // Align the different steps to each other to see how the sequences have changed
-    if (!params.skip_alignment_qc) {
+    if (!skip_alignment_qc) {
 
         // MAFFT doesn't like those that have only one sequence
         ch_genome_grouped_branch = ch_genome_grouped.branch { _meta, scaffolds ->

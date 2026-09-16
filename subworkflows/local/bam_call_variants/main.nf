@@ -7,6 +7,7 @@ workflow BAM_CALL_VARIANTS {
     ch_bam_ref     // channel: [ val(meta), [ bam ], [ fasta ] ]
     variant_caller // value: [ bcftools | ivar ]
     save_stats     // value: [ true | false ]
+    ivar_header    // string: path to a custom iVar VCF header, or null for the bundled one
 
     main:
     ch_tbi = channel.empty()
@@ -27,6 +28,7 @@ workflow BAM_CALL_VARIANTS {
         BAM_VARIANTS_IVAR(
             ch_bam_ref,
             save_stats,
+            ivar_header,
         )
         ch_vcf = BAM_VARIANTS_IVAR.out.vcf
         ch_vcf_filter = BAM_VARIANTS_IVAR.out.vcf_filter

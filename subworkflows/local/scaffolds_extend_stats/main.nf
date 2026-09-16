@@ -12,6 +12,12 @@ workflow SCAFFOLDS_EXTEND_STATS {
     ch_reads         // channel: [ val(meta), [ reads ] ]
     ch_scaffolds_raw // channel: [ val(meta), [ scaffolds ] ]
     name             // value 'spades','trinity','megahit'
+    skip_sspace_basic // boolean: skip scaffold extension with SSPACE
+    read_distance    // integer: SSPACE insert size
+    read_distance_sd // float:   SSPACE insert size standard deviation (fraction)
+    read_orientation // string:  SSPACE read orientation, e.g. FR
+    perc_reads_contig // number:  min % of reads mapping to a contig; 0 skips the contig-coverage mapping
+    mapper           // string:  [ bwamem2 | bowtie2 ] mapper for the contig-coverage alignment
 
     main:
     ch_scaffolds = channel.empty()
@@ -26,13 +32,13 @@ workflow SCAFFOLDS_EXTEND_STATS {
     ch_multiqc = ch_multiqc.mix(QUAST.out.tsv.collect{_meta, tsv -> tsv}.ifEmpty([]))
 
     // SSPACE_BASIC
-    if (!params.skip_sspace_basic) {
+    if (!skip_sspace_basic) {
         ch_sspace_input = ch_scaffolds
             .join(ch_reads)
             .multiMap { meta, scaffolds, reads ->
                 reads: [meta, reads]
                 scaffolds: [meta, scaffolds]
-                settings: [params.read_distance, params.read_distance_sd, params.read_orientation]
+                settings: [read_distance, read_distance_sd, read_orientation]
                 name: name
             }
 
@@ -47,10 +53,10 @@ workflow SCAFFOLDS_EXTEND_STATS {
     }
 
     ch_coverages = channel.empty()
-    if (params.perc_reads_contig != 0) {
+    if (perc_reads_contig != 0) {
         ch_map_reads_input = ch_scaffolds.join(ch_reads)
 
-        MAP_READS_CONTIGS(ch_map_reads_input, params.mapper)
+        MAP_READS_CONTIGS(ch_map_reads_input, mapper)
         ch_bam = MAP_READS_CONTIGS.out.bam
 
         CONTIG_INDEX(ch_bam)

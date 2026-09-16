@@ -22,6 +22,8 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
     keep_unmapped        // val: [ true | false ]
     min_len              // integer: min_length
     n_100                // integer: n_100
+    umi_deduplicate      // string:  [ read | mapping | both ] where UMI deduplication happens
+    ivar_header          // string:  path to a custom iVar VCF header, or null for the bundled one
 
     main:
 
@@ -49,7 +51,7 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
 
     // deduplicate bam using umitools (if UMI) or picard
     if (deduplicate) {
-        BAM_DEDUPLICATE ( ch_bam_fa_fai, umi, mapping_stats)
+        BAM_DEDUPLICATE ( ch_bam_fa_fai, umi, mapping_stats, umi_deduplicate)
 
         ch_dedup_bam = BAM_DEDUPLICATE.out.bam
         ch_multiqc   = ch_multiqc.mix(BAM_DEDUPLICATE.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
@@ -76,7 +78,8 @@ workflow FASTQ_FASTA_MAP_CONSENSUS {
         BAM_CALL_VARIANTS (
             ch_dedup_bam_ref,
             variant_caller,
-            mapping_stats
+            mapping_stats,
+            ivar_header
         )
         ch_multiqc    = ch_multiqc.mix(BAM_CALL_VARIANTS.out.mqc.collect{_meta, mqc -> mqc}.ifEmpty([]))
         ch_vcf_filter = BAM_CALL_VARIANTS.out.vcf_filter

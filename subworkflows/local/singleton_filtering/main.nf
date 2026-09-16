@@ -7,10 +7,11 @@ workflow SINGLETON_FILTERING {
     ch_fasta          // channel: [ val(meta), [ fasta ] ]
     min_contig_size   // int
     max_n_perc        // int
+    skip_singleton_filtering // boolean: skip the size / ambiguous-base filter on singleton contigs
 
     main:
 
-    if ( !params.skip_singleton_filtering) {
+    if ( !skip_singleton_filtering) {
         ch_filtered = filterContigs ( ch_fasta, min_contig_size, max_n_perc)
         ch_contig   = ch_filtered.pass
     }
