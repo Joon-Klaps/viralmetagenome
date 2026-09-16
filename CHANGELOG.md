@@ -3,13 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.2.0 - 2026-09-14
-
-### `Changed`
-
-- ([#PRNUM](https://github.com/nf-core/viralmetagenome/pull/PRNUM)) - Fix [#296](https://github.com/nf-core/viralmetagenome/issues/296) - `params.*` are now read only in the root `main.nf` and passed down as explicit `take:` inputs; `workflows/` and `subworkflows/local/` no longer reference the global `params` object (by @Joon-Klaps)
-
-## v1.2.0 - 2026-09-14
+## v1.2.0 - 2026-09-16
 
 ### `Added`
 
@@ -29,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ([#315](https://github.com/nf-core/viralmetagenome/pull/315)) - Fix [#314](https://github.com/nf-core/viralmetagenome/issues/314) - make `cluster.tsv` not an 'intermediate' file, as it contains a lot of info and is useful for downstream analyses (by @Joon-Klaps)
 - ([#322](https://github.com/nf-core/viralmetagenome/pull/322)) - Replace the deprecated `cat/cat` module with `find/concatenate`, and `tabix/tabix` module with `htslib/bgziptabix` (by @Joon-Klaps)
 - ([#324](https://github.com/nf-core/viralmetagenome/pull/324)) - Release fixes: pin Python 3.11 in the `quast` conda environment (`distutils` was removed in Python 3.12+), pin Nextflow 25.10.7 in the download-test workflow (same [nextflow-io/nextflow#7474](https://github.com/nextflow-io/nextflow/issues/7474) workaround as the lint workflow), make the `pipeline_info` pre-commit hook inspect only staged paths, and warn instead of crash on an unparsable `--annotation_metadata` table (by @Joon-Klaps)
+- ([#326](https://github.com/nf-core/viralmetagenome/pull/326)) - Fix [#296](https://github.com/nf-core/viralmetagenome/issues/296) - `params.*` are now read only in the root `main.nf` and passed down as explicit `take:` inputs; `workflows/` and `subworkflows/local/` no longer reference the global `params` object (by @Joon-Klaps)
 
 ### `Dependencies`
 
