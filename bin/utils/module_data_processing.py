@@ -133,7 +133,11 @@ def read_annotation_metadata(metadata_file) -> pd.DataFrame:
     if not metadata_file:
         return pd.DataFrame()
 
-    metadata_df = read_file_to_df(metadata_file, dtype=str)
+    try:
+        metadata_df = read_file_to_df(metadata_file, dtype=str)
+    except (pd.errors.ParserError, pd.errors.EmptyDataError, UnicodeDecodeError, OSError) as exc:
+        logger.warning("Could not parse the annotation metadata file %s (%s), ignoring it.", metadata_file, exc)
+        return pd.DataFrame()
     if metadata_df.empty:
         logger.warning("The annotation metadata file %s is empty, ignoring it.", metadata_file)
         return metadata_df
