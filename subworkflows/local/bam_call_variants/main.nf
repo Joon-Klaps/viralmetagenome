@@ -7,11 +7,11 @@ workflow BAM_CALL_VARIANTS {
     ch_bam_ref     // channel: [ val(meta), [ bam ], [ fasta ] ]
     variant_caller // value: [ bcftools | ivar ]
     save_stats     // value: [ true | false ]
+    ivar_header    // string: path to a custom iVar VCF header, or null for the bundled one
 
     main:
     ch_tbi = channel.empty()
     ch_stats = channel.empty()
-    ch_versions = channel.empty()
     ch_multiqc = channel.empty()
 
     ch_meta_fasta = ch_bam_ref.map { meta, _bam, fasta -> [meta, fasta] }
@@ -28,10 +28,10 @@ workflow BAM_CALL_VARIANTS {
         BAM_VARIANTS_IVAR(
             ch_bam_ref,
             save_stats,
+            ivar_header,
         )
         ch_vcf = BAM_VARIANTS_IVAR.out.vcf
         ch_vcf_filter = BAM_VARIANTS_IVAR.out.vcf_filter
-        ch_versions = ch_versions.mix(BAM_VARIANTS_IVAR.out.versions)
         ch_multiqc = ch_multiqc.mix(BAM_VARIANTS_IVAR.out.multiqc)
     }
 
@@ -63,5 +63,4 @@ workflow BAM_CALL_VARIANTS {
     tbi        = ch_tbi        // channel: [ val(meta), [ tbi ] ]
     stats      = ch_stats      // channel: [ val(meta), [ stats ] ]
     mqc        = ch_multiqc    // channel: [ val(meta), [ mqc ] ]
-    versions   = ch_versions   // channel: [ versions.yml ]
 }

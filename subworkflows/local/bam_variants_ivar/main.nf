@@ -9,10 +9,10 @@ workflow BAM_VARIANTS_IVAR {
     take:
     ch_bam_fasta // channel: [ val(meta), [ bam ] , [ fasta ]]
     save_stats   // value: [ true | false ]
+    ivar_header  // string: path to a custom iVar VCF header, or null for the bundled one
 
     main:
 
-    ch_versions = channel.empty()
 
     ch_bam     = ch_bam_fasta.map { meta, bam, _fasta -> [meta, bam] }
     ch_fasta   = ch_bam_fasta.map { _meta, _bam, fasta -> [fasta] }
@@ -28,15 +28,14 @@ workflow BAM_VARIANTS_IVAR {
         [],
         save_stats,
     )
-    ch_versions = ch_versions.mix(IVAR_VARIANTS.out.versions.first())
 
     ch_ivar_tsv = IVAR_VARIANTS.out.tsv
 
     //
     // Convert original iVar output to VCF, zip and index
     //
-    ch_ivar_vcf_header = params.ivar_header
-        ? file(params.ivar_header, checkIfExists: true)
+    ch_ivar_vcf_header = ivar_header
+        ? file(ivar_header, checkIfExists: true)
         : file("${projectDir}/assets/ivar_variants_header_mqc.txt", checkIfExists: true)
 
     IVAR_VARIANTS_TO_VCF(
@@ -60,5 +59,4 @@ workflow BAM_VARIANTS_IVAR {
     multiqc    = IVAR_VARIANTS_TO_VCF.out.tsv // channel: [ val(meta), [ tsv ] ]
     vcf        = BCFTOOLS_SORT.out.vcf // channel: [ val(meta), [ vcf ] ]
     vcf_filter = BCFTOOLS_FILTER.out.vcf // channel: [ val(meta), [ vcf ] ]
-    versions   = ch_versions // channel: [ versions.yml ]
 }

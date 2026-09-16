@@ -8,6 +8,7 @@ workflow FASTA_BLAST_REFSEL {
     ch_blacklist      // channel: [ path(blacklist) ]
     ch_blast_db       // channel: [ val(meta), path(db) ]
     ch_blast_db_fasta // channel: [ val(meta), path(fasta) ]
+    assemblers        // string:  comma-separated assemblers, only used in the no-blast-hits MultiQC text
 
     main:
 
@@ -29,7 +30,7 @@ workflow FASTA_BLAST_REFSEL {
     ch_no_blast_hits = channel.empty()
     ch_no_blast_hits = ch_blast_txt.no_hits.join(ch_fasta)
 
-    ch_no_blast_hits_mqc = noBlastHitsToMultiQC(ch_no_blast_hits,params.assemblers).collectFile(name:'samples_no_blast_hits_mqc.tsv')
+    ch_no_blast_hits_mqc = noBlastHitsToMultiQC(ch_no_blast_hits, assemblers).collectFile(name:'samples_no_blast_hits_mqc.tsv')
 
     // Filter out false positve hits that based on query length, alignment length, identity, e-score & bit-score
     ch_input_blast_filter = ch_blast_txt.hits

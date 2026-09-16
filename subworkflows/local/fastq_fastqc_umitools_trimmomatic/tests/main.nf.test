@@ -18,12 +18,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -33,15 +27,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -71,12 +64,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-SE:2:30:10"
             }
             workflow {
@@ -85,12 +72,12 @@ nextflow_workflow {
                     [ id:'test', single_end:true ], // meta map
                     [file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true)],
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -118,12 +105,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = true
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -133,15 +114,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = true
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -170,12 +150,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = true
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -185,15 +159,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = true
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -220,12 +193,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = true
-                skip_umi_extract  = true
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -235,15 +202,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = true
+                input[3] = true
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -272,12 +238,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = true
-                skip_umi_extract  = true
-                umi_discard_read  = 2
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -287,15 +247,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = true
+                input[3] = true
+                input[4] = 2
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -324,12 +283,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = true
-                min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -339,15 +292,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = true
+                input[6] = 1
                 """
             }
         }
@@ -377,14 +329,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                save_trimmed_fail = true
-                save_merged       = false
-                min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -394,15 +338,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -431,14 +374,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = true
-                min_trimmed_reads = 1
                 trimmomatic_args  = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -448,15 +383,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -486,14 +420,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = true
-                min_trimmed_reads = 26
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -503,15 +429,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 26
                 """
             }
         }
@@ -541,12 +466,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -556,15 +475,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -582,12 +500,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = true
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -597,15 +509,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = true
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -623,12 +534,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = true
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -638,15 +543,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = true
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -665,12 +569,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = true
-                skip_umi_extract  = true
-                umi_discard_read  = 1
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -680,15 +578,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = true
+                input[3] = true
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -706,12 +603,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = true
-                skip_umi_extract  = true
-                umi_discard_read  = 2
-                skip_trimming     = false
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -721,15 +612,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = true
+                input[3] = true
+                input[4] = 2
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -747,12 +637,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = true
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -762,15 +646,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = true
+                input[6] = 1
                 """
             }
         }
@@ -787,8 +670,7 @@ nextflow_workflow {
                     workflow.out.trim_log,
                     workflow.out.trim_read_count,
                     workflow.out.trim_unpaired_reads,
-                    workflow.out.umi_log,
-                    workflow.out.versions.collect { path(it).yaml }.unique()).match() }
+                    workflow.out.umi_log).match() }
             )
         }
     }
@@ -798,14 +680,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                save_trimmed_fail = true
-                save_merged       = false
-                min_trimmed_reads = 1
                 trimmomatic_args        = "-e 30"
             }
             workflow {
@@ -815,15 +689,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -841,14 +714,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = true
-                min_trimmed_reads = 1
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -858,15 +723,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 1
                 """
             }
         }
@@ -885,14 +749,6 @@ nextflow_workflow {
 
         when {
             params {
-                skip_fastqc       = false
-                with_umi          = false
-                skip_umi_extract  = false
-                umi_discard_read  = 1
-                skip_trimming     = false
-                save_trimmed_fail = false
-                save_merged       = true
-                min_trimmed_reads = 26
                 trimmomatic_args = "ILLUMINACLIP:TruSeq3-PE:2:30:10"
             }
             workflow {
@@ -902,15 +758,14 @@ nextflow_workflow {
                     [
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
-                    ],
-                    []
+                    ]
                 ])
-                input[1] = params.skip_fastqc
-                input[2] = params.with_umi
-                input[3] = params.skip_umi_extract
-                input[4] = params.umi_discard_read
-                input[5] = params.skip_trimming
-                input[6] = params.min_trimmed_reads
+                input[1] = false
+                input[2] = false
+                input[3] = false
+                input[4] = 1
+                input[5] = false
+                input[6] = 26
                 """
             }
         }
