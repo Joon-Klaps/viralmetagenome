@@ -86,8 +86,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -131,8 +131,8 @@ nextflow_workflow {
                 input[10] = false
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -176,8 +176,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 30
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -221,8 +221,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -268,8 +268,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -313,8 +313,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -361,8 +361,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -406,8 +406,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -448,8 +448,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = false
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -494,8 +494,8 @@ nextflow_workflow {
                 input[10] = true
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }
@@ -540,8 +540,8 @@ nextflow_workflow {
                 input[10] = false
                 input[11] = 0
                 input[12] = true
-                input[13] = params.assemblers
-                input[14] = params.keep_unclassified
+                input[13] = 'spades,megahit'
+                input[14] = true
                 """
             }
         }

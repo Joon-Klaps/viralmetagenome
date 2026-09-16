@@ -43,22 +43,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = false
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -74,22 +58,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = false
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -115,22 +99,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'trimmomatic'
-                skip_fastqc               = false
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_trimmomatic     = 'ILLUMINACLIP:TruSeq3-PE:2:30:10'
                 arguments_fastp           = ''
             }
@@ -146,22 +114,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'trimmomatic'
+                input[5] = false
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -187,22 +155,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = true
-                with_umi                  = true
-                skip_umi_extract          = false
-                umi_discard_read          = 0
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = true
-                merge_reads               = false
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -218,22 +170,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = true
+                input[6] = true
+                input[7] = false
+                input[8] = 0
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = true
+                input[15] = false
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -259,22 +211,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = true
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = true
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -299,22 +235,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = true
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = true
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -340,22 +276,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = true
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = false
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -373,22 +293,22 @@ nextflow_workflow {
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = true
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = false
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -414,22 +334,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = true
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = false
-                decomplexifier            = 'prinseq'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -445,22 +349,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = true
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = false
+                input[17] = 'prinseq'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -486,22 +390,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = true
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = false
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -517,22 +405,22 @@ nextflow_workflow {
                 input[1] = KRAKEN2_HOST_DB_UNTAR.out.untar.map{ meta, db -> db }
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = true
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = false
+                input[19] = true
                 """
             }
         }
@@ -558,22 +446,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = false
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = false
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = false
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -591,22 +463,22 @@ nextflow_workflow {
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = false
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = false
+                input[17] = 'bbduk'
+                input[18] = false
+                input[19] = true
                 """
             }
         }
@@ -632,22 +504,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = true
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 100000
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -663,22 +519,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = true
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 100000
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -705,22 +561,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'trimmomatic'
-                skip_fastqc               = false
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_trimmomatic     = 'ILLUMINACLIP:TruSeq3-PE:2:30:10'
                 arguments_fastp           = ''
             }
@@ -736,22 +576,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'trimmomatic'
+                input[5] = false
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -772,22 +612,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = false
-                with_umi                  = false
-                skip_umi_extract          = false
-                umi_discard_read          = 1
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = false
-                merge_reads               = false
-                skip_complexity_filtering = true
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = true
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -803,22 +627,22 @@ nextflow_workflow {
                 input[1] = Channel.of([])
                 input[2] = []
                 input[3] = Channel.of([])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = false
+                input[6] = false
+                input[7] = false
+                input[8] = 1
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = false
+                input[15] = false
+                input[16] = true
+                input[17] = 'bbduk'
+                input[18] = true
+                input[19] = true
                 """
             }
         }
@@ -839,22 +663,6 @@ nextflow_workflow {
 
         when {
             params {
-                trim_tool                 = 'fastp'
-                skip_fastqc               = false
-                with_umi                  = true
-                skip_umi_extract          = false
-                umi_discard_read          = 0
-                umi_deduplicate           = 'read'
-                skip_trimming             = false
-                save_trimmed_fail         = false
-                save_merged               = false
-                min_trimmed_reads         = 1
-                deduplicate               = true
-                merge_reads               = false
-                skip_complexity_filtering = false
-                decomplexifier            = 'bbduk'
-                skip_hostremoval          = false
-                skip_host_fastqc          = true
                 arguments_fastp           = ''
                 arguments_trimmomatic     = ''
             }
@@ -872,22 +680,22 @@ nextflow_workflow {
                 input[3] = Channel.of([
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta', checkIfExists: true)
                 ])
-                input[4] = params.trim_tool
-                input[5] = params.skip_fastqc
-                input[6] = params.with_umi
-                input[7] = params.skip_umi_extract
-                input[8] = params.umi_discard_read
-                input[9] = params.skip_trimming
-                input[10] = params.save_trimmed_fail
-                input[11] = params.save_merged
-                input[12] = params.min_trimmed_reads
-                input[13] = params.umi_deduplicate
-                input[14] = params.deduplicate
-                input[15] = params.merge_reads
-                input[16] = params.skip_complexity_filtering
-                input[17] = params.decomplexifier
-                input[18] = params.skip_hostremoval
-                input[19] = params.skip_host_fastqc
+                input[4] = 'fastp'
+                input[5] = false
+                input[6] = true
+                input[7] = false
+                input[8] = 0
+                input[9] = false
+                input[10] = false
+                input[11] = false
+                input[12] = 1
+                input[13] = 'read'
+                input[14] = true
+                input[15] = false
+                input[16] = false
+                input[17] = 'bbduk'
+                input[18] = false
+                input[19] = true
                 """
             }
         }
