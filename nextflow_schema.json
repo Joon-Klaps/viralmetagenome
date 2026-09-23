@@ -483,8 +483,8 @@
                 },
                 "arguments_spades": {
                     "type": "string",
-                    "default": "--rnaviral",
-                    "description": "Arguments for SPAdes tool",
+                    "description": "Arguments for SPAdes tool, overriding the mode set by `--spades_mode`",
+                    "help_text": "Leave unset to let SPAdes run in the mode given by `--spades_mode`. Setting this replaces the mode flag entirely, so include the mode yourself (e.g. `--rnaviral --cov-cutoff auto`).",
                     "fa_icon": "fas fa-cogs",
                     "hidden": true
                 },

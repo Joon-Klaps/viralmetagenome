@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ([#322](https://github.com/nf-core/viralmetagenome/pull/322)) - Replace the deprecated `cat/cat` module with `find/concatenate`, and `tabix/tabix` module with `htslib/bgziptabix` (by @Joon-Klaps)
 - ([#324](https://github.com/nf-core/viralmetagenome/pull/324)) - Release fixes: pin Python 3.11 in the `quast` conda environment (`distutils` was removed in Python 3.12+), pin Nextflow 25.10.7 in the download-test workflow (same [nextflow-io/nextflow#7474](https://github.com/nextflow-io/nextflow/issues/7474) workaround as the lint workflow), make the `pipeline_info` pre-commit hook inspect only staged paths, and warn instead of crash on an unparsable `--annotation_metadata` table (by @Joon-Klaps)
 - ([#326](https://github.com/nf-core/viralmetagenome/pull/326)) - Fix [#296](https://github.com/nf-core/viralmetagenome/issues/296) - `params.*` are now read only in the root `main.nf` and passed down as explicit `take:` inputs; `workflows/` and `subworkflows/local/` no longer reference the global `params` object (by @Joon-Klaps)
+- ([#327](https://github.com/nf-core/viralmetagenome/pull/327)) - Fix `--spades_mode` having no effect on the assembly: `arguments_spades` was hardcoded to `--rnaviral`, so `--spades_mode` only changed the publish directory name. `arguments_spades` now defaults to `null` and SPAdes runs in `--${params.spades_mode}` unless `arguments_spades` is set explicitly (by @Joon-Klaps)
 
 ### `Dependencies`
 
@@ -43,13 +44,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Parameters`
 
-| Old parameter | New parameter               |
-| ------------- | --------------------------- |
-|               | `--keep_unmapped`           |
-|               | `--normalise_reads`         |
-|               | `--arguments_bbnorm`        |
-|               | `--annotation_metadata`     |
-|               | `--use_host_filtered_reads` |
+| Old parameter        | New parameter               |
+| -------------------- | --------------------------- |
+|                      | `--keep_unmapped`           |
+|                      | `--normalise_reads`         |
+|                      | `--arguments_bbnorm`        |
+|                      | `--annotation_metadata`     |
+|                      | `--use_host_filtered_reads` |
+| `--arguments_spades` | `--arguments_spades`        |
 
 > **NB:** Parameter has been **updated** if both old and new parameter information is present.
 > **NB:** Parameter has been **added** if just the new parameter information is present.

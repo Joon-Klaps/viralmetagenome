@@ -27,6 +27,8 @@ Three assemblers are used, [SPAdes](http://cab.spbu.ru/software/spades/), [Megah
 
 > [!NOTE]
 > Modify the spades mode with `--spades_mode [default: rnaviral]` and supply specific params with `--spades_yml` or a hmm model with `--spades_hmm`.
+>
+> `--spades_mode` sets the SPAdes mode flag directly. If you set `--arguments_spades` yourself it replaces that flag entirely, so include the mode in it (e.g. `--arguments_spades '--rnaviral --cov-cutoff auto'`).
 
 > [!NOTE]
 > Specify the assemblers to use with the `--assemblers` parameter where the assemblers are separated with a ','. The default is `spades,megahit,trinity`.
